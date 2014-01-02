@@ -1,0 +1,50 @@
+\documentclass{scrbook}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+%%% What's This Document?
+
+\title{What A Mess}%
+\author{Daniel Borchmann}%
+
+%%% More configuration
+
+\include{util/packages}
+\include{util/abbreviations}
+
+%%%
+
+\begin{document}
+
+\frontmatter{}
+
+\include{chapters/title-page}
+
+\include{chapters/preface}
+
+\tableofcontents{}
+
+\listoftodos{}
+
+\mainmatter{}
+
+\include{chapters/introduction}
+\include{chapters/formal-concept-analysis}
+\include{chapters/description-logics}
+\include{chapters/axiomatizing-valid-gcis}
+\include{chapters/axiomatizing-confident-gcis}
+\include{chapters/exploration-by-confidence}
+\include{chapters/model-exploration-by-confidence}
+\include{chapters/conclusions}
+
+\appendix{}
+
+\printbibliography{}
+
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
