@@ -146,8 +146,8 @@ structure a \emph{complete lattice}.
 \noindent%
 Note that every finite lattice is also a complete lattice.  Moreover, every complete
 lattice has a smallest and greatest element, given by $\sup\emptyset$ and $\inf\emptyset$,
-respectively.  Furthermore, every finite ordered set $(P, \le)$ in which the supremum
-exists for each $Q \subseteq P$ is already a lattice, as the infimum is then given by
+respectively.  Furthermore, every ordered set $(P, \le)$ in which the supremum exists for
+each $Q \subseteq P$ is already a complete lattice, as the infimum is then given by
 \begin{equation*}
   \inf Q = \sup\set{ x \in P \mid \forall y \in Q \holds x \le y }.
 \end{equation*}
@@ -225,11 +225,54 @@ To now expose the connection between formal contexts on the one hand and complet
 on the other we shall introduce the \emph{derivation operators} in formal contexts.
 
 \begin{Definition}[Contextual Derivation]
-  Let $\con K = (G, M, I)$ be a formal context and let $A \subseteq G$ be a set of objects.
+  Let $\con K = (G, M, I)$ be a formal context and let $A \subseteq G$ be a set of
+  objects.  Then the set of \emph{common attributes} $A'$ of $A$ is defined to be
+  \begin{equation*}
+    A' := \set{ m \in M \mid \forall g \in G \holds (g, m) \in I }.
+  \end{equation*}
+  Likewise, for a set $B \subseteq M$ of attributes we define the set $B'$ of \emph{shared
+    objects} as
+  \begin{equation*}
+    B' := \set{ g \in G \mid \forall m \in M \holds (g, m) \in I }.
+  \end{equation*}
+  The functions $A \mapsto A'$ and $B \mapsto B'$ are called the \emph{derivation
+    operators} of $\con K$, and the sets $A'$ and $B'$ are called the \emph{derivations}
+  of $A$ and $B$ in $\con K$, respectively.
 \end{Definition}
 
-\todo[inline]{Write: derivation operators}%
+\noindent For $(A')'$ we may also simply write $A''$.
+
+Note that both derivation operators are denoted by $(\cdot)'$, which usually does not lead
+to confusion, as it is most often clear from the context whether we deal with a set of
+objects or a set of attributes from which we want to compute its derivation.  If it
+nevertheless happens that a single name for the derivation operator leads to confusion,
+then we shall locally introduce separate names for both of them.
+
+What occurs more often, for example in Chapters~\ref{cha:expl-conf}
+and~\ref{cha:model-expl-conf}, is the derivation of sets in \emph{different contexts}.
+For example we may have given two formal contexts $\con K_1 = (G_1, M_1, I_1)$ and $\con
+K_2 = (G_2, M_2, I_2)$ and a set $A \subseteq M_1 \cap M_2$.  Then when writing $A'$ it is
+not clear in which context we do the derivation.  To remedy this, we shall add a subscript
+to the set $A$ to make clear of which context we consider it as a set of attributes:
+$A_{\con K_1}$ denotes the set $A$ considered as a set of attributes in $\con K_1$, and
+likewise $A_{\con K_2}$.  While this notation is not useful as it stands, it becomes handy
+if we consider derivations of $A$: $(A_{\con K_1})'$ denotes the derivation of $A$ in the
+formal context $\con K_1$, while $(A_{\con K_2})'$ does the same for the formal context
+$\con K_2$.  Of course, we can drop the parentheses if they do not lead to ambiguity and
+write $A_{\con K_1}'$ and $A_{\con K_2}'$ instead.  Of course, the same can be done for
+sets of objects.  In particular, instead of writing $(A_{\con K_1}')_{\con K_1}'$ we shall
+often only write $A_{\con K_1}''$.
+
+\begin{Example}
+  \label{expl:4}
+  Consider our Star Trek example context from~\ref{expl:3} and let $A :=
+  \set{\mathsf{Human}}$.  Then $A' = \set{ \mathsf{Picard} }$, $A'' = \set{
+    \mathsf{Human}, \mathsf{Honorable}, \mathsf{Star Fleet} }$, and $A''' = \set{
+    \mathsf{Picard} } = A'$.
+\end{Example}
+
 \todo[inline]{Write: Galois connections}%
+\todo[inline]{Write: concept lattices}%
 
 \section{Implications and Bases}
 \label{sec:implications-sets}
