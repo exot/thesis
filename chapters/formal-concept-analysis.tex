@@ -193,7 +193,7 @@ $(g, m) \in I$.
   of a formal context.  As sets of objects we choose some fictional characters from
   \emph{Star Trek: The Next Generation}, namely
   \begin{equation*}
-    G := \set{ \mathsf{Picard}, \mathsf{Worf}, \mathsf{Data}, \mathsf{Borg Queen} }.
+    G := \set{ \mathsf{Picard}, \mathsf{Worf}, \mathsf{Data}, \mathsf{BorgQueen} }.
   \end{equation*}
   As sets of attributes we choose
   \begin{equation*}
@@ -214,11 +214,11 @@ $(g, m) \in I$.
       \mathsf{Picard} & \x & \x & & \x \\
       \mathsf{Worf} & & \x & & \x \\
       \mathsf{Data} & & \x & \x & \x \\
-      \mathsf{Borg Queen} & & & \x & \\
+      \mathsf{BorgQueen} & & & \x & \\
       \bottomrule
     \end{array}
   \end{equation*}
-  Then \textsf{Borg Queen} has the attribute \textsf{Artificial}, but not \textsf{Honorable}.
+  Then \textsf{BorgQueen} has the attribute \textsf{Artificial}, but not \textsf{Honorable}.
 \end{Example}
 
 To now expose the connection between formal contexts on the one hand and complete lattices
@@ -468,7 +468,49 @@ Both \thref{thm:concept-lattices-are-complete-lattices} and
 of formal concept analysis~\cite[Theorem ??\todo{find number}]{fca-book}.  We shall not
 give a proof of it here, as it is not within the scope of this work.
 
-\todo[inline]{Write: example of concept lattice}
+\begin{Example}
+  \label{expl:star-trek-concept-lattice}
+  Let us consider the formal context $\con K_{\mathsf{TNG}}$ of
+  Example~\ref{expl:star-trek} a last time, and let us draw the concept lattice of $\con
+  K_{\mathsf{TNG}}$ in form of a line diagram.  There are 6 formal concepts of $\con
+  K_{\mathsf{TNG}}$, and they can depicted as shown in
+  Figure~\ref{fig:star-trek-concept-lattice}.
+
+  \begin{figure}[tp]
+    \centering
+    \begin{tikzpicture}[scale=2, every node/.style = { draw, circle }]
+      \node (1) at (0,0) {};
+      \node (2) at (-1,1) {};
+      \node (3) at (1,1) {};
+      \node (4) at (0,2) {};
+      \node (5) at (2,2) {};
+      \node (6) at (1,3) {};
+      \draw {
+        (1) -- (2)
+        (1) -- (3)
+        (2) -- (4)
+        (3) -- (4)
+        (3) -- (5)
+        (4) -- (6)
+        (5) -- (6)
+      };
+      \begin{scope}[every node/.style = { draw=none, inner sep=0pt, fill=white },
+         node distance = 0.2cm and 0.2cm]
+        \node[above=of 2] {\small\textsf{Human}};
+        \node[below=of 2] {\small\textsf{Picard}};
+        \node[below=of 3] {\small\textsf{Data}};
+        \node[below=of 4] {\small\textsf{Worf}};
+        \node[above=of 4] {\small\textsf{StarFleet}, \textsf{Honorable}};
+        \node[below=of 5] {\small\textsf{BorgQueen}};
+        \node[above=of 5] {\small\textsf{Artificial}};
+      \end{scope}
+    \end{tikzpicture}
+    \caption{Drawing of the concept lattice of $\con K_{\mathsf{TNG}}$}
+    \label{fig:star-trek-concept-lattice}
+  \end{figure}
+
+  \todo[inline]{Write: explain naming scheme}
+\end{Example}
 
 \section{Galois Connections and Closure Operators}
 \label{sec:galois-connections}
