@@ -4,7 +4,7 @@
 
 \todo[inline]{Write: introductory text, some historical notes, some subfield classification}
 
-\section{Concept Lattices and Galois Connections}
+\section{Formal Contexts and Concept Lattices}
 \label{sec:form-cont-cont}
 
 We introduce the basic notions of formal concept analysis in this section.  Most
@@ -188,7 +188,7 @@ formal context $\con K$ an object $g \in G$ \emph{has} an attribute $m$ if and o
 $(g, m) \in I$.
 
 \begin{Example}
-  \label{sec:conc-latt-galo}
+  \label{expl:star-trek}
   Let us consider a small toy example $\con K_{\mathsf{TNG}}$ to illustrate the definition
   of a formal context.  As sets of objects we choose some fictional characters from
   \emph{Star Trek: The Next Generation}, namely
@@ -225,6 +225,7 @@ To now expose the connection between formal contexts on the one hand and complet
 on the other we shall introduce the \emph{derivation operators} in formal contexts.
 
 \begin{Definition}[Contextual Derivation]
+  \label{def:contextual-derivation}
   Let $\con K = (G, M, I)$ be a formal context and let $A \subseteq G$ be a set of
   objects.  Then the set of \emph{common attributes} $A'$ of $A$ is defined to be
   \begin{equation*}
@@ -240,7 +241,7 @@ on the other we shall introduce the \emph{derivation operators} in formal contex
   of $A$ and $B$ in $\con K$, respectively.
 \end{Definition}
 
-\noindent For $(A')'$ we may also simply write $A''$.
+For $(A')'$ we may also simply write $A''$.
 
 Note that both derivation operators are denoted by $(\cdot)'$, which usually does not lead
 to confusion, as it is most often clear from the context whether we deal with a set of
@@ -265,14 +266,219 @@ often only write $A_{\con K_1}''$.
 
 \begin{Example}
   \label{expl:4}
-  Consider our Star Trek example context from~\ref{expl:3} and let $A :=
+  Consider our Star Trek example context from~\ref{expl:star-trek} and let $A :=
   \set{\mathsf{Human}}$.  Then $A' = \set{ \mathsf{Picard} }$, $A'' = \set{
     \mathsf{Human}, \mathsf{Honorable}, \mathsf{Star Fleet} }$, and $A''' = \set{
     \mathsf{Picard} } = A'$.
 \end{Example}
 
+The case that $A''' = A'$ is true in the previous example is not a coincidence, but rather
+an instance of a more general result: the derivation operators of a formal context form a
+\emph{Galois connection} between the ordered sets $(\subsets{G}, \subseteq)$ and
+$(\subsets{M}, \subseteq)$.
+
+\begin{Lemma}
+  \label{lem:derivation-is-galois-connection}
+  Let $\con K = (G, M, I)$ be a formal context and let $A \subseteq M$ and $B \subseteq
+  G$.  Then it is true that
+  \begin{equation}
+    \label{eq:1}
+    A \subseteq B' \iff B \subseteq A'.
+  \end{equation}
+  From this the following properties of the derivation operators of $\con K$ can be
+  derived: let $A, A_1, A_2 \subseteq M$ and $B, B_1, B_2 \subseteq G$.  Then
+  \begin{enumerate}[i. ]
+  \item $A_1 \subseteq A_2 \implies A_2' \subseteq A_1'$,
+  \item $B_1 \subseteq B_2 \implies B_2' \subseteq B_1'$,
+  \item $A \subseteq A''$,
+  \item $B \subseteq B''$,
+  \item $A' = A'''$,
+  \item $B' = B'''$.
+  \end{enumerate}
+\end{Lemma}
+%
+In the proof of the lemma we shall only show Equation~\eqref{eq:1}, as the remaining
+claims are a then an immediate consequence of the more general result
+Lemma~\ref{lem:properties-of-galois-connections} on Galois connections.
+%
+\begin{Proof}[\thref{lem:derivation-is-galois-connection}]
+  We can easily compute that
+  \begin{align*}
+    A \subseteq B'
+    & \iff \forall m \in A \holds m \in B' \\
+    & \iff \forall m \in A \;\forall g \in B \holds (g,m) \in I \\
+    & \iff \forall g \in B \;\forall m \in A \holds (g,m) \in I \\
+    & \iff \forall g \in B \holds g \in A' \\
+    & \iff B \subseteq A'
+  \end{align*}
+  which shows the claim.
+\end{Proof}
+
+Another useful property of the derivation operators is
+\begin{equation*}
+  A' = \bigcap_{a \in A} \set{a}'
+\end{equation*}
+for $A \subseteq M$.  This can easily be generalized into the following statement.
+
+\begin{Lemma}
+  \label{lem:piecewise-derivation}
+  Let $\con K = (G, M, I)$ be a formal context, let $A \subseteq M$ and let $(B_j \mid j
+  \in J)$ be a family of sets $B_j \subseteq M$ such that
+  \begin{equation*}
+    A = \bigcup_{j \in J} B_j.
+  \end{equation*}
+  Then
+  \begin{equation}
+    \label{eq:2}
+    A' = \bigcap \set{ B_j' \mid j \in J }.
+  \end{equation}
+  In particular, for every $\mathcal{A} \subseteq \subsets{M}$ it is true that
+  \begin{equation}
+    \label{eq:3}
+    \bigcap_{A \in \mathcal{A}} A' = \bigl(\bigcup_{A \in \mathcal{A}} A'\bigr).
+  \end{equation}
+\end{Lemma}
+%
+Of course, the same is true if $A$ and all $B_j$ are sets of objects instead of sets of
+attributes.
+%
+\begin{Proof}[\thref{lem:piecewise-derivation}]
+  Since $B_j \subseteq A$ for all $j \in J$, we can infer from
+  \thref{lem:derivation-is-galois-connection} that $A' \subseteq B_j'$.  It therefore
+  suffices to show that $A' \supseteq \bigcap \set{ B_j' \mid j \in J }$.
+
+  To this end, let $g \in \bigcap \set{ B_j' \mid j \in J }$.  Then $g \in B_j'$ for each
+  $j \in J$, and therefore $\set{g}' \supseteq B_j$, again for all $j \in J$.  Since $A =
+  \bigcup_{j \in J} B_j$, we obtain from this that $\set{g}' \supseteq A$, and thus $g \in
+  A'$, as required.
+\end{Proof}
+
+We have claimed earlier that there exists a close connection between complete lattices on
+the one hand and formal contexts on the other.  Having introduced the derivation
+operators, we are now able to expose this connection.  To this end, we shall introduce the
+notion of \emph{formal concepts} of a formal context.
+
+\begin{Definition}[Formal Concept]
+  \label{def:formal-concept}
+  Let $\con K = (G, M, I)$ be a formal context.  Then a \emph{formal concept} of $\con K$
+  is a pair $(A, B)$ such that $A \subseteq G, B \subseteq M$, and $A' = B, B' = A$ holds.
+  The first entry of a formal concept is called its \emph{extent}, and the second one
+  called its \emph{intent}.  The set of all formal concepts of $\con K$ is denoted by
+  $\BV(\con K)$, the set of all extents of (formal concepts of) $\con K$ is denoted by
+  $\Ext\con K$, and the set of all intents of (formal concepts of) $\con K$ is denoted by
+  $\Int\con K$.
+\end{Definition}
+
+Note that for each $A \subseteq M$, the pair $(A, A')$ is a formal concept of $\con K$.
+Moreover, a set $A \subseteq M$ is an intent of $\con K$ if and only if $A = A''$: if $A =
+A''$, then $(A'', A')$ is a formal concept of $\con K$, and if $(A, B)$ is a formal
+concept of $\con K$, then $A'' = B' = A$.  The same is of course true for $B \subseteq G$:
+$B$ is an extent of $\con K$ if and only if $B = B''$.
+
+\begin{Example}
+  \label{expl:5}
+  Some formal concepts of the formal context of Example~\ref{expl:star-trek} would be
+  \begin{gather*}
+    (\set{\mathsf{Picard}}, \set{\mathsf{Human}, \mathsf{Honorable},
+      \mathsf{StarFleet}}),\\
+    (\set{\mathsf{Picard}, \mathsf{Worf}, \mathsf{Data}}, \set{\mathsf{Honorable}}).
+  \end{gather*}
+\end{Example}
+
+Formal concepts have a strong philosophical motivation, as they are an attempt to
+formalize the rather vague notion of a \emph{concept}.  This formalization is based on
+\dots\todo{find which philosopher this was}, which claims that concepts are uniquely
+determined by their \emph{extension}, \ie all objects which they cover, or their
+\emph{intention}, a description of the concept in terms of attributes.\todo{too vague,
+  make this better}
+
+In the Example~\ref{expl:5} above, the first formal concept would describe the concept of
+an \emph{honorable human}, which in the (formal) context of Example~\ref{expl:star-trek}
+is just \textsf{Picard}.  The second formal concept describes everything \emph{honorable},
+having as extension \textsf{Picard}, \textsf{Worf} and \textsf{Data}.
+
+Formal concepts can be ordered by \emph{generality}: a formal concept $(A_1, B_1)$ is
+\emph{more general} than another formal concept $(A_2, B_2)$ if it covers more objects,
+\ie if
+\begin{equation*}
+  A_1 \subseteq A_2.
+\end{equation*}
+
+\begin{Definition}[Concept Lattice]
+  \label{def:concept-lattice}
+  Let $\con K = (G, M, I)$ be a formal context.  We define the relation $\le$ on $\BV(\con
+  K)$ by
+  \begin{equation*}
+    (A_1, B_1) \leq (A_2, B_2) \diff A_1 \subseteq A_2.
+  \end{equation*}
+  The structure $\alg{\BV}(\con K) := (\BV(\con K), \leq)$ is called the \emph{concept
+    lattice} of $\con K$.
+\end{Definition}
+
+By \thref{lem:derivation-is-galois-connection} we can observe that
+\begin{equation*}
+  (A_1, B_1) \leq (A_2, B_2) \iff B_2 \subseteq B_1,
+\end{equation*}
+as $B_1 = A_1'$ and $B_2 = A_2'$.  Furthermore, it is rather easy to see that the relation
+$\leq$ from \thref{def:concept-lattice} is an order relation on $\BV(\con K)$.  However,
+even more is true, namely that $\alg{\BV}(\con K)$ is indeed a complete lattice.
+
+\begin{Theorem}
+  \label{thm:concept-lattices-are-complete-lattices}
+  Let $\con K$ be a formal context.  Then $\alg{\BV}(\con K)$ is a complete lattice, and
+  for formal concepts $((A_j, B_j) \mid j \in J)$ of $\con K$ we have
+  \begin{align*}
+    \sup \set{ (A_j, B_j) \mid j \in J } = \Bigl( \bigl( \bigcap_{j \in J} B_j \bigr)' ,
+    \bigcap_{j \in J} B_j \Bigr), \\
+    \inf \set{ (A_j, B_j) \mid j \in J } = \Bigl( \bigcap_{j \in J} A_j, \bigl( \bigcap_{j
+      \in J} A_j \bigr)' \Bigr).
+  \end{align*}
+\end{Theorem}
+
+On the other hand, every complete lattice can be represented as a concept lattice of a
+suitably chosen formal context.  To formalize this correctly, we shall introduce the
+notion of an \emph{order isomorphism} between two ordered sets.
+
+\begin{Definition}[Order Isomorphism]
+  \label{def:order-isomorphism}
+  Let $\mathbb P = (P, \leq_1)$ and $\mathbb Q = (Q, \leq_2)$ be two ordered sets.  A
+  bijective mapping $\phi \colon P \to Q$ is called an \emph{order isomorphism} if and
+  only if $\phi$ is \emph{order-preserving} and \emph{order-reflecting}, \ie it is true
+  for all $a, b \in P$ that
+  \begin{equation*}
+    a \leq_1 b \iff \phi(a) \leq_2 \phi(b).
+  \end{equation*}
+\end{Definition}
+
+The statement now is that every for complete lattice is \emph{order-isomorphic} to some
+concept lattice.
+
+\begin{Theorem}
+  \label{thm:complete-lattices-are-concept-lattices}
+  Let $\mathbb V = (V, \leq_V)$ be a complete lattice.  Then the mapping $\phi \colon V
+  \to \BV(\con K)$ defined by
+  \begin{equation*}
+    \phi(v) := (\set{ w \in V \mid w \leq_V v}, \set{ w \in V \mid v \leq_V w })
+  \end{equation*}
+  is an order isomorphism between $\mathbb V$ and $\alg{\BV}(V, V, \leq_V)$.
+\end{Theorem}
+
+Both \thref{thm:concept-lattices-are-complete-lattices} and
+\thref{thm:complete-lattices-are-concept-lattices} are actually part of the Basic Theorem
+of formal concept analysis~\cite[Theorem ??\todo{find number}]{fca-book}.  We shall not
+give a proof of it here, as it is not within the scope of this work.
+
+\section{Galois Connections and Closure Operators}
+\label{sec:galois-connections}
+
 \todo[inline]{Write: Galois connections}%
-\todo[inline]{Write: concept lattices}%
+
+\begin{Lemma}
+  \label{lem:properties-of-galois-connections}
+  ~\todo[inline]{Write: lemma about Galois connections}
+\end{Lemma}
+
+\todo[inline]{Write: closure operators}
 
 \section{Implications and Bases}
 \label{sec:implications-sets}
@@ -296,4 +502,4 @@ often only write $A_{\con K_1}''$.
 %%% TeX-master: "../main"
 %%% End: 
 
-%  LocalWords:  sep
+%  LocalWords:  sep Picard Worf

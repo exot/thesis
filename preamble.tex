@@ -1,4 +1,6 @@
 \usepackage{biblatex}
+\addbibresource{fca.bib}
+
 \usepackage{todonotes}
 
 %%% packages
@@ -22,6 +24,7 @@
 \usepackage{microtype}
 \usepackage{fixltx2e}
 \usepackage{tabularx}
+\usepackage{etoolbox}
 
 \usepackage{tikz}
 \usetikzlibrary{positioning}
@@ -67,6 +70,7 @@
 \newcommand{\rel}[1]{{\ensuremath{\mathrel{#1}}}}
 \newcommand{\subsets}[1]{{\ensuremath{\mathfrak{P}(#1)}}}
 \newcommand{\symdiff}{\ensuremath{\mathop\triangle}}
+\newcommand{\diff}{\ensuremath{\;:\Longleftrightarrow\;}}
 
 \DeclareMathOperator{\Aut}{Aut}
 \DeclareMathOperator{\bigO}{\mathcal{O}}
@@ -94,7 +98,7 @@
 
 %%% formal concept analysis
 
-\newcommand{\BV}{{\ensuremath{\mathfrak{B}}}}
+\DeclareMathOperator{\BV}{{\mathfrak{B}}}
 \DeclareMathOperator{\Cn}{Cn}
 \DeclareMathOperator{\conf}{conf}
 \DeclareMathOperator{\conImp}{conImp}
@@ -204,6 +208,8 @@
 {\begin{AlgorithmInternal}}
 {\end{AlgorithmInternal}}
 
+\AfterEndEnvironment{Definition}{\par\noindent\ignorespaces} % does not work the way it should
+
 \makeatother
 
 \newcommand{\st}{\ensuremath{\colon}}
@@ -226,5 +232,5 @@
 
 %%% Local Variables: 
 %%% mode: latex
-%%% TeX-master: "../main"
+%%% TeX-master: "main"
 %%% End: 
