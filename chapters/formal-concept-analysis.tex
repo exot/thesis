@@ -375,27 +375,27 @@ A''$, then $(A'', A')$ is a formal concept of $\con K$, and if $(A, B)$ is a for
 concept of $\con K$, then $A'' = B' = A$.  The same is of course true for $B \subseteq G$:
 $B$ is an extent of $\con K$ if and only if $B = B''$.
 
+Formal concepts have a strong philosophical motivation, as they are an attempt to
+formalize the rather vague notion of a \emph{concept}.  This formalization is based on the
+perception that every formal concept is uniquely determined by the objects which are
+instances of it, its \emph{extension}, as well as by a characterization in terms of
+attributes, its \emph{intension}.  We shall, however, not pursue this philosophical
+motivation any further here, as it is not immediately relevant for our work.
+See~\cite{fca-book} for further discussion and references.
+
 \begin{Example}
   \label{expl:5}
-  Some formal concepts of the formal context of Example~\ref{expl:star-trek} would be
+  Two formal concepts of $\con K_{\mathsf{TNG}}$ from Example~\ref{expl:star-trek} are
   \begin{gather*}
     (\set{\mathsf{Picard}}, \set{\mathsf{Human}, \mathsf{Honorable},
       \mathsf{StarFleet}}),\\
     (\set{\mathsf{Picard}, \mathsf{Worf}, \mathsf{Data}}, \set{\mathsf{Honorable}}).
   \end{gather*}
+  The first formal concept could be said to represent the concept of an \emph{honorable
+    human}, which in $\con K_{\mathsf{TNG}}$ has \textsf{Picard} as its only instance.
+  The second formal concept describes everything \emph{honorable}, having as extension
+  \textsf{Picard}, \textsf{Worf} and \textsf{Data}.
 \end{Example}
-
-Formal concepts have a strong philosophical motivation, as they are an attempt to
-formalize the rather vague notion of a \emph{concept}.  This formalization is based on
-\dots\todo{find which philosopher this was}, which claims that concepts are uniquely
-determined by their \emph{extension}, \ie all objects which they cover, or their
-\emph{intention}, a description of the concept in terms of attributes.\todo{too vague,
-  make this better}
-
-In the Example~\ref{expl:5} above, the first formal concept would describe the concept of
-an \emph{honorable human}, which in the (formal) context of Example~\ref{expl:star-trek}
-is just \textsf{Picard}.  The second formal concept describes everything \emph{honorable},
-having as extension \textsf{Picard}, \textsf{Worf} and \textsf{Data}.
 
 Formal concepts can be ordered by \emph{generality}: a formal concept $(A_1, B_1)$ is
 \emph{more general} than another formal concept $(A_2, B_2)$ if it covers more objects,
@@ -509,7 +509,25 @@ give a proof of it here, as it is not within the scope of this work.
     \label{fig:star-trek-concept-lattice}
   \end{figure}
 
-  \todo[inline]{Write: explain naming scheme}
+  The line diagram of Figure~\ref{fig:star-trek-concept-lattice} uses an abridged
+  annotation which is common for concept lattices: instead of annotating every node in the
+  diagram with the formal concept it represents (which would yield an unreadable diagram),
+  we only write every object $g$ of $\con K_{\mathsf{TNG}}$ below the \emph{smallest}
+  formal concept that has $g$ in its extent.  This formal concept always exists by
+  \thref{thm:concept-lattices-are-complete-lattices}.  Then, by the definition of the
+  order on formal concepts, every formal concept which can be reached from the one labeled
+  with $g$ by an \emph{ascending} path in the line diagram has $g$ in its diagram, and all
+  other formal concepts have $g$ not in their extent.  For example, the formal concept
+  labeled with \textsf{Picard} has this object in its intent, as well as the two formal
+  concepts above it.  No other formal concept has \emph{Picard} in its intent.
+
+  Likewise, for we write every attribute $m$ of $\con K_{\mathsf{TNG}}$ only at the
+  \emph{largest} formal concept that has this attribute in its intent.  Then every formal
+  concept that can be reached from the one labeled with $m$ by a \emph{descending} path in
+  the line diagram has $m$ in its intent, and all the others have not.  Therefore, the
+  node labeled with \emph{Artificial} has this attribute in its intent, as has the formal
+  concept labeled with \emph{Data} and the bottom concept.  No other formal concept has
+  \emph{Artificial} in its intent.
 \end{Example}
 
 \section{Galois Connections and Closure Operators}
