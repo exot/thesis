@@ -650,7 +650,8 @@ exists a Galois connection $(\alg P, \alg Q, \phi, \psi)$ such that $c = \psi \c
 However, we shall not go into details here, as this is not necessary for our work.
 See~\cite{fca-book} for more details on this.
 
-\todo[inline]{Write: closures closed under intersection}
+\todo[inline]{Write: closures closed under intersection}%
+\todo[inline]{Write: $c(a)$ is smallest element above $a$ that is closed under $c$}
 
 \section{Implications}
 \label{sec:implications-sets}
@@ -695,11 +696,11 @@ which may be \emph{valid} in a formal context.
   \emph{(implicational) theory} of $\con K$ and is denoted by $\Th(\con K)$.
 \end{Definition}
 
-Note that the condition $A' \subseteq B'$ on the validity  of an implication $A \to B$ in
+Note that the condition $A' \subseteq B'$ on the validity of an implication $A \to B$ in
 $\con K$ can be characterized as saying that every objects which has all attributes from
 $A$ has all attributes from $B$.  This coincides with our initial example.
 
-Moreover, the condition $A' \subseteq B'$ can equally be rephrase as
+Moreover, the condition $A' \subseteq B'$ can equally be rephrased as
 \begin{equation}
   \label{eq:6}
   B \subseteq A'',
@@ -827,6 +828,12 @@ technical results.
   \end{equation*}
   satisfies $X'' = \mathcal{L}(X)$ for all $X \subseteq M$.
 \end{Proposition}
+
+Note that this proposition has the interesting consequence that $\Th(\con K_{\mathcal{L}})
+= \Cn_M(\mathcal{L})$.  In other words, every sets $\mathcal{L}$ of implications which is
+closed under $\Cn_M$ can be represented as a theory of a suitable chosen formal context,
+namely $\con K_{\mathcal{L}}$.
+
 \begin{Proof}
   It is easy to see that $\mathcal{K}_{\mathcal{L}} \models \mathcal{L}$: if $(X \to Y)
   \in \mathcal{L}$ and $g \in X'$, then $\set{g}' \supseteq X$.  However, every set
@@ -896,14 +903,130 @@ in terms of induced closure operators.
   \models (A \to B)$.  
 \end{Proof}
 
+\todo[inline]{Write: induced closure can be computed easily (linear time, or quadratic
+  time); thus above lemma yields efficient decision procedure}
+
 \section{Bases of Implications}
 \label{sec:bases-implications}
 
-\todo[inline]{Write: bases of implications, special case of set of implications is the
-  theory of a formal context}%
+When studying the valid implications of a formal context, it may be helpful to not
+consider the whole set, but a smaller but still equivalent set of implications.  The
+advantage with this approach may be that this smaller set may be much easier to handle,
+especially from a computational point of view.  We therefore introduce in this section the
+notion of a \emph{base} of a set of implications, and introduce a well known minimal base
+of all valid implications of a formal context, the \emph{canonical base}.
+
+\begin{Definition}[Sound and Complete Sets of Implications, Bases]
+  \label{def:sound-complete-base}
+  Let $\mathcal{L} \subseteq \Imp(M)$ be a set of implications on a set $M$.  A set
+  $\mathcal{K} \subseteq \Imp(M)$ of implications on $M$ is called \emph{sound} for
+  $\mathcal{L}$ if $\Cn_M(\mathcal{K}) \subseteq \Cn_M(\mathcal{L})$.  The set
+  $\mathcal{K}$ is called \emph{complete} for $\mathcal{L}$ if $\Cn_M(\mathcal{K})
+  \supseteq \Cn_M(\mathcal{L})$.  Finally, the set $\mathcal{K}$ is called a
+  \emph{base} of $\mathcal{L}$ if $\mathcal{K}$ is sound and complete for $\mathcal{L}$,
+  \ie if
+  \begin{equation}
+    \label{eq:8}
+    \Cn_M(\mathcal{K}) = \Cn_M(\mathcal{L}).
+  \end{equation}
+  If $\mathcal{L} = \Th(\con K)$, then a set $\mathcal{K}$ which is sound or complete for
+  $\mathcal{L}$ is also called sound and complete for $\con K$, respectively.  Moreover,
+  we shall call bases of $\mathcal{L}$ also bases of $\mathcal{K}$.
+
+  A base $\mathcal{K}$ of $\mathcal{L}$ is called \emph{irredundant} if no proper subset
+  of $\mathcal{K}$ is a base of $\mathcal{L}$.  $\mathcal{K}$ is called \emph{minimal}, if
+  there does not exist a base of $\mathcal{L}$ of smaller cardinality.
+\end{Definition}
+
+Note that any base of a set $\mathcal{L}$ is also a base of $\Cn_M(\mathcal{L})$ and vice
+versa.
+
+A simple example of a base of a formal context $\con K = (G, M, I)$ is the set
+\begin{equation}
+  \label{eq:10}
+  \mathcal{K} = \set{ A \to A'' \mid A \subseteq M, A \neq A'' }.
+\end{equation}
+Obviously, this set contains only valid implications of $\con K$.  Furthermore, if $A \to
+B$ holds in $\con K$, then $B \subseteq A''$, and by
+\thref{lem:characterization-of-entailment-in-terms-of-induced-closure-operators}, $A \to
+B$ follows from $\set{ A \to A'' }$, and thus from $\mathcal{K}$.  From this we can also
+infer that\footnote{This notation $\Th(\con K)(A)$ may be a bit misleading.  What is meant
+  here that the induced closure operator of the set $\Th(\con K)$ of implications is
+  applied to $A$, so this expression could also be written as $(\Th(\con K))(A)$.}
+\begin{equation*}
+  \Th(\con K)(A) = A''
+\end{equation*}
+for all $A \subseteq M$, because
+\begin{equation*}
+  \Th(\con K)(A) = \mathcal{K}(A) = A''.
+\end{equation*}
+To see the latter equality we first observe that $\mathcal{K}(A) \supseteq A''$, because
+$(A \to A'') \in \mathcal{K}$.  On the other hand, $A''$ is closed under $\mathcal{K}$ and
+is a superset of $A$, thus $\mathcal{K}(A) \subseteq A''$, and so equality holds.
+
+Checking soundness of a set of implications $\mathcal{K} \subseteq \Imp(M)$ for a set
+$\mathcal{L} \subseteq \Imp(M)$ is rather trivial, but checking completeness of
+$\mathcal{K}$ for $\mathcal{L}$ is not so easy\todo{find this reference!}.  There is a
+simple characterization, however, if $\mathcal{L}$ is the theory of a formal context.
+
+\begin{Lemma}
+  \label{lem:characterization-of-completeness}
+  Let $\con K = (G, M, I)$ be a formal context and let $\mathcal{L} \subseteq \Imp(M)$.
+  Then $\mathcal{L}$ is complete for $\con K$ if and only if
+  \begin{equation}
+    \label{eq:9}
+    \forall U \subseteq M \holds \mathcal{L}(U) = U \implies U = U''.
+  \end{equation}
+\end{Lemma}
+\begin{Proof}
+  Assume that $\mathcal{L}$ is complete for $\con K$ and suppose by that there exists $U
+  \subseteq M$ such that $U \neq U''$.  Then the implication $U \to U''$ is valid in $\con
+  K$, and since $\mathcal{L}$ is complete for $\con K$ we obtain that
+  \begin{equation*}
+    \mathcal{L} \models (U \to U'').
+  \end{equation*}
+  But then $U'' \subseteq \mathcal{L}(U)$, and thus $U \subsetneq \mathcal{L}(U)$, and in
+  particular $U \neq \mathcal{L}(U)$ as required.
+
+  Now suppose that Equation~\eqref{eq:9} holds.  Since $\mathcal{L}(U)$ is closed under
+  $\mathcal{L}$, \ie $\mathcal{L}(\mathcal{L}(U)) = \mathcal{L}(U)$, we obtain
+  from~\eqref{eq:9} that
+  \begin{equation*}
+    \mathcal{L}(U) = (\mathcal{L}(U))''
+  \end{equation*}
+  for each $U \subseteq M$.  But then $U'' \subseteq (\mathcal{L}(U))'' = \mathcal{L}(U)$,
+  and therefore $\mathcal{L} \models (U \to U'')$ by
+  \thref{lem:characterization-of-entailment-in-terms-of-induced-closure-operators}.
+  Therefore, $\mathcal{L}$ is complete for $\con K$.
+\end{Proof}
+
+The base from~\eqref{eq:10} is not very practical, as it will almost always have
+exponentially many elements in the size of the set $|M|$ of attribute of $\con K$.
+Processing such a base may be computationally infeasible, and it is therefore desirable to
+have a smaller base.  Indeed, it is possible to explicitly describe even a \emph{minimal}
+base of every formal context $\con K$ (or for every set of implications), namely its
+\emph{canonical base}.  To introduce this base, we first need to discuss the notion of
+\emph{pseudo-intents}.  Note that we only introduce the canonical base for bases of formal
+contexts.  However, this can be done without loss of generality, as a base of a set
+$\mathcal{L}$ of implications is always also a base of its closure $\Cn_M(\mathcal{L})$,
+and such sets can be represented as theories of formal contexts by virtue of
+\thref{prop:context-model-for-implications}.
+
+\begin{Definition}[Pseudo-Intents]
+  \label{def:pseudo-intents}
+  Let $M$ be a set, $\con K$ a formal context with attribute set $M$ and let $\mathcal{K}$
+  be sets of implications on $M$.  Then a set $P \subseteq M$ is called a
+  \emph{$\mathcal{K}$-pseudo-intent} of $\con K$ if and only if
+  \begin{enumerate}[i. ]
+  \item $P \neq \mathcal{L}(P)$,
+  \item $P = \mathcal{K}(P)$, and
+  \item for each $\mathcal{K}$-pseudo-intent $Q$ of $\con K$ satisfying $Q \subsetneq P$,
+    it is true that $Q'' \subseteq P$.
+  \end{enumerate}
+\end{Definition}
+
 \todo[inline]{Write: introduce canonical base with arbitrary background knowledge}%
 \todo[inline]{Write: computing the canonical base}
-
 
 \section{Attribute Exploration}
 \label{sec:attr-expl}
