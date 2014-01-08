@@ -1012,20 +1012,180 @@ $\mathcal{L}$ of implications is always also a base of its closure $\Cn_M(\mathc
 and such sets can be represented as theories of formal contexts by virtue of
 \thref{prop:context-model-for-implications}.
 
+The variant of pseudo-intents as introduce here is due to~\cite{stumme96attribute}.
+
 \begin{Definition}[Pseudo-Intents]
   \label{def:pseudo-intents}
-  Let $M$ be a set, $\con K$ a formal context with attribute set $M$ and let $\mathcal{K}$
+  Let $M$ be a set, $\con K$ a formal context with attribute set $M$ and let $\mathcal{S}$
   be sets of implications on $M$.  Then a set $P \subseteq M$ is called a
-  \emph{$\mathcal{K}$-pseudo-intent} of $\con K$ if and only if
+  \emph{$\mathcal{S}$-pseudo-intent} of $\con K$ if and only if
   \begin{enumerate}[i. ]
-  \item $P \neq \mathcal{L}(P)$,
-  \item $P = \mathcal{K}(P)$, and
-  \item for each $\mathcal{K}$-pseudo-intent $Q$ of $\con K$ satisfying $Q \subsetneq P$,
+  \item $P \neq P''$,
+  \item $P = \mathcal{S}(P)$, and
+  \item for each $\mathcal{S}$-pseudo-intent $Q$ of $\con K$ satisfying $Q \subsetneq P$,
     it is true that $Q'' \subseteq P$.
   \end{enumerate}
+  If $\mathcal{S} = \emptyset$, then a $\mathcal{S}$-pseudo-intent is just called a
+  \emph{pseudo-intent}.
 \end{Definition}
 
-\todo[inline]{Write: introduce canonical base with arbitrary background knowledge}%
+The definition of $\mathcal{S}$-pseudo-intents is quite inaccessible as it stands, and the
+motivation for it may only become apparent while working with them.  However, the role of
+the set $\mathcal{S}$ can be already be motivated now: this set will be used as
+\emph{background knowledge} when computing the canonical base.  Let us make this more
+precise, and recall that we have defined the notion of a base $\mathcal{K}$ of a set of
+implications $\mathcal{L}$ to just mean that $\Cn_M(\mathcal{K}) = \Cn_M(\mathcal{L})$.
+The motivation for this was that we want bases of the set $\mathcal{L}$ to be a different,
+potentially smaller but logically equivalent representation of $\mathcal{L}$.  However,
+within this scenario, we can assume that we already ``know'' a certain set $\mathcal{S}
+\subseteq \mathcal{L}$ of implications, and we only want to find a base that somehow
+represents the ``difference'' between $\mathcal{L}$ and $\mathcal{S}$.
+
+\begin{Definition}[Bases with Background Knowledge]
+  \label{def:bases-with-background-knowledge}
+  Let $\mathcal{L}$ and $\mathcal{S}$ be sets of implications on a set $M$ such that
+  $\mathcal{S} \subseteq \Cn_M(\mathcal{L})$.  A \emph{base} of $\mathcal{L}$ \emph{with
+    background knowledge} $\mathcal{S}$ is a set $\mathcal{K}$ of implications on $M$ such that
+  \begin{equation*}
+    \Cn_M(\mathcal{K} \cup \mathcal{S}) = \Cn_M(\mathcal{L}).
+  \end{equation*}
+  The notions of \emph{irredundancy} and \emph{minimality} of bases with background
+  knowledge are defined analogously to \thref{def:sound-complete-base}: $\mathcal{K}$ is
+  an \emph{irredundant} base of $\mathcal{L}$ with background knowledge $\mathcal{S}$ if
+  and only if no proper subset of $\mathcal{K}$ is a base of $\mathcal{L}$ with background
+  knowledge $\mathcal{S}$.  $\mathcal{K}$ is a \emph{minimal} base of $\mathcal{L}$ with
+  background knowledge $\mathcal{S}$ if and only $\mathcal{K}$ has minimal cardinality
+  among all bases of $\mathcal{L}$ with background knowledge $\mathcal{S}$.
+\end{Definition}
+
+The canonical base, which we shall introduce shortly, can be defined such that it also
+allows for background knowledge.  This background knowledge will then play the role of the
+set $\mathcal{S}$ in the definition of an $\mathcal{S}$-pseudo-intent.  Moreover, it can
+be shown that the canonical base is a minimal base with the given background knowledge.
+
+\begin{Definition}[Canonical Base]
+  \label{def:canonical-base}
+  Let $\con K = (G, M, I)$ be a formal context and let $\mathcal{S} \subseteq \Imp(M)$.
+  Then the \emph{canonical base} $\Can(\con K, \mathcal{S})$ of $\con K$ \emph{with
+    background knowledge} $\mathcal{S}$ is defined as
+  \begin{equation*}
+    \Can(\con K, \mathcal{S}) := \set{ P \to P'' \mid P \text{ is an } \mathcal{S}
+      \text{-pseudo-intent of } \con K }.
+  \end{equation*}
+  If $\mathcal{S} = \emptyset$, then we just write $\Can(\con K)$ for $\Can(\con K,
+  \mathcal{S})$.
+\end{Definition}
+
+The classical result about the canonical base can now be stated as follows.
+
+\begin{Theorem}
+  \label{thm:canonical-base-with-valid-background-knowledge}
+  Let $\con K$ be a finite formal context and let $\mathcal{S} \subseteq \Th(\con K)$.
+  Then $\Can(\con K, \mathcal{S})$ is a minimal base of $\con K$ with background knowledge
+  $\mathcal{S}$.
+\end{Theorem}
+
+This formulation assumes that the background knowledge $\mathcal{S}$ is sound for $\con
+K$.  However, this is not only not necessary, but we shall also later encounter situations
+where our background knowledge is not valid, but where the corresponding canonical base
+has still a meaningful application.  We therefore slight generalize
+\thref{thm:canonical-base-with-valid-background-knowledge} to yield the following theorem.
+
+\begin{Theorem}
+  \label{thm:canonical-base-with-arbitrary-background-knowledge}
+  Let $\con K = (G, M, I)$ be a formal context and let $\mathcal{S} \subseteq \Imp(M)$.
+  Then $\Can(\con K, \mathcal{S})$ is a set of valid implications of $\con K$ such that
+  $\Can(\con K, \mathcal{S}) \cup \mathcal{S}$ is complete for $\con K$.  Moreover,
+  $\Can(\con K, \mathcal{S})$ has minimal cardinality among all sets of implications
+  satisfying this property.
+\end{Theorem}
+
+The proof about the minimal cardinality of $\Can(\con K, \mathcal{S})$ is a
+straight-forward adaption of the proof of~\cite[Theorem 3.8]{Diss-Felix}.
+
+\begin{Proof}
+  We need to show the following three statements:
+  \begin{enumerate}[i. ]
+  \item\label{item:7} $\Can(\con K, \mathcal{S})$ is sound for $\con K$;
+  \item\label{item:8} $\Can(\con K, \mathcal{S}) \cup \mathcal{S}$ is complete for $\con
+    K$ and
+  \item\label{item:9} $\Can(\con K, \mathcal{S})$ has minimal cardinality among all sets
+    $\mathcal{P} \subseteq \Th(\con K)$ of implications such that $\mathcal{P} \cup
+    \mathcal{S}$ is complete for $\con K$.
+  \end{enumerate}
+
+  For~\ref{item:7} we just note that $\Can(\con K, \mathcal{S})$ consists only of
+  implications which are of the form $P \to P''$, which are of course valid in $\con K$.
+
+  For the completeness as claimed in~\ref{item:8} we shall make use of
+  \thref{lem:characterization-of-completeness} by showing that every closed set of
+  $\Can(\con K, \mathcal{S}) \cup \mathcal{S}$ is already an intent of $\con K$.  For
+  readability, let us set $\mathcal{L} := \Can(\con K, \mathcal{S}) \cup \mathcal{S}$.
+
+  So let $U \subseteq M$ be such that $\mathcal{L}(U) = U$.  If then $V \subsetneq U$ is
+  an $\mathcal{S}$-pseudo-intent of $\con K$, then $V'' \subseteq U$, since $(V \to V'')
+  \in \mathcal{L}$.  Furthermore, $\mathcal{S}(U) = U$ because $\mathcal{S} \subseteq
+  \mathcal{L}$.  Hence, if we assume by contradiction that $U \neq U''$, then $U$ would be
+  an $\mathcal{S}$-pseudo-intent of $\con K$, \ie $(U \to U'') \in \Can(\con K,
+  \mathcal{S}) \subseteq \mathcal{L}$.  But then $U'' \subseteq \mathcal{L}(U) = U$, \ie
+  $U = U''$ contradicting $U \neq U''$.  Therefore, $U = U''$ and since $U$ was chosen
+  arbitrarily, $\mathcal{L}$ is complete by \thref{lem:characterization-of-completeness}.
+
+  For the last claim~\ref{item:9} let $\mathcal{P}$ be another set of valid implications
+  of $\con K$ such that $\mathcal{P} \cup \mathcal{S}$ is complete for $\con K$.  Without
+  loss of generality we may assume that $\mathcal{P}$ only contains implications of the
+  form $U \to U''$ for suitable $U \subseteq M$.
+
+  To prove~\ref{item:9} we shall now show that for each $\mathcal{S}$-pseudo-intent $P$ of
+  $\con K$ there exists a set $U_P \subseteq M$ such that $(U_P \to U_P'') \in
+  \mathcal{P}$, and that in addition the mapping $P \to U_P$ is injective.  From this it
+  immediately follows that $\abs{\mathcal{P}} \ge \abs{ \Can(\con K, \mathcal{S}) }$.
+
+  So let $P$ be an $\mathcal{S}$-pseudo-intent of $\con K$.  Then $P \neq P''$.  As
+  $\mathcal{P} \cup \mathcal{S}$ is complete for $\con K$ and $\mathcal{S}(P) = P$, there
+  exists an implication $(X \to X'') \in \mathcal{P}$ such that $X \subseteq P$ and $X''
+  \not\subseteq P$.  Set $U_P := X$.
+
+  To see that the resulting map $P \to U_P$ is indeed injective, let $P$ and $Q$ be two
+  $\mathcal{S}$-pseudo-intents of $\con K$, and assume that $U_P = U_Q =: U$.  Then $U
+  \subseteq P$ and $U \subseteq Q$ by definition of $U_P$ and $U_Q$.  Hence $U \subseteq P
+  \cap Q$, and therefore $U'' \subseteq (P \cap Q)''$.
+
+  Then the fact that $U'' = U_P'' \not\subseteq P$ and $U'' \subseteq (P \cap Q)''$ implies
+  that $(P \cap Q)'' \not\subseteq P$.  Therefore, $(P \cap Q)'' \not\subseteq P \cap Q$,
+  and in particular
+  \begin{equation}
+    \label{eq:11}
+    (P \cap Q)'' \neq P \cap Q.
+  \end{equation}
+
+  Recall that $\mathcal{S}(P) = P$ and $\mathcal{S}(Q) = Q$.  This implies that
+  $\mathcal{S}(P \cap Q) = P \cap Q$, since the intersection of closed sets is again
+  closed.  But then, by Equation~\eqref{eq:11} and the fact that $\Can(\con K,
+  \mathcal{S}) \cup \mathcal{S}$ is complete for $\con K$, there must exist an implication
+  $(R \to R'') \in \Can(\con K, \mathcal{S})$ such that
+  \begin{equation*}
+    R \subseteq P \cap Q \quad\text{and}\quad R'' \not\subseteq P \cap Q.
+  \end{equation*}
+  Without loss of generality we assume that $R'' \not\subseteq Q$.  But then $R \subseteq
+  Q$ is an $\mathcal{S}$-pseudo-intent of $\con K$, so if $R \subsetneq Q$, it must be
+  that $R'' \subseteq Q$, which is not the case.  Therefore, $R = Q$.  Since $R \subseteq
+  P \cap Q$, we obtain $Q \subseteq P \cap Q$, \ie $Q = P \cap Q$ and therefore
+  \begin{equation}
+    \label{eq:12}
+    Q \subseteq P
+  \end{equation}
+
+  Since $(P \cap Q)'' \not\subseteq P$, Equation~\eqref{eq:12} implies that $Q''
+  \not\subseteq P$.  Since $Q \subseteq P$, the $\mathcal{S}$-pseudo-intents $Q$ and $P$
+  cannot be different, so we obtain $P = Q$.
+
+  Therefore, the mapping $P \mapsto U_P$ is injective and we have proven~\ref{item:9}.
+\end{Proof}
+
+\thref{thm:canonical-base-with-valid-background-knowledge} is now an immediate consequence
+of \thref{thm:canonical-base-with-arbitrary-background-knowledge}.
+
 \todo[inline]{Write: computing the canonical base}
 
 \section{Attribute Exploration}
