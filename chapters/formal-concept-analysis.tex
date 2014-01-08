@@ -582,6 +582,7 @@ Galois connection between powerset lattices $(\subsets{G}, \subseteq), (\subsets
 \subseteq)$ can be represented by a formal context $\con K$, such that the derivation
 operators of $\con K$ are just the mappings from the Galois connections.  However, we
 shall not go into details here, as this is not relevant for the purpose of our work.
+See~\cite{fca-book} for more details.
 
 Instead, we shall review some useful properties of antitone Galois connections.
 
@@ -617,7 +618,37 @@ Instead, we shall review some useful properties of antitone Galois connections.
   Since $\leq_P$ is antisymmetric, equality follows.
 \end{Proof}
 
-\todo[inline]{Write: Closure operators}%
+Galois connections are closely related to the notion of \emph{closure operators}.
+
+\begin{Definition}[Closure Operator]
+  \label{def:closure-operator}
+  Let $\alg P = (P, \leq_P)$ be an ordered set, and let $c \colon P \to P$ be a mapping.
+  Then $c$ is called a \emph{closure operator} on $\alg P$ if and only if
+  \begin{enumerate}[i. ]
+  \item $a \leq_P c(a)$ for all $a \in P$ ($c$ is \emph{extensive}),
+  \item $a \leq_P b \implies c(a) \leq_P c(b)$ for all $a, b \in P$ ($c$ is
+    \emph{monotone}), and
+  \item $c(a) = c(c(a))$ for all $a \in P$ ($c$ is \emph{idempotent}).
+  \end{enumerate}
+  A set of the form $c(a)$ for $a \in P$ is called the  \emph{closure} of $a$ under $c$.
+  An element $a \in P$ is called \emph{closed} under $c$ if and only if $a = c(a)$.
+\end{Definition}
+
+Closure operators arise naturally in many situations, and we shall encounter them in the
+next section when we introduce implication.  Moreover, closure operators and Galois
+connections always appear together: If $(\alg P, \alg Q, \phi, \psi)$ is a Galois
+connection, then the mapping $\psi \circ \phi$ is a closure operator on $\alg P$, and the
+mapping $\phi \circ \psi$ is a closure operator on $\alg Q$.  This is true because we know
+that $\psi \circ \phi$ is extensive
+(\ref{lem:properties-of-galois-connections},~\ref{item:3}), monotone
+(\ref{lem:properties-of-galois-connections},~\ref{item:1} and~\ref{item:2}) and idempotent
+(\ref{lem:properties-of-galois-connections},~\ref{item:5}), \ie a closure operator.
+Showing that $\phi \circ \psi$ is a closure operator as well can be done similarly.
+
+Conversely, if $c$ is a closure operator on the ordered set $\alg P$, then there always
+exists a Galois connection $(\alg P, \alg Q, \phi, \psi)$ such that $c = \psi \circ \phi$.
+However, we shall not go into details here, as this is not necessary for our work.
+See~\cite{fca-book} for more details on this.
 
 \section{Implications and Bases}
 \label{sec:implications-sets}
