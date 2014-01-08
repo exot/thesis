@@ -650,6 +650,8 @@ exists a Galois connection $(\alg P, \alg Q, \phi, \psi)$ such that $c = \psi \c
 However, we shall not go into details here, as this is not necessary for our work.
 See~\cite{fca-book} for more details on this.
 
+\todo[inline]{Write: closures closed under intersection}
+
 \section{Implications and Bases}
 \label{sec:implications-sets}
 
@@ -688,7 +690,7 @@ which may be \emph{valid} in a formal context.
   Let $\con K = (G, M, I)$ be a formal context.  An implication $(A \to B) \in \Imp(M)$ is
   said to be \emph{valid} in $\con K$ (or: \emph{holds} in $\con K$) if and only if $A'
   \subseteq B'$.  We shall write $\con K \models (A \to B)$ in this case, and $\con K
-  \models \mathcal{J}$, where $\mathcal{J} \subseteq \Imp(M)$ is a set of valid
+  \models \mathcal{L}$, where $\mathcal{L} \subseteq \Imp(M)$ is a set of valid
   implications of $\con K$.  The set of all implications valid of $\con K$ is called the
   \emph{(implicational) theory} of $\con K$ and is denoted by $\Th(\con K)$.
 \end{Definition}
@@ -740,23 +742,160 @@ We shall put this more formally in the following definition.
 
 \begin{Definition}[Entailment between Implications]
   \label{def:entailment-between-implications}
-  Let $M$ be a set and let $\mathcal{J} \subseteq \Imp(M)$.  Then an implication $(A \to
-  B) \in \Imp(M)$ is \emph{entailed by} $\mathcal{J}$, written $\mathcal{J} \models (A \to
+  Let $M$ be a set and let $\mathcal{L} \subseteq \Imp(M)$.  Then an implication $(A \to
+  B) \in \Imp(M)$ is \emph{entailed by} $\mathcal{L}$, written $\mathcal{L} \models (A \to
   B)$, if and only if for all formal contexts $\con K$ with attribute set $M$ it is true that
   \begin{equation*}
-    \con K \models \mathcal{J} \implies \con K \models (A \to B).
+    \con K \models \mathcal{L} \implies \con K \models (A \to B).
   \end{equation*}
-  We shall denote with $\Cn_M(\mathcal{J})$ the set of all implications on $M$ which
-  follow from $\mathcal{J}$.  We may drop the subscript $M$, and may only write
-  $\Cn(\mathcal{J})$, if it is clear from the context.
+  We shall denote with $\Cn_M(\mathcal{L})$ the set of all implications on $M$ which
+  follow from $\mathcal{L}$.  We may drop the subscript $M$, and may only write
+  $\Cn(\mathcal{L})$, if it is clear from the context.
+
+  If $\mathcal{K} \subseteq \Imp(M)$, then we say that $\mathcal{L}$ and $\mathcal{K}$ are
+  \emph{equivalent} if and only if $\Cn_M(\mathcal{L}) = \Cn_M(\mathcal{K})$.
 \end{Definition}
 
 The mapping $\Cn_M \colon \subsets{\Imp(M)} \to \subsets{\Imp(M)}$ is a first example of a
 closure operator which arises due to implications.  However, there is also another closure
 operator induced by a set $\mathcal{L}$ of implications, which lets us easily decide
-whether an implication $A \to B$ follows form $\mathcal{L}$ or not.
+whether an implication $A \to B$ follows from $\mathcal{L}$ or not.
 
-\todo[inline]{Write: closure operators induced by sets of implications}%
+\begin{Definition}[Induced Closure Operator]
+  \label{def:induced-closure-operator}
+  Let $M$ be a set and let $\mathcal{L} \subseteq \Imp(M)$.  Define for $X \subseteq M$
+  \begin{align*}
+    \mathcal{L}^1(X) &:= X \cup \bigcup \set{ A \mid (A \to B) \in \mathcal{L}, A
+      \subseteq X }, \\
+    \mathcal{L}^{i + 1} &:= \mathcal{L}^1(\mathcal{L}^i(X)) \quad (i \in \NN_0).
+  \end{align*}
+  Then the \emph{induced closure operator} of $\mathcal{L}$ is defined by the mapping $X
+  \mapsto \mathcal{L}(X)$, where
+  \begin{equation*}
+    \mathcal{L}(X) := \bigcup_{i \in \NN_{>0}}\mathcal{L}^i(X).
+  \end{equation*}
+  If no confusion is possible, we shall denote the closure operator induced by
+  $\mathcal{L}$ again with $\mathcal{L}$, \ie we shall identify the set of implications
+  and its induced closure operator.
+\end{Definition}
+
+It is easy to see that the induced closure operator is indeed a closure operator on
+$(\subsets{M}, \subseteq)$.  Furthermore, the induced closure operator yields a
+characterization of entailment between implications.  For this we first consider some
+technical results.
+
+\begin{Proposition}
+  \label{prop:sound-implications-do-not-yield-more-then-doubleprime}
+  Let $\con K = (G, M, I)$ be a formal context and let $\mathcal{L} \subseteq \Th(\con K)$
+  a set of valid implications of $\con K$.  Then
+  \begin{equation*}
+    \mathcal{L}(A) \subseteq A''.
+  \end{equation*}
+\end{Proposition}
+\begin{Proof}
+  By \thref{lem:derivation-is-galois-connection}, it suffices to show that $A' \subseteq
+  \mathcal{L}(A)'$.  Let $g \in A'$.  If then $(X \to Y) \in \mathcal{L}$ is such that $X
+  \subseteq A$, then
+  \begin{equation*}
+    g \in A' \subseteq X' \subseteq Y',
+  \end{equation*}
+  since $X \to Y$ holds in $\con K$.  Therefore,
+  \begin{equation*}
+    g \in A' \cap \bigcap \set{ Y' \mid (X \to Y) \in \mathcal{L}, X \subseteq A }.
+  \end{equation*}
+  However,
+  \begin{align*}
+    & \phantom{{}={}} A' \cap \bigcap \set{ Y' \mid (X \to Y) \in \mathcal{L}, X \subseteq A} \\
+    & = (A \cup \bigcup \set{ Y \mid (X \to Y) \in \mathcal{L}, X \subseteq A })'\\
+    & = (\mathcal{L}^1(A))'
+  \end{align*}
+  by \thref{lem:piecewise-derivation}, and thus $g \in (\mathcal{L}^1(A))$.  Iterating
+  this argumentation yields $g \in (\mathcal{L}^i(A))'$ for all $i \in \NN_{>0}$, and
+  therefore
+  \begin{equation*}
+    g \in \bigcap_{i \in \NN_{>0}} (\mathcal{L}^i(A))' = \bigl( \bigcup_{i \in \NN_{>0}}
+    \mathcal{L}^i(A) \bigr)' = (\mathcal{L}(A))'
+  \end{equation*}
+  as required.
+\end{Proof}
+
+\begin{Proposition}
+  \label{prop:context-model-for-implications}
+  Let $\mathcal{L} \subseteq \Imp(M)$ for some set $M$.  Then the formal context
+  \begin{equation*}
+    \con K_{\mathcal{L}} := ( \set{ \mathcal{L}(A) \mid A \subseteq M }, M, \ni )
+  \end{equation*}
+  satisfies $X'' = \mathcal{L}(X)$ for all $X \subseteq M$.
+\end{Proposition}
+\begin{Proof}
+  It is easy to see that $\mathcal{K}_{\mathcal{L}} \models \mathcal{L}$: if $(X \to Y)
+  \in \mathcal{L}$ and $g \in X'$, then $\set{g}' \supseteq X$.  However, every set
+  $\set{g}'$ is of the form $\mathcal{L}(A)$ for some $A \subseteq M$.  Therefore, we have
+  $\mathcal{L}(A) \supseteq X$.  Applying $\mathcal{L}$ on both sides yields
+  $\mathcal{L}(A) \supseteq \mathcal{L}(X)$.  Since $(X \to Y) \in \mathcal{L}$, $Y
+  \subseteq \mathcal{L}(X)$ and therefore $\set{g}' \supseteq \mathcal{L}(X) \supseteq Y$,
+  so $g \in Y'$ as required.
+
+  For the other direction $\mathcal{L}(X) \supseteq X''$ we first show $(\mathcal{L}(X))''
+  = \mathcal{L}(X)$.  Then $X \subseteq \mathcal{L}(X)$ implies
+  \begin{equation*}
+    X'' \subseteq (\mathcal{L}(X))'' = \mathcal{L}(X).
+  \end{equation*}
+
+  We now compute
+  \begin{equation*}
+    (\mathcal{L}(X))' = \set{ \mathcal{L}(A) \mid A \subseteq M, \mathcal{L}(A) \supseteq
+      \mathcal{L}(X) },
+  \end{equation*}
+  and obtain in particular that $\mathcal{L}(X) \in (\mathcal{L}(X))'$.  On the other
+  hand, for a subset $\mathcal{A}$ of objects of $\con K_{\mathcal{L}}$ we have
+  \begin{equation*}
+    \mathcal{A}' = \bigcap_{A \in \mathcal{A}} A',
+  \end{equation*}
+  since the incidence relation of $\con K_{\mathcal{L}}$ is just $\ni$.  Therefore,
+  \begin{align*}
+    (\mathcal{L}(X))'' &= \set{ \mathcal{L}(A) \mid A \subseteq M, \mathcal{L}(A)
+      \supseteq \mathcal{L}(X) }' \\
+    &= \bigcap \set{ \mathcal{L}(A) \mid A \subseteq M, \mathcal{L}(A) \supseteq
+      \mathcal{L}(X) } \\
+    &= \mathcal{L}(X),
+  \end{align*}
+  as required.
+\end{Proof}
+
+Based on these two technical results we can now rephrase entailment between implications
+in terms of induced closure operators.
+
+\begin{Lemma}
+  \label{lem:characterization-of-entailment-in-terms-of-induced-closure-operators}
+  Let $M$ be a set and let $\mathcal{L} \subseteq \Imp(M)$.  Then for $(A \to B) \in
+  \mathcal{L}$ it is true that
+  \begin{equation}
+    \label{eq:7}
+    \mathcal{L} \models (A \to B) \iff B \subseteq \mathcal{L}(A).
+  \end{equation}
+\end{Lemma}
+\begin{Proof}
+  Suppose that $\mathcal{L} \mid (A \to B)$.  For the formal context $\con
+  K_{\mathcal{L}}$ from \thref{prop:context-model-for-implications} we have
+  \begin{equation*}
+    \mathcal{L}(X) = X''
+  \end{equation*}
+  for all $X \subseteq M$.  Since $\con K_{\mathcal{L}} \models (A \to B)$, $A' \subseteq
+  B'$ is true for $\con K_{\mathcal{L}}$.  But then
+  \begin{equation*}
+    B \subseteq A'' = \mathcal{L}(A)
+  \end{equation*}
+  as required.
+
+  Conversely, let $B \subseteq \mathcal{L}(A)$, and let $\con K$ be a formal context such
+  that $\con K \models \mathcal{L}$.  Then $\mathcal{L}(A) \subseteq A''$ by
+  \thref{prop:sound-implications-do-not-yield-more-then-doubleprime}, and therefore $B
+  \subseteq \mathcal{L}(A) \subseteq A''$.  But then $A' \subseteq B'$, \ie $A \to B$
+  holds in $\con K$.  Since $\con K$ was chosen arbitrarily, it follows that $\mathcal{L}
+  \models (A \to B)$.  
+\end{Proof}
+
 \todo[inline]{Write: bases of implications, special case of set of implications is the
   theory of a formal context}%
 \todo[inline]{Write: introduce canonical base with arbitrary background knowledge}%
@@ -773,4 +912,4 @@ whether an implication $A \to B$ follows form $\mathcal{L}$ or not.
 %%% TeX-master: "../main"
 %%% End: 
 
-%  LocalWords:  sep Picard Worf StarFleet
+%  LocalWords:  sep Picard Worf StarFleet doubleprime
