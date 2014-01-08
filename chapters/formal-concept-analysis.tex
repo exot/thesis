@@ -653,8 +653,109 @@ See~\cite{fca-book} for more details on this.
 \section{Implications and Bases}
 \label{sec:implications-sets}
 
-\todo[inline]{Write: implications on sets}%
-\todo[inline]{Write: valid implications of formal contexts}%
+Let us recall Example~\ref{expl:star-trek}, were we had considered the formal context
+$\con K_{\mathsf{TNG}}$ with
+\begin{equation*}
+  \def\x{\times}
+  \begin{array}{r|*{4}{c}}
+    \toprule
+    \con K_{\mathsf{TNG}} & \mathsf{Human} & \mathsf{Honorable} & \mathsf{Artificial} & \mathsf{StarFleet} \\
+    \midrule
+    \mathsf{Picard} & \x & \x & & \x \\
+    \mathsf{Worf} & & \x & & \x \\
+    \mathsf{Data} & & \x & \x & \x \\
+    \mathsf{BorgQueen} & & & \x & \\
+    \bottomrule
+  \end{array}
+\end{equation*}
+In this formal context we see that whenever an object has the attribute
+\textsf{StarFleet}, it also has the attribute \textsf{Honorable}.  This expresses a
+certain dependency between these two attributes, in the sense that \textsf{StarFleet}
+\emph{implies} \textsf{Honorable} in the formal context $\con K_{\mathsf{TNG}}$.  Knowing
+such \emph{implicational dependencies} between attributes in a formal context can be very
+helpful, for example for reducing databases by transferring them into suitable normal
+forms or, as in our case, for learning knowledge from data.
+
+We will model such implicational dependencies by means of \emph{implications} on sets,
+which may be \emph{valid} in a formal context.
+
+\begin{Definition}[Implications, Validity in Formal Contexts]
+  Let $M$ be a set.  Then an implication $A \to B$ on $M$ is constituted of two sets $A, B
+  \subseteq M$, where $A$ is called the \emph{premise} of $A \to B$, and $B$ is called the
+  \emph{conclusion} of $A \to B$.  The set of all implications on $M$ is denoted by
+  $\Imp(M)$.
+
+  Let $\con K = (G, M, I)$ be a formal context.  An implication $(A \to B) \in \Imp(M)$ is
+  said to be \emph{valid} in $\con K$ (or: \emph{holds} in $\con K$) if and only if $A'
+  \subseteq B'$.  We shall write $\con K \models (A \to B)$ in this case, and $\con K
+  \models \mathcal{J}$, where $\mathcal{J} \subseteq \Imp(M)$ is a set of valid
+  implications of $\con K$.  The set of all implications valid of $\con K$ is called the
+  \emph{(implicational) theory} of $\con K$ and is denoted by $\Th(\con K)$.
+\end{Definition}
+
+Note that the condition $A' \subseteq B'$ on the validity  of an implication $A \to B$ in
+$\con K$ can be characterized as saying that every objects which has all attributes from
+$A$ has all attributes from $B$.  This coincides with our initial example.
+
+Moreover, the condition $A' \subseteq B'$ can equally be rephrase as
+\begin{equation}
+  \label{eq:6}
+  B \subseteq A'',
+\end{equation}
+\ie all elements of the conclusion of $A \to B$ are in the closure of the premise with
+respect to the closure operator $(\cdot)''$.  This little observation can be helpful for
+proofs.
+
+\begin{Example}
+  \label{expl:6}
+  As already mentioned, the implication $\set{ \mathsf{StarFleet} } \to \set{
+    \mathsf{Honorable} }$ holds in $\con K_{\mathsf{TNG}}$.  On the other hand, the
+  implication $\set{ \mathsf{Artificial} } \to \set{ \mathsf{Human} }$ is not valid in
+  $\con K_{\mathsf{TNG}}$.
+\end{Example}
+
+Implications introduce a flavor of logic into formal concept analysis (indeed,
+implications can be seen as a notational variant of definite Horn formulas of the
+propositional variables $M$).  As such, we can talk about \emph{entailment} between
+implications in a very natural sense.
+
+\begin{Example}
+  \label{expl:7}
+  In $\con K_{\mathsf{TNG}}$ the implications
+  \begin{align*}
+    \set{ \mathsf{Human} } &\to \set{ \mathsf{Honorable} } \\
+    \set{ \mathsf{Honorable} } &\to \set{ \mathsf{StarFleet} } \\
+    \set{ \mathsf{Human} } &\to \set{ \mathsf{StarFleet} }
+  \end{align*}
+  are all valid.  However, we can intuitively see that the implication $\set{
+    \mathsf{Human} } \to \set{ \mathsf{StarFleet} }$ is entailed by the other two: by the
+  first implication, every object that has \textsf{Human} as attribute has also
+  \textsf{Honorable} as attribute.  By the second implication, every object that has
+  \textsf{Honorable} as attribute also has \textsf{StarFleet} as attribute.  Therefore,
+  every object that has \textsf{Human} as attribute also has \textsf{StarFleet} as
+  attribute.
+\end{Example}
+
+We shall put this more formally in the following definition.
+
+\begin{Definition}[Entailment between Implications]
+  \label{def:entailment-between-implications}
+  Let $M$ be a set and let $\mathcal{J} \subseteq \Imp(M)$.  Then an implication $(A \to
+  B) \in \Imp(M)$ is \emph{entailed by} $\mathcal{J}$, written $\mathcal{J} \models (A \to
+  B)$, if and only if for all formal contexts $\con K$ with attribute set $M$ it is true that
+  \begin{equation*}
+    \con K \models \mathcal{J} \implies \con K \models (A \to B).
+  \end{equation*}
+  We shall denote with $\Cn_M(\mathcal{J})$ the set of all implications on $M$ which
+  follow from $\mathcal{J}$.  We may drop the subscript $M$, and may only write
+  $\Cn(\mathcal{J})$, if it is clear from the context.
+\end{Definition}
+
+The mapping $\Cn_M \colon \subsets{\Imp(M)} \to \subsets{\Imp(M)}$ is a first example of a
+closure operator which arises due to implications.  However, there is also another closure
+operator induced by a set $\mathcal{L}$ of implications, which lets us easily decide
+whether an implication $A \to B$ follows form $\mathcal{L}$ or not.
+
 \todo[inline]{Write: closure operators induced by sets of implications}%
 \todo[inline]{Write: bases of implications, special case of set of implications is the
   theory of a formal context}%
@@ -672,4 +773,4 @@ See~\cite{fca-book} for more details on this.
 %%% TeX-master: "../main"
 %%% End: 
 
-%  LocalWords:  sep Picard Worf isotone
+%  LocalWords:  sep Picard Worf StarFleet
