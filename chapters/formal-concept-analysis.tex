@@ -137,10 +137,10 @@ structure a \emph{complete lattice}.
 
 \begin{Definition}[Lattice]
   \label{def:lattice}
-  Let $\mathbb L = (L, \le)$ be an ordered set.  Then $\mathbb L$ is called a
-  \emph{lattice} if and only if for each finite $Q \subseteq L$ there exist both $\sup Q$
-  and $\inf Q$ in $\mathbb L$.  If for all $Q \subseteq L$ there exist both $\sup Q$ and
-  $\inf Q$ in $\mathbb L$, then $\mathbb L$ is called a \emph{complete lattice}.
+  Let $\alg L = (L, \le)$ be an ordered set.  Then $\alg L$ is called a \emph{lattice} if
+  and only if for each finite $Q \subseteq L$ there exist both $\sup Q$ and $\inf Q$ in
+  $\alg L$.  If for all $Q \subseteq L$ there exist both $\sup Q$ and $\inf Q$ in $\alg
+  L$, then $\alg L$ is called a \emph{complete lattice}.
 \end{Definition}
 
 \noindent%
@@ -441,10 +441,10 @@ notion of an \emph{order isomorphism} between two ordered sets.
 
 \begin{Definition}[Order Isomorphism]
   \label{def:order-isomorphism}
-  Let $\mathbb P = (P, \leq_1)$ and $\mathbb Q = (Q, \leq_2)$ be two ordered sets.  A
-  bijective mapping $\phi \colon P \to Q$ is called an \emph{order isomorphism} if and
-  only if $\phi$ is \emph{order-preserving} and \emph{order-reflecting}, \ie it is true
-  for all $a, b \in P$ that
+  Let $\alg P = (P, \leq_1)$ and $\alg Q = (Q, \leq_2)$ be two ordered sets.  A bijective
+  mapping $\phi \colon P \to Q$ is called an \emph{order isomorphism} if and only if
+  $\phi$ is \emph{order-preserving} and \emph{order-reflecting}, \ie it is true for all
+  $a, b \in P$ that
   \begin{equation*}
     a \leq_1 b \iff \phi(a) \leq_2 \phi(b).
   \end{equation*}
@@ -455,12 +455,12 @@ concept lattice.
 
 \begin{Theorem}
   \label{thm:complete-lattices-are-concept-lattices}
-  Let $\mathbb V = (V, \leq_V)$ be a complete lattice.  Then the mapping $\phi \colon V
-  \to \BV(\con K)$ defined by
+  Let $\alg V = (V, \leq_V)$ be a complete lattice.  Then the mapping $\phi \colon V \to
+  \BV(\con K)$ defined by
   \begin{equation*}
     \phi(v) := (\set{ w \in V \mid w \leq_V v}, \set{ w \in V \mid v \leq_V w })
   \end{equation*}
-  is an order isomorphism between $\mathbb V$ and $\alg{\BV}(V, V, \leq_V)$.
+  is an order isomorphism between $\alg V$ and $\alg{\BV}(V, V, \leq_V)$.
 \end{Theorem}
 
 Both \thref{thm:concept-lattices-are-complete-lattices} and
@@ -533,14 +533,91 @@ give a proof of it here, as it is not within the scope of this work.
 \section{Galois Connections and Closure Operators}
 \label{sec:galois-connections}
 
-\todo[inline]{Write: Galois connections}%
+For the proof of \thref{lem:derivation-is-galois-connection} we invoked some general
+arguments from the theory of Galois connections between ordered sets.  The notion of a
+Galois connection is fundamental for order theory, and is closely connected to other
+important concepts such as closure operators.  As both Galois connections and closure
+operators play an important role in this work, we shall review their general theory in
+this section, to the extent needed in this work.
+
+\begin{Definition}[Galois Connection]
+  \label{def:galois-connection}
+  Let $\alg P = (P, \leq_P), \alg Q = (Q, \leq_Q)$ be two ordered sets, and let $\phi
+  \colon P \to Q$ and $\psi \colon Q \to P$ be two mappings.  Then the tuple $(\alg P,
+  \alg Q, \phi, \psi)$ is called a \emph{Galois connection} between $\alg P$ and $\alg Q$
+  if and only if
+  \begin{equation}
+    \label{eq:4}
+    x \leq_P \psi(y) \iff y \leq_Q \phi(x)
+  \end{equation}
+  is true for all $x \in P$, $y \in Q$.
+\end{Definition}
+
+Note that this form of a Galois connection is sometimes called an \emph{antitone} Galois
+connection, as the position of the elements $x$ and $y$ is reversed.  There is the
+corresponding notion of an \emph{isotone} Galois connection, where Equation~\eqref{eq:4}
+is replaced by
+\begin{equation}
+  \label{eq:5}
+  x \leq_P \psi(y) \iff x \leq_Q \phi(y).
+\end{equation}
+Of course, both notions are closely related: if we denote with $\alg Q^d = (Q,
+\leq_Q^{-1})$ the \emph{dual} of the ordered set $\alg Q$, then $(\alg P, \alg Q, \phi,
+\psi)$ is an antitone Galois connection if and only if $(\alg P, \alg Q^d, \phi, \psi)$ is
+an isotone Galois connection.
+
+\begin{Example}
+  \begin{enumerate}[i. ]
+  \item If $\phi$ is an order isomorphism from $\alg P$ to $\alg Q$, then $(\alg P, \alg
+    Q, \phi, \phi^{-1})$ is an antitone Galois connection.
+  \item If $\con K = (G, M, I)$ is a formal context, then the derivation operators
+    $(\cdot)' \colon \subsets{G} \to \subsets{M}$ and $(\cdot)' \colon \subsets{M} \to
+    \subsets{G}$ form an antitone Galois connection by
+    \thref{lem:derivation-is-galois-connection}.
+  \end{enumerate}
+\end{Example}
+
+Indeed, the converse of the last example is also true to some extent, \ie every antitone
+Galois connection between powerset lattices $(\subsets{G}, \subseteq), (\subsets{M},
+\subseteq)$ can be represented by a formal context $\con K$, such that the derivation
+operators of $\con K$ are just the mappings from the Galois connections.  However, we
+shall not go into details here, as this is not relevant for the purpose of our work.
+
+Instead, we shall review some useful properties of antitone Galois connections.
 
 \begin{Lemma}
   \label{lem:properties-of-galois-connections}
-  ~\todo[inline]{Write: lemma about Galois connections}
+  Let $(\alg P, \alg Q, \phi, \psi)$ be an antitone Galois connection between the ordered
+  sets $\alg P = (P, {\leq_P})$ and $\alg Q = (Q, \leq_Q)$.  Then the following statements
+  hold for all $a_1, a_2 \in P$ and $b_1, b_2 \in Q$:
+  \begin{enumerate}[i. ]
+  \item\label{item:1} $a_1 \leq_P a_2 \implies \phi(a_2) \leq_Q \phi(a_1)$,
+  \item\label{item:2} $b_1 \leq_Q b_2 \implies \psi(b_2) \leq_P \phi(b_1)$,
+  \item\label{item:3} $a_1 \leq_P \psi(\phi(a_1))$,
+  \item\label{item:4} $b_1 \leq_Q \phi(\psi(b_1))$,
+  \item\label{item:5} $\phi(a_1) = \phi(\psi(\phi(a_1)))$,
+  \item\label{item:6} $\psi(b_1) = \psi(\phi(\psi(b_1)))$.
+  \end{enumerate}
 \end{Lemma}
+\begin{Proof}
+  We only show statements~\ref{item:1}, \ref{item:3} and~\ref{item:5}, as the others
+  follow similar arguments.
 
-\todo[inline]{Write: closure operators}
+  We immediately obtain the truth of~\ref{item:3}, since from $\phi(a_1) \leq_Q \phi(a_1)$
+  we can infer $a_1 \leq_Q \psi(\phi(a_1))$ by definition~\eqref{eq:4} of a Galois
+  connection.
+
+  Then for~\ref{item:1} we assume $a_1 \leq_P a_2$ and now by~\ref{item:3} that then $a_1
+  \leq_P \psi(\phi(a_2))$.  Using again the definition of a Galois connection we obtain
+  that $\phi(a_2) \leq_Q \phi(a_1)$.
+
+  Finally, for~\ref{item:5} we already know that $\phi(\psi(\phi(a_1))) \leq_Q \phi(a_1)$
+  is true.  On the other hand, $\psi(\phi(a_1)) \leq_Q \psi(\phi(a_1))$, so by the
+  definition of a Galois connection, we obtain $\phi(a_1) \leq_P \phi(\psi(\phi(a_1)))$.
+  Since $\leq_P$ is antisymmetric, equality follows.
+\end{Proof}
+
+\todo[inline]{Write: Closure operators}%
 
 \section{Implications and Bases}
 \label{sec:implications-sets}
@@ -564,4 +641,4 @@ give a proof of it here, as it is not within the scope of this work.
 %%% TeX-master: "../main"
 %%% End: 
 
-%  LocalWords:  sep Picard Worf
+%  LocalWords:  sep Picard Worf isotone
