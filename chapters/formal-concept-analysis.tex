@@ -1237,6 +1237,98 @@ straight-forward adaption of the proof of~\cite[Theorem 3.8]{Diss-Felix}.
 \thref{thm:canonical-base-with-valid-background-knowledge} is now an immediate consequence
 of \thref{thm:canonical-base-with-arbitrary-background-knowledge}.
 
+The minimality properties of the canonical base make it particularly interesting for
+practical applications.  Indeed, besides these minimality properties discussed above, the
+canonical base also allows for a comparably simple computation.  On the other hand, the
+minimality of the canonical base does not save us from exponentially big bases.
+
+\begin{Example}
+  \label{expl:canonical-base-can-be-exponential}
+  The following example is taken from~\cite{DBLP:journals/jucs/Kuznetsov04}.  Let $n \in
+  \NN$ and let us consider the formal context $\con K_n$ as shown in
+  Figure~\ref{fig:expl-for-exponentially-many-pseudo-intents}.  The object $G = G_1 \cup
+  G_2$ set of $\con K$ is defined as
+  \begin{align*}
+    G_1 &= \set{ g_1, \dots, g_n } \\
+    G_2 &= \set{ \bar g_1, \bar g_{2n} },
+  \end{align*}
+  where all $g_i, \bar g_i$ are distinct, and the attribute set $M = M_1 \cup M_2$ is
+  given by
+  \begin{align*}
+    M_1 &= \set{ m_1, \dots, m_n }, \\
+    M_2 &= \set{ \bar m_1, \dots, \bar m_n },
+  \end{align*}
+  where again all $m_i, \bar m_i$ are distinct.
+
+  \begin{figure}[tp]
+    \centering
+    \begin{math}
+      \begin{array}{c | c | c | c}
+        \toprule
+        \con K_n & m_0 & m_1 \dots m_n & \bar m_1, \dots \bar m_n \\
+        \midrule
+        g_1 & & & \\
+        \vdots & & I_1 & I_2 \\
+        g_n & & & \\
+        \midrule
+        \bar g_1   & \times & \multicolumn{2}{c}{} \\
+        \vdots     & \times & \multicolumn{2}{c}{I_3} \\
+        \bar g_{2n} & \times & \multicolumn{2}{c}{} \\
+        \bottomrule
+      \end{array}
+    \end{math}
+    \caption{A Formal Context with Exponentially Many Pseudo-Intents}
+    \label{fig:expl-for-exponentially-many-pseudo-intents}
+  \end{figure}
+
+  The relations $I_1, I_2, I_3$ are essentially $\neq$, or more precisely
+  \begin{align*}
+    (g_i, m_j) \in I_1           &\diff i \neq j\\
+    (g_i, \bar m_j) \in I_2      &\diff i \neq j\\
+    (\bar g_i, m_j) \in I_3      &\diff i \neq j\\
+    (\bar g_i, \bar m_j) \in I_3 &\diff i \neq j + n
+  \end{align*}
+
+  Then the claim is that the number of pseudo-intents of $\con K_n$ is at least $2^n$.  To
+  see this we first observe that the set $\set{ m_1, \dots, m_n }$ is a pseudo-intent of
+  $\con K_n$.  This is because if
+  \begin{equation*}
+    B = \set{ m_{j_1}, \dots, m_{j_k} } \subseteq \set{ m_1, \dots, m_n },
+  \end{equation*}
+  then
+  \begin{equation*}
+    B' = (G_1 \setminus \set{ g_{j_1}, \dots, g_{j_k} }) \cup (G_2 \setminus \set{ \bar
+      g_{j_1}, \dots, \bar g_{j_k} })
+  \end{equation*}
+  and then $B = B''$.  On the other hand, the set $\set{ m_1, \dots, m_n }$ is not closed, since
+  \begin{equation*}
+    \set{ m_1, \dots, m_n }'' = \set{ \bar g_{n+1}, \dots, \bar g_{2n} }' = \set{ m_0,
+      m_1, \dots, m_n }.
+  \end{equation*}
+  Therefore, as all subsets of $\set{ m_1, \dots, m_n }$ are closed and the set itself is
+  not, it is a pseudo-intent of $\con K_n$ by definition.
+
+  Now, if we replace an attribute $m_i$ with $\bar m_i$, the resulting set $\set{ m_1,
+    \dots, m_{i-1}, \bar m_i, m_{i+1}, \dots, m_n }$ is still a pseudo-intent of $\con
+  K_n$, using a similar argument: the set $\set{ m_1, \dots, \bar m_i, \dots, m_n }$ is
+  not closed, since
+  \begin{equation*}
+    \set{ m_1, \dots, \bar m_i, \dots, m_n }'' = \set{ m_0, m_1, \dots, \bar m_i, \dots,
+      m_n },
+  \end{equation*}
+  and every subset $C \subseteq \set{ m_1, \dots, \bar m_i, \dots, m_n }$ is closed, by
+  the same arguments as we used for $B$.
+
+  Therefore, $\con K_n$ has at least $2^n$ pseudo-intents and thus
+  \begin{equation*}
+    \abs{ \Can(\con K_n) } \ge 2^n.
+  \end{equation*}
+\end{Example}
+
+In spite of this rather disappointing result it may still pay off in practical
+applications to compute the canonical base, as its size may still considerably smaller
+then the size of the base from~\eqref{eq:10}.
+
 \todo[inline]{Write: computing the canonical base}
 
 \section{Attribute Exploration}
