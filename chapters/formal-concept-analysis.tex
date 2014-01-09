@@ -1442,7 +1442,116 @@ Algorithm~\ref{alg:next-closure} shows an example implementation, which returns
 \end{Algorithm}
 \end{figure}
 
-\todo[inline]{Write: computing the canonical base}
+The Next-Closure can in particular be used to compute all intents (and thus all formal
+concepts) of a formal context, because intents are just those subsets of the attribute
+sets which are closed under $(\cdot)''$.  The following example illustrates this.
+
+\begin{Example}
+  \label{expl:9}
+  Let us again consider our Star Trek context $\con K_{\mathsf{TNG}}$.  Clearly,
+  $\emptyset = \emptyset''$ is true in that context.  For computing more intents using
+  Next-Closure, let us order the attributes of this context as follows
+  \begin{equation*}
+    \mathsf{Human} < \mathsf{Honorable} < \mathsf{Artificial} < \mathsf{StarFleet}.
+  \end{equation*}
+  We now that to compute the lectically next closed set of $(\cdot)''$ after $\emptyset$,
+  \ie the next intent of $\con K_{\mathsf{TNG}}$ after $\emptyset$.  For this, we compute
+  \begin{equation*}
+    \emptyset \oplus_{(\cdot)''} \mathsf{StarFleet} = \set{\mathsf{StarFleet}}'' = \set{
+      \mathsf{Honorable}, \mathsf{StarFleet} },
+  \end{equation*}
+  but it is not true that
+  \begin{equation*}
+    \emptyset \prec_{\mathsf{StarFleet}} \set{ \mathsf{Honorable}, \mathsf{StarFleet} }.
+  \end{equation*}
+  So we continue with \textsf{Artificial} and obtain
+  \begin{equation*}
+    \emptyset \oplus_{(\cdot)''} \mathsf{Artificial} = \set{ \mathsf{Artificial} }'' = \mathsf{Artificial}
+  \end{equation*}
+  and indeed $\emptyset \prec_{\mathsf{Artificial}} \set{ \mathsf{Artificial} }$, so this
+  set is the lectically next intent of $\con K$ after $\emptyset$.  The corresponding
+  formal concept is
+  \begin{equation*}
+    (\set{ \mathsf{Artificial} }', \set{ \mathsf{Artificial} }) = (\set{ \mathsf{Data},
+      \mathsf{BorgQueen} }, \set{ \mathsf{Artificial} }).
+  \end{equation*}
+  Continuing this process, we can successively compute all intents of $\con
+  K_{\mathsf{TNG}}$ this way, and thus also all formal concepts of $\con K_{\mathsf{TNG}}$
+  as shown in Example~\ref{expl:star-trek-concept-lattice}.
+\end{Example}
+
+Based on the Next-Closure algorithm we can now discuss an algorithm that allows us to
+compute the canonical base of a formal context $\con K$ with arbitrary background
+knowledge.
+
+\addfunctionname{next-closed-non-intent, first-closed-non-intent, canonical-base}
+
+Without much further ado, we give the implementation of the algorithm in
+Algorithm~\ref{alg:canonical-base}.  We shall discuss the details of this algorithm when
+proving its correctness.  Note that the function \lstinline{canonical-base} makes use of
+local recursion, which is expressed using the \lstinline{let}-\lstinline{recur}
+construct\todo{Write: make appendix explaining this}.  Moreover,
+Algorithm~\ref{alg:canonical-base} also contains the two auxiliary functions
+\lstinline{next-closed-non-intent} and \lstinline{first-closed-non-intent}, which are
+discussed below.
+
+\begin{figure}[tp]
+  \begin{Algorithm}[Computing the Canonical Base with Background Knowledge]
+    \label{alg:canonical-base}
+    \hspace*{0cm}
+\begin{lstlisting}
+  define next-closed-non-intent ($\con K = (G, M, I)$, $\leq_M$, $A$, $c$)
+    ;; compute the lectically next intent of $\con K$ after $A$ that is not closed under $c$
+    $P$ := next-closure($M$, $\leq_M$, $A$, $c$)
+    if $P$ = nil then
+      return nil
+    else if $P \neq P''$ then
+      return $P$
+    else
+      return next-closed-non-intent($M$, $\leq_M$, $P$, $c$)
+    end let
+  end
+
+  define first-closed-non-intent($\con K = (G, M, I)$, $\leq_M$, $c$)
+    ;; compute the lectically first intent of $\con K$ that is not closed under $c$
+    if $\emptyset \neq \emptyset''$ and $c(\emptyset) = \emptyset$ then
+      return $\emptyset$
+    else
+      return next-closed-non-intent($\con K$, $\leq_M$, $\emptyset$, $c$)
+    end if
+  end
+
+  define canonical-base($\con{K} = (G, M, I)$, $\leq_M$, $\mathcal{K} \subseteq \Imp(M)$)
+    ;; compute the canonical base of $\con K$ with background knowledge $\mathcal{K}$
+    ;; in the lectic order induced by $\leq_M$.
+    let ($i$ := 0,
+       $P_i$ := first-closed-non-intent($\con{K}$, $\leq_M$, $\mathcal{K}$),
+       $\mathcal{L}_i$ := $\emptyset$)
+      if $P_i$ = nil then
+        return $\mathcal{L}$
+      else
+        recur ($\mathcal{L}_{i + 1}$ := $\mathcal{L}_i \cup \set{P_i \to P_i''}$,
+              $P_{i + 1}$ := next-closed-non-intent($\con{K}$, $\leq_M$, $P_i$, $\mathcal{L}_{i + 1} \cup \mathcal{K}$),
+              $i$ := $i + 1$)
+    end let
+  end define
+\end{lstlisting}
+  \end{Algorithm}
+\end{figure}
+
+The correctness of \lstinline{canonical-base} can now be stated as follows.
+
+\begin{Theorem}
+  \label{thm:canonical-base-computation}
+  Let $\con K = (G, M, I)$ be a finite formal context, \ie both $\abs G$ and $\abs M$ are
+  finite.  Furthermore, let $\mathcal{K} \subseteq \Imp(M)$ and let $\leq_M$ be a linear
+  order on $M$.  Then
+  \begin{equation*}
+    \Can(\con K, \mathcal{K}) = \text{\lstinline{canonical-base}}(\con K, \leq_M, \mathcal{K}).
+  \end{equation*}
+\end{Theorem}
+
+\todo[inline]{Write: MATH-AL-08-2012, p.\ 13}
 
 \section{Attribute Exploration}
 \label{sec:attr-expl}
@@ -1455,4 +1564,4 @@ Algorithm~\ref{alg:next-closure} shows an example implementation, which returns
 %%% TeX-master: "../main"
 %%% End: 
 
-%  LocalWords:  sep Picard Worf StarFleet doubleprime
+%  LocalWords:  sep Picard Worf StarFleet doubleprime tp
