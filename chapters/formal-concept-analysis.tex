@@ -675,8 +675,34 @@ exists a Galois connection $(\alg P, \alg Q, \phi, \psi)$ such that $c = \psi \c
 However, we shall not go into details here, as this is not necessary for our work.
 See~\cite{fca-book} for more details on this.
 
-\todo[inline]{Write: closures closed under intersection}%
-\todo[inline]{Write: $c(a)$ is smallest element above $a$ that is closed under $c$}
+There are two interesting properties of closure operators which are also relevant for our
+purpose here, and which we shall therefore discuss here.  The first observation is that if
+$c$ is a closure operator on the ordered set $\alg P$, that then the infimum $c(x) \wedge
+c(y)$ is again closed for all $x, y \in P$.  This is because on the one hand we have
+\begin{align*}
+  c(c(x) \wedge c(y)) &\leq_P c(c(x)) = c(x),\\
+  c(c(x) \wedge c(y)) &\leq_P c(c(y)) = c(y),
+\end{align*}
+by monotonicity and idempotency of $c$.  Therefore $c(c(x) \wedge c(y)) \leq_P c(x) \wedge
+c(y)$.  On the other hand, $c(x) \wedge c(y) \leq_P c(c(x) \wedge c(y))$ because $c$ is
+extensive, and therefore
+\begin{equation}
+  \label{eq:13}
+  c(c(x) \wedge c(y)) = c(x) \wedge c(y),
+\end{equation}
+and therefore $c(x) \wedge c(y)$ is closed.  It is also not hard to see that this
+argumentation can be lifted to arbitrary infima, \ie for all $Q \subseteq P$, the set
+\begin{equation*}
+  \bigwedge_{x \in Q} c(x)
+\end{equation*}
+is closed under $c$.  In other words, the closed sets of $c$ always form a complete
+sublattice of $\alg P$.
+
+In particular, for all $x \in P$ there always exists a smallest element $z \in P$ above
+$x$ which is closed under $c$, namely
+\begin{equation*}
+  z = \bigwedge_{y \in P, x \leq_P c(y)} c(y) = c(x).
+\end{equation*}
 
 \section{Implications}
 \label{sec:implications-sets}
