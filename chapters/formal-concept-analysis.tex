@@ -559,7 +559,7 @@ corresponding notion of an \emph{isotone} Galois connection, where Equation~\eqr
 is replaced by
 \begin{equation}
   \label{eq:5}
-  x \leq_P \psi(y) \iff x \leq_Q \phi(y).
+  x \leq_P \psi(y) \iff \phi(x) \leq_Q y.
 \end{equation}
 Of course, both notions are closely related: if we denote with $\alg Q^d = (Q,
 \leq_Q^{-1})$ the \emph{dual} of the ordered set $\alg Q$, then $(\alg P, \alg Q, \phi,
@@ -568,8 +568,20 @@ an isotone Galois connection.
 
 \begin{Example}
   \begin{enumerate}[i. ]
-  \item If $\phi$ is an order isomorphism from $\alg P$ to $\alg Q$, then $(\alg P, \alg
-    Q, \phi, \phi^{-1})$ is an antitone Galois connection.
+  \item If $\phi$ is an order isomorphism from $\alg P = (P, \leq_P)$ to $\alg Q = (Q,
+    \leq_Q)$, then $(\alg P, \alg Q, \phi, \phi^{-1})$ is an isotone Galois connection,
+    because
+    \begin{align*}
+      x \leq_P \phi^{-1}(y)
+      &\iff \phi(x) \leq_Q \phi(\phi^{-1}(y))\\
+      &\iff \phi(x) \leq_Q y
+    \end{align*}
+    is true for all $x \in P$ and $y \in Q$.
+
+    On the other hand, if $\phi \colon P \to Q$ is a bijective mapping such that $(\alg P,
+    \alg Q, \phi, \phi^{-1})$ is an isotone Galois connection, then clearly $\phi$ is an
+    order isomorphism by \thref{lem:properties-of-galois-connections}.  In this sense are
+    Galois connections a generalization of order isomorphism.
   \item If $\con K = (G, M, I)$ is a formal context, then the derivation operators
     $(\cdot)' \colon \subsets{G} \to \subsets{M}$ and $(\cdot)' \colon \subsets{M} \to
     \subsets{G}$ form an antitone Galois connection by
