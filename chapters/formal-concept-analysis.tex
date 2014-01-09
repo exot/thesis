@@ -1327,7 +1327,120 @@ minimality of the canonical base does not save us from exponentially big bases.
 
 In spite of this rather disappointing result it may still pay off in practical
 applications to compute the canonical base, as its size may still considerably smaller
-then the size of the base from~\eqref{eq:10}.
+then the size of the base from~\eqref{eq:10}.  In the following, we shall discuss a
+standard algorithm that computes the canonical base of a formal context.
+
+The first, rather technical definition we need to consider is the one of the \emph{lectic
+  order} on the powerset $\subsets{M}$ of an linearly ordered set $(M, \leq_M)$, \ie an
+ordered set $(M, \leq_M)$ where for each two elements $x, y \in M$ it is true that $x
+\leq_M$ or $y \leq_M$.
+
+\begin{Definition}[Lectic Order]
+  \label{def:lectic-order}
+  Let $(M, \leq_M)$ be a linearly ordered set, and let $i \in M$.  Then for two sets $A, B
+  \subseteq M$, $A$ is called \emph{lectically smaller} than $B$ \emph{at position $i$},
+  written $A \prec_i B$ if and only if
+  \begin{equation*}
+    A \prec_i B \diff i = \min\nolimits_{\leq_M}(A \symdiff B) \text{ and } i \in B,
+  \end{equation*}
+  where
+  \begin{equation*}
+    A \symdiff B := (A \setminus B) \cup (B \setminus A)
+  \end{equation*}
+  is the symmetric difference of $A$ and $B$.
+
+  Then the \emph{lectic order} on $\subsets{M}$ induced by $\leq_M$ is the relation
+  $\preceq$ defined as
+  \begin{equation*}
+    A \preceq B \diff A = B \text{ or } A \prec_i B \text{ for some } i \in M.
+  \end{equation*}
+\end{Definition}
+
+The fact that $A \prec_i B$ can be seen as the statement that the smallest element (with
+respect to $\leq_M$) in which $A$ and $B$ differ belongs to $B$.
+
+\begin{Example}
+  Let $M = \set{ 0, 1, 2 }$ and let $\leq_M$ be given by $2 \leq_M 1 \leq_M 0$.  Then
+  \begin{equation*}
+    \set{0} \prec_i \set{1}.
+  \end{equation*}
+  Moreover, all subsets of $M$ are ordered by $\preceq$ as follows
+  \begin{equation*}
+    \emptyset \preceq \set{0} \prec \set{1} \preceq \set{0, 1} \preceq \set{2} \preceq
+    \set{0, 2} \preceq \set{0, 1, 2}.
+  \end{equation*}
+  If we encode a subset of $M$ as a binary number like we did in Example~\ref{expl:2}, so
+  for example $\set{0, 2}$ would be $101$ and $\set{0}$ would be $001$, then the above
+  lectic order can also be written as
+  \begin{equation*}
+    000 \preceq 001 \preceq 010 \preceq 011 \preceq 100 \preceq 101 \preceq 111
+  \end{equation*}
+  which resembles the usual linear order on binary numbers.
+\end{Example}
+
+It is not hard to see (but technical to prove) that every lectic order is indeed a linear
+order on $\subsets{M}$, \ie the ordered set $(\subsets{M}, \preceq)$ is a linearly ordered
+set.  Moreover the lectic order \emph{extents} the usual subset-order on $\subset{M}$, in
+the sense that for all $A, B \subseteq M$ it is true that
+\begin{equation*}
+  A \subseteq B \implies A \preceq B,
+\end{equation*}
+irrespective of the linear order $\leq_M$ used to define $\preceq$.
+
+Let now $c$ be a closure operator on the linearly ordered set $(M, \leq_M)$.  In the
+following we shall the Next-Closure algorithm\cite{fca-book,fca:Ganter:1984} that allows
+us to compute all closed sets of $c$ ordered by the lectic order on $\subsets{M}$ induced
+by $\leq_M$.  Moreover, this algorithm has the advantage it is usually much faster than
+just applying the closure operator $c$ to all subsets of $M$ and collecting the results.
+
+However, before we shall discuss the algorithm, let us first introduce an abbreviation.
+For a set $A \subseteq M$ and an element $i \in M$, let us write
+\begin{equation*}
+  A \oplus_c i := c(\set{ a \in A \mid a \leq_M i } \cup \set{i}).
+\end{equation*}
+Then the following theorem holds, which is~\cite[Theorem 5]{fca-book}.
+
+\begin{Theorem}
+  \label{thm:next-closure}
+  Let $(M, \leq_M)$ be a linearly ordered set, and let $\preceq$ be the lectic order on
+  $\subsets{M}$ induced by $\leq_M$.  Furthermore, let $c$ be a closure operator on $(M,
+  \leq_M)$ and let $A \subseteq M$.  Then, if there exists a set $B$ such that $A \precneq
+  B$ and $B$ is closed under $c$, then the lectically smallest such set is given
+  \begin{equation*}
+    \min\nolimits_{\preceq}\set{ A \precneq B \mid B = c(B) } = A \oplus_c i,
+  \end{equation*}
+  where $i$ is $\leq_M$-maximal among all elements $j \in M$ satisfying $A \prec_j A
+  \oplus_c j$, \ie
+  \begin{equation*}
+    i = \max\nolimits_{\leq_M} \set{ j \in M \mid A \prec_j A \oplus_c j }.
+  \end{equation*}
+\end{Theorem}
+
+The proof of this theorem is rather technical, and we shall not repeat it here.  See the
+proof of~\cite[Theorem 5]{fca-book}.
+
+The main advantage of this theorem is now that it immediately gives rise to an effective
+algorithm to compute the lectically next closed set after a given one.
+Algorithm~\ref{alg:next-closure} shows an example implementation, which returns
+\lstinline{nil} if no lectically next closed sets exists.
+
+\addfunctionname{next-closure}
+
+\begin{figure}[tp]
+\begin{Algorithm}[Next Closure]~
+  \label{alg:next-closure}
+  \begin{lstlisting}
+  define next-closure($M$, $\leq_M$, $A$, $c$)
+    $C$ := $\set{ i \in M \mid A \prec_i A \oplus_c i }$
+    if $C$ = $\emptyset$
+      return nil
+    else
+      return $A \oplus_c \max\nolimits_{\leq_M}(C)$
+    end if
+  end  
+  \end{lstlisting}
+\end{Algorithm}
+\end{figure}
 
 \todo[inline]{Write: computing the canonical base}
 
