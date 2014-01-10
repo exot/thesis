@@ -1724,6 +1724,53 @@ and it remains an open research problem.
 \section{Attribute Exploration}
 \label{sec:attr-expl}
 
+While we have considered valid implications of our example context $\con K_{\mathsf{TNG}}$
+we have encountered the implication
+\begin{equation*}
+  \set{ \mathsf{Human} } \to \set{ \mathsf{Honorable} }.
+\end{equation*}
+While neither exact definitions for ``human'' nor for ``honorable'' are given, this
+implication is rather doubtful (even in the context of Star Trek).  But still, this
+implication is a valid implication of $\con K_{\mathsf{TNG}}$.  On the other hand, one
+could discuss that this context is not ``complete'' in the sense that it lacks
+relevant counterexamples, and certainly one would find such a counterexample for the above
+implication in the Star Trek series.
+
+To remedy this incompleteness of $\con K_{\mathsf{TNG}}$ one could go and add all
+characters which have ever occurred in Star Trek to $\con K_{\mathsf{TNG}}$.  While this
+doable, it is certainly not practical, especially since it may not be necessary to include
+\emph{all} characters into $\con K_{\mathsf{TNG}}$ to invalidate certain implications.
+
+The illustrated problem may very well occur in practical situations, where one is
+interested in the valid implications of a certain \emph{domain} which is represented by a
+collection of \emph{individuals} (Star Trek characters in the above example) with certain
+\emph{attributes} (those listed in $\con K_{\mathsf{TNG}}$).  This collection of
+individuals cannot be listed completely, or at least it is not feasible to do so.
+However, one can search for single individuals with certain properties.
+
+Let us make this more clear: we assume that our domain is representable by a formal
+context, which we shall call the \emph{background context}.  The objects of this formal
+context are the individuals of our domain of interest, and the attributes in the
+background context are the attributes of the individuals we are interested to find valid
+implications for.  The incidence of the background context encodes if an individual has a
+certain attribute in our domain or not.
+
+The task is now to find the implicational theory of the background context.  Although we
+cannot access this context completely, we certainly need a way to access this data.  For
+this, we shall make the following assumption: we are given an \emph{expert} which can
+\emph{answer questions} of the following type:
+\begin{quote}
+  Does the implication $A \to B$ hold in the background context?
+\end{quote}
+The expert may then either agree to this questions, or, if not, she has to provide a
+counterexample, \ie a new object $g$ such that $g \in A'$ but $g \notin B'$.  Note that
+this is much more realistic than enumerating all objects of the background context, as we
+only have to find one object that invalidates the given implication, if it does not hold
+in the background context.
+
+Within the setting just described, the \emph{attribute exploration} algorithm from formal
+concept analysis can help~\cite{fca-book,DBLP:conf/icfca/Ganter10}.
+
 \todo[inline]{Write: introduce classical attribute exploration}%
 \todo[inline]{Write: mention case of invalid background knowledge}%
 
