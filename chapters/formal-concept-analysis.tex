@@ -171,14 +171,13 @@ from~\ref{expl:3}.  More generally, if $P$ is a set, then $(\subsets{P}, \subset
 always a complete lattice.
 
 The study of lattices as mathematical structures has received much interest over the last
-decades and thus constitutes a major branch of order theory.\todo{cite main book on
-  lattice theory} However, (complete) lattices also allow for a quite natural
-interpretation as a hierarchy of \emph{generalizations} and \emph{specializations}: an
-element $x$ is below an element $y$ if and only if $x$ is more \emph{special} than $y$, or
-alternatively, if $y$ is more \emph{general} than $x$.  Then for a set $Q$ of elements its
-supremum $\sup Q$ can be thought of as a \emph{most-specific generalization} of all
-elements in $Q$, and $\inf Q$ can be seen likewise as the most \emph{general
-  specialization} of all elements in $Q$.
+decades and thus constitutes a major branch of order theory~\cite{Gratzer}.  Additionally,
+(complete) lattices also allow for a quite natural interpretation as a hierarchy of
+\emph{generalizations} and \emph{specializations}: an element $x$ is below an element $y$
+if and only if $x$ is more \emph{special} than $y$, or alternatively, if $y$ is more
+\emph{general} than $x$.  Then for a set $Q$ of elements its supremum $\sup Q$ can be
+thought of as a \emph{most-specific generalization} of all elements in $Q$, and $\inf Q$
+can be seen likewise as the most \emph{general specialization} of all elements in $Q$.
 
 Formal concept analysis now provides an approach to understand complete lattice in terms
 of this interpretation, by representing these lattices in terms of \emph{objects} and
@@ -478,8 +477,8 @@ concept lattice.
 
 Both \thref{thm:concept-lattices-are-complete-lattices} and
 \thref{thm:complete-lattices-are-concept-lattices} are actually part of the Basic Theorem
-of formal concept analysis~\cite[Theorem ??\todo{find number}]{fca-book}.  We shall not
-give a proof of it here, as it is not within the scope of this work.
+of formal concept analysis~\cite[Theorem 3]{fca-book}.  We shall not give a proof of it
+here, as it is not within the scope of this work.
 
 \begin{Example}
   \label{expl:star-trek-concept-lattice}
@@ -954,8 +953,13 @@ in terms of induced closure operators.
   \models (A \to B)$.  
 \end{Proof}
 
-\todo[inline]{Write: induced closure can be computed easily (linear time, or quadratic
-  time); thus above lemma yields efficient decision procedure}
+The computation of $\mathcal{L}(A)$ for sets $A \subseteq M$ can be done naively with time
+quadratic in $\abs{\mathcal{L}}$, assuming the size of the underlying set $M$ is fixed.
+However, one can improve this by using the ``LinClosure'' algorithm from the theory of
+relational databases~\cite{DBLP:books/cs/Maier83}, which achieves the same goal with time
+linear in $\abs{\mathcal{L}}$.  Finally, one can also exploit the tight connection to
+Horn-formulas as mentioned above and use the algorithm by Dowling and Gallier to decide
+satisfiability of Horn formulas~\cite{DBLP:journals/jlp/DowlingG84}.
 
 \section{Bases of Implications}
 \label{sec:bases-implications}
@@ -1017,8 +1021,9 @@ is a superset of $A$, thus $\mathcal{K}(A) \subseteq A''$, and so equality holds
 
 Checking soundness of a set of implications $\mathcal{K} \subseteq \Imp(M)$ for a set
 $\mathcal{L} \subseteq \Imp(M)$ is rather trivial, but checking completeness of
-$\mathcal{K}$ for $\mathcal{L}$ is not so easy\todo{find this reference!}.  There is a
-simple characterization, however, if $\mathcal{L}$ is the theory of a formal context.
+$\mathcal{K}$ for $\mathcal{L}$ is not so easy (indeed, it is coNP-complete~\cite[Theorem
+12]{DBLP:journals/jair/Khardon95}).  There is a simple characterization, however, if
+$\mathcal{L}$ is complete for a formal context, which is at least helpful for proofs.
 
 \begin{Lemma}
   \label{lem:characterization-of-completeness}
@@ -1888,4 +1893,5 @@ expert may grow exponentially.
 %%% TeX-master: "../main"
 %%% End: 
 
-%  LocalWords:  sep Picard Worf StarFleet doubleprime tp
+%  LocalWords:  sep Picard Worf StarFleet doubleprime tp quadratically LinClosure Dowling
+%  LocalWords:  Gallier
