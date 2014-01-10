@@ -26,17 +26,16 @@
 (TeX-add-style-hook "main"
  (lambda ()
    (setf (second reftex-insert-label-flags)
-         (concatenate 'string (second reftex-insert-label-flags) "T"))
+         (concatenate 'string (second reftex-insert-label-flags) "TLPDRCE"))
    (apply 'LaTeX-add-environments
           (mapcar (lambda (env) (list env 'LaTeX-env-label))
-                  '("Theorem" "Lemma" "Proposition" "Satz"
+                  '("Theorem" "Lemma" "Proposition"
                     "Definition" "Remark" "Corollary" "Example")))
    (reftex-add-to-label-alist
     '(("Theorem"      ?T "thm:"  "~\\ref{%s}" t ("Theorem" "Thm."))
-      ("Lemma"        ?T "lem:"  "~\\ref{%s}" t ("Lemma" "Lem."))
-      ("Proposition"  ?T "prop:" "~\\ref{%s}" t ("Proposition" "Prop."))
-      ("Satz"         ?T "thm:"  "~\\ref{%s}" t ("Satz"))
-      ("Definition"   ?T "def:"  "~\\ref{%s}" t ("Definition" "Def."))
-      ("Remark"       ?T "rem:"  "~\\ref{%s}" t ("Remark" "Rem."))
-      ("Corollary"    ?T "cor:"  "~\\ref{%s}" t ("Corollary" "Cor."))
-      ("Example"      ?T "expl:" "~\\ref{%s}" t ("Example"))))))
+      ("Lemma"        ?L "lem:"  "~\\ref{%s}" t ("Lemma" "Lem."))
+      ("Proposition"  ?P "prop:" "~\\ref{%s}" t ("Proposition" "Prop."))
+      ("Definition"   ?D "def:"  "~\\ref{%s}" t ("Definition" "Def."))
+      ("Remark"       ?R "rem:"  "~\\ref{%s}" t ("Remark" "Rem."))
+      ("Corollary"    ?C "cor:"  "~\\ref{%s}" t ("Corollary" "Cor."))
+      ("Example"      ?E "expl:" "~\\ref{%s}" t ("Example"))))))
