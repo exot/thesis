@@ -1500,7 +1500,7 @@ discussed below.
     \label{alg:canonical-base}
     \hspace*{0cm}
 \begin{lstlisting}
-  define next-closed-non-intent ($\con K = (G, M, I)$, $\leq_M$, $A$, $c$)
+  define next-closed-non-intent ($\con K = (G, M, I), \leq_M, A, c$)
     ;; compute the lectically next intent of $\con K$ after $A$ that is not closed under $c$
     $P$ := next-closure($M$, $\leq_M$, $A$, $c$)
     if $P$ = nil then
@@ -1521,17 +1521,17 @@ discussed below.
     end if
   end
 
-  define canonical-base($\con{K} = (G, M, I)$, $\leq_M$, $\mathcal{K} \subseteq \Imp(M)$)
-    ;; compute the canonical base of $\con K$ with background knowledge $\mathcal{K}$
+  define canonical-base($\con{K} = (G, M, I)$, $\leq_M$, $\mathcal{S} \subseteq \Imp(M)$)
+    ;; compute the canonical base of $\con K$ with background knowledge $\mathcal{S}$
     ;; in the lectic order induced by $\leq_M$.
     let ($i$ := 0,
-       $P_i$ := first-closed-non-intent($\con{K}$, $\leq_M$, $\mathcal{K}$),
+       $P_i$ := first-closed-non-intent($\con{K}$, $\leq_M$, $\mathcal{S}$),
        $\mathcal{L}_i$ := $\emptyset$)
       if $P_i$ = nil then
-        return $\mathcal{L}$
+        return $\mathcal{L}_i$
       else
         recur ($\mathcal{L}_{i + 1}$ := $\mathcal{L}_i \cup \set{P_i \to P_i''}$,
-              $P_{i + 1}$ := next-closed-non-intent($\con{K}$, $\leq_M$, $P_i$, $\mathcal{L}_{i + 1} \cup \mathcal{K}$),
+              $P_{i + 1}$ := next-closed-non-intent($\con{K}$, $\leq_M$, $P_i$, $\mathcal{L}_{i + 1} \cup \mathcal{S}$),
               $i$ := $i + 1$)
     end let
   end define
@@ -1545,13 +1545,173 @@ The correctness of \lstinline{canonical-base} can now be stated as follows.
   \label{thm:canonical-base-computation}
   Let $\con K = (G, M, I)$ be a finite formal context, \ie both $\abs G$ and $\abs M$ are
   finite.  Furthermore, let $\mathcal{K} \subseteq \Imp(M)$ and let $\leq_M$ be a linear
-  order on $M$.  Then
+  order on $M$.  Then the call to \lstinline{canonical-base} terminates and it is then
+  true that
   \begin{equation*}
     \Can(\con K, \mathcal{K}) = \text{\lstinline{canonical-base}}(\con K, \leq_M, \mathcal{K}).
   \end{equation*}
 \end{Theorem}
 
-\todo[inline]{Write: MATH-AL-08-2012, p.\ 13}
+Before we are proving this theorem, we first consider the auxiliary functions also shown
+in Algorithm~\ref{alg:canonical-base} and show that they yield what their names suggest.
+
+\begin{Proposition}
+  \label{prop:auxiliary-functions-canonical-base}
+  Let $\con K = (G, M, I)$ be a finite formal context, $\leq_M$ a linear order on $M$ and
+  $c$ a closure operator on $(M, \leq_M)$.  Denote with $\preceq$ the lectic order on
+  $\subsets{M}$ induced by $\leq_M$.
+  \begin{enumerate}[i. ]
+  \item Let $A \subseteq M$ and define
+    \begin{equation*}
+      S := \text{\lstinline{next-closed-non-intent}}(\con K, \leq_M, A, c).
+    \end{equation*}
+    Then
+    \begin{equation*}
+      S = \min\nolimits_{\preceq} \set{ B \subseteq M \mid A \precneq B, B = c(B), B \neq
+        B''}
+    \end{equation*}
+    if this minimum exists, and $S = \text{\lstinline{nil}}$ otherwise.
+  \item Define
+    \begin{equation*}
+      T := \text{\lstinline{first-closed-non-intent}}(\con K, \leq_M, c).
+    \end{equation*}
+    Then
+    \begin{equation*}
+      T = \min\nolimits_{\preceq}\set{ B \subseteq M \mid B = c(B), B \neq B'' }
+    \end{equation*}
+    if this minimum exists, and $T = \text{\lstinline{nil}}$ otherwise.
+  \end{enumerate}
+\end{Proposition}
+\begin{Proof}
+  For the first statement observe that the algorithm considers in lectic order all sets $C
+  \subseteq M$ where $A \precneq C$ that are closed under $c$.  Now, if a lectically
+  smallest set $C \subseteq M$ with $A \precneq C$ exists such that $C \neq C''$, then it
+  is finally found by the algorithm and returned as the resulting value.
+
+  On the other hand, if no such set exists, then the variable $P$ in the algorithm will
+  eventually obtain the value $M$, and the subsequent iteration will return
+  \lstinline{nil}, since
+  \begin{equation*}
+    \text{\lstinline{next-closure}}(M, {\leq_M}, M, c) = \text{\lstinline{nil}}.
+  \end{equation*}
+
+  For the second statement let us first assume that $\emptyset \neq \emptyset''$ and
+  $c(\emptyset) = \emptyset$.  Then clearly
+  \begin{equation*}
+    \min\nolimits_{\preceq}\set{ B \subseteq M \mid B = c(B), B \neq B'' } = \emptyset =
+    \text{\lstinline{first-closed-non-intent}}(\con K, \leq_M, c).
+  \end{equation*}
+  If $\emptyset = \emptyset''$ or $c(\emptyset) \neq \emptyset''$, then
+  \begin{equation*}
+    \emptyset \precneq \min\nolimits_{\preceq}\set{ B \subseteq M \mid B = c(B), B \neq
+      B'' }.
+  \end{equation*}
+  Hence
+  \begin{align*}
+    \min\nolimits_{\preceq}\set{ B \subseteq M \mid B = c(B), B \neq B'' }
+    &= \min\nolimits_{\preceq}\set{ B \subseteq M, \emptyset \precneq B, B = c(B), B \neq
+      B''}\\
+    &= \text{\lstinline{next-closed-non-intent}}(\con K, \leq_M, \emptyset, c)\\
+    &= \text{\lstinline{first-closed-non-intent}}(\con K, \leq_M, c)
+  \end{align*}
+  as required.
+\end{Proof}
+
+We shall now prove~\ref{thm:canonical-base-computation}.  Note that the proof itself is
+well-known, but we shall give it here nevertheless for the sake of completeness, and to
+convey some intuition why the implementation of \lstinline{canonical-base} indeed computes
+the canonical base.
+
+The main line of argumentation of the proof is as follows: using induction, we shall prove
+that in a call of \lstinline{canonical-base($\con K, \leq_M, \mathcal S$)} it is true that
+for each $i$, if there exists an $\mathcal{S}$-pseudo-intent that is not within the list
+$P_0, \dots, P_{i-1}$, that then $P_i \neq \text{\lstinline{nil}}$ and $P_0, \dots, P_i$
+are the lectically first $\mathcal{S}$-pseudo-intents of $\con K$.  Thus, if the algorithm
+finishes in iteration $n$, say, then $\mathcal{L}_n = \Can(\con K, \mathcal{S})$, which is
+the value returned by the function.
+
+\begin{Proof}[\thref{thm:canonical-base-computation}]
+  Denote again with $\preceq$ the lectic order on $\subsets{M}$ induced by $\leq_M$.  As
+  already mentioned, we shall prove by induction over the number $i$ of iterations that if
+  $\con K$ has more than $i$ $\mathcal{S}$-pseudo-intents, that then $P_i \neq
+  \text{\lstinline{nil}}$ and the sets
+  \begin{equation*}
+    P_0, \dots, P_i
+  \end{equation*}
+  are the first $i+1$ $\mathcal{S}$-pseudo-intents of $\con K$ with respect to $\preceq$.
+
+  Let $i = 0$ and suppose that $\con K$ has $\mathcal{S}$-pseudo-intents.  If $\bar P_0$
+  is then the lectically first $\mathcal{S}$-pseudo-intent of $\con K$ it is true that
+  $\bar P_0$ is closed under $\mathcal{S}$ but not an intent of $\bar P_0$.  Therefore,
+  $P_0 \preceq \bar P_0$.
+
+  On the other hand, $P_0$ is already an $\mathcal{S}$-pseudo-intent of $\con K$, because
+  $P_0 \neq P_0'', \mathcal{S}(P_0) = P_0$ and if $Q \subsetneq P_0$ such that
+  $\mathcal{S}(Q) = Q$, then $Q = Q''$ already holds, \ie there are no
+  $\mathcal{S}$-pseudo-intents strictly contained in $P_0$.  Thus, $\bar P_0 \preceq P_0$
+  and therefore $P_0 = \bar P_0$, \ie $P_0$ is the lectically first
+  $\mathcal{S}$-pseudo-intent of $\con K$.  In particular, $P_0 \neq
+  \text{\lstinline{nil}}$.
+
+  Now suppose $i > 0$ and suppose that $\con K$ has more than $i$
+  $\mathcal{S}$-pseudo-intents.  By induction hypothesis, the list
+  \begin{equation*}
+    P_0, \dots, P_{i-1}
+  \end{equation*}
+  consists of the lectically first $i$ $\mathcal{S}$-pseudo-intents.  Let $P$ be the
+  lectically next $\mathcal{S}$-pseudo-intent after $P_{i-1}$.  Then $P$ is closed under
+  $\mathcal{S}$ and not an intent of $\con K$.  In particular, $P_i \preceq P$ and $P_i
+  \neq \text{\lstinline{nil}}$.
+
+  Furthermore, $P_i$ is an $\mathcal{S}$-pseudo-intent of $\con K$.  To see this we first
+  observe that $\mathcal{S}(P_i) = P_i$ and $P_i \neq P_i''$, so it suffices to show that
+  for each $\mathcal{S}$-pseudo-intent $Q \subsetneq P_i$ it is true that $Q'' \subseteq
+  P_i$.  To this end let $Q \subsetneq P_i$ be an $\mathcal{S}$-pseudo-intent of $\con K$.
+  Then $Q \precneq P_i \preceq P$, and by definition of $P$, it is true that $Q = P_j$ for
+  some $j \in \set{0, \dots, i - 1}$.  Therefore, $(Q \to Q'') \in \mathcal{L}_i$.  Since
+  $\mathcal{L}_i(P_i) = P_i$ and $Q \subseteq P_i$, it must therefore be true that $Q''
+  \subseteq P_i$.
+
+  We have thus shown that $P_i$ is the lectically next $\mathcal{S}$-pseudo-intent after
+  $P_{i-1}$.  Therefore,
+  \begin{equation*}
+    P_0, \dots, P_{i+1}
+  \end{equation*}
+  are the lectically first $i+2$ $\mathcal{S}$-pseudo-intents of $\con K$ and the claim is
+  shown.
+
+  From the above claim we can now infer the validity of the theorem.  First of all we
+  observe that $\con K$ can only have finitely many $\mathcal{S}$-pseudo-intents, since
+  $\con K$ itself is finite.  Therefore, if $\con K$ has $n$ such
+  $\mathcal{S}$-pseudo-intents, then these must be $P_0, \dots, P_{n-1}$ and $P_n =
+  \text{\lstinline{nil}}$.  But then
+  \begin{equation*}
+    \mathcal{L}_n = \set{ P_j \to P_j'' \mid j = 0, \dots, n - 1} = \Can(\con K, \mathcal{S}).
+  \end{equation*}
+  Since $P_n$ is \lstinline{nil}, the value $\mathcal{L}_n$ is returned from
+  \lstinline{canonical-base} and thus the claim is shown.
+\end{Proof}
+
+We have to note, however, that the computation as shown in
+Algorithm~\ref{alg:canonical-base} may still take time exponential in the size of the
+input context $\con K$ to compute the next $\mathcal{S}$-pseudo-intent.  This is mainly
+because while computing all $\mathcal{S}$-pseudo-intents of $\con K$, we also compute all
+intents of $\con K$ as well.  It is rather easy to see that the number of intents of a
+formal context can be exponential in the number of its pseudo-intents, and therefor our
+implementation may need an exponential delay between the computation of two successive
+pseudo-intents.
+
+Indeed, it is not known if this exponential delay can be avoided all together.  There is a
+different approach of computing the canonical base~\cite{DBLP:journals/amai/ObiedkovD07},
+which however also computes all intents of $\con K$ during the run.  There are also some
+complexity results with respect to computing the canonical base: enumerating
+pseudo-intents in lectic order is coNP-hard~\cite{DBLP:conf/icfca/Distel10}, so an
+algorithm that computes the canonical base in some sort of lectic order cannot avoid
+exponential delays, unless P = NP.  Furthermore, already recognizing pseudo-intents of a
+formal context is coNP-hard~\cite{DBLP:journals/dam/BabinK13}.
+
+On the other hand, these results are not sufficient to prove that the computation of the
+canonical base itself is hard, and this thus remains to be an open research problem.
 
 \section{Attribute Exploration}
 \label{sec:attr-expl}
