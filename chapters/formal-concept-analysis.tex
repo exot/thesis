@@ -532,7 +532,7 @@ give a proof of it here, as it is not within the scope of this work.
   with $g$ by an \emph{ascending} path in the line diagram has $g$ in its diagram, and all
   other formal concepts have $g$ not in their extent.  For example, the formal concept
   labeled with \textsf{Picard} has this object in its intent, as well as the two formal
-  concepts above it.  No other formal concept has \emph{Picard} in its intent.
+  concepts above it.  No other formal concept has \textsf{Picard} in its intent.
 
   Likewise, for we write every attribute $m$ of $\con K_{\mathsf{TNG}}$ only at the
   \emph{largest} formal concept that has this attribute in its intent.  Then every formal
@@ -1710,8 +1710,16 @@ algorithm that computes the canonical base in some sort of lectic order cannot a
 exponential delays, unless P = NP.  Furthermore, already recognizing pseudo-intents of a
 formal context is coNP-hard~\cite{DBLP:journals/dam/BabinK13}.
 
-On the other hand, these results are not sufficient to prove that the computation of the
-canonical base itself is hard, and this thus remains to be an open research problem.
+On the other hand, it is possible in polynomial time to decide if a base of a formal
+context is indeed the canonical base.  For this, one can use a minimization procedure as
+discussed in~\cite{DBLP:conf/icfca/Rudolph07}, which transforms every base into its
+corresponding canonical base.  The result of this minimization agrees with the original
+base if and only if the original base is its corresponding canonical base.  As this
+reduction can be done in quadratic time in the size of the original base, this yields a
+polynomial method to test if a base is the canonical base.
+
+All in all, it is not clear yet whether computing the canonical base is difficult or not,
+and it remains an open research problem.
 
 \section{Attribute Exploration}
 \label{sec:attr-expl}
