@@ -1388,10 +1388,11 @@ the sense that for all $A, B \subseteq M$ it is true that
 irrespective of the linear order $\leq_M$ used to define $\preceq$.
 
 Let now $c$ be a closure operator on the linearly ordered set $(M, \leq_M)$.  In the
-following we shall the Next-Closure algorithm\cite{fca-book,fca:Ganter:1984} that allows
-us to compute all closed sets of $c$ ordered by the lectic order on $\subsets{M}$ induced
-by $\leq_M$.  Moreover, this algorithm has the advantage it is usually much faster than
-just applying the closure operator $c$ to all subsets of $M$ and collecting the results.
+following we shall the Next-Closure algorithm~\cite{fca-book,DBLP:conf/icfca/Ganter10}
+that allows us to compute all closed sets of $c$ ordered by the lectic order on
+$\subsets{M}$ induced by $\leq_M$.  Moreover, this algorithm has the advantage it is
+usually much faster than just applying the closure operator $c$ to all subsets of $M$ and
+collecting the results.
 
 However, before we shall discuss the algorithm, let us first introduce an abbreviation.
 For a set $A \subseteq M$ and an element $i \in M$, let us write
@@ -1488,12 +1489,9 @@ knowledge.
 
 Without much further ado, we give the implementation of the algorithm in
 Algorithm~\ref{alg:canonical-base}.  We shall discuss the details of this algorithm when
-proving its correctness.  Note that the function \lstinline{canonical-base} makes use of
-local recursion, which is expressed using the \lstinline{let}-\lstinline{recur}
-construct\todo{Write: make appendix explaining this}.  Moreover,
-Algorithm~\ref{alg:canonical-base} also contains the two auxiliary functions
-\lstinline{next-closed-non-intent} and \lstinline{first-closed-non-intent}, which are
-discussed below.
+proving its correctness.  Note that Algorithm~\ref{alg:canonical-base} also contains the
+two auxiliary functions \lstinline{next-closed-non-intent} and
+\lstinline{first-closed-non-intent}, which are discussed below.
 
 \begin{figure}[tp]
   \begin{Algorithm}[Computing the Canonical Base with Background Knowledge]
@@ -1524,16 +1522,19 @@ discussed below.
   define canonical-base($\con{K} = (G, M, I)$, $\leq_M$, $\mathcal{S} \subseteq \Imp(M)$)
     ;; compute the canonical base of $\con K$ with background knowledge $\mathcal{S}$
     ;; in the lectic order induced by $\leq_M$.
-    let ($i$ := 0,
-       $P_i$ := first-closed-non-intent($\con{K}$, $\leq_M$, $\mathcal{S}$),
-       $\mathcal{L}_i$ := $\emptyset$)
-      if $P_i$ = nil then
-        return $\mathcal{L}_i$
-      else
-        recur ($\mathcal{L}_{i + 1}$ := $\mathcal{L}_i \cup \set{P_i \to P_i''}$,
-              $P_{i + 1}$ := next-closed-non-intent($\con{K}$, $\leq_M$, $P_i$, $\mathcal{L}_{i + 1} \cup \mathcal{S}$),
-              $i$ := $i + 1$)
-    end let
+
+    $i$ := 0,
+    $P_i$ := first-closed-non-intent($\con{K}$, $\leq_M$, $\mathcal{S}$),
+    $\mathcal{L}_i$ := $\emptyset$
+
+    while $P_i \neq$ nil do
+      $\mathcal{L}_{i + 1}$ := $\mathcal{L}_i \cup \set{P_i \to P_i''}$,
+      $P_{i + 1}$ := next-closed-non-intent($\con{K}$, $\leq_M$, $P_i$, $\mathcal{L}_{i +
+1} \cup \mathcal{S}$),
+      $i$ := $i + 1$)
+    end while
+
+    return $\mathcal{L}_i$
   end define
 \end{lstlisting}
   \end{Algorithm}
@@ -1561,21 +1562,14 @@ in Algorithm~\ref{alg:canonical-base} and show that they yield what their names 
   $c$ a closure operator on $(M, \leq_M)$.  Denote with $\preceq$ the lectic order on
   $\subsets{M}$ induced by $\leq_M$.
   \begin{enumerate}[i. ]
-  \item Let $A \subseteq M$ and define
-    \begin{equation*}
-      S := \text{\lstinline{next-closed-non-intent}}(\con K, \leq_M, A, c).
-    \end{equation*}
-    Then
+  \item Let $A \subseteq M$ and define $S :=
+    \text{\lstinline{next-closed-non-intent}}(\con K, \leq_M, A, c)$.  Then
     \begin{equation*}
       S = \min\nolimits_{\preceq} \set{ B \subseteq M \mid A \precneq B, B = c(B), B \neq
         B''}
     \end{equation*}
     if this minimum exists, and $S = \text{\lstinline{nil}}$ otherwise.
-  \item Define
-    \begin{equation*}
-      T := \text{\lstinline{first-closed-non-intent}}(\con K, \leq_M, c).
-    \end{equation*}
-    Then
+  \item Define $T := \text{\lstinline{first-closed-non-intent}}(\con K, \leq_M, c)$.  Then
     \begin{equation*}
       T = \min\nolimits_{\preceq}\set{ B \subseteq M \mid B = c(B), B \neq B'' }
     \end{equation*}
@@ -1707,8 +1701,10 @@ which however also computes all intents of $\con K$ during the run.  There are a
 complexity results with respect to computing the canonical base: enumerating
 pseudo-intents in lectic order is coNP-hard~\cite{DBLP:conf/icfca/Distel10}, so an
 algorithm that computes the canonical base in some sort of lectic order cannot avoid
-exponential delays, unless P = NP.  Furthermore, already recognizing pseudo-intents of a
-formal context is coNP-hard~\cite{DBLP:journals/dam/BabinK13}.
+exponential delays, unless P = NP.  See also~\cite{DBLP:conf/icdm/BorchmannD11} for a
+practical scenario where, in a certain sense, this phenomenon can be observed.  Finally we
+note that already recognizing pseudo-intents of a formal context is
+coNP-hard~\cite{DBLP:journals/dam/BabinK13}.
 
 On the other hand, it is possible in polynomial time to decide if a base of a formal
 context is indeed the canonical base.  For this, one can use a minimization procedure as
@@ -1749,11 +1745,12 @@ individuals cannot be listed completely, or at least it is not feasible to do so
 However, one can search for single individuals with certain properties.
 
 Let us make this more clear: we assume that our domain is representable by a formal
-context, which we shall call the \emph{background context}.  The objects of this formal
-context are the individuals of our domain of interest, and the attributes in the
-background context are the attributes of the individuals we are interested to find valid
-implications for.  The incidence of the background context encodes if an individual has a
-certain attribute in our domain or not.
+context, which we shall call the \emph{background context} $\con K_{\mathsf{back}} =
+(G_{\mathsf{back}}, M, I_{\mathsf{back}})$.  The objects of this formal context are the
+individuals of our domain of interest, and the attributes in the background context are
+the attributes of the individuals we are interested to find valid implications for.  The
+incidence of the background context encodes if an individual has a certain attribute in
+our domain or not.
 
 The task is now to find the implicational theory of the background context.  Although we
 cannot access this context completely, we certainly need a way to access this data.  For
@@ -1762,17 +1759,129 @@ this, we shall make the following assumption: we are given an \emph{expert} whic
 \begin{quote}
   Does the implication $A \to B$ hold in the background context?
 \end{quote}
-The expert may then either agree to this questions, or, if not, she has to provide a
-counterexample, \ie a new object $g$ such that $g \in A'$ but $g \notin B'$.  Note that
-this is much more realistic than enumerating all objects of the background context, as we
-only have to find one object that invalidates the given implication, if it does not hold
-in the background context.
+The expert may then either agree to this questions, or, if not, she\footnote{We assume
+  experts to be feminine unless known otherwise.} has to provide a counterexample, \ie a
+new object $g$ such that $g \in A'$ but $g \notin B'$.  Note that this is much more
+realistic than enumerating all objects of the background context, as we only have to find
+one object that invalidates the given implication, if it does not hold in the background
+context.
 
 Within the setting just described, the \emph{attribute exploration} algorithm from formal
-concept analysis can help~\cite{fca-book,DBLP:conf/icfca/Ganter10}.
+concept analysis can help~\cite{fca-book,DBLP:conf/icfca/Ganter10}.  For this algorithm we
+assume that we have given a \emph{working context} $\con K = (G, M, I)$ which is a
+subcontext of $\con K_{\mathsf{back}}$, \ie $G \subseteq G_{\mathsf{back}}$ and $I =
+I_{\mathsf{back}} \cap G \times M$.\footnote{Actually, the names of the objects are not
+  relevant here.  Indeed, it is sufficient if we can \emph{rename} the objects of $\con K$
+  in a reversible manner such that these conditions hold.}  Moreover, we also assume that
+we have given a set $\mathcal{S} \subseteq \Imp(M)$ of \emph{known implications} which are
+valid in $\con K_{\mathsf{back}}$.
 
-\todo[inline]{Write: introduce classical attribute exploration}%
-\todo[inline]{Write: mention case of invalid background knowledge}%
+The task now, namely to compute a base of $\con K_{\mathsf{back}}$ with background
+knowledge $\mathcal{S}$, is achieved by the attribute exploration algorithm as follows:
+the algorithm successively computes implications $(A \to B) \in \Imp(M)$ such that
+\begin{enumerate}[i. ]
+\item $A \to B$ is valid in $\con K$, and
+\item $A \to B$ is not entailed by $\mathcal{S}$.
+\end{enumerate}
+Intuitively, those implications are \emph{undecided}: they are not invalidated by the
+objects in $\con K$, \ie by the objects we already know from our domain of interest.  On
+the other hand, $A \to B$ also cannot be inferred from the implications we already know,
+\ie from $\mathcal{S}$.
+
+Therefore, we have to ask the expert about the implication $A \to B$.  If she decides to
+accept this implication, it is added to our set of known implications.  If she decides to
+reject the implication, and to provide a counterexample for it, we add it to the formal
+context.  Then, a new implication $A \to B$ is computed which is valid in the working
+context but does not follow from the known implications.
+
+This algorithm proceeds until no more implications $A \to B$ can be computed.  If this is
+the case, then all implications valid in the working context already follow from the known
+implications.  But this means that that the known implications are a base of the
+background context with background knowledge $\mathcal{S}$: if $X \to Y$ is an implication
+valid in the background knowledge, then $X \to Y$ is also valid in the working context,
+and thus it is entailed by the known implications.
+
+Of course, the description of attribute exploration as given above lacks a crucial detail:
+how to we compute the implications $A \to B$?  Indeed, it turns out that this can be done
+in a way very similar to how we compute the canonical base of formal context.  We shall
+not discuss this in detail here, as we are going to look into attribute exploration in
+much more detail in Sections~\ref{cha:expl-conf} and~\ref{cha:model-expl-conf}.  Instead,
+we just show an example implementation in Algorithm~\ref{alg:attribute-exploration} gives
+an example implementation of attribute exploration.  In this listing we use the notation
+$\con K + (g,g')$ to denote the formal context which arises from $\con K = (G, M, I)$ by adding
+the object $g$ with attributes $g'$, assuming that $g \notin G$.  In other words,
+\begin{equation*}
+  \con K + (g,g') := (G \cup \set{g}, M, I \cup \set{ (g, m) \mid m \in g' }).
+\end{equation*}
+
+\begin{figure}[tp]
+  \begin{Algorithm}[Attribute Exploration with Background Knowledge]
+    \label{alg:attribute-exploration}
+    \hspace*{0cm}
+\begin{lstlisting}
+  define explore-attributes($\con{K} = (G, M, I)$, $\leq_M$, $\mathcal{S} \subseteq \Imp(M)$)
+    ;; conducts attribute exploration with working context $\con K$ and
+    ;; background knowledge $\mathcal{S}$.
+
+    $i$ := 0,
+    $P_i$ := first-closed-non-intent($\con{K}$, $\leq_M$, $\mathcal{S}$),
+    $\mathcal{L}_i$ := $\emptyset$
+    $\con K_i$ := $\con K$
+
+    while $P_i \neq$ nil do
+
+      if $\text{expert confirms } P_i \to P_i''$ then
+        $\mathcal{L}_{i + 1}$ := $\mathcal{L}_i \cup \set{P_i \to P_i''}$
+        $\con K_{i+1}$ := $\con K_i$
+      else
+        $\mathcal{L}_{i+1}$ := $\mathcal{L}_i$
+        $\con K_{i+1}$ := $\con K_{i} + (g, g')$ ;; $g$ counterexample provided by the expert
+      end if
+
+      $P_{i + 1}$ := next-closed-non-intent($\con{K}$, $\leq_M$, $P_i$, $\mathcal{L}_{i + 1} \cup \mathcal{S})$,
+      $i$ := $i + 1$
+
+    end while
+
+    return $\mathcal{L}_i$
+  end define
+\end{lstlisting}
+  \end{Algorithm}
+\end{figure}
+
+Note that attribute exploration makes use of the Next-Closure algorithm, so we have to
+provide a linear order $\leq_M$ on the attribute set $M$ for a call to
+\lstinline{explore-attributes}.
+
+The correctness of the attribute exploration algorithm is stated in the following theorem.
+However, this theorem states even more, namely a certain kind of \emph{optimality}: the
+resulting set of implications is not only any base of the background context, but indeed
+the canonical base of the background context with background knowledge $\mathcal{S}$.
+Thus, the number of implications \emph{confirmed} by the expert is as small as possible.
+
+\begin{Theorem}
+  \label{thm:attribute-exploration}
+  Let $\con K = (G, M, I)$ be a formal context, $\leq_M$ a linear order on $M$, and let
+  $\mathcal{S} \subseteq \Imp(M)$ be such that the expert confirms all implications in
+  $\mathcal{S}$.  Then \lstinline{explore-attributes} called with arguments $\con K$,
+  $\leq_M$ and $\mathcal{S}$ terminates in a finite number of steps.  If $\con
+  K_{\mathsf{back}}$ denotes the background context of the exploration, then
+  \begin{equation*}
+    \text{\lstinline{canonical-base}}(\con K, \leq_M, \mathcal{S}) = \Can(\con
+    K_{\mathsf{back}}, \mathcal{S}).
+  \end{equation*}
+\end{Theorem}
+
+We shall not prove this theorem here, but instead refer the reader to standard literature
+for a proof~\cite{fca-book,Diss-Felix,stumme96attribute,DBLP:journals/tcs/Ganter99}.
+Moreover, we shall discuss in Section~\ref{cha:expl-conf} generalizations of this result,
+and their proofs then of course also apply to this theorem.
+
+Note that \lstinline{explore-attributes} is a generalization of
+\lstinline{canonical-base}, and as such has inherits all disadvantageous properties of it.
+In particular, because enumerating pseudo-intents in lectic order cannot be done in
+polynomial time unless P = NP, it may happen that the time between two questions to the
+expert may grow exponentially.
 
 %%% Local Variables: 
 %%% mode: latex
