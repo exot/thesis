@@ -1,8 +1,32 @@
-
 \chapter{Formal Concept Analysis}
 \label{cha:form-conc-analys}
 
-\todo[inline]{Write: introductory text, some historical notes, some subfield classification}
+In this section we shall introduce almost all notions from the area of \emph{formal
+  concept analysis}~\cite{fca-book} which are relevant for this work.  As a subfield of
+order theory, formal concept analysis emerged as a distinctive discipline in the early
+1980s as an attempt to restructure lattice theory~\cite{fca:Wille:1982}, inspired by works
+of Birkhoff~\cite{books/math/Birkhoff67} and Hentig~\cite{books/phil/Hentig72}.  Since
+then formal concept analysis has evolved into a vivid theory with connections into
+knowledge representation, database theory and logic.
+
+One of the main aspects of formal concept analysis we are interested in are the methods it
+provides to extract \emph{implicational dependencies} from data.  To this end, we shall
+discuss in detail the notions of \emph{implications} in formal contexts, \emph{bases} of
+valid implications of formal contexts, and the computation of the \emph{canonical base} as
+a particular example of a minimal base.  This will be done in
+Sections~\ref{sec:bases-implications} and~\ref{sec:bases-implications}.  We shall also
+discuss related topic like \emph{Galois connections} and \emph{closure operators}
+(Section~\ref{sec:galois-connections}) and \emph{attribute exploration}
+(Section~\ref{sec:attr-expl}.  Before we can do so, however, we have to introduce some of
+the fundamental concepts of formal concept analysis such as \emph{formal contexts} and
+\emph{contextual derivation}.  This will be done in Section~\ref{sec:form-cont-cont}.
+
+Note that the introduction to formal concept analysis as given here is specifically
+tailored towards the purpose of the whole work.  As such, the following exposition is not
+complete in the sense that it discusses all the mathematical foundations of formal concept
+analysis.  In particular, we may omit proofs or details of certain argumentations if they
+are not relevant for our work.  In case more details are needed, we provide pointers to
+the literature where those details can be found.
 
 \section{Formal Contexts and Concept Lattices}
 \label{sec:form-cont-cont}
@@ -10,8 +34,7 @@
 We introduce the basic notions of formal concept analysis in this section.  Most
 importantly, we shall discuss how formal concept analysis allows us to represent
 complete lattices in terms of \emph{formal concept lattices} using the notion of
-\emph{formal contexts}.  Moreover, we shall introduce the notion of a \emph{Galois
-  connection} between two ordered sets.
+\emph{formal contexts}.
 
 Let us briefly repeat the basic notions of order theory which are relevant for our further
 considerations.  Let $P$ be a set and let ${\le} \subseteq P \times P$ be a binary
@@ -507,7 +530,7 @@ here, as it is not within the scope of this work.
         (4) -- (6)
         (5) -- (6)
       };
-      \begin{scope}[every node/.style = { draw=none, inner sep=0pt, fill=white },
+      \begin{scope}[every node/.style = { draw=none, inner sep=1pt, fill=white },
          node distance = 0.2cm and 0.2cm]
         \node[above=of 2] {\small\textsf{Human}};
         \node[below=of 2] {\small\textsf{Picard}};
@@ -960,7 +983,7 @@ However, one can improve this by using the ``LinClosure'' algorithm from the the
 relational databases~\cite{DBLP:books/cs/Maier83}, which achieves the same goal with time
 linear in $\abs{\mathcal{L}}$.  Finally, one can also exploit the tight connection to
 Horn-formulas as mentioned above and use the algorithm by Dowling and Gallier to decide
-satisfiability of Horn formulas~\cite{DBLP:journals/jlp/DowlingG84}.
+satisfiability of Horn formulas in linear time~\cite{DBLP:journals/jlp/DowlingG84}.
 
 \section{Bases of Implications}
 \label{sec:bases-implications}
@@ -1062,11 +1085,14 @@ exponentially many elements in the size of the set $|M|$ of attribute of $\con K
 Processing such a base may be computationally infeasible, and it is therefore desirable to
 have a smaller base.  Indeed, it is possible to explicitly describe even a \emph{minimal}
 base of every formal context $\con K$ (or for every set of implications), namely its
-\emph{canonical base}.  To introduce this base, we first need to discuss the notion of
-\emph{pseudo-intents}.  Note that we only introduce the canonical base for bases of formal
-contexts.  However, this can be done without loss of generality, as a base of a set
-$\mathcal{L}$ of implications is always also a base of its closure $\Cn_M(\mathcal{L})$,
-and such sets can be represented as theories of formal contexts by virtue of
+\emph{canonical base}~\cite{fca:DuquenneGuigues:1986,DBLP:books/cs/Maier83} (also called
+\emph{Duquenne-Guiges base} or \emph{stem base}).
+
+To introduce this base, we first need to discuss the notion of \emph{pseudo-intents}.
+Note that we only introduce the canonical base for bases of formal contexts.  However,
+this can be done without loss of generality, as a base of a set $\mathcal{L}$ of
+implications is always also a base of its closure $\Cn_M(\mathcal{L})$, and such sets can
+be represented as theories of formal contexts by virtue of
 \thref{prop:context-model-for-implications}.
 
 The variant of pseudo-intents as introduce here is due to~\cite{stumme96attribute}.
@@ -1256,7 +1282,7 @@ minimality of the canonical base does not save us from exponentially big bases.
   G_2$ set of $\con K$ is defined as
   \begin{align*}
     G_1 &= \set{ g_1, \dots, g_n } \\
-    G_2 &= \set{ \bar g_1, \bar g_{2n} },
+    G_2 &= \set{ \bar g_1, \dots, \bar g_{2n} },
   \end{align*}
   where all $g_i, \bar g_i$ are distinct, and the attribute set $M = M_1 \cup M_2$ is
   given by
@@ -1895,4 +1921,4 @@ expert may grow exponentially.
 %%% End: 
 
 %  LocalWords:  sep Picard Worf StarFleet doubleprime tp quadratically LinClosure Dowling
-%  LocalWords:  Gallier
+%  LocalWords:  Gallier Hentig Guiges
