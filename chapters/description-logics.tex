@@ -5,7 +5,7 @@ Description logics~\cite{DLhandbook} are a family of logic-based formalisms for 
 representation, which originated in the 1980s as an attempt to provide knowledge
 representation formalisms with well-defined semantics.  This was mostly inspired by other
 formalisms which lacked such well-defined semantics, such as \emph{semantic
-  networks}~\cite{SemanticNetworks} or \emph{frames}~\cite{Minsky-Frames}.  In those
+  networks}~\cite{SemanticNetworks} and \emph{frames}~\cite{Minsky-Frames}.  In those
 formalisms, the way the representation of the knowledge was interpreted either depended on
 the intuition of the particular observer or details of a corresponding implementation.
 These properties are undesired if one wants to bring precise knowledge to a machine.
@@ -21,15 +21,80 @@ be the target logic for the knowledge we want to extract from data.  However, at
 point in this work we shall see that the expressivity of \ELbot is not sufficient for our
 needs, and that we need to consider an extension of \ELbot instead.  This extension shall
 be the logic \ELgfpbot, an extension of \ELbot by \emph{greatest fixpoint semantics}.  We
-shall introduce the syntax and semantics of \ELgfpbot in
-Section~\ref{sec:descr-logics-elbot}.
+shall therefore also include an introduction to the syntax and semantics of \ELgfpbot in
+this chapter.  This will be done in Section~\ref{sec:descr-logics-elbot}.
 
 \section{Syntax and Semantics of Basic Description Logics}
 \label{sec:basic-noti-descr}
 
-\todo[inline]{Write: some syntax of DLs}%
-\todo[inline]{Write: introduce \ELbot}%
+Description logics are logic-based formalisms, and as such they consist of a \emph{syntax}
+and a \emph{semantics}.  Having defined these, one can make use of such a logic to express
+\emph{assertional} and \emph{terminological} axioms.  Such axioms are then collected in a
+\emph{knowledge base}, which can then be used for \emph{reasoning}, \ie for extracting
+implicitly contained knowledge.
+
+We start our introduction to description logics by defining the syntax of the description
+logic \ELbot, one of the simplest and least-expressive description logics.  To this end,
+we fix two disjoint sets $N_C$ and $N_R$, called the sets of \emph{concept names} and
+\emph{role names}, respectively.  Based upon this choice we introduce \emph{\ELbot concept
+  descriptions} over $N_C$ and $N_R$ as follows.
+\begin{Definition}
+  \label{def:ELbot-concept-descriptions}
+  Let $N_C$ and $N_R$ be two disjoint sets.  An \emph{\EL concept description} $C$ (over
+  $N_C$ and $N_R$) is of the form
+  \begin{itemize}
+  \item $C = A$ for some $A \in N_C$, or
+  \item $C = C_1 \sqcap C_2$ for $C_1, C_2$ two \EL concept descriptions, or
+  \item $C = \exists r. D$ for a \EL concept description $D$ and $r \in N_R$, or
+  \item $C = \top$.
+  \end{itemize}
+  An \ELbot concept description $C$ (over $N_C$ and $N_R$) is then either an \EL concept
+  description or $C$ is of the form $C = \bot$.
+\end{Definition}
+
+We shall occasionally denote the set of all \EL concept descriptions over $N_C$ and $N_R$
+by $\EL(N_C, N_R)$, and likewise the set of all \ELbot concept descriptions over $N_C$ and
+$N_R$ by $\ELbot(N_C, N_R)$.  The same is true for other descriptions logics which we
+shall introduce at a later point.
+
+The sets $N_C$ and $N_R$ of concept and role names are also called the \emph{signature} of
+the logic.  In the following we shall always assume that those sets are finite.  Sometimes
+this signature is extended by another set $N_I$ called the sets of \emph{individual
+  names}.  Such individual names allow a logic to directly refer to individual elements of
+a domain.  However, this expressiveness is not available in the description logics \EL and
+\ELbot, but we shall nevertheless include them in our further discussion as they are
+needed to define the semantics of assertional axioms.  See also
+Section~\ref{sec:knowledge-bases}.
+
+\begin{Example}
+  \label{expl:tom-and-jerry-1}
+  Let $N_C := \set{ \mathsf{Cat}, \mathsf{Mouse} }$ and let $N_R := \set{ \mathsf{hunts}
+  }$.  Then examples of \ELbot concept descriptions would be
+  \begin{equation*}
+    \mathsf{Cat}, \, \mathsf{\exists hunts. Mouse}, \, \mathsf{Cat \sqcap Mouse}, \, \bot.
+  \end{equation*}
+  One can think of these concept descriptions as ``describing'' things in a certain domain
+  (we shall make this much more precise shortly).  For example, the concept description
+  $\mathsf{Cat}$ describes everything which is a cat.  The concept description
+  $\mathsf{\exists hunts. Mouse}$ describes everything which hunts a mouse (alternatively:
+  a things that hunts something which is a mouse).  The concept description $\mathsf{Cat
+    \sqcap Mouse}$ describes things which are both a cat and a mouse.  Finally, the
+  concept description just describes nothing.
+\end{Example}
+
+The intuition of a concept description to ``describe things'' conveyed in the previous
+example is very vague, and we shall make it more precise by introducing the notion of an
+\emph{interpretation}.
+
+\begin{Definition}[Interpretation]
+  \label{def:interpretation}
+  Let $N_C$, $N_R$ and $N_I$ be three pairwise disjoint sets.  An \emph{interpretation}
+  $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ consists of a set
+  $\Delta^{\mathcal{I}}$ of \emph{elements}, and an \emph{interpretation function} $\cdot^{\mathcal{I}}$
+\end{Definition}
+
 \todo[inline]{Write: interpretations and semantics of DLs}%
+\todo[inline]{Write: some more syntax of DLs (as a TABLE YAY!)}%
 
 \section{Knowledge Bases}
 \label{sec:knowledge-bases}
