@@ -26,7 +26,7 @@
 (TeX-add-style-hook "main"
  (lambda ()
    (setf (second reftex-insert-label-flags)
-         (concatenate 'string (second reftex-insert-label-flags) "TLPDRCE"))
+         (concatenate 'string (second reftex-insert-label-flags) "TLPDRCX"))
    (apply 'LaTeX-add-environments
           (mapcar (lambda (env) (list env 'LaTeX-env-label))
                   '("Theorem" "Lemma" "Proposition"
@@ -38,4 +38,4 @@
       ("Definition"   ?D "def:"  "~\\ref{%s}" t ("Definition" "Def."))
       ("Remark"       ?R "rem:"  "~\\ref{%s}" t ("Remark" "Rem."))
       ("Corollary"    ?C "cor:"  "~\\ref{%s}" t ("Corollary" "Cor."))
-      ("Example"      ?E "expl:" "~\\ref{%s}" t ("Example"))))))
+      ("Example"      ?X "expl:" "~\\ref{%s}" t ("Example"))))))
