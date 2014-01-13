@@ -2,19 +2,131 @@
 \chapter{Introduction}
 \label{cha:introduction}
 
-\todo[inline]{Plan introduction}
+For a machine to act in an intelligent manner it needs to be equipped with knowledge about
+its periphery.  The very same is true for humans, and acquiring this knowledge is a highly
+complex task which up to today is not completely understood.  To help withing this
+process, previously acquired knowledge is \emph{represented} in different ways, \eg as
+books or films, to help others learning it.
+
+However, the way knowledge is represented for human consumption is almost always not
+suitable for machines.  While humans can extract knowledge from natural language, which
+may be full of \emph{ambiguity}, machines require precise formulations of knowledge.  The
+representation of knowledge in a machine-understandable way is the main focus of the area
+of \emph{knowledge representation}~\cite{KRhandbook}.
+
+One of the most successful approaches to knowledge representations are description
+logics~\cite{DLhandbook}, a family of logic-based knowledge representations formalisms
+with varying expressivity and reasoning complexity.  Description logics allow to represent
+knowledge as \emph{knowledge bases} or \emph{ontologies}.  Essentially, these are just
+collections of axioms, which may be either \emph{assertional} or \emph{terminological}.
+For example, to represent the fact (the \emph{assertion}) that an individual \emph{tom} is
+a cat, one can use the assertional axiom
+\begin{equation}
+  \label{eq:14}
+  \mathsf{Cat}(\mathsf{tom}).
+\end{equation}
+On the other hand, to state that every cat hunts mice, one can use so-called \emph{general
+concept inclusions} and write
+\begin{equation}
+  \label{eq:15}
+  \mathsf{Cat} \sqsubseteq \exists \mathsf{hunts}. \mathsf{Mouse}.
+\end{equation}
+As soon as a knowledge base is available, it is possible to \emph{reason} with it, \ie to
+extract knowledge which is implicitly contained in this knowledge base.  For example, from
+the two axioms state above, we can infer that the individual \textsf{tom} hunts mice.
+
+Knowledge bases could be used to represent knowledge in a machine-consumable way.
+However, the questions arises how to obtain such knowledge bases.  In one way or the
+other, knowledge which is available to humans has to be translated into the form of a
+description logic knowledge base.  Of course, this could be done by humans, but this
+approach would not only be rather time-consuming but also prone to errors.  An automatic
+translations would thus be highly welcome.  On the other hand, such an automatic
+translation would just mean that machines can consume knowledge in the way humans
+represent it, an assumption which is not reasonable.
+
+However, one can still think about approaches which are \emph{semi-automatic} in the sense
+that the results obtained from such a translation are preliminary and require further
+refinement, or that the translation procedure requires additional \emph{assistance} by
+means of human experts.
+
+An approach to achieve such a semi-automatic translation procedure, or \emph{learning
+  procedure}, has been made in~\cite{Diss-Felix}.  There, the focus lied in extracting
+terminological knowledge of the form as given in~(\ref{eq:14}) from some given
+\emph{data}.  In other words, the procedures described in~\cite{Diss-Felix} would
+automatically learn all general concept inclusions which are \emph{valid} in the initially
+given data.  This approach made use of the mathematical theory of \emph{formal concept
+  analysis}, a subfield of mathematical order theory which has very closed connections to
+description logics.
+
+Of course, the general concept inclusions learned this way may not be correct, in the
+sense that the general concept inclusion may hold in the initially given data, but this
+data missed to contain some relevant counterexamples.  One way to remedy this is to use an
+algorithm from the field of formal concept analysis which is called \emph{attribute
+  exploration}.  Within this algorithm, an expert (possibly human) is asked extracted
+general concept inclusions for there correctness, and if proposed general concept
+inclusions are not found then the expert has to provide \emph{counterexamples} to them.
+This way, the problem that the data may be \emph{incomplete} in that it lacks crucial
+counterexamples can be solved.  This has also been done in~\cite{Diss-Felix}.
+
+However, there are still problems with this approach, especially if it comes to the
+\emph{quality} of the data from which general concept inclusions are learned.  The main
+problem here is that the data may contain \emph{errors}.  These errors may either cause
+otherwise valid general concept inclusions not to be found, because these errors act as
+\emph{false counterexamples}, or general concept inclusions are found which are not
+correct because errors cause positive counterexamples to vanish.  While the latter
+approach can in theory be handled by the attribute exploration approach sketched above,
+the former cannot, because the approach discussed in~\cite{Diss-Felix} will not even
+extract general concept inclusions for which there may be errors in the data.
+
+It is the purpose of this work to extent the results obtain in~\cite{Diss-Felix} to this
+new setting of where the data from which general concept inclusions are learned may
+contain errors.  The main approach for this is to transfer the notion of
+\emph{confidence}~\cite{arules:agrawal:association-rules} from the area of data-mining to
+general concept inclusions.  Intuitively, this means that general concept inclusions may
+have \emph{few} errors in the data, as opposed to having none in the original approach
+of~\cite{Diss-Felix}.  The notion of ``few'' is quantified by means of the confidence of
+the general concept inclusions in the data.
+
+In the following we shall give a more in-depth overview of the problem sketched above, by
+briefly introducing description logics and formal concept analysis in
+Sections~\ref{sec:repr-knowl-using} and~\ref{sec:learn-impl-using}, respectively.  We then
+discuss in more detail what it means to learn general concept inclusions from data, and
+sketch our approach of utilizing the notion of confidence to handle errors in the data.
+This will be done in Section~\ref{sec:extr-term-knowl}.  Finally, in
+Section~\ref{sec:related-work}, we briefly discuss some related work which is important
+for our approach, and we summarize our contribution in Section~\ref{sec:contributions}.
 
 \section{Representing Knowledge Using Description Logics}
 \label{sec:repr-knowl-using}
 
 \todo[inline]{Write: say how DL can help to represent knowledge}%
 
+% Description logics~\cite{DLhandbook} are a family of logic-based knowledge representation
+% formalisms.  As such, they provide a well-defined semantics, a feature other knowledge
+% representation formalisms may lack.  Built upon these well-defined semantics, description
+% logics offer a trade-off between expressivity and reasoning complexity for some standard
+% reasoning tasks, and provide, if possible, efficient reasoning procedures.  
+
+% , which are also
+% available as implementations, examples being FaCT++~\cite{DBLP:conf/cade/TsarkovH06},
+% Pellet and ELK~\cite{DBLP:conf/semweb/KazakovKS11}.
+
+% Because of their formal foundations and the availability for efficient reasoning
+% procedures, description logics play a major role also in practical applications.  A first
+% example for this is the \emph{Web Ontology Language} OWL, the language which is underlying
+% the semantic web and which is based on the \emph{expressive} Description Logic
+% $\mathcal{S}\mathcal{H}\mathcal{O}\mathcal{I}\mathcal{N}$~\cite{horrocks03fromshiqrdftoowl}.
+
+% Another example is the use of so-called \emph{inexpressive} Description Logics in
+% biomedical ontologies such as SNOMED~\cite{Spackman97snomedrt} and the Gene
+% Ontology~\cite{gene-ontology}.
+
 \section{Learning Implications Using Formal Concept Analysis}
 \label{sec:learn-impl-using}
 
 \todo[inline]{Write: say how we can learn implications using FCA (bases, exploration)}%
 
-\section{Extracting Terminological Knowledge from Data}
+\section{Extracting Terminological Knowledge from Data with and without Errors}
 \label{sec:extr-term-knowl}
 
 \todo[inline]{Write: bring together the above two, say what we want to do}%
@@ -31,11 +143,16 @@
 
 \todo[inline]{Write: say what's new}
 
-\section{Prerequisites}
+\section{General Prerequisites}
 \label{sec:prerequisites}
 
 \todo[inline]{Write: basic notions of sets, logic, functions, relations}%
 \todo[inline]{Write: occasionally: complexity theory}%
+
+\section{Acknowledgments}
+\label{sec:acknowledgements}
+
+\todo[inline]{Write: acknowledgments}
 
 %%% Local Variables: 
 %%% mode: latex
