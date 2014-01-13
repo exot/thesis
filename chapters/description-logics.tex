@@ -48,6 +48,9 @@ we fix two disjoint sets $N_C$ and $N_R$, called the sets of \emph{concept names
   \item $C = \exists r. D$ for a \EL concept description $D$ and $r \in N_R$, or
   \item $C = \top$.
   \end{itemize}
+  The constructors are called \emph{conjunction} ($\sqcap$), \emph{existential
+    restriction} ($\exists$) and the \emph{top concept} ($\top$), respectively.
+
   An \ELbot concept description $C$ (over $N_C$ and $N_R$) is then either an \EL concept
   description or $C$ is of the form $C = \bot$.
 \end{Definition}
@@ -90,11 +93,130 @@ example is very vague, and we shall make it more precise by introducing the noti
   \label{def:interpretation}
   Let $N_C$, $N_R$ and $N_I$ be three pairwise disjoint sets.  An \emph{interpretation}
   $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ consists of a set
-  $\Delta^{\mathcal{I}}$ of \emph{elements}, and an \emph{interpretation function} $\cdot^{\mathcal{I}}$
+  $\Delta^{\mathcal{I}}$ of \emph{elements}, and an \emph{interpretation function}
+  $\cdot^{\mathcal{I}}$ such that
+  \begin{enumerate}[i. ]
+  \item $A^{\mathcal{I}} \subseteq \Delta^{\mathcal{I}}$ for all $A \in N_C$,
+  \item $r^{\mathcal{I}} \subseteq \Delta^{\mathcal{I}} \times \Delta^{\mathcal{I}}$ for
+    all $r \in N_R$, and
+  \item $a^{\mathcal{I}} \in \Delta^{\mathcal{I}}$ for all $a \in N_I$.
+  \end{enumerate}
+  We furthermore make the \emph{unique name assumption}: if $a, b \in N_I$ and $a \neq b$,
+  then $a^{\mathcal{I}} \neq b^{\mathcal{I}}$.
+
+  We say that $\mathcal{I}$ is finite if $\Delta^{\mathcal{I}}$ is finite.
 \end{Definition}
 
-\todo[inline]{Write: interpretations and semantics of DLs}%
-\todo[inline]{Write: some more syntax of DLs (as a TABLE YAY!)}%
+\begin{Example}
+  \label{expl:tom-hunts-jerry-hunts-tom-interpretation}
+  Let us consider an example interpretation $\mathcal{I}_{\mathsf{MGM}}$ for our signature
+  $N_C = \set{ \mathsf{Cat}, \mathsf{Mouse} }$ and $N_R = \set{ \mathsf{hunts} }$.  For
+  this we set
+  \begin{equation*}
+    \mathcal{I}_{\mathsf{MGM}} := (\set{ \mathsf{tom}, \mathsf{jerry} }, \cdot^{\mathcal{I}_{\mathsf{MGM}}})
+  \end{equation*}
+  where
+  \begin{align*}
+    \mathsf{Cat}^{\mathcal{I}_{\mathsf{MGM}}} &= \set{ \mathsf{tom} }, \\
+    \mathsf{Mouse}^{\mathcal{I}_{\mathsf{MGM}}} &= \set{ \mathsf{jerry} }, \\
+    \mathsf{hunts}^{\mathcal{I}_{\mathsf{MGM}}} &= \set{ (\mathsf{tom}, \mathsf{jerry}),
+      (\mathsf{jerry}, \mathsf{tom}) }.
+  \end{align*}
+  The interpretation $\mathcal{I}_{\mathsf{MGM}}$ can naturally be represented as a graph,
+  where we consider the elements of $\Delta^{\mathcal{I}_{\mathsf{MGM}}}$ as vertices and
+  the pairs in $\mathsf{hunts}^{\mathcal{I}_{\mathsf{MGM}}}$ as directed edges:
+  \begin{center}
+    \begin{tikzpicture}[>=stealth']
+      \begin{scope}[every node/.style = { draw, circle }]
+        \node (Tom) {\textsf{tom}};
+        \node[right=2cm of Tom, inner sep = .1cm] (Jerry) {\textsf{jerry}}; % fix
+      \end{scope}
+      \path (Tom) edge[->, bend left=30] node[midway, above] {\textsf{hunts}} (Jerry);
+      \path (Jerry) edge[->, bend left=30] node[midway, below] {\textsf{hunts}} (Tom);
+    \end{tikzpicture}
+  \end{center}
+\end{Example}
+
+The interpretation function of a given interpretation can now be naturally extended to the
+set of \EL and \ELbot concept descriptions.
+
+\begin{Definition}
+  \label{def:extending-the-interpretation-function}
+  Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be an interpretation.
+  Then the \emph{extension} of $\cdot^{\mathcal{I}}$ to all \ELbot concept descriptions is
+  inductively defined as follows: let $C_1, C_2, C \in \ELbot(N_C, N_R)$ and $r \in N_R$.
+  Then
+  \begin{enumerate}[i. ]
+  \item $\top^{\mathcal{I}} = \Delta^{\mathcal{I}}$,
+  \item $\bot^{\mathcal{I}} = \emptyset$,
+  \item $(C_1 \sqcap C_2)^{\mathcal{I}} := C_1^{\mathcal{I}} \cap C_2^{\mathcal{I}}$, and
+  \item $(\exists r. C)^{\mathcal{I}} := \set{ x \in \Delta^{\mathcal{I}} \mid \exists y
+      \in \Delta^{\mathcal{I}} \st (x, y) \in r^{\mathcal{I}} \land y \in C^{\mathcal{I}} }$.
+  \end{enumerate}
+  We shall call the set $C^{\mathcal{I}}$ the \emph{extension} of $C$ in $\mathcal{I}$.
+\end{Definition}
+
+The notion of an extension of an \ELbot concept description in an interpretation now
+formalizes our previous intuitive understanding that concept descriptions ``describe
+things:'' an element $x \in \Delta^{\mathcal{I}}$ is described by a \ELbot concept
+description $C$ in $\mathcal{I}$ if and only if $x \in C^{\mathcal{I}}$.
+
+\begin{Example}
+  \label{expl:tom-and-jerry-2}
+  Let us consider the example interpretation $\mathcal{I}_{\mathsf{MGM}}$ from
+  Example~\ref{expl:tom-hunts-jerry-hunts-tom-interpretation} again, and let us compute
+  for the example \ELbot concept descriptions from Example~\ref{expl:tom-and-jerry-1}
+  their extensions.  We obtain
+  \begin{align*}
+    (\mathsf{\exists hunts. Mouse})^{\mathcal{I}_{\mathsf{MGM}}} &= \set{ x \in
+      \Delta^{\mathcal{I}_{\mathsf{MGM}}} \mid \exists y \in
+      \Delta^{\mathcal{I}_{\mathsf{MGM}}} \st (x, y) \in
+      \mathsf{hunts}^{\mathcal{I}_{\mathsf{MGM}}} \land y \in
+      \mathsf{Mouse}^{\mathcal{I}_{\mathsf{MGM}}} }\\
+    &= \set{ \mathsf{tom} } \\
+    &= \mathsf{Cat}^{\mathcal{I}_{\mathsf{MGM}}},\\
+    \mathsf{Cat \sqcap Mouse}^{\mathcal{I}_{\mathsf{MGM}}} &= \emptyset \\
+    &= \bot^{\mathcal{I}_{\mathsf{MGM}}}.
+  \end{align*}
+\end{Example}
+
+The definitions we have given so far only apply to the description logics \EL and \ELbot,
+which are of course not the only ones.  Another notable description logic is $\ALC$, a
+description logic that provides for conjunction, disjunction, negation, $\top$, $\bot$ as
+well as existential and value restrictions.  The definition of the syntax of \ALC is
+analogous to the one for \EL.  The semantics of \ALC is again based on interpretations,
+and the corresponding extension of the interpretation function to all \ALC concept
+description is given in Table~\ref{tab:ALC-syntax}.
+
+\begin{table}[tp]
+  \centering
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabular}[c]{l l l}
+    \toprule
+    Constructor Name         & Syntax           & Semantics \\
+    \midrule
+    top concept              & $\top$           & $\Delta^{\mathcal{I}}$ \\
+    bottom concept           & $\bot$           & $\emptyset$ \\
+    conjunction              & $C_1 \sqcap C_2$ & $C_1^{\mathcal{I}} \cap C_2^{\mathcal{I}}$ \\
+    disjunction              & $C_1 \sqcup C_2$ & $C_1^{\mathcal{I}} \cup C_2^{\mathcal{I}}$ \\
+    existential restriction  & $\exists r. C$   & $\set{ x \in \Delta^{\mathcal{I}} \mid
+      \exists y \in \Delta^{\mathcal{I}} \st (x, y) \in r^{\mathcal{I}} \land y \in
+      C^{\mathcal{I}} }$ \\
+    value restriction        & $\forall r. C$   & $\set{ x \in \Delta^{\mathcal{I}} \mid
+      \forall y \in \Delta^{\mathcal{I}} \holds (x, y) \in r^{\mathcal{I}} \implies y \in
+      C^{\mathcal{I}} }$ \\
+    negation                 & $\neg C$         & $\Delta^{\mathcal{I}} \setminus
+    C^{\mathcal{I}}$ \\
+    \bottomrule
+  \end{tabular}
+  \caption{Syntax Constructors of \ALC}
+  \label{tab:ALC-syntax}
+\end{table}
+
+\ALC usually serves as a touchstone for the expressivity of a description logic: a
+description logic is usually called \emph{inexpressive} if it does not provide (directly
+or indirectly) all constructors of \ALC.  A description logic which provides all
+constructors of \ALC is usually called \emph{expressive}.
 
 \section{Knowledge Bases}
 \label{sec:knowledge-bases}
