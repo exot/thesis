@@ -24,20 +24,14 @@ be the logic \ELgfpbot, an extension of \ELbot by \emph{greatest fixpoint semant
 shall therefore also include an introduction to the syntax and semantics of \ELgfpbot in
 this chapter.  This will be done in Section~\ref{sec:descr-logics-elbot}.
 
-\section{Syntax and Semantics of Basic Description Logics}
+\section{Syntax and Semantics of the Description Logic \ELbot}
 \label{sec:basic-noti-descr}
 
-Description logics are logic-based formalisms, and as such they consist of a \emph{syntax}
-and a \emph{semantics}.  Having defined these, one can make use of such a logic to express
-\emph{assertional} and \emph{terminological} axioms.  Such axioms are then collected in a
-\emph{knowledge base}, which can then be used for \emph{reasoning}, \ie for extracting
-implicitly contained knowledge.
-
 We start our introduction to description logics by defining the syntax of the description
-logic \ELbot, one of the simplest and least-expressive description logics.  To this end,
-we fix two disjoint sets $N_C$ and $N_R$, called the sets of \emph{concept names} and
-\emph{role names}, respectively.  Based upon this choice we introduce \emph{\ELbot concept
-  descriptions} over $N_C$ and $N_R$ as follows.
+logic \ELbot, one of the simplest and least-expressive description logics under
+consideration.  To this end, we fix two disjoint sets $N_C$ and $N_R$, called the sets of
+\emph{concept names} and \emph{role names}, respectively.  Based upon this choice we
+introduce \emph{\ELbot concept descriptions} over $N_C$ and $N_R$ as follows.
 \begin{Definition}
   \label{def:ELbot-concept-descriptions}
   Let $N_C$ and $N_R$ be two disjoint sets.  An \emph{\EL concept description} $C$ (over
@@ -218,11 +212,81 @@ description logic is usually called \emph{inexpressive} if it does not provide (
 or indirectly) all constructors of \ALC.  A description logic which provides all
 constructors of \ALC is usually called \emph{expressive}.
 
-\section{Knowledge Bases}
+\section{Knowledge Bases and Reasoning}
 \label{sec:knowledge-bases}
 
+Having defined a description logic one can use it to state \emph{axioms}.  These axioms
+can be of different nature: they can either state facts about individuals, or they can
+state facts about concept descriptions in general.  In the former case, axioms are called
+\emph{assertional axioms}, in the latter case they are called \emph{terminological
+  axioms}.  A \emph{knowledge base} (or \emph{ontology}) $\mathcal{K} = (\mathcal{A},
+\mathcal{T})$ then consists of those axioms, where the assertional axioms are collected
+into an \emph{ABox} $\mathcal{A}$, and where the terminological axioms are collected into
+a \emph{TBox} $\mathcal{T}$.
+
+If then one has given such a knowledge base $\mathcal{K}$ one can conduct \emph{reasoning}
+with it.  Essentially, reasoning is the extraction of knowledge which is \emph{entailed}
+by the knowledge base $\mathcal{K}$.  Of course, for this to make sense we need to define
+a semantics for the knowledge base $\mathcal{K}$.  Standard reasoning tasks are then
+n\emph{subsumption}, \emph{instance checking}, \emph{consistency checking} and
+\emph{satisfiability}.
+
+Let us start by formally introducing the notions of \emph{assertional axioms} and
+\emph{ABoxes}.
+
+\begin{Definition}[Assertional Axiom, ABox]
+  \label{def:assertional-axiom-and-ABox}
+  Let $N_C$, $N_R$ and $N_I$ be three pairwise disjoint sets.  An \emph{assertional axiom}
+  (over $N_C$, $N_R$ and $N_I$) is an expression of the form
+  \begin{equation*}
+    C(a) \quad\text{or}\quad r(a, b)
+  \end{equation*}
+  where $a, b \in N_I, r \in N_R$ and $C \in \ELbot(N_C, N_R)$ is an \ELbot concept
+  description.  An assertional axiom $C(a)$ and $r(a,b)$ \emph{holds} in an interpretation
+  $\mathcal{I}$, written as $\mathcal{I} \models C(a)$ and $\mathcal{I} \models r(a, b)$,
+  if and only if
+  \begin{align*}
+    a^{\mathcal{I}} \in C^{\mathcal{I}} \quad\text{and}\quad (a^{\mathcal{I}},
+    b^{\mathcal{I}}) \in r^{\mathcal{I}},
+  \end{align*}
+  respectively.  An \emph{ABox} $\mathcal{A}$ is then just a set of assertional axioms
+  (over $N_C$, $N_R$ and $N_I$).  An interpretation $\mathcal{I}$ is a \emph{model} of an
+  ABox $\mathcal{A}$, written $\mathcal{I} \models \mathcal{A}$ if and only if every
+  assertional axiom in $\mathcal{A}$ holds in $\mathcal{I}$.
+\end{Definition}
+
+\begin{Example}
+  \label{expl:tom-and-jerry-ABox}
+  Let us consider Example~\ref{expl:tom-and-jerry-1} again and let us consider some
+  assertional axioms over $N_C$, $N_R$ and $N_I$.  For example we can state that
+  \textsf{tom} is a \textsf{Cat}, \textsf{jerry} is a \textsf{Mouse}, that \textsf{tom}
+  \textsf{hunts} \textsf{jerry} and that \textsf{jerry} \textsf{hunts} \textsf{tom}.  This
+  can be achieved (in that order) with the following ABox:
+  \begin{equation*}
+    \mathcal{A}_{\mathsf{MGM}} = \set{ \mathsf{Cat}(\mathsf{tom}), \mathsf{Mouse}(\mathsf{jerry}),
+      \mathsf{hunts}(\mathsf{tom}, \mathsf{jerry}),
+      \mathsf{hunts}(\mathsf{jerry}, \mathsf{tom}) }.
+  \end{equation*}
+  The interpretation $\mathcal{I}_{\mathsf{MGM}}$ from
+  Example~\ref{expl:tom-hunts-jerry-hunts-tom-interpretation} is a model of
+  $\mathcal{A}_{\mathsf{MGM}}$, \ie $\mathcal{I}_{\mathsf{MGM}} \models
+  \mathcal{A}_{\mathsf{MGM}}$.
+\end{Example}
+
+Complementary to assertional axioms are \emph{terminological axioms}, which state
+connections between concept descriptions.  As already stated, they are collected into
+\emph{TBoxes}.  However, in contrast to ABoxes, they are a lot of different flavors of
+TBoxes.  We shall restrict our attention to two of these, namely \emph{cyclic} TBoxes and
+\emph{general} TBoxes.  For the latter, we shall also introduce the notion of
+\emph{general concept inclusions}, which is crucial for our further considerations.
+
+\begin{Definition}[Primitive Concept Definitions, Cyclic TBoxes]
+  \label{def:primitive-concept-definitions-cyclic-TBoxes}
+  
+\end{Definition}
+
 \todo[inline]{Write: cyclic and general TBoxes}%
-\todo[inline]{Write: ABoxes, knowledge bases}%
+\todo[inline]{Write: knowledge bases}%
 \todo[inline]{Write: standard reasoning tasks}%
 
 \section{The Description Logic \ELgfpbot}
