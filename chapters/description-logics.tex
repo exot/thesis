@@ -86,9 +86,9 @@ example is very vague, and we shall make it more precise by introducing the noti
 \begin{Definition}[Interpretation]
   \label{def:interpretation}
   Let $N_C$, $N_R$ and $N_I$ be three pairwise disjoint sets.  An \emph{interpretation}
-  $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ consists of a set
-  $\Delta^{\mathcal{I}}$ of \emph{elements}, and an \emph{interpretation function}
-  $\cdot^{\mathcal{I}}$ such that
+  $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ (over $N_C$, $N_R$ and
+  $N_I$) consists of a set $\Delta^{\mathcal{I}}$ of \emph{elements}, and an
+  \emph{interpretation function} $\cdot^{\mathcal{I}}$ such that
   \begin{enumerate}[i. ]
   \item $A^{\mathcal{I}} \subseteq \Delta^{\mathcal{I}}$ for all $A \in N_C$,
   \item $r^{\mathcal{I}} \subseteq \Delta^{\mathcal{I}} \times \Delta^{\mathcal{I}}$ for
@@ -100,6 +100,10 @@ example is very vague, and we shall make it more precise by introducing the noti
 
   We say that $\mathcal{I}$ is finite if $\Delta^{\mathcal{I}}$ is finite.
 \end{Definition}
+
+If the set $N_I$ in the definition of an interpretation is not important for the current
+consideration, then we shall set $N_I = \emptyset$ and just speak of an interpretation
+over $N_C$ and $N_R$.
 
 \begin{Example}
   \label{expl:tom-hunts-jerry-hunts-tom-interpretation}
@@ -282,10 +286,47 @@ TBoxes.  We shall restrict our attention to two of these, namely \emph{cyclic} T
 
 \begin{Definition}[Primitive Concept Definitions, Cyclic TBoxes]
   \label{def:primitive-concept-definitions-cyclic-TBoxes}
-  
+  Let $N_C$ and $N_R$ be two disjoint sets, and let $N_D$ be another set disjoint to both
+  $N_C$ and $N_R$.  A \emph{primitive concept definition} (over $N_C, N_R$ and $N_D$) is
+  an expression of the form
+  \begin{equation*}
+    B \equiv D
+  \end{equation*}
+  where $B \in N_D$ and $D \in \ELbot(N_C \cup N_D, N_R)$.  The element $B$ is called the
+  \emph{left-hand side} and the concept description $D$ is called the \emph{right-hand
+    side} of the concept definition, respectively.
+
+  A \emph{cyclic TBox} $\mathcal{T}$ (over $N_C, N_R$ and $N_D$) is a set consisting of
+  primitive concept definitions over $N_C$, $N_R$ and $N_D$ which additionally satisfies
+  the condition that for every $B \in N_D$ there exists exactly one primitive concept
+  definition in $\mathcal{T}$ with $B$ on the left-hand side.  The set $N_D$ is called the
+  set of \emph{defined concept names} of $\mathcal{T}$, and is also denoted by
+  $N_D(\mathcal{T})$.
+
+  A primitive concept definition $B \equiv D$ is said to \emph{hold} in an interpretation
+  $\mathcal{I}$ over $N_C \cup N_D$ and $N_R$, written $\mathcal{I} \models (B \equiv D)$,
+  if and only if
+  \begin{equation*}
+    B^{\mathcal{I}} = D^{\mathcal{I}}
+  \end{equation*}
+  is true.  The interpretation $\mathcal{I}$ is a \emph{model} for a cyclic TBox
+  $\mathcal{T}$, written $\mathcal{I} \models \mathcal{T}$, if and only if every primitive
+  concept definition in $\mathcal{T}$ holds in $\mathcal{I}$.
 \end{Definition}
 
-\todo[inline]{Write: cyclic and general TBoxes}%
+\begin{Example}
+  \label{expl:tom-and-jerry-cyclic-TBox}
+  Let us consider again $N_C = \set{ \mathsf{Cat}, \mathsf{Mouse} }, N_R = \set{
+    \mathsf{hunts} }$ and in addition let $N_D = \set{ \mathsf{MouseHuntingCat} }$.  Then
+  a primitive concept definition over $N_C, N_R$ and $N_D$ would be
+  \begin{equation*}
+    \mathsf{MouseHuntingCat} \equiv \mathsf{Cat} \sqcap \exists \mathsf{hunts}.\mathsf{Mouse}
+  \end{equation*}
+  and the singleton set containing this primitive concept definition would be a cyclic
+  TBox over $N_C, N_R$ and $N_D$.
+\end{Example}
+
+\todo[inline]{Write: general TBoxes}%
 \todo[inline]{Write: knowledge bases}%
 \todo[inline]{Write: standard reasoning tasks}%
 
@@ -294,7 +335,9 @@ TBoxes.  We shall restrict our attention to two of these, namely \emph{cyclic} T
 
 \todo[inline]{Write: talk about model-base most-specific concept descriptions}%
 \todo[inline]{Write: introduce \ELgfpbot}%
-\todo[inline]{Write: introduce unravelling of \ELgfpbot concept descriptions}
+\todo[inline]{Write: talk about descriptive and greatest-fixpoint semantics}%
+\todo[inline]{Write: introduce unravelling of \ELgfpbot concept descriptions (not here,
+  but later)}
 
 %%% Local Variables: 
 %%% mode: latex
