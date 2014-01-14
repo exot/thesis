@@ -87,7 +87,7 @@ example is very vague, and we shall make it more precise by introducing the noti
   \label{def:interpretation}
   Let $N_C$, $N_R$ and $N_I$ be three pairwise disjoint sets.  An \emph{interpretation}
   $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ (over $N_C$, $N_R$ and
-  $N_I$) consists of a set $\Delta^{\mathcal{I}}$ of \emph{elements}, and an
+  $N_I$) consists of a nonempty set $\Delta^{\mathcal{I}}$ of \emph{elements}, and an
   \emph{interpretation function} $\cdot^{\mathcal{I}}$ such that
   \begin{enumerate}[i. ]
   \item $A^{\mathcal{I}} \subseteq \Delta^{\mathcal{I}}$ for all $A \in N_C$,
@@ -177,6 +177,16 @@ description $C$ in $\mathcal{I}$ if and only if $x \in C^{\mathcal{I}}$.
     &= \bot^{\mathcal{I}_{\mathsf{MGM}}}.
   \end{align*}
 \end{Example}
+
+For some \ELbot concept descriptions $C, D$ it may be the case that \emph{for all}
+interpretations $\mathcal{I}$ it is true that
+\begin{equation*}
+  C^{\mathcal{I}} \sqsubseteq D^{\mathcal{I}}.
+\end{equation*}
+In this case, we say that $C$ is \emph{subsumed by} $D$, and write $C \sqsubseteq D$.  If
+$C$ is subsumed by $D$ and, in addition, $D$ is subsumed by $C$, then for all
+interpretations $\mathcal{I}$ it is true that $C^{\mathcal{I}} = D^{\mathcal{I}}$.  In
+this case we say that $C$ and $D$ are \emph{equivalent}.
 
 The definitions we have given so far only apply to the description logics \EL and \ELbot,
 which are of course not the only ones.  Another notable description logic is $\ALC$, a
@@ -314,21 +324,152 @@ TBoxes.  We shall restrict our attention to two of these, namely \emph{cyclic} T
   concept definition in $\mathcal{T}$ holds in $\mathcal{I}$.
 \end{Definition}
 
-\begin{Example}
-  \label{expl:tom-and-jerry-cyclic-TBox}
-  Let us consider again $N_C = \set{ \mathsf{Cat}, \mathsf{Mouse} }, N_R = \set{
-    \mathsf{hunts} }$ and in addition let $N_D = \set{ \mathsf{MouseHuntingCat} }$.  Then
-  a primitive concept definition over $N_C, N_R$ and $N_D$ would be
-  \begin{equation*}
-    \mathsf{MouseHuntingCat} \equiv \mathsf{Cat} \sqcap \exists \mathsf{hunts}.\mathsf{Mouse}
-  \end{equation*}
-  and the singleton set containing this primitive concept definition would be a cyclic
-  TBox over $N_C, N_R$ and $N_D$.
-\end{Example}
+A primitive concept definition $B \equiv D$ is true in some interpretation $\mathcal{I}$
+if and only if $B^{\mathcal{I}} = D^{\mathcal{I}}$.  However, in some cases it may not be
+possible to exactly define a concept name $B$ in terms of another concept description
+$D$.
 
-\todo[inline]{Write: general TBoxes}%
-\todo[inline]{Write: knowledge bases}%
-\todo[inline]{Write: standard reasoning tasks}%
+In such cases one can make use of \emph{general concept inclusions}: instead of requiring
+$B^{\mathcal{I}} = D^{\mathcal{I}}$ one can equivalently state that
+\begin{equation*}
+  B^{\mathcal{I}} \subseteq D^{\mathcal{I}} \quad\text{and}\quad B^{\mathcal{I}} \supseteq D^{\mathcal{I}}.
+\end{equation*}
+If $B$ cannot be defined exactly, at least one of these inclusions may be true.
+
+\begin{Definition}[General Concept Inclusion, General TBox]
+  \label{def:general-concept-inclusions-and-general-TBoxes}
+  Let $N_C$ and $N_R$ be two disjoint sets.  A \emph{general concept inclusion} (GCI) $C
+  \sqsubseteq D$ consists of two \ELbot concept descriptions $C, D \in \ELbot(N_C, N_R)$.
+  A GCI $C \sqsubseteq D$ is said to \emph{hold} in an interpretation $\mathcal{I}$ if and
+  only if $C^{\mathcal{I}} \subseteq D^{\mathcal{I}}$.\footnote{Notice that there is a
+    possibility for confusion here: recall that we write $C \sqsubseteq D$ if $C$ is
+    subsumed by $D$.  So the fact that $C \sqsubseteq D$ could potentially be confused
+    with the general concept inclusion $C \sqsubseteq D$.  However, the former is a
+    statement, while the latter is an expression, so confusing those two is rather
+    unlikely.}
+
+  A collection $\mathcal{T}$ of general concept inclusions is called a \emph{general
+    TBox}.  An interpretation $\mathcal{I}$ is said to be a \emph{model} of the general
+  TBox $\mathcal{T}$ if and only if every GCI $(C \sqsubseteq D) \in \mathcal{T}$ holds in
+  $\mathcal{I}$.
+\end{Definition}
+
+In the sense discussed above, primitive concept definitions can be expressed in terms of
+general concept inclusions.  Because of this representation, we can regard cyclic TBoxes
+as special cases of general TBoxes.  Therefore, if we talk about TBoxes in the following
+we mean either of these notions.
+
+Knowledge bases are now just pairs consisting of an ABox and a TBox.
+\begin{Definition}[Knowledge Base]
+  \label{def:knowledge-base}
+  Let $N_C, N_R$ and $N_I$ be pairwise disjoint sets.  Let $\mathcal{A}$ be an ABox over
+  $N_C$, $N_R$ and $N_I$, and let $\mathcal{T}$ be a TBox over $N_C$ and $N_R$.  Then the
+  pair
+  \begin{equation*}
+    \mathcal{K} = (\mathcal{T}, \mathcal{A})
+  \end{equation*}
+  is called a \emph{knowledge base} (or \emph{ontology}) (over $N_C$ and $N_R$).  An
+  interpretation is a \emph{model} of $\mathcal{K}$ if and only if it is a model of both
+  $\mathcal{T}$ and $\mathcal{A}$.
+\end{Definition}
+
+Knowledge bases are the core method of description logics to represent knowledge.  In some
+more expressive description logics, tough, the expressiveness of knowledge bases is even
+more increased by including other types of axioms as well.  Examples for this are
+\emph{role restrictions} and \emph{role-value maps}.  However, these notions are not
+relevant for our work, and we shall therefore not discuss them here.
+
+Instead, we consider some of the standard reasoning task which can be conducted as soon as
+a knowledge base is available.  As already mentioned, \emph{reasoning} can be seen as the
+process to extract knowledge from a knowledge base which may be represented only
+implicitly.  The following definitions shall make clear what implicitly represented
+knowledge should mean.
+
+\begin{Definition}[Consistency Checking]
+  \label{def:concistency-checking}
+  Let $\mathcal{K}$ be a knowledge base.  The \emph{consistency checking problem} for
+  $\mathcal{K}$ is to decide whether $\mathcal{K}$ has a model.
+\end{Definition}
+
+\begin{Definition}[Satisfiability Checking]
+  \label{def:satisfiability-checking}
+  Let $\mathcal{K}$ be a knowledge base, and let $C$ be an \ELbot concept description.
+  The \emph{satisfiability checking problem} for $\mathcal{K}$ and $C$ is to decide
+  whether $C$ is satisfiable with respect to $\mathcal{K}$, \ie whether there exists a
+  model $\mathcal{I}$ of $\mathcal{K}$ such that $C^{\mathcal{I}} \neq \emptyset$.
+\end{Definition}
+
+Both checking for consistency and checking satisfiability of certain concept descriptions
+may be helpful to detect errors in the knowledge base.
+
+\begin{Definition}[Subsumption Checking]
+  \label{def:subsumption-checking}
+  Let $\mathcal{K}$ be a knowledge base, and let $C, D$ be two \ELbot concept
+  descriptions.  Then the \emph{subsumption checking problem} for $\mathcal{K}, C, D$ is
+  to decide whether $C$ is subsumed by $D$ with respect to $\mathcal{K}$, written $C
+  \sqsubseteq_{\mathcal{K}} D$, which means to decide whether $C^{\mathcal{I}} \subseteq
+  D^{\mathcal{I}}$ is true for all models $\mathcal{I}$ of $\mathcal{K}$.
+\end{Definition}
+
+Checking subsumption between concept descriptions helps to extract dependencies between
+concept descriptions in all models of the knowledge base, even if those are not
+represented explicitly.  A related reasoning task is \emph{classification}.
+
+\begin{Definition}[Classification]
+  \label{def:classification}
+  Let $\mathcal{K}$ be a knowledge base.  Then to \emph{classify} $\mathcal{K}$ means to
+  compute the set of all general concept inclusions $C \sqsubseteq D$ such that $C
+  \sqsubseteq_{\mathcal{K}} D$, where both $C$ and $D$ are \ELbot concept descriptions.
+\end{Definition}
+
+Classification and subsumption checking treat only the TBox of the knowledge base.  A
+reasoning task which also involves the ABox is \emph{instance checking}, which may me
+utilized to find errors in the knowledge base which are related to individuals.
+
+\begin{Definition}[Instance Checking]
+  \label{def:instance-checking}
+  Let $\mathcal{K}$ be a knowledge base, let $C$ be an \ELbot concept description and let
+  $a$ be an individual name.  Then the \emph{instance checking problem} for $\mathcal{K},
+  C, a$ is to decide $a$ is an instance of $C$ with respect to $\mathcal{K}$, \ie whether
+  in all models $\mathcal{I}$ of $\mathcal{K}$ it is true that $a^{\mathcal{I}} \in
+  C^{\mathcal{I}}$.
+\end{Definition}
+
+The complexity of deciding the above decision problems of consistency, satisfiability,
+subsumption and instance checking are usually used to measure the \emph{reasoning
+  complexity} of a description logic.  For expressive description logics it is easy to see
+that all problems can be reduced to \emph{instance checking}.  To this end, let
+$\mathcal{K} = (\mathcal{T}, \mathcal{A})$ be a knowledge base.  Then
+\begin{enumerate}[i. ]
+\item $\mathcal{K}$ is consistent if and only if $a$ is not an instance of $\bot$ for an
+  arbitrarily chosen individual name $a$;
+\item $C$ is satisfiable with respect to $\mathcal{K}$ if and only if $(\mathcal{T},
+  \mathcal{A} \cup \set{ C(a) } )$ is consistent, for some individual name $a$ which does
+  not appear in $\mathcal{A}$;
+\item $C$ is subsumed by $D$ with respect to $\mathcal{K}$ if and only if $C \sqcap \neg
+  D$ is not satisfiable with respect to $\mathcal{K}$.
+\end{enumerate}
+For logics like \ALC it is therefore sufficient to know the complexity of the instance
+checking problem do know the complexity of the other problem.  The instance problem is
+EXPTIME-complete for \ALC~\cite{DLhandbook}, and if the TBox of the knowledge base is
+empty, the complexity of instance checking is PSPACE-hard.
+
+For \ELbot the above reductions do not work anymore, as negation is not available there,
+and the complexity of the above reasoning problems has more or less to be established
+separately.  It has been shown in~\cite{DBLP:conf/ijcai/Baader03a,
+  DBLP:conf/ecai/Brandt04, DBLP:conf/ijcai/BaaderBL05} that all the above mentioned
+reasoning problems are tractable, \ie in PTIME.
+
+Apart from the standard reasoning task there are many other reasoning problems connected
+to knowledge bases, like \emph{pinpointing}~\cite{DBLP:phd/de/Nyssen2009a} and
+\emph{modularization}~\cite{DBLP:conf/www/GrauHKS07}.  A task that is interesting also for
+our considerations is the computation of \emph{least common
+  subsumers}~\cite{DBLP:phd/de/Turhan2007,DBLP:conf/ijcai/Baader03}.
+
+\begin{Definition}[Least Common Subsumer]
+  \label{def:least-common-subsumer}
+  
+\end{Definition}
 
 \section{The Description Logic \ELgfpbot}
 \label{sec:descr-logics-elbot}
