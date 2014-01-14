@@ -726,9 +726,24 @@ $\mathcal{I}$.  Moreover, let us define for two \ELgfp concept descriptions $D_1
 \end{align*}
 Therefore, the mapping $C \mapsto C_{\ELgfp}$ maps $\EL(N_C, N_R)$ into a subset of
 $\ELgfp(N_C, N_R)$ that behaves like \EL with respect to conjunction and existential
-restriction.  We can therefore regard \ELgfp as an extension of \EL.
+restriction, \ie for every $C, D \in \EL(N_C, N_R)$ and $r \in N_R$ it is true that
+\begin{align*}
+  (C \sqcap D)_{\ELgfp} &\equiv C_{\ELgfp} \sqcap D_{\ELgfp},\\
+  (\exists r. C)_{\ELgfp} &\equiv \exists r. C_{\ELgfp}.
+\end{align*}
+We can therefore regard \ELgfp as an extension of \EL.  This of course also means that
+\ELgfpbot can be seen as an extension of \ELbot.
 
-\todo[inline]{Write: talk about reasoning in \ELgfpbot}%
+A property that \ELgfpbot retains as an extension of \EL is that it still allows for the
+computation of least common
+subsumers~\cite{DBLP:conf/iccs/Baader03,DBLP:conf/ijcai/Baader03}.  In other words, if
+$C_1, \dots, C_n$ are \ELgfpbot concept descriptions, then there exists an \ELgfpbot
+concept description $\lcs(C_1, \dots, C_n)$ that is the least common subsumer of $C_1,
+\dots, C_n$ in \ELgfpbot.  As in the case of \ELbot, the existence of $\lcs(C_1, \dots,
+C_n)$ can be shown in a constructive way, giving rise to an effective method to compute
+the least common subsumer.  The construction involves \emph{\EL descriptions graphs} and
+\emph{products} of these graphs.  We shall not go into details here, and refer the
+interested reader to the literature.
 
 %%% Local Variables: 
 %%% mode: latex
