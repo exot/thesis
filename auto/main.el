@@ -2,7 +2,6 @@
  (lambda ()
     (TeX-run-style-hooks
      "babel"
-     "english"
      "inputenc"
      "utf8"
      "fontenc"
@@ -10,6 +9,7 @@
      "latex2e"
      "scrbook10"
      "scrbook"
+     "english"
      "fleqn"
      "preamble"
      "chapters/title-page"
