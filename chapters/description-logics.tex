@@ -672,10 +672,67 @@ We finally have all notions available to define the syntax and semantics of \ELg
   $\mathcal{I}$.
 \end{Definition}
 
-\todo[inline]{Write: introduce \ELgfpbot}%
+The crucial feature of \ELgfpbot is that model-based most-specific concept descriptions
+always exist.  We shall discuss this in more detail in \Cref{sec:motivation}.  What we
+shall do, however, is to show how the model-based most-specific concept description looks
+like in \Cref{expl:mmscs-may-not-exist-in-ELbot}.
+
+\begin{Example}
+  \label{expl:mmsc-exist-in-ELgfpbot}
+  Consider the interpretation $\mathcal{I}$ from \Cref{expl:mmscs-may-not-exist-in-ELbot}
+  again.  For the set $X = \set{ \mathsf{a} }$ we have found that the concept descriptions
+  \begin{equation*}
+    C_n := \exists r^n. \top
+  \end{equation*}
+  for $n \in \NN_0$ all satisfy $C_n^{\mathcal{I}} = X$, and that therefore the
+  model-based most-specific concept description for $X$ does not exist in \ELbot.
+  However, we can find a model-based most-specific concept description for $X$ in
+  \ELgfpbot, namely
+  \begin{equation*}
+    C := (A, \set{ A \equiv \exists r. A }).
+  \end{equation*}
+  One can intuitively think of $C$ is an ``infinite chain'' of existential restrictions,
+  and the possibility to have cyclic concept descriptions in \ELgfpbot allows us to
+  express this infinite chain with a finite expression.
+
+  The greatest fixpoint model $\mathcal{J}$ for the TBox $\set{ A \equiv \exists r. A }$
+  extending $\mathcal{I}$ is just given by
+  \begin{equation*}
+    A^{\mathcal{J}} = \Delta^{\mathcal{I}} = \set{ \mathsf{a} }
+  \end{equation*}
+  and therefore $\mathsf{a} \in C^{\mathcal{I}}$.  It can also be shown that $C
+  \sqsubseteq C_n$ is true for all $n \in \NN_0$, and that all \ELgfpbot concept
+  descriptions $D$ satisfying $D^{\mathcal{I}} = X$ are equivalent to either $C$ or some
+  $C_n$.  Therefore, $C$ is a model-based most-specific concept description for $X$.
+\end{Example}
+
+It may not be apparent in how far the logic \ELgfp is an extension of \EL.  To see this,
+let us define for a \EL concept description $C$ the \ELgfp concept description
+\begin{equation*}
+  C_{\ELgfp} := (A_C, \set{ A_C \equiv C }).
+\end{equation*}
+Then $C^{\mathcal{I}} = C_{\ELgfp}^{\mathcal{I}}$ is true for every interpretation
+$\mathcal{I}$.  Moreover, let us define for two \ELgfp concept descriptions $D_1 =
+(A_1, \mathcal{T}_1)$, $D_2 = (A_2, \mathcal{T}_2)$ and $r \in N_R$
+\begin{align*}
+  D_1 \sqcap D_2 &:= (A_{D_1 \sqcap D_2}, \mathcal{T}_1 \cup \mathcal{T}_2 \cup \set{
+    A_{D_1 \sqcap D_2} \equiv A_1 \sqcap A_2 } )\\
+  \exists r. D_1 &:= (A_{\exists r. D_1}, \mathcal{T}_1 \cup \set{ A_{\exists r. D_1}
+    \equiv \exists r. D_1 } ).
+  \intertext{Then indeed}
+  (D_1 \sqcap D_2)^{\mathcal{I}} &= D_1^{\mathcal{I}} \cap D_2^{\mathcal{I}} \\
+  (\exists r. D_1)^{\mathcal{I}} &= \set{ x \in \Delta^{\mathcal{I}} \mid \exists y \in
+    \Delta^{\mathcal{I}} \st (x, y) \in r^{\mathcal{I}} \wedge y \in D_1^{\mathcal{I}} }.
+\end{align*}
+Therefore, the mapping $C \mapsto C_{\ELgfp}$ maps $\EL(N_C, N_R)$ into a subset of
+$\ELgfp(N_C, N_R)$ that behaves like \EL with respect to conjunction and existential
+restriction.  We can therefore regard \ELgfp as an extension of \EL.
+
 \todo[inline]{Write: talk about reasoning in \ELgfpbot}%
 
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "../main"
 %%% End: 
+
+%  LocalWords:  ELbot
