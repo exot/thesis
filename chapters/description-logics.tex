@@ -32,7 +32,7 @@ logic \ELbot, one of the simplest and least-expressive description logics under
 consideration.  To this end, we fix two disjoint sets $N_C$ and $N_R$, called the sets of
 \emph{concept names} and \emph{role names}, respectively.  Based upon this choice we
 introduce \emph{\ELbot concept descriptions} over $N_C$ and $N_R$ as follows.
-\begin{Definition}
+\begin{Definition}[\ELbot Concept Description]
   \label{def:ELbot-concept-descriptions}
   Let $N_C$ and $N_R$ be two disjoint sets.  An \emph{\EL concept description} $C$ (over
   $N_C$ and $N_R$) is of the form
@@ -304,9 +304,9 @@ TBoxes.  We shall restrict our attention to two of these, namely \emph{cyclic} T
   \begin{equation*}
     B \equiv D
   \end{equation*}
-  where $B \in N_D$ and $D \in \ELbot(N_C \cup N_D, N_R)$.  The element $B$ is called the
-  \emph{left-hand side} and the concept description $D$ is called the \emph{right-hand
-    side} of the concept definition, respectively.
+  where $B \in N_D$ and $D$ is a concept description over $N_C \cup N_D$ and $N_R$.  The
+  element $B$ is called the \emph{left-hand side} and the concept description $D$ is
+  called the \emph{right-hand side} of the concept definition, respectively.
 
   A \emph{cyclic TBox} $\mathcal{T}$ (over $N_C, N_R$ and $N_D$) is a set consisting of
   primitive concept definitions over $N_C$, $N_R$ and $N_D$ which additionally satisfies
@@ -492,11 +492,188 @@ exists~\cite{conf/ijcai/BaaderKM99}.
 \section{The Description Logic \ELgfpbot}
 \label{sec:descr-logics-elbot}
 
-\todo[inline]{Write: talk about model-base most-specific concept descriptions}%
+For our considerations on extracting general concept inclusions from finite
+interpretations we shall soon see that the expressivity of \ELbot is not sufficient
+anymore.  In particular, we shall see that in \ELbot \emph{model-based most-specific
+  concept descriptions} do not necessarily exist.  These are concept descriptions $C$
+which are \emph{most specific} in describing a certain set of individuals $X$ in an
+interpretation $\mathcal{I}$, \ie it is true that
+\begin{enumerate}[i. ]
+\item $X \subseteq C^{\mathcal{I}}$ and
+\item for all concept descriptions $D$ such that $X \subseteq D^{\mathcal{I}}$ it is true
+  that $C \sqsubseteq D$.
+\end{enumerate}
+We shall discuss model-based most-specific concept descriptions in much more detail in
+Section~\ref{sec:motivation}.  Here we just show by means of an example that they do not
+necessarily need to exist in \ELbot.
+
+\begin{Example}
+  \label{expl:mmscs-may-not-exist-in-ELbot}
+  Let us consider $N_C = \emptyset, N_R = \set{ \mathsf{r} }$ and the interpretation
+  $\mathcal{I} = (\set{\mathsf{a}}, \cdot^{\mathcal{I}})$ over $N_C$ and $N_R$, which is
+  given by $r^{\mathcal{I}} = \set{ (\mathsf{a}, \mathsf{a}) }$.  When depicted as a
+  graph, this interpretation is just a single node graph with a loop:
+  \begin{center}
+    \begin{tikzpicture}
+      \node[circle, draw] (a) {$\mathsf{a}$};
+      \path[->,>=stealth'] (a) edge[looseness=8] node[midway, above] {\textsf{r}} (a);
+    \end{tikzpicture}
+  \end{center}
+  Let $X = \set{ \mathsf{a} }$.  Then we can find that \emph{all} \EL concept descriptions
+  which can be formed over the vocabulary $N_C$ and $N_R$ describe $X$.  More
+  specifically, all \EL concept descriptions which can be formed over $N_C$ and $N_R$ are
+  of the form
+  \begin{equation*}
+    \exists \mathsf{r}^n. \top := \underbrace{\exists \mathsf{r}. \exists \mathsf{r}. \dots \exists
+      \mathsf{r}}_{n \text{ times }}. \top
+  \end{equation*}
+  for $n \in \NN_0$.  But then for $m < n$ it is true that
+  \begin{align*}
+    \exists \mathsf{r}^{n}. \top &\sqsubseteq \exists \mathsf{r}^m. \top, \\
+    \exists \mathsf{r}^{m}. \top &\not\sqsubseteq \exists \mathsf{r}^n. \top.
+  \end{align*}
+  But because of this there does not exist a most-specific concept description for $X$.
+\end{Example}
+
+To remedy this deficit we shall consider an extension of \ELbot which does guarantee the
+existence of model-based most-specific concept descriptions, namely the logic \ELgfpbot
+which extends \ELbot by \emph{cyclic concept descriptions} and \emph{greatest fixpoint
+  semantics}~\cite{DBLP:conf/ijcai/Baader03a,sowa/Nebel91}.
+
+We shall start by introducing \emph{greatest fixpoint models} for cyclic TBoxes.  When we
+introduced cyclic TBoxes $\mathcal{T}$ in
+Definition~\ref{def:primitive-concept-definitions-cyclic-TBoxes}, we have defined that an
+interpretation $\mathcal{I}$ is a model of $\mathcal{T}$ if and only if every primitive
+concept description in $\mathcal{T}$ holds in $\mathcal{I}$.  This form of semantics for
+cyclic TBoxes is called \emph{descriptive} semantics.  However, it is possible to further
+restrict the notion of a model of $\mathcal{T}$, and one such restriction is to use
+\emph{greatest fixpoint models} instead.  To introduce this semantics we need some
+auxiliary definitions first.
+
+\begin{Definition}[Primitive Interpretation, Extensions]
+  \label{def:primite-interpretations-and-extentions}
+  Let $\mathcal{T}$ be a cyclic TBox over $N_C$, $N_R$ and $N_D$.  We say that an
+  interpretation $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ is a
+  \emph{primitive interpretation} for $\mathcal{T}$ if it is an interpretation over $N_C$
+  and $N_R$, \ie $\cdot^{\mathcal{I}}$ assigns values to the concept names from $N_C$ but
+  not to the defined concept names in $N_D$.  Another interpretation $\mathcal{J} =
+  (\Delta^{\mathcal{J}}, \cdot^{\mathcal{I}})$ over $N_C \cup N_D$ and $N_R$ is said to
+  \emph{extend} $\mathcal{I}$ if and only if $\mathcal{I}$ and $\mathcal{J}$ have the same
+  set of elements and coincide on $N_C$ and $N_R$, \ie
+  \begin{enumerate}[i. ]
+  \item $\Delta^{\mathcal{I}} = \Delta^{\mathcal{J}}$,
+  \item $A^{\mathcal{I}} = A^{\mathcal{J}}$ is true for all $A \in N_C$, and
+  \item $r^{\mathcal{I}} = r^{\mathcal{J}}$ is true for all $r \in N_R$.
+  \end{enumerate}
+\end{Definition}
+
+Based on this definition we can now given a characterization of models of cyclic TBoxes in
+terms of fixpoints of certain functions.
+
+Let $\mathcal{T}$ be a cyclic TBox over $N_C$, $N_R$ and $N_D$, and let $\mathcal{I}$ be a
+primitive interpretation.  Let us denote with $\Ext(\mathcal{I})$ all interpretations over
+$N_C \cup N_D$ and $N_R$ that extend $\mathcal{I}$.  Then we can naturally define an order
+relation $\preceq$ on $\Ext(\mathcal{I})$ as follows: let $\mathcal{J}_1, \mathcal{J}_2
+\in \Ext(\mathcal{I})$.  We define
+\begin{equation*}
+  \mathcal{J}_1 \preceq \mathcal{J}_2 \diff A^{\mathcal{J}_1} \subseteq A^{\mathcal{J}_2}
+  \text{ for all } A \in N_D.
+\end{equation*}
+It can be seen quite easily that with this order relation the ordered set
+$(\Ext(\mathcal{I}), \preceq)$ becomes a complete lattice: if $\set{ \mathcal{J}_i \mid i
+  \in I } \subseteq \Ext(\mathcal{I})$, then $\sup \set{ \mathcal{J}_i \mid i \in I } =
+\mathcal{J} \in \Ext(\mathcal{I})$, where
+\begin{equation*}
+  A^{\mathcal{J}} := \bigcup_{i \in I} A^{\mathcal{J}_i}
+\end{equation*}
+for all $A \in N_D$.  On this complete lattice we can now define an order-preserving map
+$f_{\mathcal{I}} \colon \Ext(\mathcal{I}) \to \Ext(\mathcal{I})$ by means of the TBox
+$\mathcal{T}$ as follows.  Let $\mathcal{J} \in \Ext(\mathcal{I})$.  We define
+$f_{\mathcal{I}}(\mathcal{J}) = (\Delta^{\mathcal{I}},
+\cdot^{f_{\mathcal{I}}(\mathcal{J})}) \in \Ext(\mathcal{I})$ by
+\begin{equation*}
+  A^{f_{\mathcal{I}}(\mathcal{J})} := C^{\mathcal{J}}
+\end{equation*}
+for all $(A \equiv C) \in \mathcal{T}$.  Note that since there exists for each $A \in N_D$
+exactly one primitive concept definition $A \equiv C$ in $\mathcal{T}$, the function
+$f_{\mathcal{I}}$ is well-defined.
+
+Recall that $\mathcal{J} \in \Ext(\mathcal{I})$ is a model of $\mathcal{T}$ if and only if
+\begin{equation*}
+  A^{\mathcal{J}} = C^{\mathcal{J}}
+\end{equation*}
+holds for all $(A \equiv C) \in \mathcal{T}$.  We can rephrase this condition in terms of
+\emph{fixpoints} of $f_{\mathcal{I}}$: since $A^{f_{\mathcal{I}}(\mathcal{J})} =
+C^{\mathcal{J}}$, the interpretation $\mathcal{J}$ is a model of $\mathcal{T}$ if and only
+if $\mathcal{J}$ is a fixpoint of $f_{\mathcal{I}}$, \ie $f(\mathcal{J}) = \mathcal{J}$.
+
+As these fixpoints are elements of $\Ext(\mathcal{I})$, they are ordered by $\preceq$.
+Therefore, intuitively, \emph{greatest fixpoint models} of $\mathcal{T}$ are just greatest
+fixpoints of $f_{\mathcal{I}}$ with respect to $\preceq$.  To ensure their existence, we
+need to invoke the fixpoint theorem by Tarski~\cite{Tarski-Fixpoint-Theorem}.
+
+\begin{Theorem}
+  \label{thm:tarski-fixpoint-theorem}
+  Let $(L, \leq)$ be a complete lattice and let $f \colon L \to L$ be an order-preserving
+  map, \ie
+  \begin{equation*}
+    x \leq y \implies f(x) \leq f(y)
+  \end{equation*}
+  is true for all $x, y \in L$.  Then the fixpoints form a complete sublattice of $(L,
+  \leq)$, \ie the ordered set $(\set{ x \in L \mid f(x) = x }, \leq)$ is a complete
+  lattice.  In particular, $\set{ x \in L \mid f(x) = x }$ is not empty and has greatest
+  and smallest elements with respect to $\leq$.
+\end{Theorem}
+
+\begin{Definition}[Greatest Fixpoint Models]
+  \label{def:gfp-models}
+  Let $\mathcal{T}$ be a cyclic TBox over $N_C$, $N_R$ and $N_D$.  Let $\mathcal{I}$ be a
+  primitive interpretation of $\mathcal{T}$.  An interpretation $\mathcal{J}$ over $N_C
+  \cup N_D$ and $N_R$ is the \emph{greatest fixpoint model} of $\mathcal{T}$
+  \emph{extending} $\mathcal{I}$ if and only if $\mathcal{J}$ is the greatest fixpoint of
+  the mapping $f_{\mathcal{I}}$ defined as before.  An interpretation $\mathcal{J}$ over
+  $N_C \cup N_D$ and $N_R$ is a \emph{greatest fixpoint model} of $\mathcal{T}$ if it is a
+  greatest fixpoint model of $\mathcal{T}$ extending some primitive interpretation
+  $\mathcal{I}$ of $\mathcal{T}$.
+\end{Definition}
+
+We continue our introduction of \ELgfpbot by discussing its semantics.  For this we
+introduce the notion of a \emph{normalized} cyclic TBox
+
+\begin{Definition}[Normalized Cyclic TBox]
+  \label{def:normalized-cyclic-TBox}
+  Let $\mathcal{T}$ be a cyclic TBox over $N_C$, $N_R$ and $N_D$.  Then $\mathcal{T}$ is
+  called \emph{cyclic} if and only if for every primitive concept definition $(A \equiv C)
+  \in \mathcal{T}$, the concept description $C$ is of the form
+  \begin{equation*}
+    C = P_1 \sqcap \dots \sqcap P_n \sqcap \exists r_1. A_1 \sqcap \dots \sqcap \exists r_m. A_m
+  \end{equation*}
+  for $n, m \in \NN_0$, $P_1, \dots, P_n \in N_C$, $r_1, \dots, r_m \in N_R$ and $A_1,
+  \dots, A_m \in N_D$.
+\end{Definition}
+
+We finally have all notions available to define the syntax and semantics of \ELgfpbot.
+
+\begin{Definition}[\ELgfpbot Concept Descriptions, \ELgfpbot Semantics]
+  \label{def:ELgfpbot-concept-descriptions-and-their-semantics}
+  Let $N_C$ and $N_R$ be two disjoint sets.  An \emph{\ELgfp concept description} is an
+  expression of the form $C = (A, \mathcal{T})$, where $\mathcal{T}$ is a normalized
+  cyclic TBox over $N_C$, $N_R$ and $N_D$, for some set $N_D$ disjoint to both $N_C$ and
+  $N_R$, $\mathcal{T}$ only contains \EL concept descriptions, and $A \in N_D$.  An
+  \emph{\ELgfpbot concept description} is either of the form $\bot$ or is an \ELgfp
+  concept description.
+
+  Let $\mathcal{I}$ be an interpretation and let $C = (A, \mathcal{T})$ be an \ELgfpbot
+  concept description.  Then
+  \begin{equation*}
+    C^{\mathcal{I}} := A^{\mathcal{J}},
+  \end{equation*}
+  where $\mathcal{J}$ is the greatest fixpoint model of $\mathcal{T}$ extending
+  $\mathcal{I}$.
+\end{Definition}
+
 \todo[inline]{Write: introduce \ELgfpbot}%
-\todo[inline]{Write: talk about descriptive and greatest-fixpoint semantics}%
-\todo[inline]{Write: introduce unravelling of \ELgfpbot concept descriptions (not here,
-  but later)}
+\todo[inline]{Write: talk about reasoning in \ELgfpbot}%
 
 %%% Local Variables: 
 %%% mode: latex
