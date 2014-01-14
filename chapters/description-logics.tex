@@ -52,7 +52,9 @@ introduce \emph{\ELbot concept descriptions} over $N_C$ and $N_R$ as follows.
 We shall occasionally denote the set of all \EL concept descriptions over $N_C$ and $N_R$
 by $\EL(N_C, N_R)$, and likewise the set of all \ELbot concept descriptions over $N_C$ and
 $N_R$ by $\ELbot(N_C, N_R)$.  The same is true for other descriptions logics which we
-shall introduce at a later point.
+shall introduce at a later point.  We shall also often talk just about ``concept
+descriptions'' without explicitly mentioning the description logic we are using.  If this
+is the case, than any description logic introduced in this work can be used there.
 
 The sets $N_C$ and $N_R$ of concept and role names are also called the \emph{signature} of
 the logic.  In the following we shall always assume that those sets are finite.  Sometimes
@@ -339,9 +341,9 @@ If $B$ cannot be defined exactly, at least one of these inclusions may be true.
 \begin{Definition}[General Concept Inclusion, General TBox]
   \label{def:general-concept-inclusions-and-general-TBoxes}
   Let $N_C$ and $N_R$ be two disjoint sets.  A \emph{general concept inclusion} (GCI) $C
-  \sqsubseteq D$ consists of two \ELbot concept descriptions $C, D \in \ELbot(N_C, N_R)$.
-  A GCI $C \sqsubseteq D$ is said to \emph{hold} in an interpretation $\mathcal{I}$ if and
-  only if $C^{\mathcal{I}} \subseteq D^{\mathcal{I}}$.\footnote{Notice that there is a
+  \sqsubseteq D$ consists of two concept descriptions $C, D \in \ELbot(N_C, N_R)$.  A GCI
+  $C \sqsubseteq D$ is said to \emph{hold} in an interpretation $\mathcal{I}$ if and only
+  if $C^{\mathcal{I}} \subseteq D^{\mathcal{I}}$.\footnote{Notice that there is a
     possibility for confusion here: recall that we write $C \sqsubseteq D$ if $C$ is
     subsumed by $D$.  So the fact that $C \sqsubseteq D$ could potentially be confused
     with the general concept inclusion $C \sqsubseteq D$.  However, the former is a
@@ -393,10 +395,10 @@ knowledge should mean.
 
 \begin{Definition}[Satisfiability Checking]
   \label{def:satisfiability-checking}
-  Let $\mathcal{K}$ be a knowledge base, and let $C$ be an \ELbot concept description.
-  The \emph{satisfiability checking problem} for $\mathcal{K}$ and $C$ is to decide
-  whether $C$ is satisfiable with respect to $\mathcal{K}$, \ie whether there exists a
-  model $\mathcal{I}$ of $\mathcal{K}$ such that $C^{\mathcal{I}} \neq \emptyset$.
+  Let $\mathcal{K}$ be a knowledge base, and let $C$ be an concept description.  The
+  \emph{satisfiability checking problem} for $\mathcal{K}$ and $C$ is to decide whether
+  $C$ is satisfiable with respect to $\mathcal{K}$, \ie whether there exists a model
+  $\mathcal{I}$ of $\mathcal{K}$ such that $C^{\mathcal{I}} \neq \emptyset$.
 \end{Definition}
 
 Both checking for consistency and checking satisfiability of certain concept descriptions
@@ -404,11 +406,11 @@ may be helpful to detect errors in the knowledge base.
 
 \begin{Definition}[Subsumption Checking]
   \label{def:subsumption-checking}
-  Let $\mathcal{K}$ be a knowledge base, and let $C, D$ be two \ELbot concept
-  descriptions.  Then the \emph{subsumption checking problem} for $\mathcal{K}, C, D$ is
-  to decide whether $C$ is subsumed by $D$ with respect to $\mathcal{K}$, written $C
-  \sqsubseteq_{\mathcal{K}} D$, which means to decide whether $C^{\mathcal{I}} \subseteq
-  D^{\mathcal{I}}$ is true for all models $\mathcal{I}$ of $\mathcal{K}$.
+  Let $\mathcal{K}$ be a knowledge base, and let $C, D$ be two concept descriptions.  Then
+  the \emph{subsumption checking problem} for $\mathcal{K}, C, D$ is to decide whether $C$
+  is subsumed by $D$ with respect to $\mathcal{K}$, written $C \sqsubseteq_{\mathcal{K}}
+  D$, which means to decide whether $C^{\mathcal{I}} \subseteq D^{\mathcal{I}}$ is true
+  for all models $\mathcal{I}$ of $\mathcal{K}$.
 \end{Definition}
 
 Checking subsumption between concept descriptions helps to extract dependencies between
@@ -419,7 +421,7 @@ represented explicitly.  A related reasoning task is \emph{classification}.
   \label{def:classification}
   Let $\mathcal{K}$ be a knowledge base.  Then to \emph{classify} $\mathcal{K}$ means to
   compute the set of all general concept inclusions $C \sqsubseteq D$ such that $C
-  \sqsubseteq_{\mathcal{K}} D$, where both $C$ and $D$ are \ELbot concept descriptions.
+  \sqsubseteq_{\mathcal{K}} D$, where both $C$ and $D$ are concept descriptions.
 \end{Definition}
 
 Classification and subsumption checking treat only the TBox of the knowledge base.  A
@@ -428,10 +430,10 @@ utilized to find errors in the knowledge base which are related to individuals.
 
 \begin{Definition}[Instance Checking]
   \label{def:instance-checking}
-  Let $\mathcal{K}$ be a knowledge base, let $C$ be an \ELbot concept description and let
-  $a$ be an individual name.  Then the \emph{instance checking problem} for $\mathcal{K},
-  C, a$ is to decide $a$ is an instance of $C$ with respect to $\mathcal{K}$, \ie whether
-  in all models $\mathcal{I}$ of $\mathcal{K}$ it is true that $a^{\mathcal{I}} \in
+  Let $\mathcal{K}$ be a knowledge base, let $C$ be an concept description and let $a$ be
+  an individual name.  Then the \emph{instance checking problem} for $\mathcal{K}, C, a$
+  is to decide $a$ is an instance of $C$ with respect to $\mathcal{K}$, \ie whether in all
+  models $\mathcal{I}$ of $\mathcal{K}$ it is true that $a^{\mathcal{I}} \in
   C^{\mathcal{I}}$.
 \end{Definition}
 
@@ -451,25 +453,41 @@ $\mathcal{K} = (\mathcal{T}, \mathcal{A})$ be a knowledge base.  Then
 \end{enumerate}
 For logics like \ALC it is therefore sufficient to know the complexity of the instance
 checking problem do know the complexity of the other problem.  The instance problem is
-EXPTIME-complete for \ALC~\cite{DLhandbook}, and if the TBox of the knowledge base is
-empty, the complexity of instance checking is PSPACE-hard.
+ExpTime-complete for \ALC~\cite{DLhandbook}, and if the TBox of the knowledge base is
+empty, the complexity of instance checking is PSpace-hard.
 
 For \ELbot the above reductions do not work anymore, as negation is not available there,
 and the complexity of the above reasoning problems has more or less to be established
 separately.  It has been shown in~\cite{DBLP:conf/ijcai/Baader03a,
   DBLP:conf/ecai/Brandt04, DBLP:conf/ijcai/BaaderBL05} that all the above mentioned
-reasoning problems are tractable, \ie in PTIME.
+reasoning problems are tractable, \ie in PTime.
 
 Apart from the standard reasoning task there are many other reasoning problems connected
 to knowledge bases, like \emph{pinpointing}~\cite{DBLP:phd/de/Nyssen2009a} and
 \emph{modularization}~\cite{DBLP:conf/www/GrauHKS07}.  A task that is interesting also for
-our considerations is the computation of \emph{least common
-  subsumers}~\cite{DBLP:phd/de/Turhan2007,DBLP:conf/ijcai/Baader03}.
+our considerations is the computation of \emph{least common subsumers}.
 
 \begin{Definition}[Least Common Subsumer]
   \label{def:least-common-subsumer}
-  
+  Let $C_1, \dots, C_n$ be concept descriptions, and let $D$ be another concept
+  description such that
+  \begin{enumerate}[i. ]
+  \item $C_i \sqsubseteq D$ for $i = 1, \dots, n$ and
+  \item for every concept description $E$ such that $C_i \sqsubseteq E$ is true for all $i
+    = 1, \dots, n$, it is also true that $D \sqsubseteq E$.
+  \end{enumerate}
 \end{Definition}
+
+If least common subsumers exists they are unique up to equivalence: if $D_1$ and $D_2$ are
+least common subsumers of $C_1, \dots, C_n$, then by the second condition of the
+Definition~\ref{def:least-common-subsumer} it is true that $D_1 \sqsubseteq D_2$ and $D_2
+\sqsubseteq D_1$, \ie $D_1 \equiv D_2$.  We shall denote the least common subsumer of
+$C_1, \dots, C_n$ by $\lcs(\set{C_1, \dots, C_n})$.
+
+Least common subsumers always exist in \EL and \ELbot, \ie if all concept descriptions
+mentioned in Definition~\ref{def:least-common-subsumer} are either \EL concept
+descriptions or \ELbot concept descriptions, then the least common subsumer always
+exists~\cite{conf/ijcai/BaaderKM99}.
 
 \section{The Description Logic \ELgfpbot}
 \label{sec:descr-logics-elbot}
