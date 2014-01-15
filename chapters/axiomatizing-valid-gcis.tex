@@ -1,4 +1,4 @@
-\chapter{Axiomatizing Valid \EL-GCIs of Finite Interpretations}
+\chapter{Axiomatizing Valid General Concept Inclusions of Finite Interpretations}
 \label{cha:axiom-valid-el}
 
 Our considerations about extracting general concept inclusions from erroneous data will be
@@ -18,58 +18,22 @@ $\mathcal{I}$, and $r \in N_R$, then $\exists r. C \sqsubseteq \exists r. D$ hol
 $\mathcal{I}$ as well.  Such an infinite set is hardly usable to represent knowledge
 suitable for machine consumption.  Therefore, the considerations in~\cite{Diss-Felix}
 concentrate on finding \emph{finite bases} of $\mathcal{I}$, \ie set of valid general
-concept inclusions of $\mathcal{I}$ which are also \emph{complete}.  One of the main
-results of~\cite{Diss-Felix} is that finite bases for finite interpretations $\mathcal{I}$
-always exist.
+concept inclusions of $\mathcal{I}$ which are also \emph{complete}.  We shall introduce
+these notions briefly in \Cref{sec:bases-gener-conc}.  One of the main results
+of~\cite{Diss-Felix} is then that finite bases for finite interpretations $\mathcal{I}$
+always exist, and these results shall be discussed in \Cref{sec:base-all-valid}.
 
-A notion crucial for this result is the one of \emph{model-based most-specific concept
-  descriptions}, which we have already seen briefly in \Cref{sec:descr-logics-elbot}.
-This notion is motivated by an attempt to mimic the derivation operators within the
-description logic \ELbot, to allow methods from formal concept analysis to be carried over
-to this logic.  We shall discuss model-based most-specific concept descriptions in detail
-in \Cref{sec:motivation}.  Thereafter, we shall talk about \emph{induced contexts}, which
-will allow us to obtain various connections between derivation operators on the one hand,
-and concept extensions as well as model-based most-specific concept description on the
-other.  These connections are most often of technical nature, but are crucial for our
-further considerations.
+These results are obtained by exploiting a close connection between description logics and
+formal concept analysis.  It is therefore crucial that we introduce this connection first,
+and we shall do so in~\Cref{sec:motivation}.  In particular, we shall talk about
+\emph{induced contexts} and \emph{model-based most-specific concept descriptions}.
 
-
-
-
-\section{Model-Based Most-Specific Concept Descriptions}
-\label{sec:motivation}
-
-\subsection{Motivation and Definition}
-\label{sec:motiv-defin}
-
-\todo[inline]{Write: list analogies of FCA and DL, and say that there is something
-  missing}%
-\todo[inline]{Write: definition of model-based most-specific concept descriptions}%
-\todo[inline]{Write: non-existence in \ELbot and existence in \ELgfpbot}%
-\todo[inline]{Write: mention the Galois-connection here and write down some results}%
-
-\subsection{Induced Contexts}
-\label{sec:induced-contexts}
-
-\todo[inline]{Write: induced contexts, relationships between derivation operators and
-  model-based most-specific concept descriptions}%
-
-\subsection{A Contextual Representation}
-\label{sec:cont-repr-all}
-
-\todo[inline]{Write: MATH-AL-08-2012/4.2 and 12-06/4.2}%
-
-\section{Bases of Valid GCIs of a Finite Interpretation}
-\label{sec:base-all-valid}
-
-\subsection{Bases of General Concept Inclusions}
+\section{Bases of General Concept Inclusions}
 \label{sec:bases-gener-conc}
 
-General concept inclusions are very similar to implications, and we shall see in
-\Cref{cha:axiom-valid-el} that a precise connection between them can be established.  In
-particular, we can talk about \emph{entailment} between general concept inclusions and
-\emph{completeness} of sets of general concept inclusions.  Notice the similarity between
-the following definition and \Cref{def:sound-complete-base}.
+Since the semantics of general concept inclusions is defined in terms of being valid in
+some interpretation, we can introduce a notion of \emph{entailment} and
+\emph{completeness}, much like as we did for implications.
 
 \begin{Definition}
   \label{def:entailment-of-gcis}
@@ -108,9 +72,216 @@ general concept inclusions which are valid in $\mathcal{I}$.  Moreover, since
 $\mathcal{K}$ is complete for $\Th(\mathcal{I})$, every general concept inclusion over
 $N_C$ and $N_R$ that holds in $\mathcal{I}$ is entailed by $\mathcal{K}$.
 
+\section{Linking Formal Concept Analysis and Description Logics}
+\label{sec:motivation}
+
+Description logics and formal concept analysis are connected by quite a number of similar
+notions.  As an example, let us consider a formal context $\con K = (G, M, I)$ and a set
+$A \subseteq M$.  Then the set $A'$ is the set of all objects of $\con K$ which have all
+the attributes in $A$.  We can view this fact from another perspective: if $A = \set{ m_1,
+  \dots, m_n }$, then we can think of the attributes $m_1, \dots, m_n$ as
+\emph{propositions}, and then $g \in A'$ means that $g$ ``satisfies'' the conjunction of
+all propositions in $A$.
+
+Let us put this more formally.  Define $N_C := M$ and $N_R = \emptyset$.  Then we can
+think of $\con K$ as an interpretation $\mathcal{I}_{\con K} = (G,
+\cdot^{\mathcal{I}_{\con K}})$ where
+\begin{equation}
+  \label{eq:17}
+  m^{\mathcal{I}_{\con K}} = \set{ g \in G \mid (g, m) \in I } = \set{ m }'.
+\end{equation}
+Then indeed we have that $A' = (m_1 \sqcap \dots \sqcap m_n)^{\mathcal{I}_{\con K}}$ for
+all finite $A = \set{ m_1, \dots, m_n } \subseteq M$.  Indeed, if we would consider a
+description logic that only allows for conjunction $\sqcap$, then we can view formal
+contexts, derivation of sets of attributes and even implications as special cases of
+interpretations, extensions of concept descriptions and general concept inclusions.
+
+The derivation operator $(\cdot)' \colon \subsets{M} \to \subsets{G}$ thus corresponds
+naturally to computing the extension of concept descriptions in interpretations.  However,
+the other derivation operator $(\cdot)' \colon \subsets{G} \to \subsets{M}$ does not have
+such a correspondence in description logics.  This gap shall be filled by
+\emph{model-based most-specific concept descriptions}, which we introduce in
+\Cref{sec:defin-and-basic}.
+
+However, the connection between description logics and formal concept analysis expressed
+in \eqref{eq:17} only works in one direction: it allows to represent basic notions of
+formal concept analysis in terms of description logics, but not vice versa.  Even if we
+restrict our attention to the rather light-weight description logic \ELbot, it is not
+clear how to represent an interpretation by means of notions from formal concept analysis.
+
+To approach this issue, \emph{induced contexts} are introduced.  Such contexts allow to
+express tight connections between the notions of formal concept analysis and description
+logics, and, since induced contexts are just formal contexts, still allows the application
+of standard methods from formal concept analysis, such as the extraction of bases.
+Induced contexts are introduced and discussed in \Cref{sec:induced-contexts}.
+
+\subsection{Model-Based Most-Specific Concept Descriptions}
+\label{sec:defin-and-basic}
+
+Let $\con K = (G, M, I)$ be a formal context.  We have argued that the derivation operator
+$(\cdot)' \colon \subsets{M} \to \subsets{G}$ naturally corresponds to computing the
+extension of concept descriptions, but that the other derivation operator $(\cdot)' \colon
+\subsets{G} \to \subsets{M}$ does not have such a natural correspondence.
+
+Let us have a closer look at this scenario.  If $B \subseteq G$ is a set of objects of
+$\con K$, the set $A := B'$ can be thought of as the \emph{most-specific} set of
+attributes that \emph{describe} $B$, \ie
+\begin{enumerate}[i. ]
+\item $B \subseteq A'$, \ie $A$ \emph{describes} $B$, and
+\item for all sets $C \subseteq M$ that describe $B$, \ie that satisfy $B \subseteq C'$ it
+  is true that $C \subseteq A$, \ie $A$ contains \emph{more} attributes than $C$, \ie is
+  \emph{more specific}.
+\end{enumerate}
+The last point is true because if $B \subseteq C'$, then by
+\Cref{lem:derivation-is-galois-connection} it is true that $C \subseteq B' = A$.  Notice
+that the description of $A$ as a most-specific description of $B$ is also a
+characterization, \ie if $A$ is the most-specific description of $B$, then $A = B'$.
+
+To mimic this \emph{most-specific description} in description logics, Distel introduces
+the notion of \emph{most-specific concept descriptions}.
+
+\begin{Definition}[Most-Specific Concept Description]
+  \label{def:most-specific-concept-description}
+  Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be an interpretation, and
+  let $X \subseteq \Delta^{\mathcal{I}}$.  A \emph{most-specific concept description} of
+  $X$ in $\mathcal{I}$ is a concept description $C$ such that
+  \begin{enumerate}[i. ]
+  \item $X \subseteq C^{\mathcal{I}}$, and
+  \item for each concept description $D$ satisfying $X \subseteq D^{\mathcal{I}}$ it is
+    true that $C \sqsubseteq D$, \ie $C$ is subsumed by $D$.
+  \end{enumerate}
+\end{Definition}
+
+If a model-based most-specific concept description $C$ for $X$ in $\mathcal{I}$ exists, it
+is unique up to equivalence: if $D$ is another such model-based most-specific concept
+description, than $C \sqsubseteq D$ and $D \sqsubseteq C$, by the last condition of the
+definition.  Therefore, $C \equiv D$.  Because of this, we can talk about \emph{the}
+model-based most-specific of $X$ in $\mathcal{I}$, and shall denoted it with
+$X^{\mathcal{I}}$ to stress the similarity to the derivation operator from formal concept
+analysis.  We shall also write $X^{\mathcal{I}\mathcal{I}}$ instead of
+$(X^{\mathcal{I}})^{\mathcal{I}}$ and $C^{\mathcal{I}\mathcal{I}}$ instead of
+$(C^{\mathcal{I}})^{\mathcal{I}}$.
+
+The existence of model-based most-specific concept descriptions, however, is not clear per
+se, and the choice of the description logic in which we seek for model-based most-specific
+concept descriptions is crucial here: if we only consider \ELbot concept descriptions,
+then model-based most-specific concept descriptions do not necessarily exist, as is shown
+in \Cref{expl:mmscs-may-not-exist-in-ELbot}.  However, if we allow all concept
+descriptions in \Cref{def:most-specific-concept-description} to be \ELgfp or \ELgfpbot
+concept descriptions, then the existence of model-based most-specific concept descriptions
+can be guaranteed.
+
+\begin{Theorem}[Theorem 4.7 of~\cite{Diss-Felix}]
+  \label{thm:existence-of-mmscs-in-ELgfpbot}
+  Model-based most-specific concept descriptions exist in \ELgfp and \ELgfpbot for all
+  interpretations $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ and sets $X
+  \subseteq \Delta^{\mathcal{I}}$, and they can be computed effectively.
+\end{Theorem}
+
+The computation of model-based most-specific concept descriptions can be achieved using
+\emph{\EL description graphs}, least common subsumers and
+\emph{simulations}~\cite{DBLP:conf/ijcai/Baader03a,Diss-Felix}.  See~\cite[Section
+4.1.2]{Diss-Felix} for details on this.
+
+We have motivated model-based most-specific concept descriptions by most-specific
+descriptions in formal contexts, and for this we have made use of the fact the derivation
+operators form a Galois connection.  It is therefore only natural to expect that
+model-based most-specific concept descriptions are also part of a Galois connection.
+
+We have to notice that we cannot expect to obtain a Galois connection in the sense of
+\Cref{sec:galois-connections}.  The simple reason for this is that the relation
+$\sqsubseteq$ is not an order relation: it may be the case that $C \sqsubseteq D$ and $C
+\sqsubseteq D$, but $C \neq D$.  We can remedy this fact by considering concept
+descriptions only \emph{up to equivalence}: instead of considering only a single concept
+description $C$, we always consider the set $[C]$ of all concept descriptions which are
+equivalent to $C$.  Then $[C] \sqsubseteq [D]$ is well-defined for all concept
+descriptions $C$ and $D$, and $\sqsubseteq$ indeed yields an order relation this way.
+This is only a technical detail, however, and we shall not make it explicit in our
+following considerations.
+
+\begin{Lemma}[Lemma 4.1 of~\cite{Diss-Felix}]
+  \label{lem:mmsc-and-extension-are-galois-connection}
+  Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be an interpretation
+  over $N_C$ and $N_R$, $X \subseteq \Delta^{\mathcal{I}}$ and $C$ an \ELgfpbot concept
+  description over $N_C$ and $N_R$.  Then
+  \begin{equation}
+    \label{eq:19}
+    X \subseteq C^{\mathcal{I}} \iff X^{\mathcal{I}} \sqsubseteq C.
+  \end{equation}
+  In particular, for $X, Y \subseteq \Delta^{\mathcal{I}}$ and for \ELgfpbot concept
+  descriptions $C, D$ over $N_C$ and $N_R$, it is true that
+  \begin{enumerate}[i. ]
+  \item $X \subseteq Y \implies X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}$,
+  \item $C \sqsubseteq D \implies C^{\mathcal{I}} \subseteq D^{\mathcal{I}}$,
+  \item $X \subseteq X^{\mathcal{I}\mathcal{I}}$,
+  \item $C^{\mathcal{I}\mathcal{I}} \sqsubseteq C$,
+  \item $X^{\mathcal{I}} \equiv X^{\mathcal{I}\mathcal{I}\mathcal{I}}$,
+  \item $C^{\mathcal{I}} = C^{\mathcal{I}\mathcal{I}\mathcal{I}}$.
+  \end{enumerate}
+\end{Lemma}
+\begin{Proof}
+  We only show \eqref{eq:19}, the other claims follow from
+  \Cref{lem:properties-of-galois-connections} and the above-made considerations.
+
+  If $X \subseteq C^{\mathcal{I}}$, then $X^{\mathcal{I}} \subseteq C$ because
+  $X^{\mathcal{I}}$ is by definition the most-specific concept description that contains
+  $X$ in its extension.
+
+  Conversely, if $X^{\mathcal{I}} \sqsubseteq C$, then by definition
+  $X^{\mathcal{I}\mathcal{I}} \subseteq C^{\mathcal{I}}$.  But since $X^{\mathcal{I}}$ is
+  the model-based most-specific concept description of $X$ in $\mathcal{I}$, it contains
+  $X$ in its extension, \ie $X \subseteq X^{\mathcal{I}\mathcal{I}}$.  Therefore, $X
+  \subseteq C^{\mathcal{I}}$.
+\end{Proof}
+
+Another useful property is the following, rather technical proposition.
+
+\begin{Proposition}[Lemma 4.2 of~\cite{Diss-Felix}]
+  \label{prop:double-II-under-I}
+  Let $\mathcal{I}$ be an interpretation over $N_C$ and $N_R$, and let $C, D$ be \ELgfpbot
+  concept descriptions over $N_C$ and $N_R$ and let $r \in N_R$.  Then
+  \begin{enumerate}[i. ]
+  \item $(C \sqcap D)^{\mathcal{I}} = (C^{\mathcal{I}\mathcal{I}} \sqcap
+    D)^{\mathcal{I}}$, and
+  \item $(\exists r. C)^{\mathcal{I}} = (\exists r. C^{\mathcal{I}\mathcal{I}})^{\mathcal{I}}$.
+  \end{enumerate}
+\end{Proposition}
+\begin{Proof}
+  For the first claim we use \Cref{lem:mmsc-and-extension-are-galois-connection} and obtain
+  \begin{equation*}
+    (C \sqcap D)^{\mathcal{I}} = C^{\mathcal{I}} \cap D^{\mathcal{I}} =
+    C^{\mathcal{I}\mathcal{I}\mathcal{I}} \cap D^{\mathcal{I}} =
+    (C^{\mathcal{I}\mathcal{I}} \sqcap D)^{\mathcal{I}}.
+  \end{equation*}
+  For the second one we observe that
+  \begin{align*}
+    (\exists r. C^{\mathcal{I}\mathcal{I}})^{\mathcal{I}}
+    &= \set{ x \in \Delta^{\mathcal{I}} \mid \exists y \in \Delta^{\mathcal{I}} \st (x, y)
+      \in r^{\mathcal{I}} \wedge y \in C^{\mathcal{I}\mathcal{I}\mathcal{I}} }\\
+    &= \set{ x \in \Delta^{\mathcal{I}} \mid \exists y \in \Delta^{\mathcal{I}} \st (x, y)
+      \in r^{\mathcal{I}} \wedge y \in C^{\mathcal{I}} } \\
+    &= (\exists r. C)^{\mathcal{I}},
+  \end{align*}
+  again because of $C^{\mathcal{I}} = C^{\mathcal{I}\mathcal{I}\mathcal{I}}$ from
+  \Cref{lem:mmsc-and-extension-are-galois-connection}.
+\end{Proof}
+
+
+\subsection{Induced Contexts}
+\label{sec:induced-contexts}
+
+\todo[inline]{Write: induced contexts, relationships between derivation operators and
+  model-based most-specific concept descriptions}%
+\todo[inline]{Write: introduce \emph{expressible in terms of}}%
+\todo[inline]{Write: MATH-AL-08-2012/4.2 and 12-06/4.2}%
+
+\section{Computing Bases of Valid GCIs of a Finite Interpretation}
+\label{sec:base-all-valid}
+
 \subsection{A General Construction}
 \label{sec:first-base-1}
 
+\todo[inline]{Write: introduce $M_{\mathcal{I}}$}%
 \todo[inline]{Write: show that every base of the induced formal contexts gives rise to a
   base of the underlying interpretation}%
 
