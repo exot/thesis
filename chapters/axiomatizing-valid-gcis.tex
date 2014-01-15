@@ -2,47 +2,47 @@
 \label{cha:axiom-valid-el}
 
 Our considerations about extracting general concept inclusions from erroneous data will be
-based on previous results by \textcite{Diss-Felix} on extracting all \emph{valid} general
-concept from finite interpretations.  We shall therefore review in this section all
-necessary notions from this work that are needed for our work.
+based on previous results obtained by \textcite{Diss-Felix} on extracting all \emph{valid}
+general concept from finite interpretations.  We shall therefore review in this section
+all necessary notions from this work that are needed for our own.
 
 The problem of extracting all valid general concept inclusions from a finite
 interpretation can be made more precise as follows.  Let $\mathcal{I} =
 (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be a finite interpretation over $N_C$ and
 $N_R$, \ie $\Delta^{\mathcal{I}}$ is a finite set.  The task is then to find the set of
-all general concept inclusions $C \subseteq D$ with $C, D \in \ELbot(N_C, N_R)$ which are
-valid in $\mathcal{I}$.
+all general concept inclusions $C \sqsubseteq D$ with $C, D \in \ELbot(N_C, N_R)$ which
+are valid in $\mathcal{I}$.
 
-Of course, this set is infinite in general.  This is because if $C \sqsubseteq D$ holds in
-$\mathcal{I}$, and $r \in N_R$, then $\exists r. C \sqsubseteq \exists r. D$ holds in
-$\mathcal{I}$ as well.  Such an infinite set is hardly usable to represent knowledge
-suitable for machine consumption.  Therefore, the considerations in~\cite{Diss-Felix}
-concentrate on finding \emph{finite bases} of $\mathcal{I}$, \ie set of valid general
-concept inclusions of $\mathcal{I}$ which are also \emph{complete}.  We shall introduce
-these notions briefly in \Cref{sec:bases-gener-conc}.  One of the main results
-of~\cite{Diss-Felix} is then that finite bases for finite interpretations $\mathcal{I}$
-always exist, and these results shall be discussed in \Cref{sec:base-all-valid}.
+Of course, this set is infinite of valid general concept inclusions in general.  This is
+because if $C \sqsubseteq D$ holds in $\mathcal{I}$, and $r \in N_R$, then $\exists r. C
+\sqsubseteq \exists r. D$ holds in $\mathcal{I}$ as well.  Such an infinite set is hardly
+usable to represent knowledge suitable for machine consumption.  Therefore, the
+considerations in~\cite{Diss-Felix} concentrate on finding \emph{finite bases} of
+$\mathcal{I}$, \ie set of valid general concept inclusions of $\mathcal{I}$ which are also
+\emph{complete}.  We shall introduce these notions briefly in \Cref{sec:bases-gener-conc}.
 
-These results are obtained by exploiting a close connection between description logics and
-formal concept analysis.  It is therefore crucial that we introduce this connection first,
-and we shall do so in~\Cref{sec:motivation}.  In particular, we shall talk about
-\emph{induced contexts} and \emph{model-based most-specific concept descriptions}.
+One of the main results of~\cite{Diss-Felix} is then that finite bases for finite
+interpretations $\mathcal{I}$ always exist, and we shall discuss them in
+\Cref{sec:base-all-valid}.  These results have been obtained by exploiting a close
+connection between description logics and formal concept analysis.  It is therefore
+crucial that we introduce this connection first, and we shall do so
+in~\Cref{sec:motivation}.  In particular, we shall talk about \emph{induced contexts} and
+\emph{model-based most-specific concept descriptions}.
 
 \section{Bases of General Concept Inclusions}
 \label{sec:bases-gener-conc}
 
-Since the semantics of general concept inclusions is defined in terms of being valid in
-some interpretation, we can introduce a notion of \emph{entailment} and
-\emph{completeness}, much like as we did for implications.
+General concept inclusions have a \emph{model-based semantics}, their semantics is defined
+in terms of being valid in some interpretation.  We can therefore introduce a notion of
+\emph{entailment} and \emph{completeness}, much like as we did for implications.
 
 \begin{Definition}
   \label{def:entailment-of-gcis}
-  Let $N_C$ and $N_R$ be two disjoint sets, and let $\mathcal{L} \cup \set{ C \sqsubseteq
-    D }$ be a set of general concept inclusions over $N_C$ and $N_R$.  We shall say that
-  $\mathcal{L}$ \emph{entails} $C \sqsubseteq D$, written $\mathcal{L} \models (C
-  \sqsubseteq D)$ if and only if for all interpretations over $N_C$ and $N_R$ it is true
-  that if $\mathcal{I} \models \mathcal{L}$, then $\mathcal{I} \models \set{ C \sqsubseteq
-    D }$ as well.
+  Let $\mathcal{L} \cup \set{ C \sqsubseteq D }$ be a set of general concept inclusions
+  over $N_C$ and $N_R$.  We shall say that $\mathcal{L}$ \emph{entails} $C \sqsubseteq D$,
+  written $\mathcal{L} \models (C \sqsubseteq D)$ if and only if for all interpretations
+  over $N_C$ and $N_R$ it is true that if $\mathcal{I} \models \mathcal{L}$, then
+  $\mathcal{I} \models \set{ C \sqsubseteq D }$ as well.
 
   Let $\mathcal{K}$ be another set of general concept inclusions over $N_C$ and $N_R$.
   Then $\mathcal{K}$ is said to be \emph{sound} for $\mathcal{L}$ if and only if all
@@ -53,20 +53,27 @@ some interpretation, we can introduce a notion of \emph{entailment} and
   complete for $\mathcal{L}$.
 \end{Definition}
 
+Notice the similarity of this definition to \Cref{def:sound-complete-base}.
+
 Let $\mathcal{I}$ be a finite interpretation over $N_C$ and $N_R$, and let us denote with
-$\Th(\mathcal{I})$ the set of all general concept inclusions which are valid in
-$\mathcal{I}$.  Note that this definition requires that the logic which is within the
-general concept inclusions is known from the context.  If this is not the case, we shall
-add a subscript to clarify this.  For example, the set of all valid general concept
-inclusions with concept descriptions in $\ELbot(N_C, N_R)$ shall be denoted by
-$\Th_{\ELbot(N_C, N_R)}(\mathcal{I})$.
+$\Th_{\ELbot(N_C, N_R)}(\mathcal{I})$ the set of all \ELbot general concept inclusions
+over $N_C$ and $N_R$ which are valid in $\mathcal{I}$, and likewise denote with
+$\Th_{\ELgfpbot(N_C, N_R)}(\mathcal{I})$ the set of all \ELgfpbot general concept
+inclusions over $N_C$ and $N_R$ which are valid in $\mathcal{I}$.  If the logic used is
+clear from the context, then we shall drop the subscript.
 
 Let $\mathcal{K}$ be a set of general concept inclusions over $N_C$ and $N_R$.  If
-$\mathcal{K}$ is a base for $\Th(\mathcal{I})$ we shall simply say that $\mathcal{K}$ is
-base of $\mathcal{I}$.  Notice that in this case, all general concept inclusions have to
-hold in $\mathcal{I}$: the set $\Th(\mathcal{I})$ is \emph{closed under entailment} in the
-sense that every general concept inclusion over $N_C$ and $N_R$ which is entailed by
-$\Th(\mathcal{I})$ is already an element of it.  Therefore, if $\mathcal{K}$ is sound for
+$\mathcal{K}$ is a set of \ELbot general concept inclusions and is a base for
+$\Th_{\ELbot(N_C, N_R)}(\mathcal{I})$ we shall simply say that $\mathcal{K}$ is an
+\emph{\ELbot base} of $\mathcal{I}$.  If we replace \ELbot by \ELgfpbot, then we call
+$\mathcal{K}$ an \emph{\ELgfpbot base} instead.  If the logic is clear from the context or
+not relevant for the current consideration, we shall leave it out.
+
+Notice that in the case that $\mathcal{K}$ is an \ELbot base of $\mathcal{I}$, all general
+concept inclusions in $\mathcal{K}$ have to hold in $\mathcal{I}$: the set
+$\Th(\mathcal{I})$ is \emph{closed under entailment} in the sense that every \ELbot
+general concept inclusion over $N_C$ and $N_R$ which is entailed by $\Th(\mathcal{I})$ is
+already contained in this set.  Therefore, if $\mathcal{K}$ is sound for
 $\Th(\mathcal{I})$, it must be contained in this set and thus $\mathcal{K}$ is a set of
 general concept inclusions which are valid in $\mathcal{I}$.  Moreover, since
 $\mathcal{K}$ is complete for $\Th(\mathcal{I})$, every general concept inclusion over
@@ -75,67 +82,66 @@ $N_C$ and $N_R$ that holds in $\mathcal{I}$ is entailed by $\mathcal{K}$.
 \section{Linking Formal Concept Analysis and Description Logics}
 \label{sec:motivation}
 
-Description logics and formal concept analysis are connected by quite a number of similar
+Description logics and formal concept analysis are connected by a number of similar
 notions.  As an example, let us consider a formal context $\con K = (G, M, I)$ and a set
 $A \subseteq M$.  Then the set $A'$ is the set of all objects of $\con K$ which have all
 the attributes in $A$.  We can view this fact from another perspective: if $A = \set{ m_1,
   \dots, m_n }$, then we can think of the attributes $m_1, \dots, m_n$ as
-\emph{propositions}, and then $g \in A'$ means that $g$ ``satisfies'' the conjunction of
+\emph{propositions}, and the fact that $(g, m) \in I$ as saying that $g$ \emph{satisfies}
+the proposition $m$.  Then $g \in A'$ means that $g$ \emph{satisfies} the conjunction of
 all propositions in $A$.
 
-Let us put this more formally.  Define $N_C := M$ and $N_R = \emptyset$.  Then we can
-think of $\con K$ as an interpretation $\mathcal{I}_{\con K} = (G,
-\cdot^{\mathcal{I}_{\con K}})$ where
+Let us reformulate this using description logics, and let us define $N_C := M$ and $N_R =
+\emptyset$.  Then we can think of $\con K$ as an interpretation $\mathcal{I}_{\con K} =
+(G, \cdot^{\mathcal{I}_{\con K}})$ where
 \begin{equation}
   \label{eq:17}
-  m^{\mathcal{I}_{\con K}} = \set{ g \in G \mid (g, m) \in I } = \set{ m }'.
+  m^{\mathcal{I}_{\con K}} := \set{ g \in G \mid (g, m) \in I } = \set{ m }'.
 \end{equation}
 Then indeed we have that $A' = (m_1 \sqcap \dots \sqcap m_n)^{\mathcal{I}_{\con K}}$ for
 all finite $A = \set{ m_1, \dots, m_n } \subseteq M$.  Indeed, if we would consider a
-description logic that only allows for conjunction $\sqcap$, then we can view formal
-contexts, derivation of sets of attributes and even implications as special cases of
-interpretations, extensions of concept descriptions and general concept inclusions.
+description logic that only allows for conjunction $\sqcap$, then we can view finite
+formal contexts, derivation of sets of attributes and even implications as special cases
+of finite interpretations, extensions of concept descriptions and general concept
+inclusions.  Thus the derivation operator $(\cdot)' \colon \subsets{M} \to \subsets{G}$
+corresponds naturally to computing the extension of concept descriptions in
+interpretations.  However, the other derivation operator $(\cdot)' \colon \subsets{G} \to
+\subsets{M}$ does not have such a correspondence in description logics.  This gap shall be
+filled by considering \emph{model-based most-specific concept descriptions}, which we
+introduce in \Cref{sec:defin-and-basic}.
 
-The derivation operator $(\cdot)' \colon \subsets{M} \to \subsets{G}$ thus corresponds
-naturally to computing the extension of concept descriptions in interpretations.  However,
-the other derivation operator $(\cdot)' \colon \subsets{G} \to \subsets{M}$ does not have
-such a correspondence in description logics.  This gap shall be filled by
-\emph{model-based most-specific concept descriptions}, which we introduce in
-\Cref{sec:defin-and-basic}.
+The connection between description logics and formal concept analysis expressed in
+\eqref{eq:17} only works in one direction: it allows to represent basic notions of formal
+concept analysis in terms of description logics, but not vice versa.  Even if we restrict
+our attention to the rather light-weight description logic \ELbot, it is not clear how to
+represent an interpretation by means of notions from formal concept analysis.
 
-However, the connection between description logics and formal concept analysis expressed
-in \eqref{eq:17} only works in one direction: it allows to represent basic notions of
-formal concept analysis in terms of description logics, but not vice versa.  Even if we
-restrict our attention to the rather light-weight description logic \ELbot, it is not
-clear how to represent an interpretation by means of notions from formal concept analysis.
-
-To approach this issue, \emph{induced contexts} are introduced.  Such contexts allow to
-express tight connections between the notions of formal concept analysis and description
-logics, and, since induced contexts are just formal contexts, still allows the application
-of standard methods from formal concept analysis, such as the extraction of bases.
-Induced contexts are introduced and discussed in \Cref{sec:induced-contexts}.
+To approach this issue, we shall introduce \emph{induced contexts} in
+\Cref{sec:induced-contexts}.  Such contexts allow to express tight connections between the
+notions of formal concept analysis and description logics, and, since induced contexts are
+just formal contexts, still allows the application of standard methods from formal concept
+analysis, such as the extraction of bases.  This fact will be exploited when we discuss
+the computation of finite bases of in \Cref{sec:base-all-valid}.
 
 \subsection{Model-Based Most-Specific Concept Descriptions}
 \label{sec:defin-and-basic}
 
-Let $\con K = (G, M, I)$ be a formal context.  We have argued that the derivation operator
-$(\cdot)' \colon \subsets{M} \to \subsets{G}$ naturally corresponds to computing the
-extension of concept descriptions, but that the other derivation operator $(\cdot)' \colon
-\subsets{G} \to \subsets{M}$ does not have such a natural correspondence.
-
-Let us have a closer look at this scenario.  If $B \subseteq G$ is a set of objects of
-$\con K$, the set $A := B'$ can be thought of as the \emph{most-specific} set of
-attributes that \emph{describe} $B$, \ie
+Let $\con K = (G, M, I)$ and Let us try to motivate how to find a natural correspondence
+of the derivation operator $(\cdot)' \colon \subsets{G} \to \subsets{M}$ within
+description logics.  Let $B \subseteq G$ be a set of objects of $\con K$.  Then the set $A
+:= B'$ can be thought of as the \emph{most-specific} set of attributes that
+\emph{describe} $B$, \ie
 \begin{enumerate}[i. ]
 \item $B \subseteq A'$, \ie $A$ \emph{describes} $B$, and
-\item for all sets $C \subseteq M$ that describe $B$, \ie that satisfy $B \subseteq C'$ it
-  is true that $C \subseteq A$, \ie $A$ contains \emph{more} attributes than $C$, \ie is
-  \emph{more specific}.
+\item for all sets $C \subseteq M$ that satisfy $B \subseteq C'$ (that describe $B$) it is
+  true that $C \subseteq A$, ($A$ contains \emph{more} attributes than $C$, \ie is
+  \emph{more specific}).
 \end{enumerate}
 The last point is true because if $B \subseteq C'$, then by
 \Cref{lem:derivation-is-galois-connection} it is true that $C \subseteq B' = A$.  Notice
 that the description of $A$ as a most-specific description of $B$ is also a
-characterization, \ie if $A$ is the most-specific description of $B$, then $A = B'$.
+characterization, \ie if $A$ is the most-specific description of $B$ in the above sense,
+then $A = B'$.
 
 To mimic this \emph{most-specific description} in description logics, Distel introduces
 the notion of \emph{most-specific concept descriptions}.
@@ -157,10 +163,10 @@ is unique up to equivalence: if $D$ is another such model-based most-specific co
 description, than $C \sqsubseteq D$ and $D \sqsubseteq C$, by the last condition of the
 definition.  Therefore, $C \equiv D$.  Because of this, we can talk about \emph{the}
 model-based most-specific of $X$ in $\mathcal{I}$, and shall denoted it with
-$X^{\mathcal{I}}$ to stress the similarity to the derivation operator from formal concept
+$X^{\mathcal{I}}$, to stress the similarity to the derivation operator from formal concept
 analysis.  We shall also write $X^{\mathcal{I}\mathcal{I}}$ instead of
 $(X^{\mathcal{I}})^{\mathcal{I}}$ and $C^{\mathcal{I}\mathcal{I}}$ instead of
-$(C^{\mathcal{I}})^{\mathcal{I}}$.
+$(C^{\mathcal{I}})^{\mathcal{I}}$ for syntactic convenience.
 
 The existence of model-based most-specific concept descriptions, however, is not clear per
 se, and the choice of the description logic in which we seek for model-based most-specific
@@ -187,11 +193,10 @@ We have motivated model-based most-specific concept descriptions by most-specifi
 descriptions in formal contexts, and for this we have made use of the fact the derivation
 operators form a Galois connection.  It is therefore only natural to expect that
 model-based most-specific concept descriptions are also part of a Galois connection.
-
-We have to notice that we cannot expect to obtain a Galois connection in the sense of
-\Cref{sec:galois-connections}.  The simple reason for this is that the relation
-$\sqsubseteq$ is not an order relation: it may be the case that $C \sqsubseteq D$ and $C
-\sqsubseteq D$, but $C \neq D$.  We can remedy this fact by considering concept
+However, we have to notice that we cannot expect to obtain a Galois connection in the
+sense of \Cref{sec:galois-connections}, simply because the relation $\sqsubseteq$ is not
+antisymmetric, and thus not an order relation: it may be the case that $C \sqsubseteq D$
+and $C \sqsubseteq D$, but $C \neq D$.  We can remedy this fact by considering concept
 descriptions only \emph{up to equivalence}: instead of considering only a single concept
 description $C$, we always consider the set $[C]$ of all concept descriptions which are
 equivalent to $C$.  Then $[C] \sqsubseteq [D]$ is well-defined for all concept
@@ -221,13 +226,10 @@ following considerations.
 \end{Lemma}
 \begin{Proof}
   We only show \eqref{eq:19}, the other claims follow from
-  \Cref{lem:properties-of-galois-connections} and the above-made considerations.
-
-  If $X \subseteq C^{\mathcal{I}}$, then $X^{\mathcal{I}} \subseteq C$ because
-  $X^{\mathcal{I}}$ is by definition the most-specific concept description that contains
-  $X$ in its extension.
-
-  Conversely, if $X^{\mathcal{I}} \sqsubseteq C$, then by definition
+  \Cref{lem:properties-of-galois-connections} and the above-made considerations.  If $X
+  \subseteq C^{\mathcal{I}}$, then $X^{\mathcal{I}} \subseteq C$ because $X^{\mathcal{I}}$
+  is by definition the most-specific concept description that contains $X$ in its
+  extension.  Conversely, if $X^{\mathcal{I}} \sqsubseteq C$, then by definition
   $X^{\mathcal{I}\mathcal{I}} \subseteq C^{\mathcal{I}}$.  But since $X^{\mathcal{I}}$ is
   the model-based most-specific concept description of $X$ in $\mathcal{I}$, it contains
   $X$ in its extension, \ie $X \subseteq X^{\mathcal{I}\mathcal{I}}$.  Therefore, $X
