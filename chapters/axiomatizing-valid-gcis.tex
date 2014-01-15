@@ -1,9 +1,40 @@
-
 \chapter{Axiomatizing Valid \EL-GCIs of Finite Interpretations}
 \label{cha:axiom-valid-el}
 
-\todo[inline]{Write: briefly introduce problem}%
-\todo[inline]{Write: introduce notion of bases of GCIs}%
+Our considerations about extracting general concept inclusions from erroneous data will be
+based on previous results by \textcite{Diss-Felix} on extracting all \emph{valid} general
+concept from finite interpretations.  We shall therefore review in this section all
+necessary notions from this work that are needed for our work.
+
+The problem of extracting all valid general concept inclusions from a finite
+interpretation can be made more precise as follows.  Let $\mathcal{I} =
+(\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be a finite interpretation over $N_C$ and
+$N_R$, \ie $\Delta^{\mathcal{I}}$ is a finite set.  The task is then to find the set of
+all general concept inclusions $C \subseteq D$ with $C, D \in \ELbot(N_C, N_R)$ which are
+valid in $\mathcal{I}$.
+
+Of course, this set is infinite in general.  This is because if $C \sqsubseteq D$ holds in
+$\mathcal{I}$, and $r \in N_R$, then $\exists r. C \sqsubseteq \exists r. D$ holds in
+$\mathcal{I}$ as well.  Such an infinite set is hardly usable to represent knowledge
+suitable for machine consumption.  Therefore, the considerations in~\cite{Diss-Felix}
+concentrate on finding \emph{finite bases} of $\mathcal{I}$, \ie set of valid general
+concept inclusions of $\mathcal{I}$ which are also \emph{complete}.  One of the main
+results of~\cite{Diss-Felix} is that finite bases for finite interpretations $\mathcal{I}$
+always exist.
+
+A notion crucial for this result is the one of \emph{model-based most-specific concept
+  descriptions}, which we have already seen briefly in \Cref{sec:descr-logics-elbot}.
+This notion is motivated by an attempt to mimic the derivation operators within the
+description logic \ELbot, to allow methods from formal concept analysis to be carried over
+to this logic.  We shall discuss model-based most-specific concept descriptions in detail
+in \Cref{sec:motivation}.  Thereafter, we shall talk about \emph{induced contexts}, which
+will allow us to obtain various connections between derivation operators on the one hand,
+and concept extensions as well as model-based most-specific concept description on the
+other.  These connections are most often of technical nature, but are crucial for our
+further considerations.
+
+
+
 
 \section{Model-Based Most-Specific Concept Descriptions}
 \label{sec:motivation}
@@ -14,23 +45,68 @@
 \todo[inline]{Write: list analogies of FCA and DL, and say that there is something
   missing}%
 \todo[inline]{Write: definition of model-based most-specific concept descriptions}%
-
-\subsection{Existence}
-\label{sec:existence}
-
 \todo[inline]{Write: non-existence in \ELbot and existence in \ELgfpbot}%
 \todo[inline]{Write: mention the Galois-connection here and write down some results}%
+
+\subsection{Induced Contexts}
+\label{sec:induced-contexts}
+
+\todo[inline]{Write: induced contexts, relationships between derivation operators and
+  model-based most-specific concept descriptions}%
 
 \subsection{A Contextual Representation}
 \label{sec:cont-repr-all}
 
-\todo[inline]{Write: introduce $M_{\mathcal{I}}$ and induced contexts (can we do that with
-  a set $M$ such that every mmsc is expressible in terms of $M$?)}%
-\todo[inline]{Write: repeat all kinds of results from MATH-AL-08-2012/4.{1,2} and
-  12-06/4.2}%
+\todo[inline]{Write: MATH-AL-08-2012/4.2 and 12-06/4.2}%
 
 \section{Bases of Valid GCIs of a Finite Interpretation}
 \label{sec:base-all-valid}
+
+\subsection{Bases of General Concept Inclusions}
+\label{sec:bases-gener-conc}
+
+General concept inclusions are very similar to implications, and we shall see in
+\Cref{cha:axiom-valid-el} that a precise connection between them can be established.  In
+particular, we can talk about \emph{entailment} between general concept inclusions and
+\emph{completeness} of sets of general concept inclusions.  Notice the similarity between
+the following definition and \Cref{def:sound-complete-base}.
+
+\begin{Definition}
+  \label{def:entailment-of-gcis}
+  Let $N_C$ and $N_R$ be two disjoint sets, and let $\mathcal{L} \cup \set{ C \sqsubseteq
+    D }$ be a set of general concept inclusions over $N_C$ and $N_R$.  We shall say that
+  $\mathcal{L}$ \emph{entails} $C \sqsubseteq D$, written $\mathcal{L} \models (C
+  \sqsubseteq D)$ if and only if for all interpretations over $N_C$ and $N_R$ it is true
+  that if $\mathcal{I} \models \mathcal{L}$, then $\mathcal{I} \models \set{ C \sqsubseteq
+    D }$ as well.
+
+  Let $\mathcal{K}$ be another set of general concept inclusions over $N_C$ and $N_R$.
+  Then $\mathcal{K}$ is said to be \emph{sound} for $\mathcal{L}$ if and only if all
+  general concept inclusions in $\mathcal{K}$ are entailed by $\mathcal{L}$.
+  $\mathcal{K}$ is said to be \emph{complete} for $\mathcal{L}$ if and only if all general
+  concept inclusions in $\mathcal{L}$ are \emph{entailed} by $\mathcal{K}$.  $\mathcal{K}$
+  is said to be a base for $\mathcal{L}$ if and only if $\mathcal{K}$ is sound and
+  complete for $\mathcal{L}$.
+\end{Definition}
+
+Let $\mathcal{I}$ be a finite interpretation over $N_C$ and $N_R$, and let us denote with
+$\Th(\mathcal{I})$ the set of all general concept inclusions which are valid in
+$\mathcal{I}$.  Note that this definition requires that the logic which is within the
+general concept inclusions is known from the context.  If this is not the case, we shall
+add a subscript to clarify this.  For example, the set of all valid general concept
+inclusions with concept descriptions in $\ELbot(N_C, N_R)$ shall be denoted by
+$\Th_{\ELbot(N_C, N_R)}(\mathcal{I})$.
+
+Let $\mathcal{K}$ be a set of general concept inclusions over $N_C$ and $N_R$.  If
+$\mathcal{K}$ is a base for $\Th(\mathcal{I})$ we shall simply say that $\mathcal{K}$ is
+base of $\mathcal{I}$.  Notice that in this case, all general concept inclusions have to
+hold in $\mathcal{I}$: the set $\Th(\mathcal{I})$ is \emph{closed under entailment} in the
+sense that every general concept inclusion over $N_C$ and $N_R$ which is entailed by
+$\Th(\mathcal{I})$ is already an element of it.  Therefore, if $\mathcal{K}$ is sound for
+$\Th(\mathcal{I})$, it must be contained in this set and thus $\mathcal{K}$ is a set of
+general concept inclusions which are valid in $\mathcal{I}$.  Moreover, since
+$\mathcal{K}$ is complete for $\Th(\mathcal{I})$, every general concept inclusion over
+$N_C$ and $N_R$ that holds in $\mathcal{I}$ is entailed by $\mathcal{K}$.
 
 \subsection{A General Construction}
 \label{sec:first-base-1}

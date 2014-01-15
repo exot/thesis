@@ -342,18 +342,20 @@ to express this is to use general concept inclusion.
 \begin{Definition}[General Concept Inclusion, General TBox]
   \label{def:general-concept-inclusions-and-general-TBoxes}
   Let $N_C$ and $N_R$ be two disjoint sets.  A \emph{general concept inclusion} (GCI) $C
-  \sqsubseteq D$ consists of two concept descriptions $C, D \in \ELbot(N_C, N_R)$.  A GCI
-  $C \sqsubseteq D$ is said to \emph{hold} in an interpretation $\mathcal{I}$ if and only
-  if $C^{\mathcal{I}} \subseteq D^{\mathcal{I}}$.\footnote{Notice that there is a
-    possibility for confusion here: recall that we write $C \sqsubseteq D$ if $C$ is
-    subsumed by $D$.  So the fact that $C \sqsubseteq D$ could potentially be confused
-    with the general concept inclusion $C \sqsubseteq D$.  However, the former is a
-    statement, while the latter is an expression, so confusing those two is rather
-    unlikely.}
+  \sqsubseteq D$ (over $N_C$ and $N_R$) consists of two concept descriptions $C, D$ over
+  $N_C$ and $N_R$.  A GCI $C \sqsubseteq D$ is said to \emph{hold} in an interpretation
+  $\mathcal{I}$ if and only if $C^{\mathcal{I}} \subseteq
+  D^{\mathcal{I}}$.\footnote{Notice that there is a possibility for confusion here: recall
+    that we write $C \sqsubseteq D$ if $C$ is subsumed by $D$.  So the fact that $C
+    \sqsubseteq D$ could potentially be confused with the general concept inclusion $C
+    \sqsubseteq D$.  However, the former is a statement, while the latter is an
+    expression, so confusing those two is rather unlikely.}
 
   A collection $\mathcal{T}$ of general concept inclusions is called a \emph{general
     TBox}.  An interpretation $\mathcal{I}$ is said to be a \emph{model} of the general
-  TBox $\mathcal{T}$ if and only if every GCI $(C \sqsubseteq D) \in \mathcal{T}$ holds in
+  TBox $\mathcal{T}$, written $\mathcal{I} \models \mathcal{T}$, if and only if every GCI
+  $(C \sqsubseteq D) \in \mathcal{T}$ holds in $\mathcal{I}$.  In this case we shall also
+  say that $C \sqsubseteq D$ is \emph{valid} in $\mathcal{I}$ or \emph{holds} in
   $\mathcal{I}$.
 \end{Definition}
 
@@ -745,6 +747,8 @@ C_n)$ can be shown in a constructive way, giving rise to an effective method to 
 the least common subsumer.  The construction involves \emph{\EL descriptions graphs} and
 \emph{products} of these graphs.  We shall not go into details here, and refer the
 interested reader to the literature.
+
+
 
 %%% Local Variables: 
 %%% mode: latex
