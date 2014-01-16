@@ -388,7 +388,8 @@ For certain concept descriptions $C$, the upper approximation provided by $\bigs
 We can now state some connections between the derivation operators of an induced context
 on one side, and computing the extension of a concept description as well as model-based
 most-specific concept descriptions on the other.  These results are rather technical but
-necessary for our further considerations.
+necessary for our further considerations.  We include the proofs of these statements here,
+as they are rather simple and may help to better understand to corresponding claims.
 
 \begin{Proposition}[Lemma~4.11 and~4.12 of~\cite{Diss-Felix}]
   \label{prop:connection-I-prime-1}
@@ -482,33 +483,141 @@ necessary for our further considerations.
   by \Cref{prop:connection-I-prime-1} and \Cref{prop:connection-I-prime-2}.
 \end{Proof}
 
-\begin{Proposition}
-  \label{prop:connection-I-prime-4}
-  Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be a finite
-  interpretation, $M$ be a set of concept descriptions and let $B \subseteq M$.  Then
+We can rephrase some of the above results as follows.  Let $\mathcal{I}$ be a finite
+interpretation and let us call a concept description $C$ a \emph{model-based most-specific
+  concept description} of $\mathcal{I}$ if it is the model-based most-specific concept
+description of some set $X \subseteq \Delta^{\mathcal{I}}$.  Note that $C$ is a
+model-based most-specific concept description of $\mathcal{I}$ if and only if $C \equiv
+C^{\mathcal{I}\mathcal{I}}$.
+
+Let $M$ be a set of concept descriptions such that all model-based most-specific concept
+descriptions are expressible in terms of $M$.  If we then identify equivalent model-based
+most-specific concept descriptions and order them by $\sqsubseteq$, then the resulting
+ordered set is dually isomorphic to the lattice of intents of $\con K_{\mathcal{I}, M}$.
+Recall that with $\Int(\con K_{\mathcal{I}, M})$ we denote the set of intents of $\con
+K_{\mathcal{I}, M}$.
+
+\begin{Corollary}
+  \label{cor:mmsc-lattice}
+  Let $\mathcal{I}$ be a finite interpretation and let $M$ be a set of concept
+  descriptions such that model-based most-specific concept descriptions of $\mathcal{I}$
+  are expressible in terms of $M$.  Denote with $\mathcal{M}$ the set of all model-based
+  most-specific concept descriptions considered up to equivalence.  Then the mapping
   \begin{equation*}
-    B \subseteq \pr_M(\bigsqcap B) \subseteq B'',
+    \begin{array}{cccc}
+      \phi \colon & \Int(\con K_{\mathcal{I}, M}) & \to     & \mathcal{M} \\
+      ~           & U                         & \mapsto & \bigsqcap U
+    \end{array}
   \end{equation*}
-  where the derivations are conducted in $\con K_{\mathcal{I}, M}$.
-\end{Proposition}
+  is an order-isomorphism between $(\Int(\con K_{\mathcal{I}, M}), \subseteq)$ and
+  $(\mathcal{M}, \sqsupseteq)$, where
+  \begin{equation*}
+    \phi^{-1}(C) = \pr_M(C) \quad (C \in \mathcal{M}).
+  \end{equation*}
+  In particular this means
+  \begin{enumerate}[i. ]
+  \item\label{item:10} $\bigsqcap U \in \mathcal{M}$ for all $U \in \Int(\con K_{\mathcal{I}, M})$,
+  \item\label{item:11} $\pr_M(C) \in \Int(\con K_{\mathcal{I}, M})$ for all $C \in \mathcal{M}$,
+  \item\label{item:12} $U \subseteq V$ implies $\bigsqcap U \sqsupseteq \bigsqcap V$ for
+    all $U, V \subseteq M$,
+  \item\label{item:13} $C \sqsubseteq D$ implies $\pr_M(C) \supseteq \pr_M(D)$ for all $C,
+    D \in \mathcal{M}$,
+  \item\label{item:14} $\pr_M(\bigsqcap U) = U$ for all $U \in \Int(\con K_{\mathcal{I}, M})$,
+  \item\label{item:15} $\bigsqcap \pr_M(C) \equiv C$ for each $C \in \mathcal{M}$.
+  \end{enumerate}
+  Additionally,
+  \begin{equation}
+    \label{eq:18}
+    \begin{aligned}
+      U'' &= \pr_M((\bigsqcap U)^{\mathcal{I}\mathcal{I}}), \\
+      C^{\mathcal{I}\mathcal{I}} &= \bigsqcap (\pr_M(C))''
+    \end{aligned}
+  \end{equation}
+  is true for all $U \subseteq M$ and all concept descriptions $C$ expressible in terms of
+  $M$, and where the derivations are done in $\con K_{\mathcal{I}, M}$.
+\end{Corollary}
 \begin{Proof}
-  By \Cref{lem:pr-bigsqcap-forms-Galois-connection}, it is true that $B \subseteq
-  \pr_M(\bigsqcap A)$.  Then for a concept description $D$ it is true that
+  Claims~\ref{item:12} and~\ref{item:13} are already contained in
+  \Cref{lem:pr-bigsqcap-forms-Galois-connection}, and \cref{item:15} is just
+  \Cref{lem:characterizing-expressible-in-terms-of} again.  We show the other claims step
+  by step.
+
+  For~\cref{item:10} let $U \in \Int(\con K_{\mathcal{I}, M})$.  Then $U = U''$, and thus
+  \begin{equation*}
+    \bigsqcap U = \bigsqcap U'' \equiv (U')^{\mathcal{I}} = (\bigsqcap U)^{\mathcal{I}\mathcal{I}}
+  \end{equation*}
+  by \Cref{prop:connection-I-prime-2}.  Thus $U \in \mathcal{M}$ up to equivalence.
+
+  For~\cref{item:11} let $C \in \mathcal{M}$.  Then $C \equiv C^{\mathcal{I}\mathcal{I}}$
+  and $C$ is expressible in terms of $M$.  From \Cref{prop:connection-I-prime-1} it
+  follows
   \begin{align*}
-    D \in \pr_M(\bigsqcap B)
-    &\iff \bigsqcap B \sqsubseteq D \\
-    &\:\implies (\bigsqcap B)^{\mathcal{I}} \subseteq D^{\mathcal{I}} \\
-    &\iff B' \subseteq \set{ D }'\\
-    &\iff B'' \supseteq \set{ D }'' \ni D \\
-    &\iff D \in B'',
+    \pr_M(C)
+    &= \pr_M(C^{\mathcal{I}\mathcal{I}}) \\
+    &= (C^{\mathcal{I}})' \\
+    &= \pr_M(C)''
   \end{align*}
-  using \Cref{prop:connection-I-prime-2} for $(\bigsqcap B)^{\mathcal{I}} = B'$ and the
-  definition of $\con K_{\mathcal{I}, M}$ to obtain $D^{\mathcal{I}} = \set{ D }'$.
+  and thus $\pr_M(C) \in \Int(\con K_{\mathcal{I}, M})$.
+
+  For~\cref{item:14} let again $U \in \Int(\con K_{\mathcal{I}, M})$.  We first observe
+  that because of \Cref{lem:pr-bigsqcap-forms-Galois-connection} it is true that $U
+  \subseteq \pr_M(\bigsqcap U)$.  Furthermore, for each concept description $D$ it is true
+  that
+  \begin{align*}
+    D \in \pr_M(\bigsqcap U)
+    &\iff \bigsqcap U \sqsubseteq D \\
+    &\:\implies (\bigsqcap U)^{\mathcal{I}} \subseteq D^{\mathcal{I}} \\
+    &\iff U' \subseteq \set{ D }'\\
+    &\iff U'' \supseteq \set{ D }'' \ni D \\
+    &\iff D \in U'' = U,
+  \end{align*}
+  using \Cref{prop:connection-I-prime-2} for $(\bigsqcap U)^{\mathcal{I}} = U'$, and the
+  definition of $\con K_{\mathcal{I}, M}$ to obtain $D^{\mathcal{I}} = \set{ D }'$.  Thus,
+  $\pr_M(\bigsqcap U) \subseteq U$ and equality follows.
+
+  For the equations given in~(\ref{eq:18}) we observe
+  \begin{align*}
+    \pr_M((\bigsqcap U)^{\mathcal{I}\mathcal{I}}
+    &= \pr_M((U')^{\mathcal{I}}) \\
+    &= U''
+  \intertext{by \Cref{prop:connection-I-prime-2} and \Cref{prop:connection-I-prime-1}, and}
+    \bigsqcap (\pr_M(C))''
+    &\equiv (\pr_M(C)')^{\mathcal{I}} \\
+    &= C^{\mathcal{I}\mathcal{I}},
+  \end{align*}
+  again because of \Cref{prop:connection-I-prime-2} and \Cref{prop:connection-I-prime-1},
+  for every $U \subseteq M$ and every concept description $C$ expressible in terms of $M$.
 \end{Proof}
 
-\todo[inline]{Write: relationships between derivation operators and model-based
-  most-specific concept descriptions}%
-\todo[inline]{Write: MATH-AL-08-2012/4.2 and 12-06/4.2}%
+The equivalence $\bigsqcap (\pr_M(C))'' \equiv C^{\mathcal{I}\mathcal{I}}$ does not hold
+in general for concept descriptions $C$, as the following trivial example shows.
+
+\begin{Example}
+  \label{expl:counterexample}
+  Let $N_C = \emptyset$ and $N_R = \set{ \mathsf{r} }$, and let $\mathcal{I} =
+  (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be an interpretation over $N_C$ and $N_R$
+  with $\Delta^{\mathcal{I}} = \set{ x }$ and $r^{\mathcal{I}} = \emptyset$.  Then the
+  model-based most-specific concept descriptions of $\mathcal{I}$ are, up to equivalence,
+  just $\top$ and $\bot$.  Let $M = \set{ \bot }$.  Then clearly all model-based
+  most-specific concept descriptions of $\mathcal{I}$ are expressible in terms of $M$.
+  Then
+  \begin{equation*}
+    \con K_{\mathcal{I}, M} =
+    \begin{array}{c|c}
+      ~ & \bot \\\midrule
+      x & . \\
+    \end{array}
+  \end{equation*}
+  Now consider $C = \exists r. \top$.  Then on the one hand,
+  \begin{equation*}
+    C^{\mathcal{I}\mathcal{I}} = \emptyset^{\mathcal{I}} = \bot,
+  \end{equation*}
+  but on the other hand
+  \begin{equation*}
+    \bigsqcap \pr_M(C)'' = \bigsqcap \emptyset'' = \bigsqcap \emptyset = \top,
+  \end{equation*}
+  so $C^{\mathcal{I}\mathcal{I}} \neq \bigsqcap \pr_M(C)''$.
+\end{Example}
 
 \section{Computing Bases of Valid GCIs of a Finite Interpretation}
 \label{sec:base-all-valid}
