@@ -31,7 +31,9 @@ in~\Cref{sec:motivation}.  In particular, we shall talk about \emph{induced cont
 \emph{model-based most-specific concept descriptions}.
 
 In what follows, we shall fix the two disjoint sets $N_C$ and $N_R$ and shall not mention
-them explicitly anymore.
+them explicitly anymore.  This means, for example, that whenever we are talking about
+interpretations or concept descriptions, we are actually talking about interpretations
+over $N_C$ and $N_R$, and about concept descriptions over $N_C$ and $N_R$.
 
 \section{Bases of General Concept Inclusions}
 \label{sec:bases-gener-conc}
@@ -385,9 +387,10 @@ For certain concept descriptions $C$, the upper approximation provided by $\bigs
 
 We can now state some connections between the derivation operators of an induced context
 on one side, and computing the extension of a concept description as well as model-based
-most-specific concept descriptions on the other.
+most-specific concept descriptions on the other.  These results are rather technical but
+necessary for our further considerations.
 
-\begin{Proposition}
+\begin{Proposition}[Lemma~4.11 and~4.12 of~\cite{Diss-Felix}]
   \label{prop:connection-I-prime-1}
   Let $\mathcal{I}$ be a finite interpretation and $M$ be a finite set of concept
   descriptions.  Then for every concept description expressible in terms of $M$ it is true
@@ -424,6 +427,83 @@ most-specific concept descriptions on the other.
   \end{align*}
   where $O \subseteq D^{\mathcal{I}} \iff O^{\mathcal{I}} \sqsubseteq D$ holds due to
   \Cref{lem:mmsc-and-extension-are-galois-connection}.
+\end{Proof}
+
+\begin{Proposition}[Lemma~4.10 and~4.11 of~\cite{Diss-Felix}]
+  \label{prop:connection-I-prime-2}
+  Let $\mathcal{I}$ be a finite interpretation and let $M$ be a finite set of concept
+  descriptions.  Then each $B \subseteq M$ satisfies
+  \begin{equation*}
+    B' = (\bigsqcap B)^{\mathcal{I}},
+  \end{equation*}
+  and if $A \subseteq \Delta^{\mathcal{I}}$ is such that $A^{\mathcal{I}}$ is expressible
+  in terms of $M$, then
+  \begin{equation*}
+    \bigsqcap A' \equiv A^{\mathcal{I}},
+  \end{equation*}
+  where all derivations are conducted in $\con K_{\mathcal{I}, M} = (\Delta^{\mathcal{I}},
+  M, \nabla)$.
+\end{Proposition}
+\begin{Proof}
+  Observe that $x \in B'$ if and only if $x \in C^{\mathcal{I}}$ for all $C \in B$.
+  Therefore
+  \begin{equation*}
+    x \in B' \iff \forall C \in B \holds x \in C^{\mathcal{I}} \iff x \in \bigcap_{C \in
+      B} C^{\mathcal{I}} = (\bigsqcap B)^{\mathcal{I}},
+  \end{equation*}
+  and therefore $B' = (\bigsqcap B)^{\mathcal{I}}$.
+
+  If $A \subseteq \Delta^{\mathcal{I}}$ is such that $A^{\mathcal{I}}$ is expressible in
+  terms of $M$, then by \Cref{lem:characterizing-expressible-in-terms-of} it is true that
+  \begin{equation*}
+    A^{\mathcal{I}} \equiv \bigsqcap \pr_M(A^{\mathcal{I}}).
+  \end{equation*}
+  By \Cref{prop:connection-I-prime-1}, $\pr_M(A^{\mathcal{I}}) = A'$, and thus
+  $A^{\mathcal{I}} \equiv \bigsqcap A'$ as required.
+\end{Proof}
+
+\begin{Proposition}
+  \label{prop:connection-I-prime-3}
+  Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be a finite
+  interpretation and let $M$ be a set of concept descriptions.  Let $A \subseteq
+  \Delta^{\mathcal{I}}$ such that $A^{\mathcal{I}}$ is expressible in terms of $M$.  Then
+  $A^{\mathcal{I}\mathcal{I}} = X''$, where the derivations are conducted in $\con
+  K_{\mathcal{I}, M}$.
+\end{Proposition}
+\begin{Proof}
+  Again, by \Cref{lem:characterizing-expressible-in-terms-of} we have $A^{\mathcal{I}}
+  \equiv \bigsqcap \pr_M(X^{\mathcal{I}})$ and thus
+  \begin{align*}
+    X^{\mathcal{I}\mathcal{I}}
+    &= \bigl(\bigsqcap \pr_M(X^{\mathcal{I}})\bigr)^{\mathcal{I}} \\
+    &= \pr_M(X^{\mathcal{I}})' \\
+    &= X''
+  \end{align*}
+  by \Cref{prop:connection-I-prime-1} and \Cref{prop:connection-I-prime-2}.
+\end{Proof}
+
+\begin{Proposition}
+  \label{prop:connection-I-prime-4}
+  Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be a finite
+  interpretation, $M$ be a set of concept descriptions and let $B \subseteq M$.  Then
+  \begin{equation*}
+    B \subseteq \pr_M(\bigsqcap B) \subseteq B'',
+  \end{equation*}
+  where the derivations are conducted in $\con K_{\mathcal{I}, M}$.
+\end{Proposition}
+\begin{Proof}
+  By \Cref{lem:pr-bigsqcap-forms-Galois-connection}, it is true that $B \subseteq
+  \pr_M(\bigsqcap A)$.  Then for a concept description $D$ it is true that
+  \begin{align*}
+    D \in \pr_M(\bigsqcap B)
+    &\iff \bigsqcap B \sqsubseteq D \\
+    &\:\implies (\bigsqcap B)^{\mathcal{I}} \subseteq D^{\mathcal{I}} \\
+    &\iff B' \subseteq \set{ D }'\\
+    &\iff B'' \supseteq \set{ D }'' \ni D \\
+    &\iff D \in B'',
+  \end{align*}
+  using \Cref{prop:connection-I-prime-2} for $(\bigsqcap B)^{\mathcal{I}} = B'$ and the
+  definition of $\con K_{\mathcal{I}, M}$ to obtain $D^{\mathcal{I}} = \set{ D }'$.
 \end{Proof}
 
 \todo[inline]{Write: relationships between derivation operators and model-based
