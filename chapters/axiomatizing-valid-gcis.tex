@@ -30,6 +30,9 @@ crucial that we introduce this connection first, and we shall do so
 in~\Cref{sec:motivation}.  In particular, we shall talk about \emph{induced contexts} and
 \emph{model-based most-specific concept descriptions}.
 
+In what follows, we shall fix the two disjoint sets $N_C$ and $N_R$ and shall not mention
+them explicitly anymore.
+
 \section{Bases of General Concept Inclusions}
 \label{sec:bases-gener-conc}
 
@@ -383,6 +386,45 @@ For certain concept descriptions $C$, the upper approximation provided by $\bigs
 We can now state some connections between the derivation operators of an induced context
 on one side, and computing the extension of a concept description as well as model-based
 most-specific concept descriptions on the other.
+
+\begin{Proposition}
+  \label{prop:connection-I-prime-1}
+  Let $\mathcal{I}$ be a finite interpretation and $M$ be a finite set of concept
+  descriptions.  Then for every concept description expressible in terms of $M$ it is true
+  that
+  \begin{equation*}
+    C^{\mathcal{I}} = (\pr_M(C))',
+  \end{equation*}
+  and for $O \subseteq \Delta^{\mathcal{I}}$ it is true that
+  \begin{equation*}
+    O' = \pr_M(O^{\mathcal{I}}),
+  \end{equation*}
+  where the derivation is conducted in $\con K_{\mathcal{I}, M}$.
+\end{Proposition}
+\begin{Proof}
+  Since $C$ is expressible in terms of $M$,
+  \Cref{lem:characterizing-expressible-in-terms-of} yields $C \equiv \bigsqcap \pr_M(C)$.
+  Thus
+  \begin{align*}
+    x \in C^{\mathcal{I}}
+    & \iff x \in (\bigsqcap \pr_M(C))^{\mathcal{I}} \\
+    & \iff \forall D \in \pr_M(C) \holds x \in D^{\mathcal{I}} \\
+    & \iff x \in (\pr_M(C))',
+  \end{align*}
+  since $(\pr_M(C))' = \set{ x \in \Delta^{\mathcal{I}} \mid \forall D \in \pr_M(C) \holds
+    x \in D^{\mathcal{I}} }$.
+
+  If $O \subseteq \Delta^{\mathcal{I}}$, then
+  \begin{align*}
+    D \in O'
+    & \iff \forall g \in O \holds g \in D^{\mathcal{I}} \\
+    & \iff O \subseteq D^{\mathcal{I}} \\
+    & \iff O^{\mathcal{I}} \sqsubseteq D \\
+    & \iff D \in \pr_M(O^{\mathcal{I}}),
+  \end{align*}
+  where $O \subseteq D^{\mathcal{I}} \iff O^{\mathcal{I}} \sqsubseteq D$ holds due to
+  \Cref{lem:mmsc-and-extension-are-galois-connection}.
+\end{Proof}
 
 \todo[inline]{Write: relationships between derivation operators and model-based
   most-specific concept descriptions}%
