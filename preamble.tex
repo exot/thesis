@@ -44,12 +44,16 @@
 \usepackage[scale=0.92]{tgheros}
 \usepackage[scaled=0.83]{beramono}
 
+\DeclareMathAlphabet{\mathbbm}{U}{bbm}{m}{n}
+
 %%% general definitions
 
 \newcommand{\ie}{i.\,e.\ }
 \newcommand{\eg}{e.\,g.\ }
 \newcommand{\etal}{et.\,al.\ }
 \renewcommand{\dh}{d.\,h.\ }
+\newcommand{\st}{\ensuremath{\colon}}
+\newcommand{\holds}{\ensuremath{\colon}}
 
 %%% 
 
@@ -76,6 +80,7 @@
 \newcommand{\subsets}[1]{{\ensuremath{\mathfrak{P}(#1)}}}
 \newcommand{\symdiff}{\ensuremath{\mathop\triangle}}
 \newcommand{\diff}{\ensuremath{\;:\Longleftrightarrow\;}}
+\newcommand{\abs}[1]{\ensuremath{\lvert#1\rvert}}
 
 \DeclareMathOperator{\Aut}{Aut}
 \DeclareMathOperator{\bigO}{\mathcal{O}}
@@ -112,13 +117,21 @@
 \DeclareMathOperator{\supp}{supp}
 \DeclareMathOperator{\Th}{Th}
 
-\newcommand{\relI}{\ensuremath{\mathrel{I}}}
-\newcommand{\notrelI}{\ensuremath{\not\mathrel{I}}} % preliminary
+%%% description logics
 
 \DeclareMathOperator{\mmsc}{mmsc}
 \DeclareMathOperator{\lcs}{lcs}
+\DeclareMathOperator{\pr}{pr}
+\DeclareMathOperator{\Conf}{Conf}
 
-\newcommand{\abs}[1]{\ensuremath{\lvert#1\rvert}}
+\usepackage{xspace}
+
+\providecommand{\EL}{{\ensuremath{\mathcal{E}\kern-.3ex\mathcal{L}}}\xspace}
+\providecommand{\ELbot}{{\ensuremath{\EL^\bot}}\xspace}
+\providecommand{\ELgfp}{{\ensuremath{\EL_\text{gfp}}}\xspace}
+\providecommand{\ELgfpbot}{{\ensuremath{\EL_\text{gfp}^\bot}}\xspace}
+\providecommand{\Idbpedia}{{\mathcal{I}_{\text{DBpedia}}}}
+\providecommand{\ALC}{\ensuremath{\mathcal{A}\kern-0.05em\mathcal{L}\mathcal{C}}\xspace}
 
 %%% programming
 
@@ -220,25 +233,6 @@
 \AfterEndEnvironment{Definition}{\par\noindent\ignorespaces} % does not work the way it should
 
 \makeatother
-
-\newcommand{\st}{\ensuremath{\colon}}
-\newcommand{\holds}{\ensuremath{\colon}}
-
-\DeclareMathAlphabet{\mathbbm}{U}{bbm}{m}{n}
-
-\providecommand{\cI}{{\mathcal{I}}}
-\providecommand{\cII}{{\mathcal{II}}}
-\providecommand{\cJ}{{\mathcal{J}}}
-
-\usepackage{xspace}
-
-\providecommand{\EL}{{\ensuremath{\mathcal{E}\kern-.3ex\mathcal{L}}}\xspace}
-\providecommand{\ELbot}{{\ensuremath{\EL^\bot}}\xspace}
-\providecommand{\ELgfp}{{\ensuremath{\EL_\text{gfp}}}\xspace}
-\providecommand{\ELgfpbot}{{\ensuremath{\EL_\text{gfp}^\bot}}\xspace}
-\providecommand{\Idbpedia}{{\mathcal{I}_{\text{DBpedia}}}}
-\providecommand{\ALC}{\ensuremath{\mathcal{A}\kern-0.05em\mathcal{L}\mathcal{C}}\xspace}
-\DeclareMathOperator{\Conf}{Conf}
 
 %%% Local Variables: 
 %%% mode: latex

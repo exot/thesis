@@ -1,4 +1,5 @@
-\chapter{Axiomatizing Valid General Concept Inclusions of Finite Interpretations}
+\chapter{Axiomatizing Valid General Concept Inclusions of Finite
+  Interpretations}
 \label{cha:axiom-valid-el}
 
 Our considerations about extracting general concept inclusions from erroneous data will be
@@ -272,9 +273,119 @@ Another useful property is the following, rather technical proposition.
 \subsection{Induced Contexts}
 \label{sec:induced-contexts}
 
-\todo[inline]{Write: induced contexts, relationships between derivation operators and
-  model-based most-specific concept descriptions}%
-\todo[inline]{Write: introduce \emph{expressible in terms of}}%
+We have already seen how formal contexts can be represented as interpretations.  In this
+section we shall introduce the approach of \textcite{Diss-Felix} of \emph{induced
+  contexts}, which somehow provides the inverse direction, \ie to represent
+interpretations as formal contexts.  The notion of induced contexts was also implicitly
+used by works of \textcite{books/math/Prediger00} in her study on \emph{terminological
+  attribute logic}.
+
+\begin{Definition}[Induced Context]
+  \label{def:induced-context}
+  Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be a finite
+  interpretation over $N_C$ and $N_R$, and let $M$ be a set of concept descriptions over
+  $N_C$ and $N_R$.  The \emph{induced context} of $\mathcal{I}$ and $M$ is the formal
+  context $\con K_{\mathcal{I}, M} = (\Delta^{\mathcal{I}}, M, \nabla)$, where for $x \in
+  \Delta^{\mathcal{I}}$ and $C \in M$
+  \begin{equation*}
+    (x, C) \in \nabla \diff x \in C^{\mathcal{I}}.
+  \end{equation*}  
+\end{Definition}
+
+Induced formal contexts do not necessarily represent all of the interpretation
+$\mathcal{I}$; indeed, what is represented of $\mathcal{I}$ heavily depends on the choice
+of the set $M$ of concept descriptions.  We shall see later that we can choose this $M$ to
+obtain a close connection between bases of $\con K_{\mathcal{I}, M}$ and bases of
+$\mathcal{I}$.
+
+We start our considerations about induced contexts by introducing some auxiliary notions
+first.  For a finite set $U \subseteq M$ we define the set
+\begin{equation*}
+  \bigsqcap U :=
+  \begin{cases}
+    \top & \text{ if } U = \emptyset, \\
+    \bigsqcap_{V \in U} V & otherwise.
+  \end{cases}
+\end{equation*}
+We call $\bigsqcap U$ the \emph{concept description defined by} $U$.  Furthermore, for a
+concept description $C$ we define the \emph{projection} of $C$ onto $M$ as
+\begin{equation*}
+  \pr_M(C) := \set{ D \in M \mid C \sqsubseteq D }.
+\end{equation*}
+
+Concept descriptions defined by subsets of $M$ together with projections capture some kind
+of notion of \emph{upper approximation} in terms of $M$: if $C$ is a concept description,
+then the most-specific concept description $D$ satisfying $C \sqsubseteq D$ that can be
+defined by a subset of $M$ is given by
+\begin{equation*}
+  D = \bigsqcap \pr_M(C).
+\end{equation*}
+This looks familiar to our introductory motivation for model-based most-specific concept
+descriptions, and indeed there are similarities.  One of them is that $U \mapsto \bigsqcap
+U$ and $C \mapsto \pr_M(C)$ satisfy the main condition of an antitone Galois connection.
+
+\begin{Lemma}
+  \label{lem:pr-bigsqcap-forms-Galois-connection}
+  Let $M$ be a finite set of concept descriptions over $N_C$ and $N_R$.  Then for each $U
+  \subseteq M$ and each concept description $C$ over $N_C$ and $N_R$ it is true that
+  \begin{equation*}
+    C \sqsubseteq \bigsqcap U \iff U \subseteq \pr_M(C).
+  \end{equation*}
+  In particular, the following statements holds for all $U, V \subseteq M$ and all concept
+  descriptions $C, D$ over $N_C$ and $N_R$.
+  \begin{enumerate}[i. ]
+  \item $C \sqsubseteq D \implies \pr_M(D) \subseteq \pr_M(C)$,
+  \item $U \subseteq V \implies \bigsqcap V \sqsubseteq \bigsqcap U$,
+  \item $C \sqsubseteq \bigsqcap \pr_M(C)$,
+  \item $U \subseteq \pr_M(\bigsqcap U)$.
+  \end{enumerate}
+\end{Lemma}
+\begin{Proof}
+  Assume $C \sqsubseteq \bigsqcap U$.  Then $\pr_M(\bigsqcap U) \subseteq \pr_M(C)$, since
+  every concept description $D \in M$ satisfying $\bigsqcap U \sqsubseteq D$ also
+  satisfies $C \sqsubseteq D$.  Furthermore, $U \subseteq \pr_M(\bigsqcap U)$, since for
+  each $F \in U$ it is true that $\bigsqcap U \sqsubseteq F$.  Thus
+  \begin{equation*}
+    U \subseteq \pr_M(\bigsqcap U) \subseteq \pr_M(C).
+  \end{equation*}
+  For the converse direction assume that $U \subseteq \pr_M(C)$.  Then $\bigsqcap \pr_M(C)
+  \sqsubseteq \bigsqcap U$.  Since for each $D \in \pr_M(C)$ it is true that $C
+  \sqsubseteq D$, we also have $C \sqsubseteq \bigsqcap \pr_M(C)$.  In sum, we obtain
+  \begin{equation*}
+    C \sqsubseteq \bigsqcap \pr_M(C) \sqsubseteq \bigsqcap U.
+  \end{equation*}
+\end{Proof}
+
+For certain concept descriptions $C$, the upper approximation provided by $\bigsqcap
+\pr_M(C)$ coincides with $C$.  Those concept descriptions are exactly those which are
+\emph{expressible in terms of} $M$, \ie there exists a subset $N \subseteq M$ such that $C
+\equiv \bigsqcap N$, as the following small result shows.
+
+\begin{Lemma}[\cite{Diss-Felix}]
+  \label{lem:characterizing-expressible-in-terms-of}
+  Let $M \cup \set{C}$ be a set of concept descriptions over $N_C$ and $N_R$.  Then $C$ is
+  expressible in terms of $M$ if and only if
+  \begin{equation*}
+    C \equiv \bigsqcap \pr_M(C).
+  \end{equation*}
+\end{Lemma}
+\begin{Proof}
+  Clearly, if $C \equiv \bigsqcap \pr_M(C)$, then $C$ is expressible in term of $M$.
+  Conversely, if $C$ is expressible in terms of $M$, then $C \equiv \bigsqcap N$ for some
+  $N \subseteq M$.  Then $C \sqsubseteq D$ for all $D \in N$, and therefore $N \subseteq
+  \pr_M(C)$.  By \Cref{lem:pr-bigsqcap-forms-Galois-connection}, it is thus true that
+  \begin{equation*}
+    C \sqsubseteq \bigsqcap \pr_M(C) \sqsubseteq \bigsqcap N \equiv C
+  \end{equation*}
+  and therefore $C \equiv \bigsqcap \pr_M(C)$.
+\end{Proof}
+
+We can now state some connections between the derivation operators of an induced context
+on one side, and computing the extension of a concept description as well as model-based
+most-specific concept descriptions on the other.
+
+\todo[inline]{Write: relationships between derivation operators and model-based
+  most-specific concept descriptions}%
 \todo[inline]{Write: MATH-AL-08-2012/4.2 and 12-06/4.2}%
 
 \section{Computing Bases of Valid GCIs of a Finite Interpretation}
@@ -296,3 +407,5 @@ Another useful property is the following, rather technical proposition.
 %%% mode: latex
 %%% TeX-master: "../main"
 %%% End: 
+
+%  LocalWords:  Prediger
