@@ -779,12 +779,64 @@ The preceding argument now shows the following claim.
 
 \begin{Theorem}[Theorem~5.10 of~\cite{Diss-Felix}]
   \label{thm:Felix-base-B2}
-  Let $\mathcal{I}$ be a finite interpretation.  Then $\mathcal{B}_2$ as define in
+  Let $\mathcal{I}$ be a finite interpretation.  Then $\mathcal{B}_2$ as defined in
   \Cref{eq:22} is a finite base of $\mathcal{I}$.
 \end{Theorem}
 
-\todo[inline]{Write: show that every base of the induced formal contexts gives rise to a
-  base of the underlying interpretation}%
+A practical disadvantage of the finite base $\mathcal{B}_2$ is its size, which may be
+exponential in the size of $M_{\mathcal{I}}$, which itself may be exponential in the size
+of $\Delta^{\mathcal{I}}$.  To remedy this, we use methods from formal concept analysis to
+extract bases from formal contexts.  In particular, recall that the canonical base of a
+formal context is minimal in size among all bases of a formal context, and that it can be
+computed effectively.  Having this in mind, we further observe that if we consider the
+induced formal context $\con K_{\mathcal{I}} := \con K_{\mathcal{I}, M_{\mathcal{I}}}$,
+that then the set $\mathcal{L} := \set{ A \to A'' \mid A \subseteq M_{\mathcal{I}} }$ is a
+  base of $\con K_{\mathcal{I}}$, and that
+\begin{equation*}
+  \mathcal{B}_2 = \bigsqcap \mathcal{L} := \set{ \bigsqcap A \sqsubseteq \bigsqcap A''
+    \mid (A \to A'') \in \mathcal{L} }.
+\end{equation*}
+Recall that $\bigsqcap A'' \equiv (\bigsqcap A)^{\mathcal{I}\mathcal{I}}$ by
+\Cref{cor:mmsc-lattice}.
+
+We can generalize this observation as follows: if $\mathcal{L} \subseteq \Th(\con
+K_{\mathcal{I}})$ is a base of $\con K_{\mathcal{I}}$ which only contains implications of
+the form $U \to U''$, then the set $\bigsqcap \mathcal{L}$ defined as
+\begin{equation*}
+  \bigsqcap \mathcal{L} := \set{ \bigsqcap U \sqsubseteq (\bigsqcap
+    U)^{\mathcal{I}\mathcal{I}} \mid (U \to U'') \in \mathcal{L} }
+\end{equation*}
+is a base of $\con K_{\mathcal{I}}$.  Note that then $\bigsqcap \mathcal{L}$ is always a
+subset of $\mathcal{B}_2$, but $\bigsqcap \mathcal{L}$ may be much smaller then
+$\mathcal{B}_2$, for example if $\mathcal{L}$ is irredundant or even minimal.
+
+However, there is a redundancy in $\mathcal{L}$ which cannot be removed this way: if $C, D
+\in M_{\mathcal{I}}$ such that $C$ is subsumed by $D$, then the implication $\set{ C } \to
+\set{ D }$ will always be true in $\con K_{\mathcal{I}}$.  But this means that this
+implication has to be contained implicitly or explicitly in any base of $\con
+K_{\mathcal{I}}$.  On the other hand, the resulting GCI $C \sqsubseteq D$ is trivial, and
+could be avoided.
+
+We can alleviate this situation by making use of bases with background knowledge.  The
+background knowledge we are interested in would be
+\begin{equation*}
+  \mathcal{S}_{\mathcal{I}} := \set{ \set{ C } \to \set{ D } \mid C, D \in
+    M_{\mathcal{I}}, C \sqsubseteq D }.
+\end{equation*}
+A base of $\con K_{\mathcal{I}}$ with background knowledge $\mathcal{S}_{\mathcal{I}}$ now
+does not have to contain the information about the implications in
+$\mathcal{S}_{\mathcal{I}}$ anymore, and may thus may be smaller than bases without this
+background knowledge.
+
+\begin{Theorem}[Theorem~5.12 of~\cite{Diss-Felix}]
+  \label{thm:Felix-base-B3}
+  Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be a finite
+  interpretation, and let $\mathcal{L}$ be a base of $\con K_{\mathcal{I}}$ with
+  background knowledge $\mathcal{S}_{\mathcal{I}}$.  Assume that $\mathcal{L}$ only
+  contains implications of the form $U \to U''$ for some $U \subseteq M_{\mathcal{I}}$.
+  Then $\bigsqcap \mathcal{L}$ is a finite base of $\mathcal{I}$.
+\end{Theorem}
+
 \todo[inline]{Write: formulate minimality result}%
 \todo[inline]{Write: unravelling}%
 
