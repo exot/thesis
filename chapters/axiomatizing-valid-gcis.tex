@@ -577,7 +577,7 @@ K_{\mathcal{I}, M}$.
 
   For the equations given in~(\ref{eq:18}) we observe
   \begin{align*}
-    \pr_M((\bigsqcap U)^{\mathcal{I}\mathcal{I}}
+    \pr_M((\bigsqcap U)^{\mathcal{I}\mathcal{I}})
     &= \pr_M((U')^{\mathcal{I}}) \\
     &= U''
   \intertext{by \Cref{prop:connection-I-prime-2} and \Cref{prop:connection-I-prime-1}, and}
@@ -705,7 +705,84 @@ intuition why it is suitable for our purposes the way it is defined.
   \end{equation*}
 \end{Definition}
 
-\todo[inline]{Write: finite case, introduce and motivate $M_{\mathcal{I}}$}%
+Note that $M_{\mathcal{I}}$ is finite since $\mathcal{I}$ is finite, and thus there are
+only finitely many subsets of $\Delta^{\mathcal{I}}$.  Furthermore notice that
+$M_{\mathcal{I}}$ can be computed using the Next-Closure algorithm from
+\Cref{thm:next-closure}.  More precisely, we can compute all concept descriptions
+$X^{\mathcal{I}}$ by noticing that $X^{\mathcal{I}} \equiv
+X^{\mathcal{I}\mathcal{I}\mathcal{I}}$, and we can compute the sets
+$X^{\mathcal{I}\mathcal{I}}$ using Next-Closure because the mapping $X \mapsto
+X^{\mathcal{I}\mathcal{I}}$ is a closure operator on $\subsets{M_{\mathcal{I}}}$.
+
+Before we show how the set $M_{\mathcal{I}}$ helps in finding finite bases, we note an
+important property of it.
+
+\begin{Lemma}[Lemma~5.9 of~\cite{Diss-Felix}]
+  \label{lem:mmsc-are-expressible-in-terms-of-M_I}
+  Let $\mathcal{I}$ be a finite interpretation and let $C$ be a model-based most-specific
+  concept description of $\mathcal{I}$.  Then $C$ is expressible in terms of
+  $M_{\mathcal{I}}$.
+\end{Lemma}
+
+Let us define
+\begin{equation*}
+  \mathcal{B}_2 := \set{ \bigsqcap U \sqsubseteq (\bigsqcap U)^{\mathcal{I}\mathcal{I}}
+    \mid U \subseteq M_{\mathcal{I}} }.
+\end{equation*}
+Then clearly $\mathcal{B}_2 \models (C \sqsubseteq C^{\mathcal{I}\mathcal{I}})$ for $C \in
+N_C$ or $C = \bot$.  For $C = D \sqcap E$ and assuming by induction that $\mathcal{B}_2
+\models (D \sqsubseteq D^{\mathcal{I}\mathcal{I}})$ and $\mathcal{B}_2 \models (E
+\sqsubseteq E^{\mathcal{I}\mathcal{I}})$ we can find that
+\begin{equation*}
+  \mathcal{B}_2 \models (D \sqcap E \sqsubseteq D^{\mathcal{I}\mathcal{I}} \sqcap E^{\mathcal{I}\mathcal{I}}).
+\end{equation*}
+But then $D^{\mathcal{I}\mathcal{I}} \sqcap E^{\mathcal{I}\mathcal{I}}$ is expressible in
+terms of $M_{\mathcal{I}}$ (as a conjunction of model-based most-specific concept
+descriptions using \Cref{lem:mmsc-are-expressible-in-terms-of-M_I}), so
+\begin{equation*}
+  \mathcal{B}_2 \models (D^{\mathcal{I}\mathcal{I}} \sqcap E^{\mathcal{I}\mathcal{I}})
+  \sqsubseteq (D^{\mathcal{I}\mathcal{I}} \sqcap E^{\mathcal{I}\mathcal{I}})^{\mathcal{I}\mathcal{I}}.
+\end{equation*}
+Using \Cref{prop:double-II-under-I} we obtain $(D^{\mathcal{I}\mathcal{I}} \sqcap
+E^{\mathcal{I}\mathcal{I}})^{\mathcal{I}\mathcal{I}} \equiv (D \sqcap
+E)^{\mathcal{I}\mathcal{I}}$, so all in all
+\begin{equation*}
+  \mathcal{B}_2 \models (D \sqcap E \sqsubseteq (D \sqcap E)^{\mathcal{I}\mathcal{I}}).
+\end{equation*}
+Notice that the main arguments here are \Cref{prop:double-II-under-I} and that all
+model-based most-specific concept descriptions are expressible in terms of
+$M_{\mathcal{I}}$.
+
+If $C = \exists r. D$, and assuming that $\mathcal{B}_2 \models (D \sqsubseteq
+D^{\mathcal{I}\mathcal{I}})$, we first obtain
+\begin{equation}
+  \label{eq:22}
+  \mathcal{B}_2 \models ( \exists r. C \sqsubseteq \exists r. C^{\mathcal{I}\mathcal{I}} ).
+\end{equation}
+But then $(\exists r. C^{\mathcal{I}\mathcal{I}}) \in M_{\mathcal{I}}$ up to equivalence,
+so
+\begin{equation*}
+  \mathcal{B}_2 \models ( \exists r. C^{\mathcal{I}\mathcal{I}} \sqsubseteq (\exists
+  r.C^{\mathcal{I}\mathcal{I}})^{\mathcal{I}\mathcal{I}}).  
+\end{equation*}
+Using \Cref{prop:double-II-under-I} again we obtain $(\exists
+r. C^{\mathcal{I}\mathcal{I}})^{\mathcal{I}\mathcal{I}} \equiv (\exists
+r. C)^{\mathcal{I}\mathcal{I}}$, so
+\begin{equation*}
+  \mathcal{B}_2 \models ( \exists r. C \sqsubseteq (\exists r. C)^{\mathcal{I}\mathcal{I}} ).
+\end{equation*}
+Notice that the crucial property in that argumentation is that $M_{\mathcal{I}}$ contains
+concept descriptions of the form $\exists r. C^{\mathcal{I}\mathcal{I}}$, and that
+\Cref{prop:double-II-under-I} has been used again.
+
+The preceding argument now shows the following claim.
+
+\begin{Theorem}[Theorem~5.10 of~\cite{Diss-Felix}]
+  \label{thm:Felix-base-B2}
+  Let $\mathcal{I}$ be a finite interpretation.  Then $\mathcal{B}_2$ as define in
+  \Cref{eq:22} is a finite base of $\mathcal{I}$.
+\end{Theorem}
+
 \todo[inline]{Write: show that every base of the induced formal contexts gives rise to a
   base of the underlying interpretation}%
 \todo[inline]{Write: formulate minimality result}%
