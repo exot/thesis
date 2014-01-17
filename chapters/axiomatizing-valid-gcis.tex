@@ -497,7 +497,7 @@ ordered set is dually isomorphic to the lattice of intents of $\con K_{\mathcal{
 Recall that with $\Int(\con K_{\mathcal{I}, M})$ we denote the set of intents of $\con
 K_{\mathcal{I}, M}$.
 
-\begin{Corollary}
+\begin{Corollary}[contains Corollary~4.13 of~\cite{Diss-Felix}]
   \label{cor:mmsc-lattice}
   Let $\mathcal{I}$ be a finite interpretation and let $M$ be a set of concept
   descriptions such that model-based most-specific concept descriptions of $\mathcal{I}$
@@ -623,13 +623,93 @@ in general for concept descriptions $C$, as the following trivial example shows.
 \label{sec:base-all-valid}
 
 
-\todo[inline]{Write: main idea why model-based most-specific concept description yield
-  bases}%
-\todo[inline]{Write: acyclic case?}%
+Using the notions of model-based most-specific concept descriptions and induced contexts,
+we are finally prepared to introduce some of the main results of \textcite{Diss-Felix} on
+computing bases of finite interpretations.  The main ideas behind these results are to use
+ideas and methods from formal concept analysis, either by simulating them in the
+description logic setting or by transforming the initially given interpretation into
+formal contexts and applying standard methods to it.
+
+Recall that for a (finite) formal context $\con K = (G, M, I)$ the set
+\begin{equation*}
+  \set{ A \to A'' \mid A \subseteq M }
+\end{equation*}
+is always a base of $\con K$.  This is because every valid implication $(A \to B) \in
+\Th(\con K)$ already follows from $A \to A''$, because if $\con K \models (A \to B)$, then
+$A' \subseteq B'$, \ie $B \subseteq A''$ and thus $\set{ A \to A ''} \models (A \to B)$.
+
+Having introduced model-based most-specific concept descriptions, we are able to simulate
+this results in terms of description logics as follows.
+\begin{Lemma}[Lemma 4.3 of~\cite{Diss-Felix}]
+  \label{lem:simple-entailment-with-mmsc}
+  Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be an interpretation,
+  and let $C \sqsubseteq D$ be a general concept inclusion that is valid in $\mathcal{I}$.
+  Then $C \sqsubseteq C^{\mathcal{I}\mathcal{I}}$ is valid in $\mathcal{I}$ as well and $C
+  \sqsubseteq D$ follows from $C \sqsubseteq C^{\mathcal{I}\mathcal{I}}$.
+\end{Lemma}
+
+The following statement is then a simple corollary.
+
+\begin{Corollary}
+  \label{cor:Felix-base-B0}
+  Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be an interpretation
+  over $N_C$ and $N_R$.  Then
+  \begin{equation}
+    \label{eq:20}
+    \mathcal{B}_0 := \set{ C \sqsubseteq C^{\mathcal{I}\mathcal{I}} \mid C \in
+      \ELgfpbot(N_C, N_R), C \neq \bot }
+  \end{equation}
+  is a base of $\mathcal{I}$.
+\end{Corollary}
+
+Of course, this base is not finite in general, \ie if $N_R \neq \emptyset$.  However,
+based in this result, Distel investigates subsets of $\mathcal{B}_0$ and finally arrives
+at a finite base.  The first step into this direction is to show that \ELbot concept
+descriptions are actually enough in the following sense.  The main advantage of this
+result is that we can now use induction over the premises of general concept inclusions.
+
+\begin{Theorem}[Theorem~5.7 of~\cite{Diss-Felix}]
+  \label{thm:Felix-base-B1}
+  Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be an interpretation
+  over $N_C$ and $N_R$.  Then
+  \begin{equation}
+    \label{eq:21}
+    \mathcal{B}_1 := \set{ C \sqsubseteq C^{\mathcal{I}\mathcal{I}} \mid C \in \ELbot(N_C,
+      N_R), C \neq \bot }
+  \end{equation}
+  is a base of $\mathcal{I}$.
+\end{Theorem}
+
+The proof of this theorem is quite involved, and again involves \EL description graphs and
+simulations between them.  We shall not go into details here, and refer the reader
+to~\cite[Section 5.1.1]{Diss-Felix}.
+
+The base $\mathcal{B}_1$ is still not finite in general.  To achieve this, we consider a
+particular finite set $M_{\mathcal{I}}$ of concept descriptions which turns out to be
+enough in the sense that we only need to consider general concept inclusions $C
+\sqsubseteq C^{\mathcal{I}\mathcal{I}}$ where $C = \bigsqcap U$ for some $U \subseteq
+M_{\mathcal{I}}$.  Since $M_{\mathcal{I}}$ is finite, the so resulting set of general
+concept inclusions is finite and is therefore a finite base of $\mathcal{I}$.
+
+The definition of $M_{\mathcal{I}}$ seems to be incomprehensible at first.  However, since
+this set will play a major role for our further considerations, we shall give some
+intuition why it is suitable for our purposes the way it is defined.
+
+\begin{Definition}[$M_{\mathcal{I}}$]
+  \label{def:M_I}
+  Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be a finite
+  interpretation over $N_C$ and $N_R$.  Then
+  \begin{equation*}
+    M_{\mathcal{I}} := N_C \cup \set{ \bot } \cup \set{ \exists r. X^{\mathcal{I}} \mid
+      r \in N_R, X \subseteq \Delta^{\mathcal{I}}, X \neq \emptyset }.
+  \end{equation*}
+\end{Definition}
+
 \todo[inline]{Write: finite case, introduce and motivate $M_{\mathcal{I}}$}%
-\todo[inline]{Write: formulate minimality result}%
 \todo[inline]{Write: show that every base of the induced formal contexts gives rise to a
   base of the underlying interpretation}%
+\todo[inline]{Write: formulate minimality result}%
+\todo[inline]{Write: unravelling}%
 
 %%% Local Variables: 
 %%% mode: latex
