@@ -748,7 +748,206 @@ the least common subsumer.  The construction involves \emph{\EL descriptions gra
 \emph{products} of these graphs.  We shall not go into details here, and refer the
 interested reader to the literature.
 
+\section{Unravelling \ELgfpbot Concept Descriptions}
+\label{sec:unrav-elgfpb-conc}
 
+\ELgfpbot has a disadvantage over \ELbot which inhibits its practical use: due to the
+cyclic nature of \ELgfpbot concept descriptions their meaning is often hard to grasp, and
+especially for non-experts in logics, \ELgfpbot concept descriptions are mostly
+incomprehensible.  On the other side, we need to consider \ELgfpbot concept descriptions
+to guarantee the existence of model-based most-specific concept descriptions.  Therefore,
+we cannot dispense with \ELgfpbot as a whole.
+
+Instead, we discuss a method which allows us to transform \ELgfpbot concept descriptions
+into \ELbot concept descriptions in a way suitable for our considerations.  This
+transformation is based on \emph{unravelling} \ELgfpbot concept descriptions \emph{up to a
+certain depth}.  Concept descriptions such obtained will always be \ELbot concept
+descriptions, which are usually much easier to read and understand.
+
+Recall that \ELgfpbot concept descriptions $C$ are either of the form $C = \bot$ or $C =
+(A, \mathcal{T})$ for some cyclic TBox $\mathcal{T}$ and $A \in N_D(\mathcal{T})$.
+Intuitively, unravelling \ELgfpbot concept descriptions up to a certain depth means that
+we ``unfold'' a potentially cyclic \ELgfpbot concept description into \ELbot concept
+descriptions with a certain quantifier depth.  Of course, $\bot$ is already an \ELbot
+concept description, so it suffices to discuss unravelling of \ELgfp concept descriptions
+only.
+
+Let us consider an example before we shall introduce the method in detail.
+
+\begin{Example}
+  \label{expl:unravelling}
+  Recall the example concept description from \Cref{expl:mmsc-exist-in-ELgfpbot}
+  \begin{equation*}
+    C := (A, \set{ A \equiv \exists r. A }).
+  \end{equation*}
+  We had argued intuitively that this concept description could be viewed as some kind of
+  ``infinite'' \ELbot concept description of the form
+  \begin{equation*}
+    C \equiv \exists r. \exists r. \exists r. \dots
+  \end{equation*}
+  Let $d \in \NN$.  Then an unravelling of $C$ up to depth $d$ would yield a concept
+  description $C_d$ that stems from $C$ by ``cutting'' the infinite chain of quantifiers
+  after the $d$ steps, \ie
+  \begin{equation*}
+    C_d = \underbrace{\exists r. \exists r. \dots \exists r.}_{d \text{ times}} \top.
+  \end{equation*}
+  The role-depth of $C_d$ is then $d$, because the largest chain of nested existential
+  quantifiers in $C_d$ has depth $d$.
+\end{Example}
+
+Let us make the previous argumentation formally precise.  To this end, we shall start by
+introducing the notion of \emph{role depth} of \ELbot concept descriptions.
+
+\begin{Definition}[Role Depth of \ELbot concept descriptions]
+  \label{def:role-depth}
+  Let $N_C$ and $N_R$ be two disjoint sets.  Then the \emph{role-depth} $d(C)$ of a
+  concept description $C \in \ELbot(N_C, N_R)$ is inductively defined as follows.
+  \begin{enumerate}[i. ]
+  \item $d(\bot) = 0$ and $d(A) = 0$ for $A \in N_C$.
+  \item $d(C \sqcap D) = \max\set{d(C), d(D)}$ for $C, D \in \ELbot(N_C, N_R)$,
+  \item $d(\exists r. C) = 1 + d(C)$ for $C \in \ELbot(N_C, N_R)$.
+  \end{enumerate}
+\end{Definition}
+
+The general argumentation for formalizing the notion of unravelling up to a certain depth
+will be achieved in two steps.  Firstly, we shall convert a given \ELgfp concept
+description $C$ into its \emph{\EL description graph}~\cite{DBLP:conf/ijcai/Baader03a}, a
+notion which we have already encountered before and which we shall now discuss in detail.
+Those graphs will then be unraveled into \emph{rooted trees}, which in general are
+infinite.  To then obtain the unravelling of $C$ up to a certain depth $d \in \NN$, we
+shall consider only the part of this tree that can be reached from the root in $d$ steps.
+This subgraph of the \EL description graph of $C$ then gives rise to a concept description
+$C_d$, the unravelling of $C$ up to depth $d$.
+
+\begin{Definition}[\EL Description Graph]
+  \label{def:EL-description-graph}
+  Let $N_C$ and $N_R$ be two disjoint sets, and let $C = (A, \mathcal{T})$ be an \ELgfp
+  concept description.  Then the \emph{\EL description graph} $G_C = (V, E, L)$ of $C$ is
+  defined as follows: recall that for every primitive concept definition $(B \equiv D) \in
+  \mathcal{T}$, the concept description $D$ has the form
+  \begin{equation*}
+    D = P_1 \sqcap \dots \sqcap P_n \sqcap \exists r_1. B_1 \sqcap \exists r_m. B_m
+  \end{equation*}
+  for $m, n \in \NN_0, P_1, \dots, P_n \in N_C, r_1, \dots, r_m \in N_R$ and $B_1, \dots,
+  B_m \in N_D(\mathcal{T})$.  We then define
+  \begin{align*}
+    \names(B) &:= \set{ P_1, \dots, P_n },\\
+    \rsucc_r(B) &:= \set{ B_i \mid 1 \leq i \leq m, r_i = r }
+  \end{align*}
+  for every $r \in N_R$.
+
+  Then to define $G_C = (V, E, L)$ we set
+  \begin{enumerate}[i. ]
+  \item $V := N_D(\mathcal{T})$,
+  \item $E := \set{ (B_1, r, B_2) \mid B_1, B_2 \in N_D(\mathcal{T}), B_2 \in
+      \rsucc_r(B_1) }$,
+  \item $L(B) := \names(B)$ for each $B \in N_D(\mathcal{T})$.
+  \end{enumerate}
+  We shall call $V$ the \emph{vertices}, $E$ the \emph{edges} and $L$ the \emph{labeling
+    function} of the description graph $G_C$.
+\end{Definition}
+
+It is easy to see that every \EL description graph can be converted into a corresponding
+concept description by just reverting the process described in the above definition.
+Moreover, if a concept description is converted into an \EL description graph, and than
+back into a concept description, then the resulting concept description is equivalent to
+the original one.
+
+To now define the notion of an unravelling of a given \EL description graph $G_C = (V, E,
+L)$ we shall follow the definitions as in~\cite{Diss-Felix} and introduce the notion of a
+\emph{directed path} in $G_C$.  Such a directed path is a word $w = A_1 r_1 A_2 r_2 \dots
+r_n A_{n+1}$ for some $n \in \NN_0$ such that $A_1, \dots, A_{n+1} \in V$ and for all $1
+\leq i \leq n$ it is true that $(A_i, r_i, A_{i+1}) \in E$.  We shall then say that the
+directed path $w$ \emph{starts} at $A_1$ and \emph{ends} at $A_{n+1}$, and shall also
+write $\delta(w) := A_{n+1}$ and call $\delta(w)$ the \emph{destination} of $w$.  The
+\emph{length} $\operatorname{len}(w)$ of $w$ is defined to be $n$.
+
+\begin{Definition}[Unravelling of \EL description graphs]
+  \label{def:unravelling-of-EL-description-graphs}
+  Let $N_C$ and $N_R$ be two disjoint sets, let $C \in \ELgfp(N_C, N_R)$ and let $G_C =
+  (V, E, L)$ the \EL description graph of $C$.  Then the \emph{unravelling} of $G_C$ is
+  defined to be the graph $G_\infty = (V_\infty, E_\infty, L_\infty)$ where
+  \begin{enumerate}[i. ]
+  \item $V_\infty$ is the set of all directed path in $G_C$,
+  \item $E_\infty := \set{ (w, r, wrB) \mid w, wrB \in V_\infty }$,
+  \item $L_\infty(w) := L(\delta(w))$ for $w \in V_\infty$.
+  \end{enumerate}
+  Let $d \in \NN_0$.  Then the \emph{unravelling} of $G_C$ \emph{up to depth $d$} is
+  defined as $G_d := (V_d, E_d, L_d)$ where
+  \begin{enumerate}[i. ]
+  \item $V_d := \set{ w \in V_\infty \mid \operatorname{len}(w) \le d }$,
+  \item $E_d := \set{ (A, r, B) \in E_\infty \mid A, B \in V_d }$,
+  \item $L_d(w) := L_\infty(w)$ for $w \in V_d$.
+  \end{enumerate}
+  In addition, we set $\bot_d := \bot$ for each $d \in \NN_0$.
+\end{Definition}
+
+A crucial result about unravellings $C_d$ of concept descriptions $C$ is the following
+lemma.
+
+\begin{Lemma}[Lemma~5.3 of~\cite{Diss-Felix}]
+  \label{lem:unravelling-is-more-general}
+  Let $C$ be an \ELgfpbot concept description.  Then for all $d \in \NN_0$ it is true that
+  $C \sqsubseteq C_d$.
+\end{Lemma}
+
+To finish this chapter, let us consider an example which illustrates the process of
+unravelling.
+
+\begin{Example}
+  \label{expl:EL-description-graph}
+  Let us revisit \Cref{expl:unravelling} again and let us compute unravellings of the \EL
+  concept description $C = (A, \set{ A \equiv \exists r. A })$ formally now.  Its \EL
+  description graph is then
+  \begin{equation*}
+    G_C = (\set{ A }, \set{ (A, r, A) }, A \mapsto \emptyset),
+  \end{equation*}
+  and can be depicted as follows
+  \begin{center}
+    \begin{tikzpicture}
+      \node[circle, draw] (A) {$A$};
+      \draw[->,>=stealth'] (A) edge[looseness=8] node[midway, above] {r} (A);
+    \end{tikzpicture}
+  \end{center}
+  The unravelling of $G_C$ is then the graph $G_\infty$ which corresponds to the following
+  picture
+  \begin{center}
+    \begin{tikzpicture}
+      \path{
+        node[circle, draw, label=right:{\tiny$A$}] (A1) at (0,0) {}
+        node[circle, draw, label=right:{\tiny$A r A$}]
+        (A2) at (0,-1) {}
+        node[circle, draw, label=right:{\tiny$A r A r A$}]
+        (A3) at (0,-2) {}
+        node[coordinate] (and so on) at (0,-3) {}
+        %% 
+        (A1) edge[->] node[midway, auto] {r} (A2)
+        (A2) edge[->] node[midway, auto] {r} (A3)
+        (A3) edge[dotted, ->] node[midway, auto] {r} (and so on)
+      };
+    \end{tikzpicture}
+  \end{center}
+  where the path to which every node corresponds is depicted right of the node.  Then, for
+  $d = 3$, the unravelling of $G_C$ up to depth $3$ would just be the graph
+  \begin{center}
+    \begin{tikzpicture}
+      \path{
+        node[circle, draw, label=right:{\tiny$A$}] (A1) at (0,0) {}
+        node[circle, draw, label=right:{\tiny$A r A$}]
+        (A2) at (0,-1) {}
+        node[circle, draw, label=right:{\tiny$A r A r A$}]
+        (A3) at (0,-2) {}
+        %% 
+        (A1) edge[->] node[midway, auto] {r} (A2)
+        (A2) edge[->] node[midway, auto] {r} (A3)
+      };
+    \end{tikzpicture}
+  \end{center}
+  and the corresponding \ELbot concept description is
+  \begin{equation*}
+    C_3 = \exists r. \exists r. \exists r. \top.
+  \end{equation*}
+\end{Example}
 
 %%% Local Variables: 
 %%% mode: latex
