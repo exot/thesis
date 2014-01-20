@@ -1,6 +1,70 @@
-
 \chapter{Axiomatizing Confident \EL-GCIs of Finite Interpretations}
 \label{cha:axiom-conf-el}
+
+The results obtained by Distel about computing finite bases of finite interpretations are
+not only interesting from a theoretical point of view.  Although we have skipped most of
+the details, all the relevant results are \emph{effective} in the sense that the bases
+obtained can in principle be computed by computers.  Thus, these results may also be
+interesting for practical applications.
+
+A possible application of Distel's results is to compute bases from \emph{Linked Open
+  Data}~\cite{Linked-Data}, a format for representing data as used by the semantic web.
+This data format is mainly constituted of RDF triples and can be thought of as an
+edge-labeled graph.  As such, it is very similar to interpretations, and thus Distel's
+results are applicable here.
+
+As a first contribution of this thesis we have implemented the major results obtained by
+Distel on computing finite bases as described previously, and applied them to a particular
+data set of the \emph{Linked Open Data Cloud}, namely to a subset of the DBpedia data
+set~\cite{DBpedia}.  In \Cref{sec:computing-bases-from} we describe this experiment in
+detail and show what Distel's results yield when applied to this data set.  This
+experiment has also been discussed previously
+in~\cite{Borchmann:confident-GCIs,DBLP:conf/icdm/BorchmannD11}.
+
+One result obtained from this experiment is that Distel's results are very sensitive to
+\emph{errors} in the data.  This is actually not surprising: bases of finite
+interpretations only contain general concept inclusion which are valid in the data, and if
+there is only one single counterexample to a general concept inclusions it is not
+contained in any base.
+
+If those counterexamples are erroneous, however, then this can cause problems.  Not only
+that otherwise valid general concept inclusions are not obtained by Distel's results
+anymore.  Sporadic erroneous counterexamples may also cause GCIs found while computing
+bases to be rather complicated, because those GCIs have to avoid those erroneous
+counterexamples.
+
+To remedy, or at least to alleviate this effect of erroneous counterexample for computing
+finite bases we shall consider an extension of Distel's results which tries to find bases
+of GCIs which are not necessarily valid in the given interpretation, but instead enjoy a
+\emph{high confidence} in it.  The notion of \emph{confidence} is borrowed from
+data-mining~\cite{arules:agrawal:association-rules}, more precisely from the theory of
+\emph{association rules}, and allows to measure how much an association rule is allowed to
+ignore counterexamples.  We shall transfer the notion of confidence also to general
+concept inclusions and shall then try to find bases for those \emph{GCIs with high
+  confidence} instead.
+
+For this we shall make use of results obtained by Luxenburger from his work on
+\emph{partial implications}~\cite{diss:Luxenburger,Luxenburger91}, and extensions
+thereof~\cite{DBLP:conf/ki/StummeTBPL01}.  Partial implications can be thought of as
+implications considered together with their confidence in some particular formal context.
+We shall discuss in \Cref{Luxen-base} how these results allow us to obtain bases of all
+implications which have \emph{high confidence} in some given formal context.
+
+In \Cref{sec:first-base} we then show how these ideas can be simulated in \ELgfpbot to
+find bases for GCIs with high confidence.  Moreover, we shall also show in
+\Cref{sec:bases-confident-gcis} how bases of implications with high confidence yield bases
+of GCIs with high confidence.  Finally, we shall also discuss a minimality result in
+\Cref{sec:minimality-result} which is similar to the one given in \Cref{thm:Felix-5.18},
+as well as how to obtain \ELbot bases of \ELgfpbot bases for GCIs with high confidence.
+
+The results thus obtained are again all effective, and we shall discuss some experiments
+in \Cref{sec:exper-with-conf} which use the same data-set as the one used in
+\Cref{sec:computing-bases-from}.  This allows us to directly compare the approaches of
+computing bases of valid GCIs on the one hand, and bases of GCIs with high confidence on
+the other.  Moreover, we shall also discuss shortcomings of the approach of considering
+GCIs with high confidence, which will eventually lead us to considering extensions of the
+attribute exploration algorithm.  These will be discussed in
+\Cref{cha:expl-conf,cha:model-expl-conf}.
 
 \section{Computing Bases from DBpedia}
 \label{sec:computing-bases-from}
@@ -9,21 +73,21 @@
 \todo[inline]{Write: show results}%
 \todo[inline]{Write: motivate confidence of GCIs}%
 
-\section{Partial Implications of Formal Contexts}
-\label{sec:conf-impl-conf}
-
-\todo[inline]{Write: confidence of implications}%
-\todo[inline]{Write: introduce work of Luxenburger}%
-
 \section{Confident GCIs of Finite Interpretations}
 \label{sec:confident-gcis}
 
 \todo[inline]{Write: introduce notion of confidence for GCIs of finite interpretations}%
 
+\subsection{Luxenburger's Base}
+\label{Luxen-base}
+
+\todo[inline]{Write: confidence of implications}%
+\todo[inline]{Write: introduce work of Luxenburger}%
+
 \subsection{A Luxenburger-Style Base of all Confident GCIs}
 \label{sec:first-base}
 
-\todo[inline]{Write: adapt idea from Luxenburger}%
+\todo[inline]{Write: adapt ideas from Luxenburger}%
 \todo[inline]{Write: use neighborhood-relation}%
 \todo[inline]{Write: show how to compute this base from the induced context}
 
@@ -38,18 +102,19 @@
 
 \todo[inline]{Write: completing sets and the minimality result}
 
+\subsection{Unravelling \ELgfpbot Bases into \ELbot Bases}
+\label{sec:unrav-elgfpb-bases}
+
+\todo[inline]{Write: introduce unravelling of \ELgfpbot concept descriptions}%
+\todo[inline]{Write: show how unravelling can be used to obtain \ELbot-Bases from
+  \ELgfpbot ones (12-06/6)}%
+
 \section{Experiments with Confident GCIs}
 \label{sec:exper-with-conf}
 
 \todo[inline]{Write: recall initial experiments, and show how the approach performs}%
 \todo[inline]{Write: include results from 12-06/5}
 
-\section{Unravelling \ELgfpbot-Bases into \ELbot-Bases}
-\label{sec:unrav-elgfpb-bases}
-
-\todo[inline]{Write: introduce unravelling of \ELgfpbot concept descriptions}%
-\todo[inline]{Write: show how unravelling can be used to obtain \ELbot-Bases from
-  \ELgfpbot ones (12-06/6)}%
 
 %%% Local Variables: 
 %%% mode: latex
