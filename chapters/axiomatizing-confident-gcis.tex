@@ -142,8 +142,8 @@ attention to the relation
 \end{equation*}
 From this subset, we constructed an interpretation $\Idbpedia = (\Delta^{\Idbpedia},
 \cdot^{\Idbpedia})$.  To make the following considerations easier to read we shall drop
-the prefix \texttt{http://dbpedia.org/ontology/}, and for example just write
-\textsf{child} instead of \texttt{http://dbpedia.org/ontology/child}.
+the prefix and just write \textsf{child} instead of
+\texttt{http://dbpedia.org/ontology/child}, for example.
 
 To construct $\Idbpedia$ we first computed all triples $T_{\mathsf{child}}$ from the
 DBpedia data set whose predicate is \textsf{child}.  The subjects of these triples where
@@ -219,20 +219,64 @@ relationships among the concept names occurring in $\Idbpedia$ only, for example
 \end{align*}
 where the last GCI states that there are no individuals in DBpedia which have children and
 are both a criminal and a politician.  This knowledge can indeed be useful to learn the
-hierarchy of concept names of $\Idbpedia$.  On the other side, this knowledge does not yet
-show whether Distel's results are practical, as it could have easily been obtained my
-methods from formal concept analysis alone.
+hierarchy of concept names (\emph{taxonomy}) of $\Idbpedia$.  On the other side, this
+knowledge does not yet show whether Distel's results are practical, as it could have
+easily been obtained my methods from formal concept analysis alone.
 
-However, there other GCIs present in $\mathcal{B}_{\Idbpedia}$ as well, which indeed
-indicate the usefulness of Distel's results.  For example, the GCI
+However, Distel's approach let's us find more disjointness constraints than just between
+concept names.  For example, $\mathcal{B}_{\Idbpedia}$ contains the GCI
 \begin{equation*}
    \sf Philosopher \sqcap \exists child. \top \sqsubseteq \bot
 \end{equation*}
-saying that philosophers have children (or at least not children famous enough to occur in
-Wikipedia).  More of such disjointness constraints are contained in
-$\mathcal{B}_{\Idbpedia}$, 
+expressing that philosophers have children (or at least not children famous enough to
+occur in Wikipedia).  Indeed, since $\mathcal{B}_{\Idbpedia}$ is complete for $\Idbpedia$,
+all disjointness constraints valid in $\Idbpedia$ can either be found in this base or are
+entailed by it.
 
-\todo[inline]{Write: show results}%
+There are other GCIs contained in $\mathcal{B}_\Idbpedia$ which are not disjointness
+constraints or only express knowledge about concept names.  Two of them for which we could
+argue that they can be useful are
+\begin{align*}
+  \sf \exists child. Person &\sqsubseteq \sf Person, \\
+  \sf FictionalCharacter \sqcap \exists child. Person &\sqsubseteq \sf \exists child. FictionalCharacter
+\end{align*}
+where the second GCI can be seen as some kind of \ELbot approximation of the fact that
+fictional characters can only have fictional characters as their children.
+
+On the other hand, $\mathcal{B}_\Idbpedia$ also contains many GCIs whose usefulness is
+highly doubtful, either because they combine otherwise unrelated concepts, or they are too
+specific.
+
+An example for the first case is
+\begin{equation*}
+  \sf Person \sqcap \exists child. Book \sqsubseteq FictionalCharacter
+\end{equation*}
+which does not really represent any meaningful knowledge.  On the other hand, this GCI
+indicates that DBpedia finds books as children only on Wikipedia pages on fictional
+characters.  Thus, such GCIs may help to find errors in the way DBpedia extracts
+information, but are not helpful as knowledge itself.  Similar examples are
+\begin{align*}
+  \sf \exists child. Newspaper \sqcap Person &\sqsubseteq \sf Writer, \\
+  \sf \exists child. MilitaryUnit &\sqsubseteq \sf Judge, \\
+  \sf \exists child. Settlement \sqcap Politician &\sqsubseteq \sf Congressman.
+\end{align*}
+
+An example for a GCI which can be considered to be too specific is
+\begin{gather*}
+  \sf \exists child. Ambassador \sqcap OfficeHolder \\
+  \sqsubseteq \sf \exists
+  child. (Ambassador \sqcap \exists child. Person) \sqcap {}\\
+  \phantom{\sqsubseteq{}} \sf\exists child. (OfficeHolder \sqcap \exists child.
+  Congressman \sqcap \exists child. Actor \sqcap \exists child OfficeHolder).
+\end{gather*}
+Indeed, this GCI only applies to the individual \texttt{Joseph\_P.\_Kennedy\%2C\_Sr.}, and
+thus it states information only about this very individual and its children.  To cope with
+such situations, Distel extended his results about computing bases of finite
+interpretations to \emph{model exploration} which also allows for \emph{expert
+  interaction}, in a way similar to attribute exploration in formal concept analysis.  We
+shall discuss this algorithm in more detail in \Cref{cha:model-expl-conf}.
+
+\todo[inline]{Write: show results about errors on \texttt{Person}}%
 \todo[inline]{Write: motivate confidence of GCIs}%
 
 \section{Confident GCIs of Finite Interpretations}
