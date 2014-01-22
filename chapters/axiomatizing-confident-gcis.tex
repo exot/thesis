@@ -9,10 +9,10 @@ interesting for practical applications.
 
 A possible application of Distel's results is to compute bases from \emph{Linked Open
   Data}~\cite{Linked-Data}, a format for representing data as used by the semantic
-web~\cite{journal/sciam/BernersLeeHL01,DBLP:conf/dagstuhl/2003sweb}.  This data format is
-mainly constituted of RDF triples and can be thought of as an edge-labeled graph.  As
-such, it is very similar to interpretations, and thus Distel's results are applicable
-here.
+web~\cite{journal/sciam/BernersLeeHL01,DBLP:conf/dagstuhl/2003sweb}\todo{add reference to
+  \emph{Foundations of Semantic Web Technologies}}.  This data format is mainly
+constituted of RDF triples and can be thought of as an edge-labeled graph.  As such, it is
+very similar to interpretations, and thus Distel's results are applicable here.
 
 As a first contribution of this thesis we have implemented the major results obtained by
 Distel on computing finite bases as described previously, and applied them to a particular
@@ -64,13 +64,174 @@ in \Cref{sec:exper-with-conf} which use the same data-set as the one used in
 computing bases of valid GCIs on the one hand, and bases of GCIs with high confidence on
 the other.  Moreover, we shall also discuss shortcomings of the approach of considering
 GCIs with high confidence, which will eventually lead us to considering extensions of the
-attribute exploration algorithm.  These will be discussed in
-\Cref{cha:expl-conf,cha:model-expl-conf}.
+attribute exploration algorithm.  These will be discussed in \Cref{cha:expl-conf} and
+\Cref{cha:model-expl-conf}.
 
 \section{Computing Bases from DBpedia}
 \label{sec:computing-bases-from}
 
-\todo[inline]{Write: talk about example data set from DBpedia's child relation}%
+We want to evaluate the practicability of Distel's results by applying them to linked data
+extracted from the Linked Open Data Cloud.  In other words, given some linked data, we
+want to extract a complete set of general concept inclusions that is valid within this
+data set.
+
+Of course, before we can do so we first have to discuss how we can obtain an
+interpretation from a given linked data set, and one which sufficiently reflects the
+logical structure of the initial data set.
+
+Recall that a finite interpretation $\mathcal{I} = (\Delta^{\mathcal{I}},
+\cdot^{\mathcal{I}})$ over $N_C$ and $N_R$ consists of a set $\Delta^{\mathcal{I}}$ and a
+mapping $\cdot^{\mathcal{I}}$ that maps every $A \in N_C$ to a set $A^{\mathcal{I}}
+\subseteq \Delta^{\mathcal{I}}$, and every $r \in N_R$ to a set of pairs $r^{\mathcal{I}}
+\subseteq \Delta^{\mathcal{I}} \times \Delta^{\mathcal{I}}$.  We have also already seen
+some examples of depicting interpretations as \emph{graphs}, more precisely as
+\emph{directed edge- and vertex-labeled graphs}.  Indeed, interpretations are essentially
+nothing else than those graphs, where the set of vertex labels is $N_C$ and the set of
+edge labels is $N_R$.
+
+Linked data is now quite similar to labeled graphs.  More precisely, linked data is just
+an edge-labeled graph, represented by so-called \emph{RDF-Triples}.  Every triple consists
+of a \emph{subject}, a \emph{predicate}, and an \emph{object} (in that order), each of
+them being an \emph{uniform resource identifier} (URI).  The idea is that RDF-Triples
+encode the information that the subject is connected to the object by means of the
+predicate.  Two examples of RDF-Triples, taken from the DBpedia data set~\cite{DBpedia},
+are\footnote{Indeed, these are \emph{serializations} of RDF-Triples, in this case in the
+  so-called \emph{N-Triples} format}
+\begin{verbatim}
+  <http://dbpedia.org/resource/Aristotle>
+  <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+  <http://dbpedia.org/ontology/Philosopher> .
+
+  <http://dbpedia.org/resource/Aristotle>
+  <http://dbpedia.org/ontology/influenced>
+  <http://dbpedia.org/resource/Western_philosophy> .
+\end{verbatim}
+Intuitively, these triples encode the facts that \emph{Aristotle is (was) a philosopher}
+and that \emph{Aristotle influenced Western Philosophy}.
+
+Since RDF-Triples constitute edge-labeled graphs, we can take them as they are and regard
+them as interpretations over $N_C = \emptyset$ and $N_R$, where $N_R$ is just the set of
+all predicates which appear in RDF-Triples in the data set.  This approach would work,
+however it would only yield GCIs where no concept names are present.  Such terminological
+knowledge may not be very interesting.
+
+To alleviate this problem we make use of the special RDF predicate
+\begin{equation}
+  \label{eq:16}
+  \verb|http://www.w3.org/1999/02/22-rdf-syntax-ns#type|
+\end{equation}
+which expresses that a subject is an instance of a certain
+class.\footnote{\url{http://www.w3.org/1999/02/22-rdf-syntax-ns}}  If we consider triples
+with this predicates not has edges in the linked graph, but instead as the information
+that the subject is an instance of the object, then we indeed consider linked data as a
+vertex- and edge-labeled graph with vertex labels $N_C$ and edge-labels $N_R$, where $N_C$
+is not empty in general.
+
+This view on linked data now allows us to consider it as an interpretation over some sets
+$N_C$ and $N_R$, and to apply Distel's result to such data sets.  For our experiments, we
+have chosen a subset of the DBpedia data set as of March 2010 (Version
+3.5)\footnote{\url{http://wiki.dbpedia.org/Downloads35?v=pb8}}.  The linked data contained
+within the DBpedia data-set has been extracted automatically from \emph{Wikipedia
+  Infoboxes}, which are a means to represent facts about the topic of the current page in
+a compact way.
+
+The subset of the DBpedia data-set we used for our experiments arises by restricting our
+attention to the relation
+\begin{equation*}
+  \verb|http://dbpedia.org/ontology/child|.
+\end{equation*}
+From this subset, we constructed an interpretation $\Idbpedia = (\Delta^{\Idbpedia},
+\cdot^{\Idbpedia})$.  To make the following considerations easier to read we shall drop
+the prefix \texttt{http://dbpedia.org/ontology/}, and for example just write
+\textsf{child} instead of \texttt{http://dbpedia.org/ontology/child}.
+
+To construct $\Idbpedia$ we first computed all triples $T_{\mathsf{child}}$ from the
+DBpedia data set whose predicate is \textsf{child}.  The subjects of these triples where
+collected into $\Delta^{\Idbpedia}$.  We defined
+\begin{equation*}
+  \mathsf{child}^{\Idbpedia} := \set{ (s, o) \in \Delta^\Idbpedia \times \Delta^\Idbpedia
+    \mid (s, \mathsf{child}, o) \in T_{\mathsf{child}} }.
+\end{equation*}
+Examples for triples contained in $T_{\mathsf{child}}$ are
+\begin{verbatim}
+<Abraham_Lincoln> <child> <Robert_Todd_Lincoln> .
+<Abraham_Lincoln> <child> <Edward_Baker_Lincoln> .
+\end{verbatim}
+Therefore,
+\begin{align*}
+  (\mathtt{Abraham\_Lincoln}, \mathtt{Robert\_Todd\_Lincoln}) &\in \mathsf{child}^{\Idbpedia},\\
+  (\mathtt{Abraham\_Lincoln}, \mathtt{Edward\_Baker\_Lincoln}) &\in \mathsf{child}^{\Idbpedia}.
+\end{align*}
+
+Then we considered all triples $T_{\mathsf{type}}$ whose predicate is the special type
+predicate of \Cref{eq:16} and whose subject is contained in $\Delta^{\Idbpedia}$.  The
+objects of those triples where collected into a set $N_C$, \ie they constituted the
+concept names of $\Idbpedia$.\footnote{We omitted
+  \texttt{http://www.w3.org/2002/07/owl\#Thing} in $N_C$, as it does not introduce any
+  meaningful information} Then, for an $A \in N_C$, we defined $A^{\Idbpedia}$ to be the
+set of all subjects which appear in a triple in $T_{\mathsf{type}}$, \ie
+\begin{equation*}
+  A^{\Idbpedia} := \set{ s \in \Delta^{\Idbpedia} \mid (s, t, A) \in
+    T_{\mathsf{type}} }
+\end{equation*}
+where $t$ stands for the special RDF type predicate of \Cref{eq:16}.  Example triples from
+$T_{\mathsf{type}}$ concerning \verb|Abraham_Lincoln| are
+\begin{verbatim}
+<Abraham_Lincoln>
+<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+<Person> .
+
+<Abraham_Lincoln>
+<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+<OfficeHolder> .
+\end{verbatim}
+and therefore
+\begin{align*}
+  \mathtt{Abraham\_Lincoln} &\in \mathtt{Person}^{\Idbpedia}, \\
+  \mathtt{Abraham\_Lincoln} &\in \mathtt{OfficeHolder}^{\Idbpedia}.
+\end{align*}
+
+The interpretation $\Idbpedia$ then 5624 elements and contained 60 concept names, \ie
+$\abs{ N_C } = 60$.  By construction, that there is only one role name in $\Idbpedia$,
+namely \textsf{child}.  To now compute bases of $\Idbpedia$ means to extract all knowledge
+about the child-relation present in DBpedia and expressible in \ELbot.
+
+We have to note, however, that the \emph{child}-relation in DBpedia contains some false
+information, mostly due to the way this information is extracted from Wikipedia Infoboxes.
+More precisely, our interpretation $\Idbpedia$ not only contains elements which correspond
+to humans, but also contains elements which are instances of \texttt{Work},
+\texttt{Organisation} or \texttt{PopulatedPlace}, among others.  However, those artifacts
+are quite rare, and it is still reasonable to use $\Idbpedia$ for our experiments.
+
+To this end we have implemented the algorithms devised by Distel to compute bases of
+finite interpretations\footnote{\url{http://github.com/exot/EL-exploration}} on top of the
+\texttt{conexp-clj}\footnote{\url{http://github.com/exot/conexp-clj}}, a general purpose
+tool for formal concept analysis.  When computing a minimal base of $\Idbpedia$ as
+described in \Cref{thm:Felix-5.18}, we obtained a base $\mathcal{B}_{\Idbpedia}$
+containing 1252 general concept inclusions.
+
+Some of the GCIs contained in $\mathcal{B}_\Idbpedia$ constitute knowledge about the
+relationships among the concept names occurring in $\Idbpedia$ only, for example
+\begin{align*}
+  \sf Politician &\sqsubseteq \sf Person \\
+  \sf MemberOfParliament &\sqsubseteq \sf Person \sqcap Politician \\
+  \sf Criminal \sqcap Politician &\sqsubseteq \bot
+\end{align*}
+where the last GCI states that there are no individuals in DBpedia which have children and
+are both a criminal and a politician.  This knowledge can indeed be useful to learn the
+hierarchy of concept names of $\Idbpedia$.  On the other side, this knowledge does not yet
+show whether Distel's results are practical, as it could have easily been obtained my
+methods from formal concept analysis alone.
+
+However, there other GCIs present in $\mathcal{B}_{\Idbpedia}$ as well, which indeed
+indicate the usefulness of Distel's results.  For example, the GCI
+\begin{equation*}
+   \sf Philosopher \sqcap \exists child. \top \sqsubseteq \bot
+\end{equation*}
+saying that philosophers have children (or at least not children famous enough to occur in
+Wikipedia).  More of such disjointness constraints are contained in
+$\mathcal{B}_{\Idbpedia}$, 
+
 \todo[inline]{Write: show results}%
 \todo[inline]{Write: motivate confidence of GCIs}%
 
@@ -121,5 +282,3 @@ attribute exploration algorithm.  These will be discussed in
 %%% mode: latex
 %%% TeX-master: "../main"
 %%% End: 
-
-%  LocalWords:  DBpedia's
