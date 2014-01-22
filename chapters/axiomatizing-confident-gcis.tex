@@ -154,13 +154,13 @@ collected into $\Delta^{\Idbpedia}$.  We defined
 \end{equation*}
 Examples for triples contained in $T_{\mathsf{child}}$ are
 \begin{verbatim}
-<Abraham_Lincoln> <child> <Robert_Todd_Lincoln> .
-<Abraham_Lincoln> <child> <Edward_Baker_Lincoln> .
+  <Abraham_Lincoln> <child> <Robert_Todd_Lincoln> .
+  <Abraham_Lincoln> <child> <Edward_Baker_Lincoln> .
 \end{verbatim}
 Therefore,
 \begin{align*}
-  (\mathtt{Abraham\_Lincoln}, \mathtt{Robert\_Todd\_Lincoln}) &\in \mathsf{child}^{\Idbpedia},\\
-  (\mathtt{Abraham\_Lincoln}, \mathtt{Edward\_Baker\_Lincoln}) &\in \mathsf{child}^{\Idbpedia}.
+  (\mathsf{Abraham\_Lincoln}, \mathsf{Robert\_Todd\_Lincoln}) &\in \mathsf{child}^{\Idbpedia},\\
+  (\mathsf{Abraham\_Lincoln}, \mathsf{Edward\_Baker\_Lincoln}) &\in \mathsf{child}^{\Idbpedia}.
 \end{align*}
 
 Then we considered all triples $T_{\mathsf{type}}$ whose predicate is the special type
@@ -177,18 +177,18 @@ set of all subjects which appear in a triple in $T_{\mathsf{type}}$, \ie
 where $t$ stands for the special RDF type predicate of \Cref{eq:16}.  Example triples from
 $T_{\mathsf{type}}$ concerning \verb|Abraham_Lincoln| are
 \begin{verbatim}
-<Abraham_Lincoln>
-<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
-<Person> .
+  <Abraham_Lincoln>
+  <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+  <Person> .
 
-<Abraham_Lincoln>
-<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
-<OfficeHolder> .
+  <Abraham_Lincoln>
+  <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+  <OfficeHolder> .
 \end{verbatim}
 and therefore
 \begin{align*}
-  \mathtt{Abraham\_Lincoln} &\in \mathtt{Person}^{\Idbpedia}, \\
-  \mathtt{Abraham\_Lincoln} &\in \mathtt{OfficeHolder}^{\Idbpedia}.
+  \mathsf{Abraham\_Lincoln} &\in \mathsf{Person}^{\Idbpedia}, \\
+  \mathsf{Abraham\_Lincoln} &\in \mathsf{OfficeHolder}^{\Idbpedia}.
 \end{align*}
 
 The interpretation $\Idbpedia$ then 5624 elements and contained 60 concept names, \ie
@@ -199,8 +199,8 @@ about the child-relation present in DBpedia and expressible in \ELbot.
 We have to note, however, that the \emph{child}-relation in DBpedia contains some false
 information, mostly due to the way this information is extracted from Wikipedia Infoboxes.
 More precisely, our interpretation $\Idbpedia$ not only contains elements which correspond
-to humans, but also contains elements which are instances of \texttt{Work},
-\texttt{Organisation} or \texttt{PopulatedPlace}, among others.  However, those artifacts
+to humans, but also contains elements which are instances of \textsf{Work},
+\textsf{Organisation} or \textsf{PopulatedPlace}, among others.  However, those artifacts
 are quite rare, and it is still reasonable to use $\Idbpedia$ for our experiments.
 
 To this end we have implemented the algorithms devised by Distel to compute bases of
@@ -261,7 +261,9 @@ information, but are not helpful as knowledge itself.  Similar examples are
   \sf \exists child. Settlement \sqcap Politician &\sqsubseteq \sf Congressman.
 \end{align*}
 
-An example for a GCI which can be considered to be too specific is
+Those GCIs, \ie where one could argue that they represent meaningful knowledge, are quite
+rare in $\mathcal{B}_\Idbpedia$.  On the other hand, GCIs which can be considered to be
+too specific are quite common, one example being
 \begin{gather*}
   \sf \exists child. Ambassador \sqcap OfficeHolder \\
   \sqsubseteq \sf \exists
@@ -276,7 +278,56 @@ interpretations to \emph{model exploration} which also allows for \emph{expert
   interaction}, in a way similar to attribute exploration in formal concept analysis.  We
 shall discuss this algorithm in more detail in \Cref{cha:model-expl-conf}.
 
-\todo[inline]{Write: show results about errors on \texttt{Person}}%
+Another approach to eliminating those over-specific GCIs may be to required that they
+apply at least to a certain number of different individuals.  However, this approach leads
+to some unintuitive behavior, see \Cref{cha:conclusions}.
+
+Finally, there exist GCIs in $\mathcal{B}_\Idbpedia$ which somehow look quite redundant,
+either for themselves, like
+\begin{gather*}
+  \sf \exists child. \exists child. \top \sqsubseteq \exists child. (Person \sqcap \exists child. \top),\\
+  \sf \exists child. Work \sqsubseteq Person,
+\end{gather*}
+or because they contain redundancies within their concept descriptions, like
+\begin{gather*}
+  \sf Person \sqcap \exists child. Criminal \sqsubseteq Criminal,\\
+  \sf OfficeHolder \sqcap \exists child. \exists child. (Person \sqcap \exists
+  child. \top) \\
+  \quad \sqsubseteq \sf \exists child. (Person \sqcap \exists child. \exists child. Person),\\
+  \sf Person \sqcap \exists child. (Person \sqcap \exists child. (Person \sqcap \exists child.
+  (Person \sqcap {}\\
+  \quad \quad \sf \exists child. \exists child. (Person \sqcap \exists child. \top))))
+  \\
+  \sf \quad \sqsubseteq
+  \exists child. (Person \sqcap \exists child. (Person \sqcap \exists child. (Person \sqcap
+  \exists child. (Person \sqcap {}\\
+  \sf \quad \quad \exists child. \exists child. Person)))),
+\end{gather*}
+In the latter GCIs, the concept name \textsf{Person} appears quite often, although it
+should be quite clear from the construction of $\Idbpedia$ that
+\begin{equation}
+  \label{eq:23}
+  \sf \exists child. \top \sqsubseteq Person
+\end{equation}
+is true, because only Wikipedia articles of human beings should contain a child-entry
+within their Infobox.  Thus, even with all the errors in $\Idbpedia$ concerning
+non-persons that we have discussed before, the GCI in \Cref{eq:23} should hold in
+$\Idbpedia$.
+
+However, this is not the case: the GCI $\sf \exists child. \top \sqsubseteq Person$ does
+not hold in $\Idbpedia$, and there are four counterexamples to this GCI in $\Idbpedia$,
+\ie elements $x \in \Delta^{\Idbpedia}$ satisfying $x \in (\sf \exists
+child. \top)^{\Idbpedia} \setminus Person^{\Idbpedia}$.  These
+are\footnote{Coincidentally, these all these counterexamples are artists from Hong Kong}
+\begin{equation*}
+  \mathtt{Teresa\_Carpio},\; \mathtt{Charles\_Heung},\;
+  \mathtt{Adam\_Cheng}, \; \mathtt{Lydia\_Shum}.
+\end{equation*}
+However, these individuals clearly represent human beings, so they \emph{should} actually
+be instances of \textsf{Person}.  In other words, these counterexamples are all
+\emph{erroneous} counterexamples, but since they are present in $\Idbpedia$, the approach
+developed by Distel will not ignore them and thus cannot find the GCI in \Cref{eq:23}.
+
 \todo[inline]{Write: motivate confidence of GCIs}%
 
 \section{Confident GCIs of Finite Interpretations}
@@ -326,3 +377,4 @@ shall discuss this algorithm in more detail in \Cref{cha:model-expl-conf}.
 %%% mode: latex
 %%% TeX-master: "../main"
 %%% End: 
+%  LocalWords:  unintuitive Organisation PopulatedPlace OfficeHolder rdf ns Infobox
