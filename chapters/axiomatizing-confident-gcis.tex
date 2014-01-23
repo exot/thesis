@@ -346,9 +346,9 @@ It would certainly increase the applicability of Distel's approach if we could i
 erroneous counterexamples in our data, as then we could expect simpler and more general
 GCIs to be extracted.  However, we cannot expect to have an automatic procedure which
 achieves this goal, \ie we cannot expect an algorithm that automatically ignores erroneous
-counterexamples, as for this the algorithm would need to know what errors are in the
-current domain of interest, and for this the algorithm would need to obsess knowledge
-about this domain, which however we are just about to learn.
+counterexamples, since the algorithm would need to know what errors are in the current
+domain of interest, and for this the algorithm would need to posses knowledge about this
+domain, which however we are just about to learn.
 
 On the other hand, what we can assume is that our initially given interpretation
 $\mathcal{I}$ contains only \emph{few} errors, as otherwise learning GCIs from it would be
@@ -359,41 +359,35 @@ negative counterexamples are ``probably erroneous.''  Here, a \emph{positive exa
 $C \sqsubseteq D$ would be an element $x \in \Delta^{\mathcal{I}}$ satisfying $x \in
 C^{\mathcal{I}} \cap D^{\mathcal{I}}$, and a \emph{negative example} for $C \sqsubseteq D$
 would be an element $y \in \Delta^{\mathcal{I}}$ such that $y \in C^{\mathcal{I}}
-\setminus D^{\mathcal{I}}$.  We can consider such a GCI to be ``almost valid'' in
-$\mathcal{I}$.  The approach would then be to consider these ``almost valid'' GCIs in
-addition to the valid ones, and try to find finite bases for both of them.
+\setminus D^{\mathcal{I}}$.  We can consider a GCI to be ``almost valid'' in $\mathcal{I}$
+if the number of positive examples is much higher than the number of negative ones.  The
+approach to ignore erroneous counterexamples would then be to consider these ``almost
+valid'' GCIs in addition to the valid ones, and try to find finite bases for both of them.
 
-This approach would actually work quite well for our example interpretation $\Idbpedia$,
-as the GCI $\sf \exists child. \top \sqsubseteq Person$ has much more positive than
-negative examples: there are 2551 elements $x \in \Delta^{\Idbpedia}$ to which $\sf
-\exists child. \top \sqsubseteq Person$ applies, \ie which satisfy $x \in (\sf \exists
-child. \top)$, but only 4 of those (the ones mentioned above) fail to also satisfy $x \in
-\sf Person^{\Idbpedia}$.  Therefore, $\sf \exists child. \top \sqsubseteq Person$ has 2547
-positive examples, but only 4 negative ones.  By our approach, we consider these negative
-examples as errors and ignore them.  Thus, $\sf \exists child. \top \sqsubseteq Person$
-would be extracted from $\Idbpedia$.
+This actually works quite well for our example interpretation $\Idbpedia$, as the GCI $\sf
+\exists child. \top \sqsubseteq Person$ has much more positive than negative examples:
+there are 2551 elements $x \in \Delta^{\Idbpedia}$ to which $\sf \exists child. \top
+\sqsubseteq Person$ applies, \ie which satisfy $x \in (\sf \exists child. \top)$, but only
+4 of those (the ones mentioned above) fail to also satisfy $x \in \sf Person^{\Idbpedia}$.
+Therefore, $\sf \exists child. \top \sqsubseteq Person$ has 2547 positive examples, but
+only 4 negative ones.  By our approach, we can consider these negative examples as errors
+and ignore them.  Thus, $\sf \exists child. \top \sqsubseteq Person$ would be extracted
+from $\Idbpedia$.
 
-Of course, this approach is highly heuristic in general: if counterexamples for a GCI $C
-\sqsubseteq D$ are just \emph{rare} in $\mathcal{I}$, then the above sketched approach
-would treat them as errors, which is incorrect.  On the other hand, it may be much more
-desirable to extract GCIs which are \emph{wrong} in some application domain, than to miss
-GCIs which are \emph{correct}, because identifying wrong GCIs is much easier than finding
-correct GCIs that are just invalidated by errors in the data.
+Of course, this approach is highly heuristic in general: if valid counterexamples for a
+GCI $C \sqsubseteq D$ are just \emph{rare} in $\mathcal{I}$, then the above sketched
+approach would treat them as errors, which is incorrect.  On the other hand, it may be
+much more desirable to extract GCIs which are \emph{wrong} in some application domain,
+than to miss GCIs which are \emph{correct}, as long as not too many wrong GCIs are being
+extracted.  This is because identifying wrong GCIs can be considered much easier than
+finding correct GCIs that are just invalidated by errors in the data.
 
 It is the purpose of this section to give a formalization of the notion of a GCI to be
 ``almost valid'' in some finite interpretation.  We shall base this formalization on the
 notion of \emph{confidence} as it is used in
 data-mining~\cite{arules:agrawal:association-rules}.  This will be done in
 \Cref{sec:conf-gcis-conf}.  Our goal is then to find \emph{finite bases} of all GCIs which
-enjoy a \emph{high confidence} in the initially given interpretation.  For this we shall
-review in \Cref{Luxen-base} ideas from Luxenburger from this research on \emph{partial
-  implications} in formal contexts.  Based on this, we shall discuss the computation of
-finite bases of GCIs with high confidence, first by mimicking Luxenburger's results by in
-\ELgfpbot (~\Cref{sec:first-base}), and then by directly using methods from formal concept
-analysis (~\Cref{sec:bases-confident-gcis}).  We shall also discuss a minimality result in
-\Cref{sec:minimality-result} which is akin to the one obtained by Distel in
-\Cref{thm:Felix-5.18}.  Finally, we shall discuss how \ELgfpbot bases for GCIs with high
-confidence can be turned into \ELbot bases for GCIs with high confidence.
+enjoy a \emph{high confidence} in the initially given interpretation.
 
 \subsection{Confidence of GCIs and Confident Bases}
 \label{sec:conf-gcis-conf}
