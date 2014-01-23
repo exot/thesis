@@ -3,8 +3,8 @@
 
 The results obtained by Distel about computing finite bases of finite interpretations are
 not only interesting from a theoretical point of view.  Although we have skipped most of
-the details, all the relevant results are \emph{effective} in the sense that the bases
-obtained can in principle be computed by computers.  Thus, these results may also be
+the details, all the relevant results are \emph{effective} in the sense that the obtained
+bases can in principle be computed by computers.  Thus, these results may also be
 interesting for practical applications.
 
 A possible application of Distel's results is to compute bases from \emph{Linked Open
@@ -22,27 +22,26 @@ detail and show what Distel's results yield when applied to this data set.  This
 experiment has also been discussed previously
 in~\cite{Borchmann:confident-GCIs,DBLP:conf/icdm/BorchmannD11}.
 
-One result obtained from this experiment is that Distel's results are very sensitive to
+One conclusion from this experiment is that Distel's results are very sensitive to
 \emph{errors} in the data.  This is actually not surprising: bases of finite
 interpretations only contain general concept inclusion which are valid in the data, and if
-there is only one single counterexample to a general concept inclusions it is not
+there is only one single counterexample to a general concept inclusions, it will not be
 contained in any base.
 
 If those counterexamples are erroneous, however, then this can cause problems.  Not only
-that otherwise valid general concept inclusions are not obtained by Distel's results
-anymore.  Sporadic erroneous counterexamples may also cause GCIs found while computing
-bases to be rather complicated, because those GCIs have to avoid those erroneous
-counterexamples.
+that otherwise valid general concept inclusions are not obtained by Distel's approach
+anymore.  Sporadic erroneous counterexamples may also cause GCIs found during the
+computation of bases to be rather complicated, because those GCIs have to avoid those
+erroneous counterexamples.
 
-To remedy, or at least to alleviate this effect of erroneous counterexample for computing
+To remedy, or at least to alleviate this effect of erroneous counterexample to computing
 finite bases we shall consider an extension of Distel's results which tries to find bases
 of GCIs which are not necessarily valid in the given interpretation, but instead enjoy a
 \emph{high confidence} in it.  The notion of \emph{confidence} is borrowed from
 data-mining~\cite{arules:agrawal:association-rules}, more precisely from the theory of
 \emph{association rules}, and allows to measure how much an association rule is allowed to
-ignore counterexamples.  We shall transfer the notion of confidence also to general
-concept inclusions and shall then try to find bases for those \emph{GCIs with high
-  confidence} instead.
+ignore counterexamples.  We shall transfer the notion of confidence to general concept
+inclusions, and shall then try to find bases for those \emph{GCIs with high confidence}.
 
 For this we shall make use of results obtained by Luxenburger from his work on
 \emph{partial implications}~\cite{diss:Luxenburger,Luxenburger91}, and extensions
@@ -122,11 +121,11 @@ To alleviate this problem we make use of the special RDF predicate
   \verb|http://www.w3.org/1999/02/22-rdf-syntax-ns#type|
 \end{equation}
 which expresses that a subject is an instance of a certain
-class.\footnote{\url{http://www.w3.org/1999/02/22-rdf-syntax-ns}}  If we consider triples
-with this predicates not has edges in the linked graph, but instead as the information
-that the subject is an instance of the object, then we indeed consider linked data as a
-vertex- and edge-labeled graph with vertex labels $N_C$ and edge-labels $N_R$, where $N_C$
-is not empty in general.
+class.\footnote{\url{http://www.w3.org/1999/02/22-rdf-syntax-ns}} If we consider triples
+with this predicates not as edges in the linked graph, but instead as the information that
+the subject is an instance of the object, then we indeed consider linked data as a vertex-
+and edge-labeled graph with vertex labels $N_C$ and edge-labels $N_R$, where $N_C$ is not
+empty in general.
 
 This view on linked data now allows us to consider it as an interpretation over some sets
 $N_C$ and $N_R$, and to apply Distel's result to such data sets.  For our experiments, we
@@ -134,7 +133,7 @@ have chosen a subset of the DBpedia data set as of March 2010 (Version
 3.5)\footnote{\url{http://wiki.dbpedia.org/Downloads35?v=pb8}}.  The linked data contained
 within the DBpedia data-set has been extracted automatically from \emph{Wikipedia
   Infoboxes}, which are a means to represent facts about the topic of the current page in
-a compact way.
+a compact way.\todo{picture?}
 
 The subset of the DBpedia data-set we used for our experiments arises by restricting our
 attention to the relation
@@ -195,44 +194,56 @@ and therefore
 The interpretation $\Idbpedia$ then 5624 elements and contained 60 concept names, \ie
 $\abs{ N_C } = 60$.  By construction, that there is only one role name in $\Idbpedia$,
 namely \textsf{child}.  To now compute bases of $\Idbpedia$ means to extract all knowledge
-about the child-relation present in DBpedia and expressible in \ELbot.
+about the child-relation present in DBpedia and expressible in \ELbot.  Note that elements
+from DBpedia are only present in $\Idbpedia$ if they have children, or are children of
+someone else.  Moreover, as DBpedia extracts its information from Wikipedia, all elements
+in $\Idbpedia$ correspond to articles in Wikipedia; in particular, if such elements
+correspond to persons, then those persons have to be ``sufficiently famous'' in the sense
+that they deserve a Wikipedia article.  Therefore, $\Idbpedia$ represent DBpedia's
+knowledge about famous persons and their famous children.
 
 We have to note, however, that the \emph{child}-relation in DBpedia contains some false
 information, mostly due to the way this information is extracted from Wikipedia Infoboxes.
 More precisely, our interpretation $\Idbpedia$ not only contains elements which correspond
 to humans, but also contains elements which are instances of \textsf{Work},
 \textsf{Organisation} or \textsf{PopulatedPlace}, among others.  However, those artifacts
-are quite rare, and it is still reasonable to use $\Idbpedia$ for our experiments.
+are comparably rare, and it is still reasonable to use $\Idbpedia$ for our experiments.
 
-To this end we have implemented the algorithms devised by Distel to compute bases of
-finite interpretations\footnote{\url{http://github.com/exot/EL-exploration}} on top of the
+We have implemented the algorithms devised by Distel to compute bases of finite
+interpretations\footnote{\url{http://github.com/exot/EL-exploration}} on top of
 \texttt{conexp-clj}\footnote{\url{http://github.com/exot/conexp-clj}}, a general purpose
 tool for formal concept analysis.  When computing a minimal base of $\Idbpedia$ as
 described in \Cref{thm:Felix-5.18}, we obtained a base $\mathcal{B}_{\Idbpedia}$
-containing 1252 general concept inclusions.
+containing 1252 general concept inclusions.  In the following we want to examine the GCIs
+contained in this bases, describe some observations we made, and discuss the usefulness of
+these GCIs.  Of course, we cannot do this formally, and shall therefore only argue
+intuitively.
 
-Some of the GCIs contained in $\mathcal{B}_\Idbpedia$ constitute knowledge about the
-relationships among the concept names occurring in $\Idbpedia$ only, for example
+Firstly, some of the GCIs contained in $\mathcal{B}_\Idbpedia$ constitute knowledge about
+the relationships among the concept names occurring in $\Idbpedia$ only, for example
 \begin{align*}
   \sf Politician &\sqsubseteq \sf Person \\
   \sf MemberOfParliament &\sqsubseteq \sf Person \sqcap Politician \\
   \sf Criminal \sqcap Politician &\sqsubseteq \bot
 \end{align*}
-where the last GCI states that there are no individuals in DBpedia which have children and
-are both a criminal and a politician.  This knowledge can indeed be useful to learn the
-hierarchy of concept names (\emph{taxonomy}) of $\Idbpedia$.  On the other side, this
-knowledge does not yet show whether Distel's results are practical, as it could have
-easily been obtained my methods from formal concept analysis alone.
+This knowledge can indeed be useful to learn the hierarchy of concept names
+(\emph{taxonomy}) of $\Idbpedia$.  On the other side, this knowledge does not yet show
+whether Distel's results are useful, as this knowledge could have easily been obtained my
+methods from formal concept analysis alone.
 
-However, Distel's approach let's us find more disjointness constraints than just between
-concept names.  For example, $\mathcal{B}_{\Idbpedia}$ contains the GCI
+The last GCI states that there are no elements in $\Idbpedia$ that are both criminal and
+politicians.  GCIs of this form are called \emph{disjointness constraints}, and they can
+be useful in applications.\todo{cite paper by Felix and Yue?}  The disjointness constraint
+shown above only contains concept names.  However, Distel's approach let's us find more
+disjointness constraints than just between concept names.  For example,
+$\mathcal{B}_{\Idbpedia}$ contains the GCI
 \begin{equation*}
    \sf Philosopher \sqcap \exists child. \top \sqsubseteq \bot
 \end{equation*}
-expressing that philosophers have children (or at least not children famous enough to
-occur in Wikipedia).  Indeed, since $\mathcal{B}_{\Idbpedia}$ is complete for $\Idbpedia$,
-all disjointness constraints valid in $\Idbpedia$ can either be found in this base or are
-entailed by it.
+expressing that philosophers don't have children (or at least not children famous enough
+to occur in Wikipedia).  Indeed, since $\mathcal{B}_{\Idbpedia}$ is complete for
+$\Idbpedia$, all disjointness constraints valid in $\Idbpedia$ can either be found in this
+base or are entailed by it.  Such information can be of practical relevance.
 
 There are other GCIs contained in $\mathcal{B}_\Idbpedia$ which are not disjointness
 constraints or only express knowledge about concept names.  Two of them for which we could
@@ -242,11 +253,14 @@ argue that they can be useful are
   \sf FictionalCharacter \sqcap \exists child. Person &\sqsubseteq \sf \exists child. FictionalCharacter
 \end{align*}
 where the second GCI can be seen as some kind of \ELbot approximation of the fact that
-fictional characters can only have fictional characters as their children.
+fictional characters can only have fictional characters as their children.  These GCIs can
+indeed be seen as useful terminological knowledge for the domain represented by
+$\Idbpedia$.
 
-On the other hand, $\mathcal{B}_\Idbpedia$ also contains many GCIs whose usefulness is
-highly doubtful, either because they combine otherwise unrelated concepts, or they are too
-specific.
+Those GCIs, \ie where one could argue that they represent meaningful knowledge, are quite
+rare in $\mathcal{B}_\Idbpedia$.  On the other hand, $\mathcal{B}_\Idbpedia$ contains many
+GCIs whose usefulness is highly doubtful, either because they combine otherwise unrelated
+concepts, or they are too specific.
 
 An example for the first case is
 \begin{equation*}
@@ -262,13 +276,11 @@ information, but are not helpful as knowledge itself.  Similar examples are
   \sf \exists child. Settlement \sqcap Politician &\sqsubseteq \sf Congressman.
 \end{align*}
 
-Those GCIs, \ie where one could argue that they represent meaningful knowledge, are quite
-rare in $\mathcal{B}_\Idbpedia$.  On the other hand, GCIs which can be considered to be
-too specific are quite common, one example being
+GCIs which could be too specific can be considered to most common case among all GCIs in
+$\mathcal{B}_{\Idbpedia}$, examples of them being
 \begin{gather*}
   \sf \exists child. Ambassador \sqcap OfficeHolder \\
-  \sqsubseteq \sf \exists
-  child. (Ambassador \sqcap \exists child. Person) \sqcap {}\\
+  \sqsubseteq \sf \exists child. (Ambassador \sqcap \exists child. Person) \sqcap {}\\
   \phantom{\sqsubseteq{}} \sf\exists child. (OfficeHolder \sqcap \exists child.
   Congressman \sqcap \exists child. Actor \sqcap \exists child OfficeHolder).
 \end{gather*}
@@ -276,24 +288,47 @@ Indeed, this GCI only applies to the individual \texttt{Joseph\_P.\_Kennedy\%2C\
 thus it states information only about this very individual and its children.  To cope with
 such situations, Distel extended his results about computing bases of finite
 interpretations to \emph{model exploration} which also allows for \emph{expert
-  interaction}, in a way similar to attribute exploration in formal concept analysis.  We
-shall discuss this algorithm in more detail in \Cref{cha:model-expl-conf}.
+  interaction}, in a way similar to attribute exploration in formal concept analysis.  If
+the expert would encounter such a GCI she would reject it as being too specific, and would
+provide more examples to make it more general.  We shall discuss this algorithm in more
+detail in \Cref{cha:model-expl-conf}.
 
-Another approach to eliminating those over-specific GCIs may be to required that they
-apply at least to a certain number of different individuals.  However, this approach leads
-to some unintuitive behavior, see \Cref{cha:conclusions}.
+Another approach to eliminating those over-specific GCIs may be to require for the
+extracted GCIs that they apply to at least a certain number of different individuals.
+However, this approach leads to some unintuitive behavior, see \Cref{cha:conclusions}.
 
-Among the GCIs contained in $\mathcal{B}_\Idbpedia$ there exist some which convey the
-impression of being redundant, either for themselves, like
-\begin{gather*}
+Finally, among the GCIs contained in $\mathcal{B}_\Idbpedia$ there exist some which convey
+the impression of being redundant, like
+\begin{equation*}
   \sf \exists child. \exists child. \top \sqsubseteq \exists child. (Person \sqcap \exists child. \top),
-\end{gather*}
-or because they contain redundancies within their concept descriptions, like
+\end{equation*}
+because it should be quite clear from the construction of $\Idbpedia$ that only persons
+can have children, \ie the following GCI
+\begin{equation}
+  \label{eq:23}
+  \sf \exists child. \top \sqsubseteq Person
+\end{equation}
+should hold in $\Idbpedia$.  This is because only Wikipedia articles of human beings
+should contain a child-entry within their Infobox.  Thus, even with all the errors in
+$\Idbpedia$ concerning non-persons that we have discussed before, the GCI in \Cref{eq:23}
+should hold in $\Idbpedia$.
+
+However, this is not the case, since there are four counterexamples to this GCI in
+$\Idbpedia$, \ie elements $x \in \Delta^{\Idbpedia}$ satisfying $x \in (\sf \exists
+child. \top)^{\Idbpedia} \setminus Person^{\Idbpedia}$.  These
+are\footnote{Coincidentally, all these are artists from Hong Kong}
+\begin{equation*}
+  \mathtt{Teresa\_Carpio},\; \mathtt{Charles\_Heung},\;
+  \mathtt{Adam\_Cheng}, \; \mathtt{Lydia\_Shum}.
+\end{equation*}
+However, these elements clearly represent human beings, so they \emph{should} actually be
+instances of \textsf{Person}.  In other words, these counterexamples are all
+\emph{erroneous} counterexamples, but since they are present in $\Idbpedia$ the approach
+developed by Distel will not ignore them.  This not only inhibits finding the GCI $\sf
+\exists child. \top \sqsubseteq Person$, but also causes incomprehensible GCIs to be
+found which are special cases of this GCI but somehow try to ``circumvent'' the erroneous
+counterexamples. An example for this is
 \begin{gather*}
-  \sf Person \sqcap \exists child. Criminal \sqsubseteq Criminal,\\
-  \sf OfficeHolder \sqcap \exists child. \exists child. (Person \sqcap \exists
-  child. \top) \\
-  \quad \sqsubseteq \sf \exists child. (Person \sqcap \exists child. \exists child. Person),\\
   \sf Person \sqcap \exists child. (Person \sqcap \exists child. (Person \sqcap \exists child.
   (Person \sqcap {}\\
   \quad \quad \sf \exists child. \exists child. (Person \sqcap \exists child. \top))))
@@ -301,32 +336,8 @@ or because they contain redundancies within their concept descriptions, like
   \sf \quad \sqsubseteq
   \exists child. (Person \sqcap \exists child. (Person \sqcap \exists child. (Person \sqcap
   \exists child. (Person \sqcap {}\\
-  \sf \quad \quad \exists child. \exists child. Person)))),
+  \sf \quad \quad \exists child. \exists child. Person)))).
 \end{gather*}
-In the latter GCIs, the concept name \textsf{Person} appears quite often, although it is
-quite clear from the construction of $\Idbpedia$ that
-\begin{equation}
-  \label{eq:23}
-  \sf \exists child. \top \sqsubseteq Person
-\end{equation}
-is true, because only Wikipedia articles of human beings should contain a child-entry
-within their Infobox.  Thus, even with all the errors in $\Idbpedia$ concerning
-non-persons that we have discussed before, the GCI in \Cref{eq:23} should hold in
-$\Idbpedia$.
-
-However, this is not the case: the GCI $\sf \exists child. \top \sqsubseteq Person$ does
-not hold in $\Idbpedia$, and there are four counterexamples to this GCI in $\Idbpedia$,
-\ie elements $x \in \Delta^{\Idbpedia}$ satisfying $x \in (\sf \exists
-child. \top)^{\Idbpedia} \setminus Person^{\Idbpedia}$.  These
-are\footnote{Coincidentally, these all these counterexamples are artists from Hong Kong}
-\begin{equation*}
-  \mathtt{Teresa\_Carpio},\; \mathtt{Charles\_Heung},\;
-  \mathtt{Adam\_Cheng}, \; \mathtt{Lydia\_Shum}.
-\end{equation*}
-However, these individuals clearly represent human beings, so they \emph{should} actually
-be instances of \textsf{Person}.  In other words, these counterexamples are all
-\emph{erroneous} counterexamples, but since they are present in $\Idbpedia$, the approach
-developed by Distel will not ignore them and thus cannot find the GCI in \Cref{eq:23}.
 
 \section{GCIs with High Confidence in Finite Interpretations}
 \label{sec:confident-gcis}
@@ -442,4 +453,4 @@ this, we define the \emph{confidence} of $C \sqsubseteq D$ in $\mathcal{I}$.
 %%% TeX-master: "../main"
 %%% End: 
 %  LocalWords:  unintuitive Organisation PopulatedPlace OfficeHolder rdf ns Infobox conf
-%  LocalWords:  gcis
+%  LocalWords:  gcis DBpedia's
