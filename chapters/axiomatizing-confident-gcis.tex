@@ -432,12 +432,12 @@ To use the confidence of GCIs in finite interpretations to formalize the notion 
 ``almost true'' we need to choose a \emph{threshold} above which we can say that the
 number of positive examples is ``much higher'' then the number of negative ones.
 
-\begin{Definition}[Theory with respect to a Threshold]
+\begin{Definition}[Confidence-Based Theory of Finite Interpretations]
   \label{def:confident-theory-of-interpretations}
   Let $\mathcal{I}$ be a finite interpretation over $N_C$ and $N_R$, and let $c \in [0,
-  1]$.  Then the \emph{theory} of $\mathcal{I}$ \emph{with threshold $c$} is defined to be
-  the set\todo{not consistent with the definition of $\Th(\mathcal{I})$; make the
-    definition of $\Th(\mathcal{I})$ into using \ELgfpbot only}
+  1]$.  Then the \emph{confidence-based theory} of $\mathcal{I}$ \emph{with threshold $c$}
+  is defined to be the set\todo{not consistent with the definition of $\Th(\mathcal{I})$;
+    make the definition of $\Th(\mathcal{I})$ into using \ELgfpbot only}
   \begin{equation*}
     \Th_c(\mathcal{I}) := \set{ C \sqsubseteq D \mid C, D \in \ELgfpbot(N_C, N_R),
       \conf_{\mathcal{I}}( C \sqsubseteq D ) \ge c }.
@@ -469,13 +469,198 @@ $\Th_c(\mathcal{I})$.
 \subsection{Luxenburger's Base}
 \label{Luxen-base}
 
-To obtain finite bases and finite confident base of $\Th_c(\mathcal{I})$ we want to follow
-an argumentation which is similar to the one used by Distel to obtain finite bases of
-$\mathcal{I}$.  As a first step, we want to simulate results from formal concept analysis
-within description logics that obtain base of \emph{implications with high confidence}.
+Before we consider finite bases and finite confident bases of $\Th_c(\mathcal{I})$ let us
+first consider the analogous problem in formal concept analysis, which is to find small
+bases of \emph{implications with high confidence} in a given formal context.  The results
+which are relevant for this discussion mainly go back to research done by Luxenburger on
+\emph{partial implications}~\cite{diss:Luxenburger,Luxenburger91}.  We shall first discuss
+these results, however not in their original form, but instead in way suitable for our
+considerations.
 
-\todo[inline]{Write: confidence of implications}%
-\todo[inline]{Write: introduce work of Luxenburger}%
+We have already defined the notion of confidence of a GCI in some given finite
+interpretation.  The analogous notion in formal concept analysis is the confidence of an
+implication in a formal context.
+
+\begin{Definition}[Confidence of Implications]
+  \label{def:confidence-of-implications}
+  Let $\con K = (G, M, I)$ be a finite formal context, and let $(A \to B) \in \Imp(M)$.
+  Then the \emph{confidence} of $A \to B$ in $\con K$ is defined as
+  \begin{equation*}
+    \conf_{\con K}(A \to B) :=
+    \begin{cases}
+      1 & A' = \emptyset \\
+      \frac{ \abs{ (A \cup B)' } } { \abs{ A' } } & \text{otherwise}.
+    \end{cases}
+  \end{equation*}
+\end{Definition}
+
+We can now consider an implication to have \emph{high confidence} in a formal context if
+and only if it is above a certain threshold $c \in [0,1]$.
+
+\begin{Definition}[Confidence-Based Theory of Finite Formal Contexts]
+  \label{def:theory-with-threshold-for-formal-contexts}
+  Let $\con K = (G, M, I)$ be a finite formal context, and let $c \in [0,1]$.  The
+  \emph{confidence-based theory} of $\con K$ \emph{with threshold $c$} is defined as
+  \begin{equation*}
+    \Th_c(\con K) := \set{ (A \to B) \in \Imp(M) \mid \conf_{\con K}(A \to B) \ge c }.
+  \end{equation*}
+  An implication $(A \to B) \in \Imp(M)$ is said to have \emph{high confidence} in $\con
+  K$ if and only if $(A \to B) \in \Th_c(\con K)$.  Sometimes, those implications are also
+  called \emph{confident implications}.
+\end{Definition}
+
+We now want to find small bases of $\Th_c(\con K)$ for finite formal contexts $\con K =
+(G, M, I)$ and $c \in [0,1]$.  Of course, the term ``small'' is rather subjective here,
+but recall that the main purpose of this discussion is to have obtain a finite base of
+$\Th_c(\con K)$ which, when transferred to the side of description logics, stays finite.
+The main idea in that direction is that, if an interpretation $\mathcal{I}$ is finite,
+then it only has finitely many model-based most-specific concept descriptions (up to
+equivalence), thus finding a base of $\Th_c(\con K)$ which only contains intents of $\con
+K$ would be suitable for our purposes.
+
+To compute such a base of $\Th_c(\con K)$ we first observe that, as in the case of GCIs,
+an implication $(A \to B)$ holds in $\con K$ if and only if its confidence in $\con K$ is
+1.  Therefore, $\Th(\con K) \subseteq \Th_c(\con K)$ is true for all $c \in [0,1]$.
+Furthermore, we already know how to compute bases of $\Th(\con K)$.  Thus, if
+$\mathcal{L}$ is a base of $\Th(\con K)$, to find a base of $\Th_c(\con K)$ it is enough
+to compute bases of $\Th_c(\con K)$ with background knowledge $\mathcal{L}$, or
+equivalently, to compute a base for $\Th_c(\con K) \setminus \Th(\con K)$.
+
+The first crucial observation is now the well-known fact that
+\begin{equation*}
+  \conf_{\con K}(A \to B) = \conf_{\con K}(A'' \to B'')
+\end{equation*}
+is always true for $(A \to B) \in \Imp(M)$, because $A''' = A'$ and
+\begin{align*}
+  (A \cup B)' &= A' \cap B' \\
+  &= A''' \cap B'''\\
+  &= (A'' \cup B'')'.
+\end{align*}
+But then $\set{ A'' \to B'' } \models (A \to B)$, so it is enough to consider only
+implications where both premise and conclusion are intents of $\con K$.  The following
+lemma makes use of this observation
+
+\begin{Lemma}
+  \label{lem:confident-base-of-formal-context}
+  Let $\con K = (G, M, I)$ be a formal context, let $c \in [0,1]$ and let $\mathcal{L}$ be
+  a base of $\con K$.  Then the set
+  \begin{equation*}
+    \Conf(\con K, c) := \set{ A'' \to B'' \mid A \subseteq B \subseteq M, 1 > \conf_{\con
+        K}(A'' \to B'') \ge c}
+  \end{equation*}
+  is a base of $\Th_c(\con K)$ with background knowledge $\mathcal{L}$.
+\end{Lemma}
+\begin{Proof}
+  We first observe that for $A, B \subseteq M$ it is true that
+  \begin{equation*}
+    \set{ A'' \to (A \cup B)'' } \models (A'' \to B''),
+  \end{equation*}
+  because $B'' \subseteq (A \cup B)''$.  Then if $(X \to Y) \in \Th_c(\con K)$, then
+  \begin{equation*}
+    \mathcal{L} \models (X \to X''),
+  \end{equation*}
+  and thus
+  \begin{equation*}
+    \mathcal{L} \cup \set{ X'' \to (X \cup Y)''} \models (X \to Y).
+  \end{equation*}
+  Furthermore,
+  \begin{equation*}
+    \conf_{\con K}(X'' \to (X \cup Y)'') = \conf_{\con K}(X \to Y) \ge c,
+  \end{equation*}
+  therefore $(X'' \to (X \cup Y)'') \in \Conf(\con K, c)$.  Thus
+  \begin{equation*}
+    \mathcal{L} \cup \Conf(\con K, c) \models (X \to Y)
+  \end{equation*}
+  and therefore $\Conf(\con K, c)$ is a base of $\Th_c(\con K)$ with background knowledge
+  $\mathcal{L}$.
+\end{Proof}
+
+The set $\Conf(\con K, c)$ can be further reduced by the following, well-known
+observation.
+
+\begin{Lemma}
+  \label{lem:chain-rule-for-confidence}
+  Let $\con K = (G, M, I)$ be a finite formal context, and let $A \subseteq B \subseteq C
+  \subseteq M$.  Then
+  \begin{equation}
+    \label{eq:24}
+    \conf_{\con K}(A \to C) = \conf_{\con K}(A \to B) \cdot \conf_{\con K}(B \to C).
+  \end{equation}
+\end{Lemma}
+\begin{Proof}
+  If $\conf_{\con K}(A \to C) = 0$, then $A' = \emptyset$ and thus the left-hand side of
+  \Cref{eq:24} is 0 as well.
+
+  If $A' \neq \emptyset$, then since $A \subseteq B$, it is true that $B' \neq
+  \emptyset$.  Therefore we can easily compute
+  \begin{align*}
+    \conf_{\con K}(A \to C)
+    &= \frac{ \abs{ (A \cup C)' } }{ \abs{ A' } } \\
+    &= \frac{ \abs{ (A \cup B)' } }{ \abs{ A' } } \cdot
+    \frac{ \abs{ (A \cup C)' } }{ \abs{ (A \cup B)' } }
+  \intertext{and since $A \subseteq B \subseteq C$ it is true that $A \cup B = B$ and $A
+    \cup C = C = B \cup C$, thus we can continue}
+    \conf_{\con K}(A \to C)
+    &= \frac{ \abs{ (A \cup B)' } }{ \abs{ A' } } \cdot
+    \frac{ \abs{ (B \cup C)' } }{ \abs{ B' } } \\
+    &= \conf_{\con K}(A \to B) \cdot \conf_{\con K}(B \to C)
+  \end{align*}
+  and the claim is proven.
+\end{Proof}
+
+A simple consequence of this lemma is that if $A'' \subsetneq B'' \subsetneq C''$ and
+$(A'' \to C'') \in \Conf(\con K, c)$, then $(A'' \to B''), (B'' \to C'') \in \Conf(\con K,
+c)$ and since
+\begin{equation*}
+  \set{ A'' \to B'', B'' \to C'' } \models (A'' \to C'')
+\end{equation*}
+the implication $A'' \to C''$ is dispensable in $\Conf(\con K, c)$ and can be removed
+without any harm.
+
+\begin{Theorem}
+  \label{thm:luxenburger-base}
+  Let $\con K = (G, M, I)$ be a finite formal context, and let $c \in [0,1]$.  Let
+  $\mathcal{L}$ be a base of $\con K$.  Then
+  \begin{multline*}
+    \Lux(\con K, c) := \{\, (A'' \to C'') \in \Imp(M) \mid A \subseteq C \subseteq M, \\ 1
+    > \conf_{\con K}(A'' \to C'') \ge c, \nexists B \subseteq M \st A'' \subsetneq B''
+    \subsetneq C'' \,\}
+  \end{multline*}
+  is a base of $\Th_c(\con K)$ with background knowledge $\mathcal{L}$.
+\end{Theorem}
+
+The proof of the following theorem is inspired by a similar proof
+from~\cite{DBLP:conf/ki/StummeTBPL01}.
+
+\begin{Proof}
+  Let $(A'' \to C'') \in \Conf(\con K, c)$.  Then it is enough to show that
+  \begin{equation*}
+    \Lux(\con K, c) \models (A'' \to C'').
+  \end{equation*}
+  Because $(A'' \to C'') \in \Conf(\con K, c)$ it is true that $A'' \subseteq C''$.  Since
+  $\con K$ is finite, the lattice of all intents of $\con K$ is finite as well.
+  Therefore, there exist a chain of intents
+  \begin{equation*}
+    B_0 = A'' \subsetneq B_1 \subsetneq B_2 \subsetneq \dots \subsetneq B_{n-1} \subsetneq B_n = C''
+  \end{equation*}
+  such that there are no intents $D$ such that $B_i \subsetneq D \subsetneq B_{i+1}$ for
+  all $i \in \set{ 0, \dots, n-1 }$.  Then by induction
+  \Cref{lem:chain-rule-for-confidence} yields
+  \begin{equation*}
+    \conf_{\con K}(A'' \to C'') = \prod_{i = 0}^{n-1} \conf_{\con K}(B_i \to B_{i+1}).
+  \end{equation*}
+  Since $\conf_{\con K}(B_i \to B_{i+1})$ this immediately yields that
+  \begin{equation*}
+    \conf_{\con K}(B_i \to B_{i+1}) \ge \conf_{\con K}(A'' \to C'') \ge c
+  \end{equation*}
+  and therefore $(B_i \to B_{i+1}) \in \Lux(\con K, c)$ for $i \in \set{0, \dots, n-1}$.  Thus,
+  \begin{equation*}
+    \Lux(\con K, c) \models (A'' \to C'')
+  \end{equation*}
+  as required.
+\end{Proof}
+
+\todo[inline]{Write: corollary by weakening the requirements of the theorem}%
 
 \subsection{A Luxenburger-Style Base of all Confident GCIs}
 \label{sec:first-base}
@@ -514,4 +699,4 @@ within description logics that obtain base of \emph{implications with high confi
 %%% TeX-master: "../main"
 %%% End: 
 %  LocalWords:  unintuitive Organisation PopulatedPlace OfficeHolder rdf ns Infobox conf
-%  LocalWords:  gcis DBpedia's
+%  LocalWords:  gcis DBpedia's Stumme
