@@ -399,10 +399,72 @@ this, we define the \emph{confidence} of $C \sqsubseteq D$ in $\mathcal{I}$.
 
 \begin{Definition}[Confidence of GCIs]
   \label{def:gci-confidence}
-  
+  Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be a finite
+  interpretation over $N_C$ and $N_R$, and let $C, D \in \ELgfpbot(N_C, N_R)$.  Then the
+  \emph{confidence} of $C \sqsubseteq D$ in $\mathcal{I}$, written as
+  $\conf_{\mathcal{I}}(C \sqsubseteq D)$, is defined as
+  \begin{equation*}
+    \conf_{\mathcal{I}}( C \sqsubseteq D ) =
+    \begin{cases}
+      1 & C^{\mathcal{I}} = \emptyset \\
+      \frac{\abs{ (C \sqcap D)^{\mathcal{I}} }}{\abs{ C^{\mathcal{I}} }} & \text{otherwise.}
+    \end{cases}
+  \end{equation*}
+\end{Definition}
+Note that $(C \sqcap D)^{\mathcal{I}}$ is just the number of positive examples for $C
+\sqsubseteq D$ in $\mathcal{I}$, and that $\abs{C^{\mathcal{I}}}$ is just the number of
+all elements to which $C \sqsubseteq D$ applies, \ie the number of all positive and
+negative examples.  Therefore, $\conf_{\mathcal{I}}(C \sqsubseteq D)$ measures the amount
+of positive examples against the number of all elements to which $C \sqsubseteq D$
+applies: the higher the confidence of $C \sqsubseteq D$ in $\mathcal{I}$, the more the
+number of positive examples is higher than the number of negative ones.
+
+\begin{Example}
+  \label{expl:Idbpedia-confidence}
+  Recall that $\sf \exists child. \top \sqsubseteq Person$ has 2547 positive and 4
+  negative examples in $\Idbpedia$, thus
+  \begin{equation*}
+    \conf_\Idbpedia( {\sf \exists child. \top \sqsubseteq Person } ) = \frac{ 2547 }{ 2551 }.
+  \end{equation*}
+\end{Example}
+
+To use the confidence of GCIs in finite interpretations to formalize the notion of being
+``almost true'' we need to choose a \emph{threshold} above which we can say that the
+number of positive examples is ``much higher'' then the number of negative ones.
+
+\begin{Definition}[Theory with respect to a Threshold]
+  \label{def:confident-theory-of-interpretations}
+  Let $\mathcal{I}$ be a finite interpretation over $N_C$ and $N_R$, and let $c \in [0,
+  1]$.  Then the \emph{theory} of $\mathcal{I}$ \emph{with threshold $c$} is defined to be
+  the set\todo{not consistent with the definition of $\Th(\mathcal{I})$; make the
+    definition of $\Th(\mathcal{I})$ into using \ELgfpbot only}
+  \begin{equation*}
+    \Th_c(\mathcal{I}) := \set{ C \sqsubseteq D \mid C, D \in \ELgfpbot(N_C, N_R),
+      \conf_{\mathcal{I}}( C \sqsubseteq D ) \ge c }.
+  \end{equation*}
+  We say that GCIs in $\Th_c(\mathcal{I})$ have \emph{high confidence} (with respect to
+  the threshold $c$).  Sometimes, we may call the elements of $\Th_c(\mathcal{I})$ just
+  \emph{confident GCIs}.
 \end{Definition}
 
-\todo[inline]{Write: introduce notion of confidence for GCIs of finite interpretations}%
+Note that in general the set $\Th_c(\mathcal{I})$ is not closed under entailment; we shall
+see examples for this later on.
+
+Note that if $C \sqsubseteq D$ has confidence 1 in $\mathcal{I}$ if and only if $C
+\sqsubseteq D$ holds in $\mathcal{I}$.  Therefore, $\Th(\mathcal{I}) \subseteq
+\Th_c(\mathcal{I})$, and thus the set $\Th_c(\mathcal{I})$ is also infinite in general
+(\ie when $N_R \neq \emptyset$).  Therefore, we again want to find \emph{finite bases},
+this time of the set $\Th_c(\mathcal{I})$.  Recall that a set $\mathcal{B}$ of general
+concept inclusions is a base of $\Th_c(\mathcal{I})$ if it is sound and complete for
+$\Th_c(\mathcal{I})$, \ie if all GCIs in $\mathcal{B}$ are entailed by
+$\Th_c(\mathcal{I})$ and vice versa.
+
+Notice, however, that since $\Th_c(\mathcal{I})$ is not closed under entailment it may
+happen that $\mathcal{B} \not\subseteq \Th_c(\mathcal{I})$.  On the other hand it may be
+desirable to have bases $\mathcal{B}$ of $\Th_c(\mathcal{I})$ where the GCIs contained in
+this base have high confidence as well, \ie which satisfy $\mathcal{B} \subseteq
+\Th_c(\mathcal{I})$.  We shall call such bases \emph{confident bases} of
+$\Th_c(\mathcal{I})$.
 
 \subsection{Luxenburger's Base}
 \label{Luxen-base}
