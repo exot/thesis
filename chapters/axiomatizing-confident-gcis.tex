@@ -649,7 +649,7 @@ from~\cite{DBLP:conf/ki/StummeTBPL01}.
   \begin{equation*}
     \conf_{\con K}(A'' \to C'') = \prod_{i = 0}^{n-1} \conf_{\con K}(B_i \to B_{i+1}).
   \end{equation*}
-  Since $\conf_{\con K}(B_i \to B_{i+1})$ this immediately yields that
+  Since $\conf_{\con K}(B_i \to B_{i+1}) \in [0,1]$ this immediately yields that
   \begin{equation*}
     \conf_{\con K}(B_i \to B_{i+1}) \ge \conf_{\con K}(A'' \to C'') \ge c
   \end{equation*}
@@ -668,11 +668,11 @@ consider just bases of $\con K$.  Instead, it is sufficient to take a set $\math
 
 \begin{Corollary}
   \label{cor:weakened-luxenburger-base}
-  Let $\con K = (G, M, I)$ be a formal context, and let $c \in [0,1]$.  If $\mathcal{B}
-  \subseteq \Th_c(\con K)$ is complete for $\Lux(\con K, c)$, and if $\mathcal{L}
-  \subseteq \Th(\con K)$ is such that $\mathcal{L} \cup \mathcal{B}$ is complete for
-  $\Th(\con K)$, then $\mathcal{B}$ is a confident base of $\Th_c(\con K)$ with background
-  knowledge $\mathcal{L}$.
+  Let $\con K = (G, M, I)$ be a finite formal context, and let $c \in [0,1]$.  If
+  $\mathcal{B} \subseteq \Th_c(\con K)$ is complete for $\Lux(\con K, c)$, and if
+  $\mathcal{L} \subseteq \Th(\con K)$ is such that $\mathcal{L} \cup \mathcal{B}$ is
+  complete for $\Th(\con K)$, then $\mathcal{B}$ is a confident base of $\Th_c(\con K)$
+  with background knowledge $\mathcal{L}$.
 \end{Corollary}
 
 \subsection{A Luxenburger-Style Base of all Confident GCIs}
@@ -681,6 +681,7 @@ consider just bases of $\con K$.  Instead, it is sufficient to take a set $\math
 We can now use the results about confident bases of implications with high confidence to
 obtain confident bases of GCIs with high confidence.  For this, we simply adapt the
 results of the previous section and reprove them in the setting of description logics.
+Notice that because of this, the following section is very similar to the previous one.
 
 We start with the observation that the confidence of GCIs does not change if we switch to
 model-based most-specific concept descriptions.
@@ -831,11 +832,74 @@ It is also possible to establish the analog to \Cref{lem:chain-rule-for-confiden
   Then $\Lux(\mathcal{I}, c) \cup \mathcal{B}$ is a finite confident base of
   $\Th_c(\mathcal{I})$.
 \end{Theorem}
+\begin{Proof}
+  The proof is again analogous to the one of the corresponding
+  \Cref{thm:luxenburger-base}.  To show the claim it is sufficient to just show that all
+  GCIs in $\Conf(\mathcal{I}, c)$ are entailed by $\Lux(\mathcal{I}, c)$.  To this end,
+  let $(X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}) \in \Conf(\mathcal{I}, c)$.  Then $Y
+  \subseteq X \subseteq \Delta^{\mathcal{I}}$, \ie $Y^{\mathcal{I}} \sqsubseteq
+  X^{\mathcal{I}}$.  Since $\Delta^{\mathcal{I}}$ is finite, there exist sets
+  $\Delta^{\mathcal{I}} \supseteq Z_0 \supseteq Z_1 \supseteq \dots \supseteq Z_n$ such
+  that
+  \begin{equation*}
+    Y^{\mathcal{I}} = Z_n^{\mathcal{I}} \sqsubsetneq Z_{n-1}^{\mathcal{I}} \sqsubsetneq
+    \dots \sqsubsetneq Z_1^{\mathcal{I}} \sqsubsetneq Z_0^{\mathcal{I}} = X^{\mathcal{I}}
+  \end{equation*}
+  such that there do not exist sets $W \subseteq \Delta^{\mathcal{I}}$ such that
+  \begin{equation}
+    \label{eq:25}
+    Z_i^{\mathcal{I}} \sqsubsetneq W^{\mathcal{I}} \sqsubsetneq Z_{i-1}^{\mathcal{I}}
+  \end{equation}
+  for any $i \in \set{ 1, \dots, n }$.  Then by
+  \Cref{lem:chain-rule-for-confidence-of-gcis} it is true that
+  \begin{equation*}
+    \conf_{\mathcal{I}}(X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}) = \prod_{i = 0}^{n-1}
+    \conf_{\mathcal{I}}(Z_i^{\mathcal{I}} \sqsubseteq Z_{i+1}^{\mathcal{I}}).
+  \end{equation*}
+  Since the confidence is always an element of $[0,1]$ we obtain from this equality that
+  \begin{equation*}
+    \conf_{\mathcal{I}}(Z_i^{\mathcal{I}} \sqsubseteq Z_{i+1}^{\mathcal{I}}) \ge
+    \conf_{\mathcal{I}}(X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}) \ge c
+  \end{equation*}
+  and because of \Cref{eq:25} we obtain $(Z_i^{\mathcal{I}} \sqsubseteq
+  Z_{i+1}^{\mathcal{I}}) \in \Lux(\mathcal{I}, c)$ for all $i \in \set{ 0, \dots, n-1}$.
+  Since $\set{ Z_i^{\mathcal{I}} \sqsubseteq Z_{i+1}^{\mathcal{I}} \mid i \in \set{ 0,
+      \dots, n-1} }$ entails $X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}$ we obtain
+  \begin{equation*}
+    \Lux(\mathcal{I}, c) \models (X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}})
+  \end{equation*}
+  as required.
+\end{Proof}
 
-\todo[inline]{Write: adapt ideas from Luxenburger}%
+And finally, the analog of \Cref{cor:weakened-luxenburger-base} of course holds as well.
+
+\begin{Corollary}
+  \label{cor:weakened-luxenburger-base-for-gcis}
+  Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be a finite
+  interpretation, and let $c \in [0,1]$.  If $\mathcal{B} \subseteq \Th_c(\mathcal{I})$ is
+  complete for $\Lux(\con K, c)$, and if $\mathcal{L} \subseteq \Th(\mathcal{I})$ is such
+  that $\mathcal{B} \cup \mathcal{L}$ is complete for $\Th(\mathcal{I})$, then
+  $\mathcal{B} \cup \mathcal{L}$ is a confident base of $\Th_c(\mathcal{I})$.
+\end{Corollary}
 
 \subsection{Bases of Confident GCIs from Bases of Confident Implications}
 \label{sec:bases-confident-gcis}
+
+In the previous section we have obtained some first finite confident bases of
+$\Th_c(\mathcal{I})$ by mimicking the argumentation of Luxenburger's results in the
+setting of description logics.  In this section we want to take another approach to obtain
+finite bases and finite confident bases, by directly transferring such bases for
+implications with high confidence to corresponding bases of GCIs with high confidence.  In
+other words, given a finite interpretation $\mathcal{I}$ and $c \in [0,1]$, we transfer
+$\mathcal{I}$ into a suitable formal context $\con K$, compute a base of $\Th_c(\con K)$
+and transfer this base into a base for $\Th_c(\con K)$.
+
+This approach has a particular advantage over computing finite bases of
+$\Th_c(\mathcal{I})$ the way we described it in the previous section.  This advantage lies
+in the fact that there are very close connection between formal concept analysis and
+data-mining, which extend to the level that formal concept analysis can be used as a
+framework for the logical foundations of the theory of \emph{association
+  rules}~\cite{arules:Zaki:1998}.
 
 \todo[inline]{Write: compute confident bases of GCIs from bases of confident implications
   (12-06/4.3) }%
