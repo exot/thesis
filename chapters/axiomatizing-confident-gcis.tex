@@ -899,7 +899,46 @@ $\Th_c(\mathcal{I})$ the way we described it in the previous section.  This adva
 in the fact that there are very close connection between formal concept analysis and
 data-mining, which extend to the level that formal concept analysis can be used as a
 framework for the logical foundations of the theory of \emph{association
-  rules}~\cite{arules:Zaki:1998}.
+  rules}~\cite{arules:Zaki:1998}.  Although we have not introduced association rules
+formally here, they can be thought of as a generalization of implications with high
+confidence.  Association rules are a well investigated topic in data-mining, and there is
+an extensive literature on algorithms that mine association rules from data~\todo{find a
+  reference here}.  Because of the close connection of formal concept analysis to
+data-mining, these algorithms can be adapted quite easily to the problem of finding bases
+of implications with high confidence.
+
+If we now establish another link between bases for implications with high confidence on
+the one hand, and bases for GCIs with high confidence on the other, then we can exploit
+the algorithms from data-mining for extracting association rules from data to find bases
+for GCIs with high confidence in finite interpretations.  This link may be of particular
+interest since these algorithms are usually optimized and tailored towards practical
+applications.
+
+We shall not follow this line of thought here, as it would require an extensive
+introduction into the theory of data-mining.  However, if the results presented in this
+thesis turn out to be interesting for practical applications, then exploiting the link to
+data-mining which is offered by formal concept analysis should be investigated in more
+detail.  See also \Cref{cha:conclusions}.
+
+We have already briefly sketched the main result of this section, and indeed we can even
+give some more details before we shall discuss the whole approach.  Let $\mathcal{I}$ be a
+finite interpretation over $N_C$ and $N_R$, and let $c \in [0,1]$.  Recall the set
+$M_{\mathcal{I}}$ from \Cref{sec:base-all-valid} which was used to obtain finite bases of
+$\mathcal{I}$, namely
+\begin{equation*}
+  M_{\mathcal{I}} = N_C \cup \set{ \bot } \cup \set{ \exists r. X^{\mathcal{I}} \mid r \in
+    N_R, X \subseteq \Delta^{\mathcal{I}}, X \neq \emptyset }.
+\end{equation*}
+The main idea is now that confident bases of implications with high confidence in the
+induced context $\con K_{\mathcal{I}} := \con K_{\mathcal{I}, M_{\mathcal{I}}}$ give rise
+to confident bases of GCIs with high confidence in $\mathcal{I}$.  More precisely, if
+$\mathcal{L}$ is a (confident) base of $\Th_c(\con K_{\mathcal{I}})$, then
+\begin{equation*}
+  \bigsqcap \mathcal{L} := \set{ \bigsqcap X \sqsubseteq \bigsqcap Y \mid (X \to Y) \in
+    \mathcal{L} }
+\end{equation*}
+is a (confident) base of $\Th_c(\mathcal{I})$.  To prove this result is the purpose of
+this section.
 
 \todo[inline]{Write: compute confident bases of GCIs from bases of confident implications
   (12-06/4.3) }%
@@ -912,7 +951,6 @@ framework for the logical foundations of the theory of \emph{association
 \subsection{Unravelling \ELgfpbot Bases into \ELbot Bases}
 \label{sec:unrav-elgfpb-bases}
 
-\todo[inline]{Write: introduce unravelling of \ELgfpbot concept descriptions}%
 \todo[inline]{Write: show how unravelling can be used to obtain \ELbot-Bases from
   \ELgfpbot ones (12-06/6)}%
 
