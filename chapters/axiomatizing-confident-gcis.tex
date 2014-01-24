@@ -548,7 +548,7 @@ lemma makes use of this observation
     \Conf(\con K, c) := \set{ A'' \to B'' \mid A \subseteq B \subseteq M, 1 > \conf_{\con
         K}(A'' \to B'') \ge c}
   \end{equation*}
-  is a base of $\Th_c(\con K)$ with background knowledge $\mathcal{L}$.
+  is a confident base of $\Th_c(\con K)$ with background knowledge $\mathcal{L}$.
 \end{Lemma}
 \begin{Proof}
   We first observe that for $A, B \subseteq M$ it is true that
@@ -626,7 +626,7 @@ without any harm.
     > \conf_{\con K}(A'' \to C'') \ge c, \nexists B \subseteq M \st A'' \subsetneq B''
     \subsetneq C'' \,\}
   \end{multline*}
-  is a base of $\Th_c(\con K)$ with background knowledge $\mathcal{L}$.
+  is a confident base of $\Th_c(\con K)$ with background knowledge $\mathcal{L}$.
 \end{Theorem}
 
 The proof of the following theorem is inspired by a similar proof
@@ -660,7 +660,20 @@ from~\cite{DBLP:conf/ki/StummeTBPL01}.
   as required.
 \end{Proof}
 
-\todo[inline]{Write: corollary by weakening the requirements of the theorem}%
+Clearly we can weaken the prerequisites of this theorem a bit: instead of considering the
+whole set $\Lux(\con K, c)$ a subset $\mathcal{B} \subseteq \Lux(\con K, c)$ that is
+complete for $\Lux(\con K, c)$ is just sufficient.  Moreover, it is not necessary to
+consider just bases of $\con K$.  Instead, it is sufficient to take a set $\mathcal{L}
+\subseteq \Th(\con K)$ such that $\mathcal{L} \cup \mathcal{B}$ is complete for $\con K$.
+
+\begin{Corollary}
+  \label{cor:weakened-luxenburger-base}
+  Let $\con K = (G, M, I)$ be a formal context, and let $c \in [0,1]$.  If $\mathcal{B}
+  \subseteq \Th_c(\con K)$ is complete for $\Lux(\con K, c)$, and if $\mathcal{L}
+  \subseteq \Th(\con K)$ is such that $\mathcal{L} \cup \mathcal{B}$ is complete for
+  $\Th(\con K)$, then $\mathcal{B}$ is a confident base of $\Th_c(\con K)$ with background
+  knowledge $\mathcal{L}$.
+\end{Corollary}
 
 \subsection{A Luxenburger-Style Base of all Confident GCIs}
 \label{sec:first-base}
