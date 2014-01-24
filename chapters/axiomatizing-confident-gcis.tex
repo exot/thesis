@@ -588,11 +588,11 @@ observation.
   \end{equation}
 \end{Lemma}
 \begin{Proof}
-  If $\conf_{\con K}(A \to C) = 0$, then $A' = \emptyset$ and thus the left-hand side of
-  \Cref{eq:24} is 0 as well.
+  If $A' = \emptyset$, then $B' = C' = \emptyset$, and both sides of the equation are 1.
+  If $A' \neq \emptyset$ but $B' = \emptyset$, then $C' = \emptyset$ and both sides of the
+  equation are 0.  In both cases, equality holds.
 
-  If $A' \neq \emptyset$, then since $A \subseteq B$, it is true that $B' \neq
-  \emptyset$.  Therefore we can easily compute
+  Now let $A' \neq \emptyset \neq B'$.  Then we can easily compute
   \begin{align*}
     \conf_{\con K}(A \to C)
     &= \frac{ \abs{ (A \cup C)' } }{ \abs{ A' } } \\
@@ -678,9 +678,161 @@ consider just bases of $\con K$.  Instead, it is sufficient to take a set $\math
 \subsection{A Luxenburger-Style Base of all Confident GCIs}
 \label{sec:first-base}
 
+We can now use the results about confident bases of implications with high confidence to
+obtain confident bases of GCIs with high confidence.  For this, we simply adapt the
+results of the previous section and reprove them in the setting of description logics.
+
+We start with the observation that the confidence of GCIs does not change if we switch to
+model-based most-specific concept descriptions.
+
+\begin{Lemma}
+  \label{lem:confidence-stays-under-mmsc}
+  Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be a finite
+  interpretation over $N_C$ and $N_R$, and let $C, D \in \ELgfpbot(N_C, N_R)$.  Then
+  \begin{equation*}
+    \conf_{\mathcal{I}}( C \sqsubseteq D ) = \conf_{\mathcal{I}}(
+    C^{\mathcal{I}\mathcal{I}} \sqsubseteq D^{\mathcal{I}\mathcal{I}}).
+  \end{equation*}
+\end{Lemma}
+\begin{Proof}
+  The idea is the same as in the case of confidence of implications, just with a different
+  notation.
+
+  Since $C^{\mathcal{I}} = C^{\mathcal{I}\mathcal{I}\mathcal{I}}$, we have that
+  $C^{\mathcal{I}} = \emptyset$ if and only if $C^{\mathcal{I}\mathcal{I}\mathcal{I}} =
+  \emptyset$.  In this case, both sides of the equation are 1 and equality holds.
+
+  Let $C^{\mathcal{I}} \neq \emptyset$.  Then $C^{\mathcal{I}\mathcal{I}\mathcal{I}} \neq
+  \emptyset$, and we can compute
+  \begin{align*}
+    \conf_{\mathcal{I}}( C \sqsubseteq D )
+    &= \frac{ \abs{ (C \sqcap D)^{\mathcal{I}} } }{ \abs{ C^{\mathcal{I}} } } \\
+    &= \frac{ \abs{ C^{\mathcal{I}} \cap D^{\mathcal{I}} } }{ \abs{ C^{\mathcal{I}} } }
+    \\
+    &= \frac{ \abs{ C^{\mathcal{I}\mathcal{I}\mathcal{I}} \cap
+        D^{\mathcal{I}\mathcal{I}\mathcal{I}} } }{ \abs{
+        C^{\mathcal{I}\mathcal{I}\mathcal{I}} } } \\
+    &= \conf_{\mathcal{I}}( C^{\mathcal{I}\mathcal{I}} \sqsubseteq
+    D^{\mathcal{I}\mathcal{I}} )
+  \end{align*}
+  as required.
+\end{Proof}
+
+From this fact we can now derive the analog of \Cref{lem:chain-rule-for-confidence}.
+
+\begin{Theorem}
+  Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be a finite
+  interpretation over $N_C$ and $N_R$, and let $\mathcal{B}$ be a finite base of
+  $\mathcal{I}$.  Define
+  \begin{equation*}
+    \Conf(\mathcal{I}, c) := \set{ X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}} \mid Y
+      \subseteq X \subseteq \Delta^{\mathcal{I}}, 1 > \conf_{\mathcal{I}}( X^{\mathcal{I}}
+      \sqsubseteq Y^{\mathcal{I}} ) \ge c }.
+  \end{equation*}
+  Then the set $\Conf(\mathcal{I}, c) \cup \mathcal{B}$ is a finite confident base of
+  $\Th_c(\mathcal{I})$.
+\end{Theorem}
+\begin{Proof}
+  Clearly $\Conf(\mathcal{I}, c) \cup \mathcal{B} \subseteq \Th_c(\mathcal{I})$.
+  Furthermore, since $\Delta^{\mathcal{I}}$ is finite, $\Conf(\mathcal{I}, c)$ is finite
+  as well.  Thus, it remains to show that $\Conf(\mathcal{I}, c) \cup \mathcal{B}$ is
+  complete for $\Th_c(\mathcal{I})$.
+
+  Let $(C \sqsubseteq D) \in \Th_c(\mathcal{I})$.  If $C \sqsubseteq D$ is valid in
+  $\mathcal{I}$, then it is entailed by $\mathcal{B}$, and nothing remains to be shown.
+
+  Therefore, let $C \sqsubseteq D$ be not valid in $\mathcal{I}$.  Then observe that $C
+  \sqsubseteq D$ is entailed by $C \sqsubseteq C \sqcap D$.  Then $\mathcal{B}$ entails $C
+  \sqsubseteq C^{\mathcal{I}\mathcal{I}}$.  Furthermore,
+  \begin{equation*}
+    \conf_{\mathcal{I}}( C \sqsubseteq D ) = \conf_{\mathcal{I}}( C \sqsubseteq C \sqcap D
+    ) = \conf_{\mathcal{I}}( C^{\mathcal{I}\mathcal{I}} \sqsubseteq (C \sqcap
+    D)^{\mathcal{I}\mathcal{I}} )
+  \end{equation*}
+  by \Cref{lem:confidence-stays-under-mmsc}, and since $(C \sqsubseteq D) \in
+  \Th_c(\mathcal{I})$ we obtain that
+  \begin{equation*}
+    (C^{\mathcal{I}\mathcal{I}} \sqsubseteq (C \sqcap D)^{\mathcal{I}\mathcal{I}}) \in
+    \Conf(\mathcal{I}, c)
+  \end{equation*}
+  by choosing $X = C^{\mathcal{I}}$ and $Y = (C \sqcap D)^{\mathcal{I}}$.  But then
+  \begin{equation*}
+    \Conf(\mathcal{I}, c) \cup \mathcal{B} \models (C \sqsubseteq
+    C^{\mathcal{I}\mathcal{I}}), (C^{\mathcal{I}\mathcal{I}} \sqsubseteq (C \sqcap
+    D)^{\mathcal{I}\mathcal{I}})
+  \end{equation*}
+  and since $(C \sqcap D)^{\mathcal{I}\mathcal{I}} \sqsubseteq D^{\mathcal{I}\mathcal{I}}
+  \sqsubseteq D$, it follows that
+  \begin{equation*}
+    \Conf(\mathcal{I}, c) \cup \mathcal{B} \models (C \sqsubseteq D)
+  \end{equation*}
+  as required.
+\end{Proof}
+
+It is also possible to establish the analog to \Cref{lem:chain-rule-for-confidence}.
+
+\begin{Lemma}
+  \label{lem:chain-rule-for-confidence-of-gcis}
+  Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be a finite
+  interpretation, and let $Z \subseteq Y \subseteq X$.  Then
+  \begin{equation*}
+    \conf_{\mathcal{I}}(X^{\mathcal{I}} \sqsubseteq Z^{\mathcal{I}}) =
+    \conf_{\mathcal{I}}(X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}) \cdot
+    \conf_{\mathcal{I}}(Y^{\mathcal{I}} \sqsubseteq Z^{\mathcal{I}}).
+  \end{equation*}
+\end{Lemma}
+\begin{Proof}
+  If $X^{\mathcal{I}\mathcal{I}} = \emptyset$, then because of $Z \subseteq Y \subseteq X$
+  we obtain $Z^{\mathcal{I}\mathcal{I}} \subseteq Y^{\mathcal{I}\mathcal{I}} \subseteq
+  X^{\mathcal{I}\mathcal{I}}$ and thus $Z^{\mathcal{I}\mathcal{I}} =
+  Y^{\mathcal{I}\mathcal{I}} = \emptyset$.  In this case, both sides of the equation are
+  1.
+
+  If $X^{\mathcal{I}\mathcal{I}} \neq \emptyset$ but $Y^{\mathcal{I}\mathcal{I}} =
+  \emptyset$, then $Z^{\mathcal{I}\mathcal{I}} = \emptyset$ and both sides of the equation
+  are 0.  In both cases, equality holds.
+
+  Let $X^{\mathcal{I}\mathcal{I}} \neq \emptyset \neq Y^{\mathcal{I}\mathcal{I}}$.  As in
+  the case of \Cref{lem:chain-rule-for-confidence} we can compute
+  \begin{align*}
+    \conf_{\mathcal{I}}(X^{\mathcal{I}} \sqsubseteq Z^{\mathcal{I}})
+    &= \frac
+    { \abs{ (X^{\mathcal{I}} \sqcap Z^{\mathcal{I}})^{\mathcal{I}} }}
+    { \abs{ X^{\mathcal{I}\mathcal{I}} }} \\
+    &= \frac
+    { \abs{ (X^{\mathcal{I}} \sqcap Y^{\mathcal{I}})^{\mathcal{I}} }}
+    { \abs{ X^{\mathcal{I}\mathcal{I}} } }
+    \cdot \frac
+    { \abs{ (X^{\mathcal{I}} \sqcap Z^{\mathcal{I}})^{\mathcal{I}} }}
+    { \abs{ (X^{\mathcal{I}} \sqcap Y^{\mathcal{I}})^{\mathcal{I}} }} \\
+    &= \frac
+    { \abs{ (X^{\mathcal{I}} \sqcap Y^{\mathcal{I}})^{\mathcal{I}} }}
+    { \abs{ X^{\mathcal{I}\mathcal{I}} } }
+    \cdot \frac
+    { \abs{ (Y^{\mathcal{I}} \sqcap Z^{\mathcal{I}})^{\mathcal{I}} }}
+    { \abs{ Y^{\mathcal{I}\mathcal{I}} }} \\
+    &= \conf_{\mathcal{I}}(X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}) \cdot
+    \conf_{\mathcal{I}}(Y^{\mathcal{I}} \sqsubseteq Z^{\mathcal{I}})
+  \end{align*}
+  because $Z^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}} \sqsubseteq X^{\mathcal{I}}$.
+\end{Proof}
+
+\begin{Theorem}
+  \label{thm:luxenbuger-base-for-gcis}
+  Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be a finite
+  interpretation, and let $c \in [0,1]$.  Let $\mathcal{B}$ be a base of $\mathcal{I}$.  Define
+  \begin{multline*}
+    \Lux(\mathcal{I}, c) := \{\, X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}} \mid Y
+      \subseteq X \subseteq \Delta^{\mathcal{I}}, \\
+      1 > \conf_{\mathcal{I}}( X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}} ) \ge c,
+      \nexists Z \subseteq \Delta^{\mathcal{I}} \st Y^{\mathcal{I}} \sqsubsetneq
+      Z^{\mathcal{I}} \sqsubsetneq X^{\mathcal{I}} \,\}.
+  \end{multline*}
+  Then $\Lux(\mathcal{I}, c) \cup \mathcal{B}$ is a finite confident base of
+  $\Th_c(\mathcal{I})$.
+\end{Theorem}
+
 \todo[inline]{Write: adapt ideas from Luxenburger}%
-\todo[inline]{Write: use neighborhood-relation}%
-\todo[inline]{Write: show how to compute this base from the induced context}
 
 \subsection{Bases of Confident GCIs from Bases of Confident Implications}
 \label{sec:bases-confident-gcis}
