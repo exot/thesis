@@ -722,6 +722,7 @@ model-based most-specific concept descriptions.
 From this fact we can now derive the analog of \Cref{lem:chain-rule-for-confidence}.
 
 \begin{Theorem}
+  \label{thm:conf-base}
   Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be a finite
   interpretation over $N_C$ and $N_R$, and let $\mathcal{B}$ be a finite base of
   $\mathcal{I}$.  Define
@@ -1143,8 +1144,222 @@ The main result of this section is now the following theorem.
   which together with \Cref{eq:27} yields the claim.
 \end{Proof}
 
-\todo[inline]{Write: compute confident bases of GCIs from bases of confident implications
-  (12-06/4.3) }%
+Since $\Th_c(\con K_{\mathcal{I}})$ is a confident base of itself, the theorem immediately
+yields that $\bigsqcap \Th_c(\con K_{\mathcal{I}})$ is a finite confident base of
+$\Th_c(\mathcal{I})$.
+
+\Cref{thm:confident-bases-of-GCIs-from-confident-bases-of-implications} has the drawback
+that $\bigsqcap \mathcal{L}$ still contains trivial knowledge in the sense that whenever
+$C, D \in M_{\mathcal{I}}$ are such that $C \sqsubseteq D$, then $\mathcal{L}$ has to
+entail $\set{ C } \to \set{ D }$, although the corresponding GCI $C \sqsubseteq D$ is
+trivially true.  We can remedy this redundancy by again considering an appropriate
+background knowledge.  Recall that we defined in \Cref{eq:28} the set
+\begin{equation*}
+  \mathcal{S}_{\mathcal{I}} := \set{ \set{ C } \to \set{ D } \mid C, D \in
+    M_{\mathcal{I}}, C \sqsubseteq D }.
+\end{equation*}
+
+\begin{Corollary}
+  \label{cor:using-background-knowledge-for-confident-bases}
+  Let $\mathcal{I}$ be a finite interpretation over $N_C$ and $N_R$, let $c \in [0,1]$ and
+  $\mathcal{L} \subseteq \Th_c(\con K_{\mathcal{I}})$ be such that $\mathcal{L} \cup
+  \mathcal{S}_{\mathcal{I}}$ is a confident base of $\Th_c(\con K_{\mathcal{I}})$.  Then
+  $\bigsqcap \mathcal{L}$ is a finite confident base of $\Th_c(\mathcal{I})$.
+\end{Corollary}
+\begin{Proof}
+  By \Cref{thm:confident-bases-of-GCIs-from-confident-bases-of-implications} the set
+  $\bigsqcap \mathcal{L} \cup \bigsqcap \mathcal{S}_{\mathcal{I}}$ is a finite confident
+  base of $\Th_c(\mathcal{I})$.  Since $\bigsqcap \mathcal{S}_{\mathcal{I}}$ is valid in
+  every interpretation, it is entailed by $\bigsqcap \mathcal{L}$, and thus the set
+  $\bigsqcap \mathcal{L}$ is already a complete for $\Th_c(\mathcal{I})$.  Thus,
+  $\bigsqcap \mathcal{L}$ is a finite confident base of $\Th_c(\mathcal{I})$.
+\end{Proof}
+
+We can use \Cref{lem:implicational-entailment-implies-gci-entailment} to further remove
+redundancies from bases obtained as in
+\Cref{thm:confident-bases-of-GCIs-from-confident-bases-of-implications}.  More precisely,
+if $\mathcal{L}$ is a base of $\Th_c(\con K_{\mathcal{I}})$, and if $(X \to Y) \in
+\mathcal{L}$ is such that
+\begin{equation*}
+  \mathcal{L} \setminus \set{ X \to Y } \models (X \to Y),
+\end{equation*}
+then \Cref{lem:implicational-entailment-implies-gci-entailment} yields that
+\begin{equation*}
+  \bigsqcap \mathcal{L} \setminus \set{ \bigsqcap X \sqsubseteq \bigsqcap Y } \models (
+  \bigsqcap X \sqsubseteq \bigsqcap Y).
+\end{equation*}
+Thus, redundancies in bases of $\Th_c(\con K_{\mathcal{I}})$ always result in redundancies
+of bases of $\Th_c(\mathcal{I})$.  Thus, removing these redundancies is a good starting
+point to obtain smaller bases of $\Th_c(\mathcal{I})$.
+
+In particular, we can consider irredundant bases $\mathcal{L}$ of $\Th_c(\con
+K_{\mathcal{I}})$.  However, even if $\mathcal{L}$ is irredundant, $\bigsqcap \mathcal{L}$
+may contain redundancies, as the following example shows.
+
+\begin{Example}
+  \label{expl:nonredundant-implicational-base-yields-redundant-gci-base}
+  We are looking for a finite interpretation $\mathcal{I}$, a $c \in [0,1]$, and a
+  non-redundant set $\mathcal{L}$ such that $\mathcal{L} \cup \mathcal{S}_{\mathcal{I}}$
+  is a confident base of $\Th_c(\con K_{\mathcal{I}})$, but $\bigsqcap \mathcal{L}$
+  contains redundancies.
+
+  For this we employ a similar idea as we did in
+  \Cref{expl:gci-entailment-does-not-impliy-implicational-entailment}.  More precisely, we
+  want to construct an interpretation $\mathcal{I}$ such that for two concept names
+  $\mathsf{A}, \mathsf{B} \in N_C$ and $\mathsf{r} \in N_R$, both implications $\set{
+    \mathsf{A} } \to \set{ \mathsf{B} }$ and $\set{ \mathsf{\exists r. A} } \to \set{
+    \mathsf{\exists r. (A \sqcap B)} }$ have confidence at least $c$ in $\con
+  K_{\mathcal{I}}$.  Then by
+  \Cref{prop:confidence-in-interpretation-is-the-same-as-in-induced-context}, $\mathsf{A
+    \sqsubseteq B}$ and $\mathsf{\exists r. A \sqsubseteq \exists r. (A \sqcap B)}$ have
+  confidence at least $c$ in $\mathcal{I}$.  If we can include these two implications in
+  an irredundant base $\mathcal{L}$ of $\Th_c(\con K_{\mathcal{I}})$ with background
+  knowledge $\mathcal{S}_{\mathcal{I}}$, then $\bigsqcap \mathcal{L}$ contains
+  redundancies, as desired.
+
+  \begin{figure}[tp]
+    \centering
+    \begin{tikzpicture}
+      \begin{scope}[every node/.style = {draw,circle}]
+        \node[label=above:{$\sf A$}] (1) at (-2,0) {\small 1};
+        \node[label=above:{$\sf A$}] (2) at ( 0,0) {\small 2};
+        \node[label=above:{$\sf B$}] (3) at ( 2,0) {\small 3};
+        \node[label=below:{$\sf A, B$}] (4) at (-1.5,-2) {\small 4};
+        \node[label=below:{$\sf A, B$}] (5) at (-0.5,-2) {\small 5};
+        \node[label=below:{$\sf A, B$}] (6) at ( 0.5,-2) {\small 6};
+        \node[label=below:{$\sf A, B$}] (7) at ( 1.5,-2) {\small 7};
+      \end{scope}
+      \path[every edge/.style={draw,->}] {
+        \foreach \x in {1,2,3} {
+          \foreach \y in {4,5,6,7} {
+            (\x) edge (\y)
+          }
+        }
+      };
+    \end{tikzpicture}
+    \caption{Example interpretation $\mathcal{I}$ for
+      \Cref{expl:nonredundant-implicational-base-yields-redundant-gci-base}.}
+    \label{fig:example-interpretation-1}
+  \end{figure}
+
+  So let $N_C := \set{ \mathsf{A}, \mathsf{B} }$ and $N_R := \set{ \mathsf{r} }$.
+  Consider the interpretation $\mathcal{I}$ as given in
+  \Cref{fig:example-interpretation-1}, where every edge is labeled with $\mathsf{r}$.  Then
+  \begin{align*}
+    \conf_{\mathcal{I}}(\mathsf{A} \sqsubseteq \mathsf{B}) &= \frac 2 3\\
+    \conf_{\mathcal{I}}(\mathsf{\exists r. A} \sqsubseteq \mathsf{\exists r. B}) &= 1,
+  \end{align*}
+  thus following our argumentation from above we can choose $c = \frac 1 2$, say.  Then we
+  want to find a irredundant set $\mathcal{L}$ of implications such that $\mathcal{L} \cup
+  \mathcal{S}_{\mathcal{I}}$ is a confident base of $\Th_c(\con K_{\mathcal{I}})$ and
+  $\mathcal{L}$ contains both $\set{ \mathsf{A} } \to \set{ \mathsf{B} }$ and $\set{
+    \mathsf{\exists r. A} } \to \set{ \mathsf{\exists r. (A \sqcap B)} }$.  We find
+  \begin{multline*}
+    M_{\mathcal{I}} = \{\, \sf \bot, A, B, \exists r.(A \sqcap \exists r.(A \sqcap B)), \\
+    \sf \exists r.(B \sqcap \exists r.(A \sqcap B)), \exists r.(A \sqcap B), \exists
+    r.\exists r.(A \sqcap B), \exists r.A, \exists r.B, \exists r.\top \,\},
+  \end{multline*}
+  and $\con K_{\mathcal{I}}$ is as shown in
+  \Cref{fig:induced-formal-context-of-example-interpretation-1}.
+
+  \begin{figure}[tp]
+    \centering
+    \newcommand{\attbox}[1]{\parbox[b][1ex][b]{1cm}{
+        \rotatebox{45}{$\sf #1$}}}
+    \vspace*{1.5cm}
+    \begin{equation*}
+      \begin{array}[c]{c||*{3}{c}*{7}{>{}c<{}}}
+        \con{K}_{\mathcal{I}} & \bot & \sf A & \sf B &
+        \hbox to 1cm{\attbox{\exists r.(A \sqcap \exists r.(A \sqcap B))}} &
+        \attbox{\exists r.(B \sqcap \exists r.(A \sqcap B))} &
+        \attbox{\exists r.(A \sqcap B)} &
+        \attbox{\exists r.\exists r.(A \sqcap B)} &
+        {\sf \exists r.A} &
+        {\sf \exists r.B} &
+        {\sf \exists r.\top} \\
+        \hline
+        1 & . & \times & . & . & . & \times & . & \times & \times & \times \\
+        2 & . & \times & . & . & . & \times & . & \times & \times & \times \\
+        3 & . & . & \times & . & . & \times & . & \times & \times & \times \\
+        4 & . & \times & \times & . & . & . & . & . & . & . \\
+        5 & . & \times & \times & . & . & . & . & . & . & . \\
+        6 & . & \times & \times & . & . & . & . & . & . & . \\
+        7 & . & \times & \times & . & . & . & . & . & . & . \\
+      \end{array}
+    \end{equation*}
+    \caption{Induced formal context of $\mathcal{I}$ as in
+      \Cref{expl:nonredundant-implicational-base-yields-redundant-gci-base}.}
+    \label{fig:induced-formal-context-of-example-interpretation-1}
+  \end{figure}
+
+  By \Cref{thm:conf-base} the set $\Can(\con K_{\mathcal{I}}) \cup \Conf(\mathcal{I}, c)$
+  is a confident base of $\Th_c(\con K_{\mathcal{I}})$.  An irredundant subset
+  $\mathcal{L}$ of this base which is still a base of $\Th_c(\con K_{\mathcal{I}})$ with
+  background knowledge $\mathcal{S}_{\mathcal{I}}$ is given by the following list of
+  implications:
+  \begin{align*}
+    \emptyset &\to \set{\sf A},\\
+    \set{\sf A}    &\to \set{\sf B},\\
+    \set{\sf \exists r.A} &\to \set{\sf \exists r.(A \sqcap B)},\\
+    \set{\sf \exists r.B} &\to \set{\sf \exists r.(A \sqcap B)},\\
+    \set{\sf \exists r.\top} &\to \set{\exists r.(A \sqcap B)},\\
+    \set{\sf A, B, \exists r.(A \sqcap B)} &\to \set{\bot},\\
+    \set{\sf \exists r.\exists r.(A \sqcap B)} &\to \set{\bot},\\
+    \set{\sf \exists r.(B \sqcap \exists r.(A \sqcap B))} &\to \set{\bot},\\
+    \set{\sf \exists r.(A \sqcap \exists r.(A \sqcap B))} &\to \set{\bot}.
+  \end{align*}
+  Then $\mathcal{L}$ is irredundant and by
+  \Cref{cor:using-background-knowledge-for-confident-bases} the set $\bigsqcap
+  \mathcal{L}$ is a base of $\Th_c(\mathcal{I})$.  But $\bigsqcap \mathcal{L}$ contains
+  the GCIs $\mathsf{A \sqsubseteq B}$ and $\mathsf{\exists r. A \sqsubseteq \exists r. (A
+    \sqcap B)}$, and thus $\bigsqcap \mathcal{L}$ is not irredundant.
+\end{Example}
+
+Instead of only considering irredundant bases of $\Th_c(\con K_{\mathcal{I}})$, we can go
+even a step further and consider \emph{minimal} bases of $\Th_c(\con K_{\mathcal{I}})$.
+For this we recall that if $\mathcal{L}$ is a base of $\Th_c(\con K_{\mathcal{I}})$, then
+the canonical base $\Can(\mathcal{L})$ of $\mathcal{L}$ is a minimal base of $\Th_c(\con
+K_{\mathcal{I}})$.\footnote{Note that we have only introduced the canonical base for
+  formal contexts, but by \Cref{prop:context-model-for-implications} we can represent
+  every set $\mathcal{L}$ is a base of a formal context $\con K_{\mathcal{L}}$.  Then
+  $\Can(\mathcal{L}) := \Can(\con K_{\mathcal{L}})$.  Note that this definition is
+  independent from the context $\con K_{\mathcal{L}}$ we use.}  Since $\Cn(\mathcal{L}) =
+\Cn(\Can(\mathcal{L}))$, we know that $\Can(\mathcal{L})$ is also a base of $\Th_c(\con
+K_{\mathcal{I}})$.  In particular, if $\mathcal{L} = \Th_c(\con K_{\mathcal{I}})$ we can
+consider $\Can(\Th_c(\con K_{\mathcal{I}}))$ as a minimal base of $\Th_c(\con
+K_{\mathcal{I}})$.\footnote{Also note that $\Can(\mathcal{L}) = \Can(\Th_c(\con
+  K_{\mathcal{I}}))$ for all bases $\mathcal{L}$ of $\Th_c(\con K_{\mathcal{I}})$.}  In
+this case also we obtain that $\bigsqcap \Can(\Th_c(\con K_{\mathcal{I}}))$ is a finite
+base of $\Th_c(\mathcal{I})$, as the following argumentation shows.
+
+\begin{Corollary}
+  \label{cor:bases-of-implications-to-bases-of-gcis}
+  Let $\mathcal{I}$ be a finite interpretation, let $c \in [0,1]$ and let $\mathcal{K}
+  \subseteq \Imp(M_{\mathcal{I}})$ be a base of $\Th_c(\con K_{\mathcal{I}})$.  Then
+  $\bigsqcap \mathcal{K}$ is a base of $\Th_c(\mathcal{I})$.
+\end{Corollary}
+\begin{Proof}
+  By \Cref{thm:confident-bases-of-GCIs-from-confident-bases-of-implications} we know that
+  $\bigsqcap \Th_c(\con K_{\mathcal{I}})$ is a finite confident base of
+  $\Th_c(\mathcal{I})$.  As $\mathcal{K}$ is a base of $\Th_c(\con K_{\mathcal{I}})$ we
+  can infer from \Cref{lem:implicational-entailment-implies-gci-entailment} that
+  $\bigsqcap \mathcal{K}$ is also complete for $\bigsqcap \Th_c(\con K_{\mathcal{I}})$.
+  We thus obtain that $\bigsqcap \mathcal{K}$ is complete for $\Th_c(\mathcal{I})$.
+
+  On the other hand, since $\mathcal{K}$ is a base of $\Th_c(\con K_{\mathcal{I}})$, it is
+  also true that $\Th_c(\con K_{\mathcal{I}})$ is a base of $\mathcal{K}$.  But then all
+  implications in $\mathcal{K}$ are entailed by $\Th_c(\con K_{\mathcal{I}})$, and
+  \Cref{lem:implicational-entailment-implies-gci-entailment} yields that all GCIs in
+  $\bigsqcap \mathcal{K}$ are entailed by $\bigsqcap \Th_c(\con K_{\mathcal{I}}) \subseteq
+  \Th_c(\mathcal{I})$.  Thus, $\bigsqcap \mathcal{K}$ is also sound for
+  $\Th_c(\mathcal{I})$, and in sum we obtain that $\bigsqcap \mathcal{K}$ is a finite base
+  of $\Th_c(\mathcal{I})$.
+\end{Proof}
+
+The approach of considering the canonical base of $\Th_c(\con K)$ has the potential
+drawback, however, that we cannot guarantee anymore that the base itself is a confident
+base, \ie it could happen that $\bigsqcap \Can(\Th_c(\con K)) \subseteq
+\Th_c(\mathcal{I})$ does not hold.
 
 \subsection{A Minimality Result}
 \label{sec:minimality-result}
