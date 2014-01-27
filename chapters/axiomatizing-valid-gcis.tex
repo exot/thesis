@@ -466,13 +466,13 @@ as they are rather simple and may help to better understand to corresponding cla
 \begin{Proposition}
   \label{prop:connection-I-prime-3}
   Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be a finite
-  interpretation and let $M$ be a set of concept descriptions.  Let $A \subseteq
-  \Delta^{\mathcal{I}}$ such that $A^{\mathcal{I}}$ is expressible in terms of $M$.  Then
-  $A^{\mathcal{I}\mathcal{I}} = X''$, where the derivations are conducted in $\con
+  interpretation and let $M$ be a set of concept descriptions.  Let $X \subseteq
+  \Delta^{\mathcal{I}}$ such that $X^{\mathcal{I}}$ is expressible in terms of $M$.  Then
+  $X^{\mathcal{I}\mathcal{I}} = X''$, where the derivations are conducted in $\con
   K_{\mathcal{I}, M}$.
 \end{Proposition}
 \begin{Proof}
-  Again, by \Cref{lem:characterizing-expressible-in-terms-of} we have $A^{\mathcal{I}}
+  Again, by \Cref{lem:characterizing-expressible-in-terms-of} we have $X^{\mathcal{I}}
   \equiv \bigsqcap \pr_M(X^{\mathcal{I}})$ and thus
   \begin{align*}
     X^{\mathcal{I}\mathcal{I}}
@@ -725,10 +725,11 @@ important property of it.
 \end{Lemma}
 
 Let us define
-\begin{equation*}
+\begin{equation}
+  \label{eq:26}
   \mathcal{B}_2 := \set{ \bigsqcap U \sqsubseteq (\bigsqcap U)^{\mathcal{I}\mathcal{I}}
     \mid U \subseteq M_{\mathcal{I}} }.
-\end{equation*}
+\end{equation}
 Then clearly $\mathcal{B}_2 \models (C \sqsubseteq C^{\mathcal{I}\mathcal{I}})$ for $C \in
 N_C$ or $C = \bot$.  For $C = D \sqcap E$ and assuming by induction that $\mathcal{B}_2
 \models (D \sqsubseteq D^{\mathcal{I}\mathcal{I}})$ and $\mathcal{B}_2 \models (E
@@ -780,7 +781,7 @@ The preceding argument now shows the following claim.
 \begin{Theorem}[Theorem~5.10 of~\cite{Diss-Felix}]
   \label{thm:Felix-base-B2}
   Let $\mathcal{I}$ be a finite interpretation.  Then $\mathcal{B}_2$ as defined in
-  \Cref{eq:22} is a finite base of $\mathcal{I}$.
+  \Cref{eq:26} is a finite base of $\mathcal{I}$.
 \end{Theorem}
 
 A practical disadvantage of the finite base $\mathcal{B}_2$ is its size, which may be

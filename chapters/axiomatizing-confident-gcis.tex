@@ -940,6 +940,209 @@ $\mathcal{L}$ is a (confident) base of $\Th_c(\con K_{\mathcal{I}})$, then
 is a (confident) base of $\Th_c(\mathcal{I})$.  To prove this result is the purpose of
 this section.
 
+The results presented in this section have been published before in
+\cite{Borchmann-LTCS-12-06}.
+
+We start with an observation that connects entailment between implications and entailment
+between GCIs.
+
+\begin{Lemma}
+  \label{lem:implicational-entailment-implies-gci-entailment}
+  Let $M$ be a set of concept descriptions over $N_C$ and $N_R$, and let $\mathcal{L}
+  \subseteq \Imp(M)$.  Then for all $(X \to Y) \in \Imp(M)$ it is true that if
+  $\mathcal{L} \models (X \to Y)$, that then $\bigsqcap \mathcal{L} \models (\bigsqcap X
+  \sqsubseteq \bigsqcap Y)$.
+\end{Lemma}
+\begin{Proof}
+  Let $\mathcal{J} = (\Delta^{\mathcal{J}}, \cdot^{\mathcal{J}})$ be an interpretation
+  over $N_C$ and $N_R$ such that $\mathcal{J} \models \bigsqcap \mathcal{L}$.  Recall that
+  we denote with $\con K_{\mathcal{J}, M}$ the induced context of $\mathcal{J}$ and $M$.
+  
+  We shall first show that $\con K_{\mathcal{J}, M} \models \mathcal{L}$.  To this end,
+  let $(E \to F) \in \mathcal{L}$.  Then $(\bigsqcap E)^{\mathcal{J}} \sqsubseteq
+  (\bigsqcap F)^{\mathcal{J}}$, because $\mathcal{J} \models \bigsqcap \mathcal{L}$.  By
+  \Cref{prop:connection-I-prime-2} we obtain $(\bigsqcap E)^{\mathcal{J}} = E'$ and
+  $(\bigsqcap F)^{\mathcal{J}} = F'$, where the derivations are done in $\con
+  K_{\mathcal{J}, M}$.  Thus $E' \subseteq F'$, and $\con K_{\mathcal{J}, M} \models (E
+  \to F)$.  Hence, $\con K_{\mathcal{J}, M} \models \mathcal{L}$.
+
+  Since $\mathcal{L} \models (X \to Y)$ we obtain $\con K_{\mathcal{J}, M} \models (X \to
+  Y)$, \ie $X' \subseteq Y'$.  By the same argument as before we obtain $(\bigsqcap
+  X)^{\mathcal{J}} \subseteq (\bigsqcap Y)^{\mathcal{J}}$, and therefore $\mathcal{J}
+  \models (\bigsqcap X \sqsubseteq \bigsqcap Y)$.
+
+  Since $\mathcal{J}$ was chosen arbitrarily, we obtain that $\bigsqcap \mathcal{L}
+  \models (\bigsqcap X \sqsubseteq \bigsqcap Y)$ as required.
+\end{Proof}
+
+Note that we cannot expect the converse direction to hold in general as well.  The reason
+for this is that entailment between implications does not ``look inside'' the attributes
+in the implications, but entailment between GCIs is allowed to consider the structure of
+concept descriptions.  This is illustrated by the following example.
+
+\begin{Example}
+  \label{expl:gci-entailment-does-not-impliy-implicational-entailment}
+  Let $N_C := \set{ \mathsf{A}, \mathsf{B} }$, $N_R := \set{ \mathsf{r} }$ and $M := \set{
+    \mathsf{A}, \mathsf{B}, \mathsf{\exists r. A}, \mathsf{\exists r. B} }$.  Consider
+  \begin{align*}
+    \mathcal{L} &:= \set{ \set{ \mathsf{A} } \to \set{ \mathsf{B} } }, \\
+    X &:= \set{ \mathsf{\exists r. A} }, \\
+    Y &:= \set{ \mathsf{\exists r. B} }.
+  \end{align*}
+  Then clearly $\mathcal{L} \not\models (X \to Y)$, but $\bigsqcap \mathcal{L} \models
+  (\bigsqcap X \sqsubseteq \bigsqcap Y)$.
+\end{Example}
+
+The following proposition connects the notions of confidence of implications in finite
+formal contexts and confidence of GCIs in finite interpretations.
+
+\begin{Proposition}
+  \label{prop:confidence-in-interpretation-is-the-same-as-in-induced-context}
+  Let $\mathcal{I}$ be a finite interpretation over $N_C$ and $N_R$, let $M$ be a set of
+  concept descriptions over $N_C$ and $N_R$ and let $(X \to Y) \in \Imp(M)$.  Then
+  \begin{equation*}
+    \conf_{\con K_{\mathcal{I}}}( X \to Y ) = \conf_{\mathcal{I}}( \bigsqcap X \sqsubseteq
+    \bigsqcap Y ).
+  \end{equation*}
+\end{Proposition}
+\begin{Proof}
+  In the following, all derivations are done in $\con K_{\mathcal{I}}$.
+  
+  By \Cref{prop:connection-I-prime-2} we know that $X' = (\bigsqcap X)^{\mathcal{I}}$,
+  thus if $X' = \emptyset$, then
+  \begin{equation*}
+    \conf_{\con K_{\mathcal{I}}}( X \to Y ) = 1 = \conf_{\mathcal{I}}( \bigsqcap X
+    \sqsubseteq \bigsqcap Y ).
+  \end{equation*}
+
+  Now suppose that $X' \neq \emptyset$.  Then $(\bigsqcap X)^{\mathcal{I}} \neq
+  \emptyset$, and we can compute
+  \begin{align*}
+    \conf_{\con K_{\mathcal{I}}}( X \to Y )
+    &= \frac{ \abs{ (X \cup Y)' } }{ \abs{ X' } } \\
+    &= \frac{ \abs{ X' \cap Y' } }{ \abs{ X' } } \\
+    &= \frac{ \abs{ (\bigsqcap X)^{\mathcal{I}} \cap (\bigsqcap Y)^{\mathcal{I}} } }{
+      \abs{ (\bigsqcap X)^{\mathcal{I}} } } \\
+    &= \frac{ \abs{ (\bigsqcap X \sqcap \bigsqcap Y)^{\mathcal{I}} } }{ \abs{ (\bigsqcap
+        X)^{\mathcal{I}} } } \\
+    &= \conf_{\mathcal{I}} (\bigsqcap X \sqsubseteq \bigsqcap Y)
+  \end{align*}
+  again using \Cref{prop:connection-I-prime-2}.
+\end{Proof}
+
+Finally, the considerations of \Cref{sec:induced-contexts} yield a close connection
+between model-based most-specific concept descriptions and intents of induced contexts.
+
+\begin{Lemma}
+  \label{lem:double-II-gets-double-prime}
+  Let $\mathcal{I}$ be a finite interpretation, and let $A \subseteq M_{\mathcal{I}}$.  Then
+  \begin{equation*}
+    (\bigsqcap A)^{\mathcal{I}\mathcal{I}} = \bigsqcap A'',
+  \end{equation*}
+  where the derivations are done in $\con K_{\mathcal{I}}$.
+\end{Lemma}
+\begin{Proof}
+  Clearly $\bigsqcap A$ is expressible in terms of $M_{\mathcal{I}}$.  Thus
+  \Cref{cor:mmsc-lattice} yields
+  \begin{equation*}
+    (\bigsqcap A)^{\mathcal{I}\mathcal{I}} = \bigsqcap(\pr_{M_{\mathcal{I}}}(\bigsqcap A))''.
+  \end{equation*}
+  By \Cref{prop:connection-I-prime-1} it is true that $\pr_{M_{\mathcal{I}}}(\bigsqcap A)'
+  = (\bigsqcap A)^{\mathcal{I}}$, thus
+  \begin{align*}
+    (\bigsqcap A)^{\mathcal{I}\mathcal{I}}
+    &= \bigsqcap ((\bigsqcap A)^{\mathcal{I}})'\\
+    &= \bigsqcap A''
+  \end{align*}
+  where $(\bigsqcap A)^{\mathcal{I}} = A'$ is true due to
+  \Cref{prop:connection-I-prime-2}.
+\end{Proof}
+
+The main result of this section is now the following theorem.
+
+\begin{Theorem}
+  \label{thm:confident-bases-of-GCIs-from-confident-bases-of-implications}
+  Let $\mathcal{I}$ be a finite interpretation over $N_C$ and $N_R$, and let $c \in
+  [0,1]$.  Let $\mathcal{L}$ be a confident base of $\Th_c(\con K_{\mathcal{I}})$.  Then
+  $\bigsqcap \mathcal{L}$ is a confident base of $\Th_c(\mathcal{I})$.
+\end{Theorem}
+\begin{Proof}
+  We need to show that $\bigsqcap \mathcal{L} \subseteq \Th_c(\mathcal{I})$ and that
+  $\bigsqcap \mathcal{L}$ is complete for $\Th_c(\mathcal{I})$.
+
+  To see that $\bigsqcap \mathcal{L}$ is sound for $\Th_c(\mathcal{I})$ let $(\bigsqcap X
+  \sqsubseteq \bigsqcap Y) \in \bigsqcap \mathcal{L}$.  Then $(X \to Y) \in \mathcal{L}$,
+  and thus
+  \begin{equation*}
+    \conf_{\mathcal{I}}(\bigsqcap X \sqsubseteq \bigsqcap Y) = \conf_{\con K_{\mathcal{I}}}(X \to Y) \ge c
+  \end{equation*}
+  by \Cref{prop:confidence-in-interpretation-is-the-same-as-in-induced-context}.  Thus
+  $(\bigsqcap X \sqsubseteq \bigsqcap Y) \in \Th_c(\mathcal{I})$ and hence $\bigsqcap
+  \mathcal{L} \subseteq \Th_c(\mathcal{I})$ as required.
+
+  For the completeness of $\bigsqcap \mathcal{L}$ for $\Th_c(\mathcal{I})$ we show two
+  subclaims, namely
+  \begin{enumerate}[i. ]
+  \item\label{item:16} $\bigsqcap \mathcal{L} \models (\bigsqcap U \sqsubseteq (\bigsqcap
+    U)^{\mathcal{I}\mathcal{I}})$ for all $U \subseteq M_{\mathcal{I}}$, and
+  \item\label{item:17} $\bigsqcap \mathcal{L} \models (X^{\mathcal{I}} \sqsubseteq
+    Y^{\mathcal{I}})$ for each $(X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}) \in
+    \Conf(\mathcal{I}, c)$.
+  \end{enumerate}
+  The first claim than ensures that $\bigsqcap \mathcal{L}$ entails all GCIs from the set
+  \begin{equation*}
+    \set{ \bigsqcap U \sqsubseteq (\bigsqcap U)^{\mathcal{I}\mathcal{I}} \mid U \subseteq
+      M_{\mathcal{I}} }
+  \end{equation*}
+  which by \Cref{thm:Felix-base-B2} is a base of $\mathcal{I}$.  Showing \Cref{item:16}
+  entails that $\bigsqcap \mathcal{L}$ is complete for $\Th(\mathcal{I})$.  \Cref{item:17}
+  states that $\bigsqcap \mathcal{L}$ is complete for $\Conf(\mathcal{I}, c)$.  Using
+  \Cref{cor:weakened-luxenburger-base-for-gcis} and the fact that $\bigsqcap \mathcal{L}$
+  is sound for $\Th_c(\mathcal{I})$ then establishes completeness of $\bigsqcap
+  \mathcal{L}$ for $\Th_c(\mathcal{I})$.
+
+  We show \Cref{item:16}.  Let $U \subseteq M_{\mathcal{I}}$.  Since $\mathcal{L}$ is a
+  confident base for $\Th_c(\con K_{\mathcal{I}})$ it is complete for $\con
+  K_{\mathcal{I}}$.  Thus
+  \begin{equation*}
+    \mathcal{L} \models (U \to U'').
+  \end{equation*}
+  Then \Cref{lem:implicational-entailment-implies-gci-entailment} yields
+  \begin{equation*}
+    \bigsqcap \mathcal{L} \models (\bigsqcap U \sqsubseteq \bigsqcap (U'')),
+  \end{equation*}
+  and by \Cref{lem:double-II-gets-double-prime} we obtain
+  \begin{equation*}
+    \bigsqcap \mathcal{L} \models (\bigsqcap U \sqsubseteq (\bigsqcap U)^{\mathcal{I}\mathcal{I}})
+  \end{equation*}
+  as required.
+
+  For \Cref{item:17} let $(X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}) \in
+  \Conf(\mathcal{I}, c)$.  Then $X, Y \subseteq \Delta^{\mathcal{I}}$ and $1 >
+  \conf_{\mathcal{I}}(X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}) \ge c$.  Since
+  $X^{\mathcal{I}}$ and $Y^{\mathcal{I}}$ are expressible in terms of $M_{\mathcal{I}}$ by
+  \Cref{lem:mmsc-are-expressible-in-terms-of-M_I}, we obtain from
+  \Cref{prop:connection-I-prime-2} that $X^{\mathcal{I}} \equiv \bigsqcap X'$ and
+  $Y^{\mathcal{I}} \equiv \bigsqcap Y'$.  Thus,
+  \begin{equation}
+    \label{eq:27}
+    \bigsqcap \mathcal{L} \models (X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}) \iff
+    \bigsqcap \mathcal{L} \models (\bigsqcap X' \sqsubseteq \bigsqcap Y').
+  \end{equation}
+  By \Cref{prop:confidence-in-interpretation-is-the-same-as-in-induced-context}
+  \begin{equation*}
+    \conf_{\con K_{\mathcal{I}}}(X' \to Y') = \conf_{\mathcal{I}}(\bigsqcap X' \sqsubseteq
+    \bigsqcap Y') \ge c.
+  \end{equation*}
+  Since $\mathcal{L}$ is a base for $\Th_c(\con K_{\mathcal{I}})$ we obtain $\bigsqcap
+  \mathcal{L} \models (X' \to Y')$, thus by
+  \Cref{lem:implicational-entailment-implies-gci-entailment}
+  \begin{equation*}
+    \bigsqcap \mathcal{L} \models (\bigsqcap X' \sqsubseteq \bigsqcap Y')
+  \end{equation*}
+  which together with \Cref{eq:27} yields the claim.
+\end{Proof}
+
 \todo[inline]{Write: compute confident bases of GCIs from bases of confident implications
   (12-06/4.3) }%
 
