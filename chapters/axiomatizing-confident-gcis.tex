@@ -1364,7 +1364,85 @@ base, \ie it could happen that $\bigsqcap \Can(\Th_c(\con K)) \subseteq
 \subsection{A Minimality Result}
 \label{sec:minimality-result}
 
-\todo[inline]{Write: completing sets and the minimality result}
+The bases we have obtained in \Cref{cor:weakened-luxenburger-base-for-gcis} consisted of
+two parts, namely a complete subset $\mathcal{B}$ of $\Lux(\mathcal{I}, c)$ and a set
+$\mathcal{L}$ of valid GCIs such that $\mathcal{L} \cup \mathcal{B}$ is complete for
+$\mathcal{I}$.  In this section we are going to show that we can, given the set
+$\mathcal{B}$, compute the set $\mathcal{L}$ in such a way that $\mathcal{L} \cup
+\mathcal{B}$ is complete for $\Th(\mathcal{I})$ and that $\mathcal{L}$ has \emph{minimal
+  cardinality} among all sets of GCIs with this property.  The results of this section
+have previously been published in~\cite{Borchmann:confident-GCIs}.
+
+The idea we want to exploit for this is borrowed from formal concept analysis: if
+$\mathcal{B}$ is a set of implications, then we can find a set $\mathcal{L}$ of
+implications valid in a formal context $\con K$ such that $\mathcal{L}$ has minimal
+cardinality.  More precisely, the set
+\begin{equation*}
+  \mathcal{L} := \Can(\con K, \mathcal{B})
+\end{equation*}
+has this property by \Cref{thm:canonical-base-with-arbitrary-background-knowledge}.  What
+we want to do in this section is to lift this result to the level of general concept
+inclusions.
+
+To this end, we need to transform sets of general concept inclusions into sets of
+implications.  For this, we make use of \emph{projections} $\pr_M$ as introduced in
+\Cref{sec:induced-contexts}.  More precisely, if $M$ is a set of concept descriptions and
+$\mathcal{B}$ is a set of GCIs, then we define
+\begin{equation*}
+  \pr_M(\mathcal{B}) := \set{ \pr_M(C) \to \pr_M(D) \mid (C \sqsubseteq D) \in \mathcal{B} }.
+\end{equation*}
+For $M = M_{\mathcal{I}}$, we can take the set $\pr_{M_{\mathcal{I}}}(\mathcal{B})$ and
+compute $\Can(\con K_{\mathcal{I}}, \pr_{M_{\mathcal{I}}}(\mathcal{B}))$.  It is then true
+that the set
+\begin{equation*}
+  \set{ \bigsqcap U \sqsubseteq (\bigsqcap U)^{\mathcal{I}\mathcal{I}} \mid (U \to U'')
+    \in \Can(\con K_{\mathcal{I}}, \pr_{M_{\mathcal{I}}}(\mathcal{B})) }
+\end{equation*}
+is complete for $\mathcal{I}$.
+
+This result already appeared in \cite[Theorem~5.12]{Diss-Felix}, however only for the case
+that $\mathcal{B}$ contained valid GCIs of $\mathcal{I}$ only.  As a first step, we shall
+generalize this result to also cover the case that $\mathcal{B}$ contains arbitrary GCIs.
+
+\begin{Theorem}
+  \label{thm:gci-completion-simple-version}
+  Let $\mathcal{I}$ be a finite interpretation over $N_C$ and $N_R$, and let $\mathcal{B}$
+  be a set of GCIs over $N_C$ and $N_R$.  Let $\mathcal{L} \subseteq \Th(\con
+  K_{\mathcal{I}})$ such that
+  \begin{enumerate}[i. ]
+  \item\label{item:18} $\mathcal{L} \cup \pr_{M_{\mathcal{I}}}(\mathcal{B})$ is complete
+    for $\Th(\con K_{\mathcal{I}})$, and
+  \item\label{item:19} $\mathcal{L}$ only contains implications of the form $A \to A''$
+    with $A \subseteq M_{\mathcal{I}}$.
+  \end{enumerate}
+  Then $\bigsqcap \mathcal{L} \cup \mathcal{B}$ is complete for $\mathcal{I}$.
+\end{Theorem}
+\begin{Proof}
+  We show that for each $U \subseteq M_{\mathcal{I}}$ it is true that
+  \begin{equation*}
+    \bigsqcap \mathcal{L} \cup \mathcal{B} \models (\bigsqcap U \sqsubseteq (\bigsqcap
+    U)^{\mathcal{I}\mathcal{I}}).
+  \end{equation*}
+  If we establish this fact, then \Cref{thm:Felix-base-B2} immediately yields that
+  $\bigsqcap \mathcal{L} \cup \mathcal{B}$ is complete for $\Th(\mathcal{I})$.
+
+  Let $\mathcal{J}$ be a finite interpretation such that $\mathcal{J} \models (\bigsqcap
+  \mathcal{L} \cup \mathcal{B})$.  Let us write $\cdot^{\prime_{\mathcal{I}}}$ for the
+  derivation operators in $\con K_{\mathcal{I}, M_{\mathcal{I}}}$, and
+  $\cdot^{\prime_{\mathcal{J}}}$ for the derivation operators in $\con K_{\mathcal{J},
+    M_{\mathcal{I}}}$.  We shall then show the following claims
+  \begin{enumerate}[i. ]
+  \item $\con K_{\mathcal{J}, M_{\mathcal{I}}} \models (\mathcal{L} \cup \pr_{M_{\mathcal{I}}}(\mathcal{B}))$,
+  \item $\con K_{\mathcal{J}, M_{\mathcal{I}}} \models (V \to
+    V^{\prime_{\mathcal{I}}\prime_{\mathcal{I}}})$ for all $V \subseteq M_{\mathcal{I}}$,
+    and finally
+  \item $\mathcal{J} \models (\bigsqcap V \sqsubseteq (\bigsqcap
+    V)^{\mathcal{I}\mathcal{I}})$ for all $V \subseteq M_{\mathcal{I}}$.
+  \end{enumerate}
+  ~\todo[inline]{continue}
+\end{Proof}
+
+\todo[inline]{Write: MATH-AL-08-2012/7}
 
 \subsection{Unravelling \ELgfpbot Bases into \ELbot Bases}
 \label{sec:unrav-elgfpb-bases}
