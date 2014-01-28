@@ -1395,23 +1395,26 @@ For $M = M_{\mathcal{I}}$, we can take the set $\pr_{M_{\mathcal{I}}}(\mathcal{B
 compute $\Can(\con K_{\mathcal{I}}, \pr_{M_{\mathcal{I}}}(\mathcal{B}))$.  It is then true
 that the set
 \begin{equation*}
-  \set{ \bigsqcap U \sqsubseteq (\bigsqcap U)^{\mathcal{I}\mathcal{I}} \mid (U \to U'')
+  \mathcal{B} \cup \set{ \bigsqcap U \sqsubseteq (\bigsqcap U)^{\mathcal{I}\mathcal{I}} \mid (U \to U'')
     \in \Can(\con K_{\mathcal{I}}, \pr_{M_{\mathcal{I}}}(\mathcal{B})) }
 \end{equation*}
-is complete for $\mathcal{I}$.
+is complete for $\mathcal{I}$, provided that the concept descriptions in $\mathcal{B}$ are
+all expressible in terms of $M_{\mathcal{I}}$.
 
 This result already appeared in \cite[Theorem~5.12]{Diss-Felix}, however only for the case
-that $\mathcal{B}$ contained valid GCIs of $\mathcal{I}$ only.  As a first step, we shall
-generalize this result to also cover the case that $\mathcal{B}$ contains arbitrary GCIs.
+that $\mathcal{B}$ is empty.  We shall generalize this result to also cover the case that
+$\mathcal{B}$ contains arbitrary GCIs.  The proof of this generalization is similar to the
+one of \cite[Theorem~5.12]{Diss-Felix}.
 
 \begin{Theorem}
   \label{thm:gci-completion-simple-version}
   Let $\mathcal{I}$ be a finite interpretation over $N_C$ and $N_R$, and let $\mathcal{B}$
-  be a set of GCIs over $N_C$ and $N_R$.  Let $\mathcal{L} \subseteq \Th(\con
-  K_{\mathcal{I}})$ such that
+  be a set of GCIs over $N_C$ and $N_R$, where all concept descriptions appearing in
+  $\mathcal{B}$ are expressible in terms of $M_{\mathcal{I}}$.  Let $\mathcal{L} \subseteq
+  \Th(\con K_{\mathcal{I}})$ such that
   \begin{enumerate}[i. ]
   \item\label{item:18} $\mathcal{L} \cup \pr_{M_{\mathcal{I}}}(\mathcal{B})$ is complete
-    for $\Th(\con K_{\mathcal{I}})$, and
+    for $\con K_{\mathcal{I}}$, and
   \item\label{item:19} $\mathcal{L}$ only contains implications of the form $A \to A''$
     with $A \subseteq M_{\mathcal{I}}$.
   \end{enumerate}
@@ -1432,15 +1435,140 @@ generalize this result to also cover the case that $\mathcal{B}$ contains arbitr
   $\cdot^{\prime_{\mathcal{J}}}$ for the derivation operators in $\con K_{\mathcal{J},
     M_{\mathcal{I}}}$.  We shall then show the following claims
   \begin{enumerate}[i. ]
-  \item $\con K_{\mathcal{J}, M_{\mathcal{I}}} \models (\mathcal{L} \cup \pr_{M_{\mathcal{I}}}(\mathcal{B}))$,
-  \item $\con K_{\mathcal{J}, M_{\mathcal{I}}} \models (V \to
-    V^{\prime_{\mathcal{I}}\prime_{\mathcal{I}}})$ for all $V \subseteq M_{\mathcal{I}}$,
+  \item\label{item:20} $\con K_{\mathcal{J}, M_{\mathcal{I}}} \models (\mathcal{L} \cup
+    \pr_{M_{\mathcal{I}}}(\mathcal{B}))$,
+  \item $\con K_{\mathcal{J}, M_{\mathcal{I}}} \models (U \to
+    U^{\prime_{\mathcal{I}}\prime_{\mathcal{I}}})$ for all $U \subseteq M_{\mathcal{I}}$,
     and finally
-  \item $\mathcal{J} \models (\bigsqcap V \sqsubseteq (\bigsqcap
-    V)^{\mathcal{I}\mathcal{I}})$ for all $V \subseteq M_{\mathcal{I}}$.
+  \item $\mathcal{J} \models (\bigsqcap U \sqsubseteq (\bigsqcap
+    U)^{\mathcal{I}\mathcal{I}})$ for all $U \subseteq M_{\mathcal{I}}$.
   \end{enumerate}
-  ~\todo[inline]{continue}
+
+  To show the first claim we start with some preparations.  Let $U \subseteq
+  M_{\mathcal{I}}$.  Then by \Cref{prop:connection-I-prime-2} it is true that
+  \begin{equation}
+    \label{eq:29}
+    (\bigsqcap U)^{\mathcal{J}} = U^{\prime_{\mathcal{J}}}.
+  \end{equation}
+  Furthermore, the concept description $(\bigsqcap U)^{\mathcal{I}\mathcal{I}}$ is
+  expressible in terms of $M_{\mathcal{I}}$ by
+  \Cref{lem:mmsc-are-expressible-in-terms-of-M_I}.  From this we can infer with
+  \Cref{lem:characterizing-expressible-in-terms-of} that
+  \begin{equation*}
+    (\bigsqcap U)^{\mathcal{I}\mathcal{I}} \equiv \bigsqcap
+    \pr_{M_{\mathcal{I}}}((\bigsqcap U)^{\mathcal{I}\mathcal{I}}).
+  \end{equation*}
+  Then \Cref{cor:mmsc-lattice} yields
+  \begin{equation}
+    \label{eq:30}
+    \begin{aligned}
+      ((\bigsqcap U)^{\mathcal{I}\mathcal{I}})^{\mathcal{J}}
+      &= (\bigsqcap \pr_{M_{\mathcal{I}}}((\bigsqcap
+      U)^{\mathcal{I}\mathcal{I}}))^{\mathcal{J}} \\
+      &= (\pr_{M_{\mathcal{I}}}((\bigsqcap
+      U)^{\mathcal{I}\mathcal{I}}))^{\prime_{\mathcal{J}}} \\
+      &= U^{\prime_{\mathcal{I}}\prime_{\mathcal{I}}\prime_{\mathcal{J}}}.
+    \end{aligned}
+  \end{equation}
+  Now let $(U \to U^{\prime_{\mathcal{I}}\prime_{\mathcal{I}}}) \in \mathcal{L}$.  Then
+  $\mathcal{J} \models (\bigsqcap U \sqsubseteq (\bigsqcap U)^{\mathcal{I}\mathcal{I}})$,
+  and therefore
+  \begin{equation*}
+    (\bigsqcap U)^{\mathcal{J}} \subseteq ((\bigsqcap U)^{\mathcal{I}\mathcal{I}})^{\mathcal{J}},
+  \end{equation*}
+  and \Cref{eq:29} and (\Cref{eq:30}) yield
+  \begin{equation*}
+    U^{\prime_{\mathcal{J}}} \subseteq U^{\prime_{\mathcal{I}}\prime_{\mathcal{I}}\prime_{\mathcal{J}}},
+  \end{equation*}
+  \ie $\con K_{\mathcal{J}, M_{\mathcal{I}}} \models (U \to
+  U^{\prime_{\mathcal{I}}\prime_{\mathcal{I}}})$.  Thus, $\con K_{\mathcal{J},
+    M_{\mathcal{I}}} \models \mathcal{L}$.
+
+  Let $(C \sqsubseteq D) \in \mathcal{B}$.  It remains to show that
+  $\pr_{M_{\mathcal{I}}}(C) \to \pr_{M_{\mathcal{I}}}(D)$ holds in $\con K_{\mathcal{J},
+    M_{\mathcal{I}}}$.  It is true that $\mathcal{J} \models (C \sqsubseteq D)$, \ie
+  $C^{\mathcal{J}} \subseteq D^{\mathcal{J}}$.  Since both $C, D$ are expressible in terms
+  of $M_{\mathcal{I}}$, \Cref{lem:characterizing-expressible-in-terms-of} yields
+  \begin{equation*}
+    (\bigsqcap \pr_{M_{\mathcal{I}}}(C))^{\mathcal{J}} \subseteq (\bigsqcap
+    \pr_{M_{\mathcal{I}}}(D))^{\mathcal{J}}
+  \end{equation*}
+  and thus, using \Cref{eq:29} again,
+  \begin{equation*}
+    \pr_{M_{\mathcal{I}}}(C)^{\prime_{\mathcal{J}}} \subseteq \pr_{M_{\mathcal{I}}}(D)^{\prime_\mathcal{J}},
+  \end{equation*}
+  \ie $\con K_{\mathcal{J}, M_{\mathcal{I}}} \models (\pr_{M_{\mathcal{I}}}(C) \to
+  \pr_{M_{\mathcal{I}}}(D))$.  Thus we have shown that $\con K_{\mathcal{J},
+    M_{\mathcal{I}}} \models \mathcal{B}$.  This proves the first claim.
+
+  Now let $U \subseteq M_{\mathcal{I}}$.  Then $\con K_{\mathcal{I}} \models (U \to
+  U^{\prime_{\mathcal{I}}\prime_{\mathcal{I}}})$.  Since $\mathcal{L} \cup
+  \pr_{M_{\mathcal{I}}}(\mathcal{B})$ is complete for $\con K_{\mathcal{I}}$, we obtain
+  \begin{equation*}
+    \mathcal{L} \cup \pr_{M_{\mathcal{I}}}(\mathcal{B}) \models (U \to
+    U^{\prime_{\mathcal{I}}\prime_{\mathcal{I}}}).
+  \end{equation*}
+  Since $\con K_{\mathcal{J}, M_{\mathcal{I}}} \models \mathcal{L} \cup
+  \pr_{M_{\mathcal{I}}}(\mathcal{B})$, it is true that
+  \begin{equation*}
+    \con K_{\mathcal{J}, M_{\mathcal{I}}} \models (U \to U^{\prime_{\mathcal{I}}\prime_{\mathcal{I}}}),
+  \end{equation*}
+  \ie $U^{\prime_{\mathcal{J}}} \subseteq
+  U^{\prime_{\mathcal{I}}\prime_{\mathcal{I}}\prime_{\mathcal{J}}}$.  Using \Cref{eq:29}
+  and \Cref{eq:30} again yields
+  \begin{equation*}
+    (\bigsqcap U)^{\mathcal{J}} \subseteq ((\bigsqcap U)^{\mathcal{I}\mathcal{I}})^{\mathcal{J}},
+  \end{equation*}
+  \ie $\mathcal{J} \models (\bigsqcap U \sqsubseteq (\bigsqcap
+  U)^{\mathcal{I}\mathcal{I}})$.  Since $U \subseteq M_{\mathcal{I}}$ was chosen
+  arbitrarily, we have thus shown that $\bigsqcap \mathcal{L} \cup \mathcal{B}$ is
+  complete for $\mathcal{I}$.
 \end{Proof}
+
+We can apply this theorem to our setting of computing finite confident bases as follows.
+Let $\mathcal{C} \subseteq \Lux(\mathcal{I}, c)$ be complete for $\Lux(\mathcal{I}, c)$.
+If we compute $\mathcal{L} := \Can(\con K_{\mathcal{I}},
+\pr_{M_{\mathcal{I}}}(\mathcal{B})$, then $\mathcal{L}$ is as required by the above
+theorem, and thus $\bigsqcap \mathcal{L} \cup \mathcal{B}$ is complete for $\mathcal{I}$.
+By \Cref{cor:weakened-luxenburger-base-for-gcis} the set $\bigsqcap \mathcal{L} \cup
+\mathcal{C}$ is a finite confident base of $\Th_c(\mathcal{I})$.
+
+Of course, we can also include the implications in $\mathcal{S}_{\mathcal{I}}$ as
+background knowledge when computing $\mathcal{L}$.  To see this we observe that the proof
+of \Cref{thm:gci-completion-simple-version} still works if we include
+$\mathcal{S}_{\mathcal{I}}$ in the computation of $\mathcal{L}$.  Then \cref{item:20} of
+the proof would be extended to also claim that $\con K_{\mathcal{J}, M_{\mathcal{I}}}
+\models \mathcal{S}_{\mathcal{I}}$, which is, however, true for all induced contexts with
+attribute set $M_{\mathcal{I}}$.
+
+\begin{Corollary}
+  \label{cor:gci-completion-with-S_I}
+  Let $\mathcal{I}$ be a finite interpretation over $N_C$ and $N_R$, and let $\mathcal{C}
+  \subseteq \Lux(\mathcal{I}, c)$ be complete for $\Lux(\mathcal{I}, c)$.  Define
+  \begin{equation*}
+    \mathcal{L} := \Can(\con K_{\mathcal{I}}, \pr_{M_{\mathcal{I}}}(\mathcal{C}) \cup \mathcal{S}_{\mathcal{I}}).
+  \end{equation*}
+  Then $\bigsqcap \mathcal{L} \cup \mathcal{C}$ is a finite confident base of
+  $\Th_c(\mathcal{I})$.
+\end{Corollary}
+
+The usage of the canonical base yields that $\mathcal{L}$ is a minimal base of $\con
+K_{\mathcal{I}}$ with background knowledge $\pr_{M_{\mathcal{I}}}(\mathcal{C}) \cup
+\mathcal{S}_{\mathcal{I}}$.  We have seen earlier that if a set $\mathcal{K}$ of
+implications is irredundant, that then $\bigsqcap \mathcal{K}$ does not necessarily have
+to be irredundant anymore.  However, in the case of \Cref{cor:gci-completion-with-S_I},
+the irredundancy of $\mathcal{L}$ carries over to $\bigsqcap \mathcal{L}$.  The reason for
+this is that the minimality of $\mathcal{L}$ carries over to $\bigsqcap \mathcal{L}$: we
+can show that $\bigsqcap \mathcal{L}$ has minimal cardinality among all sets of GCIs that
+together with $\mathcal{C}$ are complete for $\mathcal{I}$.
+
+Note that for $c = 0$ we obtain $\Lux(\mathcal{I}, c) = \emptyset$, and then the fact that
+$\bigsqcap \mathcal{L}$ has minimal cardinality just means that $\bigsqcap \mathcal{L}$ is
+a base of $\mathcal{I}$ with minimal cardinality.  This is exactly what is claimed in
+\Cref{thm:Felix-5.18}, which was \cite[Theorem~5.18]{Diss-Felix}.  Therefore, what we are
+about to show is a generalization this result, and for this we shall use the argumentation
+of the proof of \cite[Theorem~5.18]{Diss-Felix} and adapt it to our setting.  This is the
+purpose of the rest of this section.
 
 \todo[inline]{Write: MATH-AL-08-2012/7}
 
