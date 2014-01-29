@@ -1778,8 +1778,91 @@ $\pr_{M_{\mathcal{I}}}(E^{\mathcal{I}\mathcal{I}})$ in the conclusion.
   \end{equation*}
   and thus we see that $\pr_{M_{\mathcal{I}}}(\lapprox_{\mathcal{I}}(E)) \to
   \pr_{M_{\mathcal{I}}}(E^{\mathcal{I}\mathcal{I}})$ holds in $\con K_{\mathcal{I}}$.
+
+  We shall now show that $\mathcal{L}_{\mathcal{C}} \cup
+  \pr_{M_{\mathcal{I}}}(\mathcal{B}) \cup \mathcal{S}_{\mathcal{I}}$ is complete for $\con
+  K_{\mathcal{I}}$.  To ease readability, let us introduce the abbreviation
+  \begin{equation*}
+    \mathcal{K} := \mathcal{L}_{\mathcal{C}} \cup \pr_{M_{\mathcal{I}}}(\mathcal{B}) \cup
+    \mathcal{S}_{\mathcal{I}}.
+  \end{equation*}
+  To prove completeness of $\mathcal{K}$ for $\con K_{\mathcal{I}}$ it suffices to show by
+  \Cref{lem:characterization-of-completeness} that for all $U \subseteq M_{\mathcal{I}}$,
+  $U \neq U''$, it is true that $\mathcal{K}(U) \neq U$.
+
+  To this end, let $U \subseteq M_{\mathcal{I}}$, $U \neq U''$ and let us furthermore
+  suppose that $U$ is closed under $\pr_{M_{\mathcal{I}}}(\mathcal{B}) \cup
+  \mathcal{S}_{\mathcal{I}}$.  Then $U \neq \emptyset$.  Since $U \neq U''$, there exists
+  $D \in M_{\mathcal{I}} \setminus U$ such that all $x \in U'$ satisfy $(x, D) \in
+  \nabla$, where $\nabla$ denotes the incidence relation of $\con K_{\mathcal{I}}$.  This
+  means that all $x \in U'$ satisfy $x \in D^{\mathcal{I}}$, \ie $U' \subseteq
+  D^{\mathcal{I}}$.  By \Cref{prop:connection-I-prime-2}, $U' = (\bigsqcap
+  U)^{\mathcal{I}}$.  From \Cref{lem:mmsc-and-extension-are-galois-connection} we obtain
+  from $(\bigsqcap U)^{\mathcal{I}} \subseteq D^{\mathcal{I}}$ that $(\bigsqcap
+  U)^{\mathcal{I}\mathcal{I}} \sqsubseteq D$.
+
+  Because $U$ is closed under $\mathcal{S}_{\mathcal{I}}$, we obtain from $D \notin U$
+  that $F \not\sqsubseteq D$ for all $F \in U$.  This is because if $F \sqsubseteq D$
+  would imply $(\set{ F } \to \set{ D }) \in \mathcal{S}_{\mathcal{I}}$, and since $F \in
+  U$ this would yield $D \in U$, contradicting our assumption.  Since $D$ is either a
+  concept name or of the form $D = \exists r. X^{\mathcal{I}\mathcal{I}}$ for some
+  non-empty $X \subseteq \Delta^{\mathcal{I}}$, we obtain that $\bigsqcap U
+  \not\sqsubseteq D$.  Together with the fact that $(\bigsqcap U)^{\mathcal{I}\mathcal{I}}
+  \sqsubseteq D$, we thus obtain
+  \begin{equation}
+    \label{eq:31}
+    \bigsqcap U \not\sqsubseteq (\bigsqcap U)^{\mathcal{I}\mathcal{I}}.
+  \end{equation}
   
-  ~\todo[inline]{Write: MATH-AL-08-2012/7.11 (proof)}
+  We show that $\mathcal{C} \models (\bigsqcap U \sqsubseteq (\bigsqcap
+  U)^{\mathcal{I}\mathcal{I}})$.  For this we observer that $\mathcal{L}_{\mathcal{C}}
+  \models (U \to U'')$, since $U$ is closed under $\pr_{M_{\mathcal{I}}}(\mathcal{B}) \cup
+  \mathcal{S}_{\mathcal{I}}$, and thus by
+  \Cref{lem:implicational-entailment-implies-gci-entailment} we obtain
+  \begin{equation*}
+    \bigsqcap \mathcal{L}_{\mathcal{C}} \models (\bigsqcap U \sqsubseteq (\bigsqcap U)^{\mathcal{I}\mathcal{I}}).
+  \end{equation*}
+  On the other hand, if $(\bigsqcap \pr_{M_{\mathcal{I}}}(\lapprox_{\mathcal{I}}(E))
+  \sqsubseteq \bigsqcap \pr_{M_{\mathcal{I}}}(E^{\mathcal{I}\mathcal{I}})) \in \bigsqcap
+  \mathcal{L}_{\mathcal{C}}$, then $(\lapprox_{\mathcal{I}}(E) \sqsubseteq
+  E^{\mathcal{I}\mathcal{I}}) \in \bigsqcap \mathcal{L}_{\mathcal{C}}$ up to equivalence.
+  Since $\lapprox_{\mathcal{I}}(E) \sqsubseteq E$ and $(E \sqsubseteq
+  E^{\mathcal{I}\mathcal{I}}) \in \mathcal{C}$, we obtain that $\mathcal{C}$ entails all
+  GCIs in $\bigsqcap \mathcal{L}_{\mathcal{C}}$.  Thus,
+  \begin{equation}
+    \label{eq:32}
+    \mathcal{C} \models (\bigsqcap U \sqsubseteq (\bigsqcap U)^{\mathcal{I}\mathcal{I}}).
+  \end{equation}
+
+  Now, \Cref{lem:Felix-5.16} together with \Cref{eq:31} and \Cref{eq:32} yields the
+  existence of a GCI $(E \sqsubseteq E^{\mathcal{I}\mathcal{I}}) \in \mathcal{C}$ such
+  that
+  \begin{equation}
+    \label{eq:33}
+    \bigsqcap U \sqsubseteq E \text{ and } \bigsqcap U \not\sqsubseteq E^{\mathcal{I}\mathcal{I}}.
+  \end{equation}
+  We shall now show that $U$ is not closed under
+  $\pr_{M_{\mathcal{I}}}(\lapprox_{\mathcal{I}}(E)) \to
+  \pr_{M_{\mathcal{I}}}(E^{\mathcal{I}\mathcal{I}})$.  This then shows that
+  $\mathcal{K}(U) \neq U$, and the proof is finished.
+
+  From \Cref{lem:Felix-5.16} and $\bigsqcap U \sqsubseteq E$ we obtain $\bigsqcap U
+  \sqsubseteq \lapprox_{\mathcal{I}}(E)$.  The Galois connection property
+  \Cref{lem:pr-bigsqcap-forms-Galois-connection} yields
+  $\pr_{M_{\mathcal{I}}}(\lapprox_{\mathcal{I}}(E)) \subseteq U$.
+
+  Now assume by contradiction that $\pr_{M_{\mathcal{I}}}(E^{\mathcal{I}\mathcal{I}})
+  \subseteq U$.  Then $\bigsqcap U \sqsubseteq
+  \pr_{M_{\mathcal{I}}}(E^{\mathcal{I}\mathcal{I}})$.  Since $E^{\mathcal{I}\mathcal{I}}$
+  is expressible in terms of $M_{\mathcal{I}}$, we have $E^{\mathcal{I}\mathcal{I}} \equiv
+  \bigsqcap \pr_{M_{\mathcal{I}}}(E^{\mathcal{I}\mathcal{I}})$ by
+  \Cref{lem:characterizing-expressible-in-terms-of}.  But then $\bigsqcap U \sqsubseteq
+  E^{\mathcal{I}\mathcal{I}}$, which contradicts \Cref{eq:33}.  Thus
+  $\pr_{M_{\mathcal{I}}}(E^{\mathcal{I}\mathcal{I}}) \not\subseteq U$.
+
+  In sum we have shown that $\pr_{M_{\mathcal{I}}}(\lapprox_{\mathcal{I}}(E)) \subseteq U$
+  and $\pr_{M_{\mathcal{I}}}(E^{\mathcal{I}\mathcal{I}}) \not\subseteq U$, thus $U$ is not
+  closed under $\mathcal{K}$, as required.
 \end{Proof}
 
 \subsection{Unravelling \ELgfpbot Bases into \ELbot Bases}
