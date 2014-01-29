@@ -1719,9 +1719,9 @@ it follows that
 \begin{equation*}
   \abs{\mathcal{L}_{\mathcal{C}}} \ge \abs{ \mathcal{L} }.
 \end{equation*}
-Then since $\abs{ \mathcal{L}_{\mathcal{C}} } \le \abs{ \mathcal{C} }$ and $\abs{
-  \bigsqcap \mathcal{L} } = \abs{ \mathcal{L} }$ we obtain that $\abs{ \mathcal{C} } \ge
-\abs{ \bigsqcap \mathcal{L} }$ as required.
+Then since $\abs{ \mathcal{L}_{\mathcal{C}} } = \abs{ \mathcal{C} }$ and $\abs{ \bigsqcap
+  \mathcal{L} } = \abs{ \mathcal{L} }$ we obtain that $\abs{ \mathcal{C} } \ge \abs{
+  \bigsqcap \mathcal{L} }$ as required.
 
 The reason why we use $\lapprox_{\mathcal{I}}(E)$ in the premises of the implications in
 $\mathcal{L}_{\mathcal{C}}$, and not just $\pr_{M_{\mathcal{I}}}(E)$ is that in general
@@ -1732,7 +1732,7 @@ $\mathcal{L}_{\mathcal{C}}$.  Note that $E^{\mathcal{I}\mathcal{I}}$ is already
 expressible in terms of $M_{\mathcal{I}}$, so we can just use
 $\pr_{M_{\mathcal{I}}}(E^{\mathcal{I}\mathcal{I}})$ in the conclusion.
 
-\begin{Proof}[~\Cref{thm:minimal-cardinality}]
+\begin{Proof}[\Cref{thm:minimal-cardinality}]
   As already argued, the set $\bigsqcap \mathcal{L} \cup \mathcal{B}$ is complete for
   $\mathcal{I}$.  It therefore remains to show that $\bigsqcap \mathcal{L}$ has minimal
   cardinality with this property.
@@ -1813,26 +1813,14 @@ $\pr_{M_{\mathcal{I}}}(E^{\mathcal{I}\mathcal{I}})$ in the conclusion.
     \label{eq:31}
     \bigsqcap U \not\sqsubseteq (\bigsqcap U)^{\mathcal{I}\mathcal{I}}.
   \end{equation}
-  
-  We show that $\mathcal{C} \models (\bigsqcap U \sqsubseteq (\bigsqcap
-  U)^{\mathcal{I}\mathcal{I}})$.  For this we observer that $\mathcal{L}_{\mathcal{C}}
-  \models (U \to U'')$, since $U$ is closed under $\pr_{M_{\mathcal{I}}}(\mathcal{B}) \cup
-  \mathcal{S}_{\mathcal{I}}$, and thus by
-  \Cref{lem:implicational-entailment-implies-gci-entailment} we obtain
-  \begin{equation*}
-    \bigsqcap \mathcal{L}_{\mathcal{C}} \models (\bigsqcap U \sqsubseteq (\bigsqcap U)^{\mathcal{I}\mathcal{I}}).
-  \end{equation*}
-  On the other hand, if $(\bigsqcap \pr_{M_{\mathcal{I}}}(\lapprox_{\mathcal{I}}(E))
-  \sqsubseteq \bigsqcap \pr_{M_{\mathcal{I}}}(E^{\mathcal{I}\mathcal{I}})) \in \bigsqcap
-  \mathcal{L}_{\mathcal{C}}$, then $(\lapprox_{\mathcal{I}}(E) \sqsubseteq
-  E^{\mathcal{I}\mathcal{I}}) \in \bigsqcap \mathcal{L}_{\mathcal{C}}$ up to equivalence.
-  Since $\lapprox_{\mathcal{I}}(E) \sqsubseteq E$ and $(E \sqsubseteq
-  E^{\mathcal{I}\mathcal{I}}) \in \mathcal{C}$, we obtain that $\mathcal{C}$ entails all
-  GCIs in $\bigsqcap \mathcal{L}_{\mathcal{C}}$.  Thus,
-  \begin{equation}
-    \label{eq:32}
-    \mathcal{C} \models (\bigsqcap U \sqsubseteq (\bigsqcap U)^{\mathcal{I}\mathcal{I}}).
-  \end{equation}
+
+  We show that $\mathcal{B} \not\models (\bigsqcap U) \sqsubseteq A$ for all $A \in
+  M_{\mathcal{I}} \setminus U$.  Assume by contradiction that $\mathcal{B} \models
+  (\bigsqcap U) \sqsubseteq A$.  Since $U$ is closed under $\mathcal{S}_{\mathcal{I}}$, we
+  obtain $\bigsqcap U \not\sqsubseteq A$.
+
+  \todo[inline]{Show that $\mathcal{C}$ entails something like $\bigsqcap U \sqsubseteq A$
+  for some $A \in M_{\mathcal{I}} \setminus U$.}
 
   Now, \Cref{lem:Felix-5.16} together with \Cref{eq:31} and \Cref{eq:32} yields the
   existence of a GCI $(E \sqsubseteq E^{\mathcal{I}\mathcal{I}}) \in \mathcal{C}$ such
@@ -1844,7 +1832,7 @@ $\pr_{M_{\mathcal{I}}}(E^{\mathcal{I}\mathcal{I}})$ in the conclusion.
   We shall now show that $U$ is not closed under
   $\pr_{M_{\mathcal{I}}}(\lapprox_{\mathcal{I}}(E)) \to
   \pr_{M_{\mathcal{I}}}(E^{\mathcal{I}\mathcal{I}})$.  This then shows that
-  $\mathcal{K}(U) \neq U$, and the proof is finished.
+  $\mathcal{K}(U) \neq U$.
 
   From \Cref{lem:Felix-5.16} and $\bigsqcap U \sqsubseteq E$ we obtain $\bigsqcap U
   \sqsubseteq \lapprox_{\mathcal{I}}(E)$.  The Galois connection property
@@ -1863,6 +1851,22 @@ $\pr_{M_{\mathcal{I}}}(E^{\mathcal{I}\mathcal{I}})$ in the conclusion.
   In sum we have shown that $\pr_{M_{\mathcal{I}}}(\lapprox_{\mathcal{I}}(E)) \subseteq U$
   and $\pr_{M_{\mathcal{I}}}(E^{\mathcal{I}\mathcal{I}}) \not\subseteq U$, thus $U$ is not
   closed under $\mathcal{K}$, as required.
+
+  We have shown that $\mathcal{L}_{\mathcal{C}}$ is sound for $\con K_{\mathcal{I}}$ and
+  that $\mathcal{L}_{\mathcal{C}} \cup \pr_{M_{\mathcal{I}}}(\mathcal{B}) \cup
+  \mathcal{S}_{\mathcal{I}}$ is complete for $\con K$.  By
+  \Cref{thm:canonical-base-with-arbitrary-background-knowledge} we obtain that
+  \begin{equation*}
+    \abs{ \mathcal{L}_{\mathcal{C}} } \ge \abs{ \Can(\con K_{\mathcal{I}},
+      \pr_{M_{\mathcal{I}}}(\mathcal{B}) \cup \mathcal{S}_{\mathcal{I}} ) }.
+  \end{equation*}
+  Since $\abs{ \mathcal{L}_{\mathcal{C}} } = \abs{ \mathcal{C} }$ and $\abs{ \Can(\con
+    K_{\mathcal{I}}, \pr_{M_{\mathcal{I}}}(\mathcal{B}) \cup \mathcal{S}_{\mathcal{I}}) }
+  = \abs{ \bigsqcap \mathcal{L} }$ we obtain
+  \begin{equation*}
+    \abs{ \mathcal{C} } \geq \abs{ \bigsqcap \mathcal{L} }
+  \end{equation*}
+  as it was claimed.
 \end{Proof}
 
 \subsection{Unravelling \ELgfpbot Bases into \ELbot Bases}
