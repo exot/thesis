@@ -904,32 +904,33 @@ from the thus obtained base anymore.  To remedy this, Distel adds some extra GCI
 \begin{Theorem}[Theorem~5.21 of~\cite{Diss-Felix}]
   \label{thm:unravelling-ELgfpbot-bases}
   Let $\mathcal{I}$ be a finite interpretation and let $\mathcal{B}$ be a finite \ELgfpbot
-  base of $\mathcal{I}$.  Define $d \in \NN_0$ as in \Cref{lem:Felix-lemma-5.5}.  Then
+  base of $\mathcal{I}$.  Then
   \begin{align*}
-    \mathcal{B}_d &:= \set{ C_d \sqsubseteq (C^{\mathcal{I}\mathcal{I}})_d \mid (C
+    \mathcal{B}_{\mathsf{u}} &:= \set{ C_d \sqsubseteq (C^{\mathcal{I}\mathcal{I}})_d \mid (C
       \sqsubseteq D) \in \mathcal{B} } \cup {} \\
     &\phantom{{}:={}} \set{ (X^{\mathcal{I}})_d \sqsubseteq (X^{\mathcal{I}})_{d+1} \mid X
       \subseteq \Delta^{\mathcal{I}}, X \neq \emptyset }
   \end{align*}
-  is a finite \ELbot base of $\mathcal{I}$.
+  is a finite \ELbot base of $\mathcal{I}$, where $d \in \NN_0$ is defined as in
+  \Cref{lem:Felix-lemma-5.5}.
 \end{Theorem}
 
 We shall only give some intuition why this theorem is correct, as we shall discuss its
 proof when we generalize it to bases of confident GCIs in \Cref{sec:unrav-elgfpb-bases}.
 An important observation is that the set
 \begin{equation*}
-  \mathcal{X}_d := \set{ (X^{\mathcal{I}})_d \sqsubseteq (X^{\mathcal{I}})_{d+1} \mid X
+  \mathcal{X} := \set{ (X^{\mathcal{I}})_d \sqsubseteq (X^{\mathcal{I}})_{d+1} \mid X
     \subseteq \Delta^{\mathcal{I}}, X \neq \emptyset }
 \end{equation*}
 satisfies for all $X \subseteq \Delta^{\mathcal{I}}$
 \begin{enumerate}[i. ]
-\item $\mathcal{X}_d \models ( (X^{\mathcal{I}})_k \sqsubseteq (X^{\mathcal{I}})_{k+1} )$
+\item $\mathcal{X} \models ( (X^{\mathcal{I}})_k \sqsubseteq (X^{\mathcal{I}})_{k+1} )$
   for all $k \in \NN_0, k \geq d$, and
-\item $\mathcal{X}_d \models ( (X^{\mathcal{I}})_d \sqsubseteq X^{\mathcal{I}} )$.
+\item $\mathcal{X} \models ( (X^{\mathcal{I}})_d \sqsubseteq X^{\mathcal{I}} )$.
 \end{enumerate}
 The first property can be shown by induction over $k$, and for the second property we
 observe that if $\mathcal{J}$ is a finite interpretation\todo{enough, since \ELbot has
-  finite model property}\ such that $\mathcal{J} \models \mathcal{X}_d$, then by the first
+  finite model property}\ such that $\mathcal{J} \models \mathcal{X}$, then by the first
 property
 \begin{equation*}
   ((X^{\mathcal{I}})_d)^{\mathcal{J}} \subseteq ((X^{\mathcal{I}})_{d+1})^{\mathcal{J}}
@@ -941,19 +942,21 @@ $((X^{\mathcal{I}})_k)^{\mathcal{J}} = ((X^{\mathcal{I}})_{k+1})^{\mathcal{J}}$ 
   ((X^{\mathcal{I}})_k)^{\mathcal{J}} = (X^{\mathcal{I}})^{\mathcal{J}}.
 \end{equation*}
 Thus, $\mathcal{J} \models ( (X^{\mathcal{I}})_d \sqsubseteq X^{\mathcal{I}} )$ and
-therefore $\mathcal{X}_d \models ( (X^{\mathcal{I}})_d \sqsubseteq X^{\mathcal{I}} )$.
+therefore $\mathcal{X} \models ( (X^{\mathcal{I}})_d \sqsubseteq X^{\mathcal{I}} )$.
 
-But then if $(C \sqsubseteq D) \in \mathcal{B}$, then $\mathcal{B}_d \models (
+But then if $(C \sqsubseteq D) \in \mathcal{B}$, then $\mathcal{B}_{\mathsf{u}} \models (
 (C^{\mathcal{I}\mathcal{I}})_d \sqsubseteq C^{\mathcal{I}\mathcal{I}})$ by the argument
-just shown, and $\mathcal{B}_d \models ( C_d \sqsubseteq (C^{\mathcal{I}\mathcal{I}})_d
-)$, because this GCI is contained in $\mathcal{B}_d$.  Thus
+just shown, and $\mathcal{B}_{\mathsf{u}} \models ( C_d \sqsubseteq
+(C^{\mathcal{I}\mathcal{I}})_d )$, because this GCI is contained in
+$\mathcal{B}_{\mathsf{u}}$.  Thus
 \begin{equation*}
-  \mathcal{B}_d \models ( C \sqsubseteq C_d \sqsubseteq (C^{\mathcal{I}\mathcal{I}})_d
+  \mathcal{B}_{\mathsf{u}} \models ( C \sqsubseteq C_d \sqsubseteq (C^{\mathcal{I}\mathcal{I}})_d
   \sqsubseteq C^{\mathcal{I}\mathcal{I}}),
 \end{equation*}
-and \Cref{lem:simple-entailment-with-mmsc} yields $\mathcal{B}_d \models (C \sqsubseteq
-D)$.  Thus, $\mathcal{B}_d$ entails all GCIs in $\mathcal{B}$, and since $\mathcal{B}$ is
-complete for $\mathcal{I}$, $\mathcal{B}_d$ is complete for $\mathcal{I}$ as well.
+and \Cref{lem:simple-entailment-with-mmsc} yields $\mathcal{B}_{\mathsf{u}} \models (C
+\sqsubseteq D)$.  Thus, $\mathcal{B}_d$ entails all GCIs in $\mathcal{B}$, and since
+$\mathcal{B}$ is complete for $\mathcal{I}$, $\mathcal{B}_{\mathsf{u}}$ is complete for
+$\mathcal{I}$ as well.
 
 %%% Local Variables: 
 %%% mode: latex

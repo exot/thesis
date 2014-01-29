@@ -1556,8 +1556,198 @@ attribute set $M_{\mathcal{I}}$.
 \subsection{Unravelling \ELgfpbot Bases into \ELbot Bases}
 \label{sec:unrav-elgfpb-bases}
 
-\todo[inline]{Write: show how unravelling can be used to obtain \ELbot-Bases from
-  \ELgfpbot ones (12-06/6)}%
+So far we have only considered finite bases of $\Th_c(\mathcal{I})$ which consist of
+\ELgfpbot concept descriptions.  As we had argued before, those concept descriptions may
+actually be hard to read, over for those trained in logic.  Therefore, it would be
+desirable to obtain bases which contain \ELbot concept descriptions only, as these are
+potentially much easier to read.  To show that this is indeed possible is the purpose of
+this section.  The argumentation we want to employ is again similar to the one used by
+Distel; see \Cref{sec:base-all-valid}.
+
+As a first step, as already discussed in \Cref{sec:base-all-valid}, we define an auxiliary
+set $\mathcal{X}_{\mathcal{I}}$ that only contains \ELbot concept descriptions but
+``captures'' entailment between \ELgfpbot concept descriptions.  For this, recall that
+\Cref{lem:Felix-lemma-5.5} states that for a finite interpretation $\mathcal{I}$ and all
+\ELgfpbot concept descriptions $C = (A, \mathcal{T})$ it is true that
+\begin{equation*}
+  C^{\mathcal{I}} = (C_d)^{\mathcal{I}},
+\end{equation*}
+where $d = \abs{ \Delta^{\mathcal{I}} } \cdot \abs{ N_D(\mathcal{T}) } + 1$.  Note that
+the constant $d$ depends on the concept description $C$.  The set
+$\mathcal{X}_{\mathcal{I}}$ is now defined as
+\begin{equation*}
+  \mathcal{X}_{\mathcal{I}} := \set{ (X^{\mathcal{I}})_d \sqsubseteq
+    (X^{\mathcal{I}})_{d+1} \mid X \subseteq \Delta^{\mathcal{I}}, X \neq \emptyset }.
+\end{equation*}
+Note that $\mathcal{X}_{\mathcal{I}}$ is a set of valid GCIs of $\mathcal{I}$, and that
+for each $X \subseteq \Delta^{\mathcal{I}}, X \neq \emptyset$ it is true that
+\begin{equation*}
+  ((X^{\mathcal{I}})_d)^{\mathcal{I}} = X^{\mathcal{I}\mathcal{I}} = ((X^{\mathcal{I}})_{d+1})^{\mathcal{I}}.
+\end{equation*}
+
+As already sketched in \Cref{sec:base-all-valid} the following claims hold.
+
+\begin{Lemma}
+  \label{lem:X_I-properties}
+  Let $\mathcal{I}$ be a finite interpretation, let $Y \subseteq \Delta^{\mathcal{I}}$ and
+  let $d \in \NN_0$ for $Y^{\mathcal{I}}$ as in \Cref{lem:Felix-lemma-5.5}.  Then
+  \begin{enumerate}[i. ]
+  \item $\mathcal{X}_{\mathcal{I}} \models ((Y^{\mathcal{I}})_k \sqsubseteq
+    (Y^{\mathcal{I}})_{k+1})$ is true for all $k \geq d$, and
+  \item $\mathcal{X}_{\mathcal{I}} \models ((Y^{\mathcal{I}})_d \sqsubseteq Y^{\mathcal{I}})$.
+  \end{enumerate}
+\end{Lemma}
+\begin{Proof}
+  For the first claim we observe that if $Y = \emptyset$, that then $Y^{\mathcal{I}} =
+  \bot$ and nothing remains to be shown.  Therefore, let $Y \neq \emptyset$.  We shall
+  show the claim by induction over $k$.
+
+  For $k = d$ the claim is trivial, as $((Y^{\mathcal{I}})_d \sqsubseteq
+  (Y^{\mathcal{I}})_{d+1}) \in \mathcal{X}_{\mathcal{I}}$.  For the step-case assume that
+  \begin{equation}
+    \label{eq:34}
+    \mathcal{X}_{\mathcal{I}} \models ((Z^{\mathcal{I}})_{k-1} \sqsubseteq (Z^{\mathcal{I}})_k)
+  \end{equation}
+  is true for all $Z \subseteq \Delta^{\mathcal{I}}$.  Since $Y^{\mathcal{I}}$ is
+  expressible in terms of $M_{\mathcal{I}}$, and $Y \neq \emptyset$, there exists $U
+  \subseteq N_C$ and $\Pi \subseteq N_R \times \subsets{\Delta^{\mathcal{I}}}$ such that
+  \begin{equation*}
+    Y^{\mathcal{I}} \equiv \bigsqcap U \sqcap \bigsqcap_{(r, Z) \in \Pi} \exists r. Z^{\mathcal{I}}.
+  \end{equation*}
+  From \Cref{lem:unravelling-is-homomorphism} we obtain
+  \begin{equation*}
+    (Y^{\mathcal{I}})_k \equiv \bigsqcap U \sqcap \bigsqcap_{(r, Z) \in \Pi} \exists r.(Z^{\mathcal{I}})_{k-1}.
+  \end{equation*}
+  By the induction hypothesis \Cref{eq:34} we obtain that
+  \begin{align*}
+    (Y^{\mathcal{I}})_k
+    &\sqsubseteq (\bigsqcap U \sqcap \bigsqcap_{(r, Z) \in \Pi} \exists
+    r. (Z^{\mathcal{I}})_k\\
+    &\equiv (\bigsqcap U \sqcap \bigsqcap_{(r, Z) \in \Pi} \exists
+    r. Z^{\mathcal{I}})_{k+1} \\
+    &\equiv (Y^{\mathcal{I}})_{k+1}
+  \end{align*}
+  again using \Cref{lem:unravelling-is-homomorphism}.  This complete the induction step
+  and the first claim is shown.
+
+  We now show the second claim, namely
+  \begin{equation*}
+    \mathcal{X}_{\mathcal{I}} \models ((Y^{\mathcal{I}})_d \sqsubseteq Y^{\mathcal{I}})
+  \end{equation*}
+  for $Y \subseteq \Delta^{\mathcal{I}}$.  The case $Y = \emptyset$ is again trivial, so
+  let $Y \neq \emptyset$.  Let $\mathcal{J}$ be a finite interpretation such that
+  $\mathcal{J} \models \mathcal{X}_{\mathcal{I}}$.  Then the first claim yields
+  \begin{equation*}
+    ((Y^{\mathcal{I}})_d)^{\mathcal{J}} \subseteq ((Y^{\mathcal{I}})_{d+1})^{\mathcal{J}}
+    \subseteq ((Y^{\mathcal{I}})_{d+2})^{\mathcal{J}} \subseteq \dots
+  \end{equation*}
+  From \Cref{lem:Felix-lemma-5.5} we obtain the existence of some $\ell \in \NN_0$ such
+  that $((Y^{\mathcal{I}})_\ell)^{\mathcal{J}} = (Y^{\mathcal{I}})^{\mathcal{J}}$ is true.
+  Therefore, $((Y^{\mathcal{I}})_d)^{\mathcal{J}} \subseteq
+  (Y^{\mathcal{I}})^{\mathcal{J}}$ and thus $\mathcal{J} \models ((Y^{\mathcal{I}})_d
+  \sqsubseteq Y^{\mathcal{I}})$.  Since \ELbot has the finite-model property, we obtain
+  $\mathcal{X}_{\mathcal{I}} \models ((Y^{\mathcal{I}})_d \sqsubseteq Y^{\mathcal{I}})$ as
+  required.
+\end{Proof}
+
+Now let $\mathcal{D}$ be a confident base of $\Th_c(\mathcal{I})$.  We then can partition
+$\mathcal{D} = \mathcal{B} \cup \mathcal{C}$ such that $\mathcal{B} \subseteq
+\Th(\mathcal{I})$ and $\mathcal{C} \cap \Th(\mathcal{I})$, \ie $\mathcal{B}$ contains all
+valid GCIs of $\mathcal{D}$, and $\mathcal{C}$ contains everything else.  Without loss of
+generality we can assume that $\mathcal{B}$ contains only GCIs of the form $E \sqsubseteq
+E^{\mathcal{I}\mathcal{I}}$.  To construct an \ELbot base out of $\mathcal{D}$ we can now
+proceed as described in the following theorem.
+
+\begin{Theorem}
+  \label{thm:unravelling-confident-bases}
+  Let $\mathcal{I}$ be a finite interpretation, let $c \in [0,1]$ and let $\mathcal{D} =
+  \mathcal{B} \cup \mathcal{C}$ be a finite confident base of $\Th_c(\mathcal{I})$, such
+  that $\mathcal{B} \subseteq \Th(\mathcal{I})$, $\mathcal{C} \cap \Th(\mathcal{I}) \neq
+  \emptyset$ and $\mathcal{B}$ contains only GCIs of the form $E \sqsubseteq
+  E^{\mathcal{I}\mathcal{I}}$. Define
+  \begin{align*}
+    \mathcal{B}' &:= \set{ E_d \sqsubseteq (E^{\mathcal{I}\mathcal{I}})_d \mid (E
+      \sqsubseteq E^{\mathcal{I}\mathcal{I}}) \in \mathcal{B} } \cup \set{ C_d \sqsubseteq
+      (C^{\mathcal{I}\mathcal{I}})_d \mid (C \sqsubseteq D) \in \mathcal{C} },\\
+    \mathcal{C}' &:= \set{ (C^{\mathcal{I}\mathcal{I}})_d \sqsubseteq
+      (D^{\mathcal{I}\mathcal{I}})_d \mid (C \sqsubseteq D) \in \mathcal{C} }.
+  \end{align*}
+  Then the following statements hold:
+  \begin{enumerate}[i. ]
+  \item $\mathcal{C}' \subseteq \Th_c(\mathcal{I})$ and $\mathcal{B}' \cup \mathcal{C}'
+    \cup \mathcal{X}_{\mathcal{I}} \models \mathcal{C}$.
+  \item $\mathcal{B}' \cup \mathcal{C}' \cup \mathcal{X}_{\mathcal{I}} \models
+    \mathcal{B}$.
+  \end{enumerate}
+  In particular, $\mathcal{B}' \cup \mathcal{C}' \cup \mathcal{X}_{\mathcal{I}}$ is a
+  finite confident \ELbot base of $\Th_c(\mathcal{I})$.
+\end{Theorem}
+
+Note that $\mathcal{B}' \cup \mathcal{C}' \cup \mathcal{X}_{\mathcal{I}}$ only contains
+\ELbot concept descriptions, and that all GCIs in $\mathcal{B}' \cup
+\mathcal{X}_{\mathcal{I}}$ are valid in $\mathcal{I}$.
+
+\begin{Proof}
+  To see $\mathcal{C}' \subseteq \Th_c(\mathcal{I})$ recall that $(C_d)^{\mathcal{I}} =
+  C^{\mathcal{I}}$ is true for each \ELgfpbot concept description $C$.  Thus, for $(C
+  \sqsubseteq D) \in \mathcal{C}$ with $\abs{ C^{\mathcal{I}} } \neq \emptyset$ we obtain
+  \begin{align*}
+    \conf_{\mathcal{I}}( C \sqsubseteq D )
+    &= \conf_{\mathcal{I}}( C^{\mathcal{I}\mathcal{I}} \sqsubseteq D^{\mathcal{I}\mathcal{I}} )\\
+    &= \frac{ | ( C^{\mathcal{I}\mathcal{I}} \sqcap D^{\mathcal{I}\mathcal{I}}
+      )^{\mathcal{I}} | }{ | C^{\mathcal{I}\mathcal{I}\mathcal{I}} | }\\
+    &= \frac{ | (( C^{\mathcal{I}\mathcal{I}} \sqcap D^{\mathcal{I}\mathcal{I}}
+      )_d)^{\mathcal{I}} | }{ | ((C^{\mathcal{I}\mathcal{I}})_d)^{\mathcal{I}} | }\\
+    &= \frac{ | ( (C^{\mathcal{I}\mathcal{I}})_d \sqcap (D^{\mathcal{I}\mathcal{I}})_d
+      )^{\mathcal{I}} | }{ | ((C^{\mathcal{I}\mathcal{I}})_d)^{\mathcal{I}} | }\\
+    &= \conf_{\mathcal{I}}( (C^{\mathcal{I}\mathcal{I}})_d \sqsubseteq (D^{\mathcal{I}\mathcal{I}})_d )
+  \end{align*}
+  using \Cref{lem:unravelling-is-homomorphism}.  Clearly, if $C^{\mathcal{I}} =
+  \emptyset$, then $(C_d)^{\mathcal{I}} = \emptyset$ and thus
+  \begin{equation*}
+    \conf_{\mathcal{I}}( C \sqsubseteq D ) = 1 = \conf_{\mathcal{I}}(
+    (C^{\mathcal{I}\mathcal{I}})_d \sqsubseteq (D^{\mathcal{I}\mathcal{I}})_d ).
+  \end{equation*}
+  Since $\mathcal{C} \subseteq \Th_c(\mathcal{I})$, we therefore obtain $\mathcal{C}'
+  \subseteq \Th_c(\mathcal{I})$ as required.
+
+  We now show that $\mathcal{B}' \cup \mathcal{C}' \cup \mathcal{X}_{\mathcal{I}} \models
+  \mathcal{C}$.  For this let $(C \sqsubseteq D) \in \mathcal{C}$.  Then we have
+  \begin{align*}
+    \emptyset &\models (C \sqsubseteq C_d)\\
+    \mathcal{B}' &\models (C_d \sqsubseteq (C^{\mathcal{I}\mathcal{I}})_d)\\
+    \mathcal{C}' &\models ((C^{\mathcal{I}\mathcal{I}})_d \sqsubseteq
+    (D^{\mathcal{I}\mathcal{I}})_d)\\
+    \mathcal{X}_{\mathcal{I}} &\models ((D^{\mathcal{I}\mathcal{I}})_d \sqsubseteq
+    D^{\mathcal{I}\mathcal{I}})\\
+    \emptyset &\models (D^{\mathcal{I}\mathcal{I}} \sqsubseteq D)
+  \end{align*}
+  using \Cref{lem:X_I-properties} for the second to last statement.  Therefore
+  $\mathcal{B}' \cup \mathcal{C}' \cup \mathcal{X}_{\mathcal{I}} \models (C \sqsubseteq
+  D)$ as required.
+
+  We consider the second claim, namely that $\mathcal{B}' \cup \mathcal{C}' \cup
+  \mathcal{X}_{\mathcal{I}} \models \mathcal{B}$.  To this end, let $(E \sqsubseteq
+  E^{\mathcal{I}\mathcal{I}}) \in \mathcal{B}$.  Then
+  \begin{align*}
+    \emptyset &\models (E \sqsubseteq E_d)\\
+    \mathcal{B}' &\models (E_d \sqsubseteq (E^{\mathcal{I}\mathcal{I}})_d)\\
+    \mathcal{X}_{\mathcal{I}} &\models ((E^{\mathcal{I}\mathcal{I}})_d \sqsubseteq E^{\mathcal{I}\mathcal{I}})
+  \end{align*}
+  using \Cref{lem:X_I-properties} for the last statement.  Therefore,
+  \begin{equation*}
+    \mathcal{B}' \cup \mathcal{C}' \cup \mathcal{X}_{\mathcal{I}} \models (E \sqsubseteq
+    E^{\mathcal{I}\mathcal{I}})
+  \end{equation*}
+  as required.
+\end{Proof}
+
+A drawback of this construction is that the set $\mathcal{X}_{\mathcal{I}}$ can be
+exponentially large in the size of $\Delta^{\mathcal{I}}$, and so can be the \ELbot base
+as described above.  Therefore, even if the original base $\mathcal{D}$ was small, the
+described unravelling can transfer it into a much larger base.  It is not known to the
+author whether this blowup is intrinsic to the task of transferring \ELgfpbot bases into
+\ELbot bases, or whether it can be avoided by a different approach.
 
 \section{Experiments with Confident GCIs}
 \label{sec:exper-with-conf}
