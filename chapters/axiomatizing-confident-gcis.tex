@@ -1752,6 +1752,37 @@ author whether this blowup is intrinsic to the task of transferring \ELgfpbot ba
 \section{Experiments with Confident GCIs}
 \label{sec:exper-with-conf}
 
+We have started this chapter by evaluating Distel's results in a practical scenario.
+During this evaluation we have found out that the presence of errors in the data can
+inhibit the usefulness of the results obtained by Distel's approach, and from this we have
+motivated our study of GCIs with high confidence.  In this section, we want to apply our
+findings about finite confident bases of $\Th_c(\mathcal{I})$ to the interpretation
+$\Idbpedia$ we used before, and we want to see in how far the problem of errors in
+$\Idbpedia$ can be alleviated by using GCIs with high confidence.
+
+To this end, we want to consider a number of different experiments.
+\begin{enumerate}[i. ]
+\item We want to examine the sets $\Conf(\Idbpedia, 0.95)$ and $\Conf(\Idbpedia,0.90)$ in
+  detail, \ie we want to show how large these sets are and which GCIs are contained in
+  them.  This is interesting from the point of view of an ontology engineer who wants to
+  extract in addition to a base $\mathcal{B}$ of $\Idbpedia$ also all GCIs with high
+  confidence.  Then the number of GCIs she has to consider in addition to those contained
+  in $\mathcal{B}$ is of practical relevance, because she has to decide for each of those
+  GCIs whether they are indeed true or not.  We shall illustrate this process by means of
+  the two above-mentioned sets.
+\item Continuing the previous experiment, we shall compute the size of the sets
+  $\Conf(\Idbpedia, c)$ and $\Lux(\Idbpedia, c)$ for all $c \in \set{ 0.0, 0.01, \dots,
+    0.99}$ to see how the cardinality of these sets behave.  In particular, we shall
+  examine how many GCIs we can save by considering $\Lux(\Idbpedia, c)$ over
+  $\Conf(\Idbpedia, c)$.
+\item Finally, we want to consider the size of the canonical base of $\Th_c(\con
+  K_\Idbpedia)$ for $c \in \set{ 0.0, 0.01, \dots, 0.99 }$ to see how large this set can
+  be.  Recall that $\bigsqcap \Can(\Th_c(\con K_\Idbpedia))$ is a finite base of
+  $\Th_c(\mathcal{I})$, and the number of GCIs in this base can be considered small.  If
+  we decrease the value for $c$, we would expect that the number of GCIs contained in the
+  canonical base decreases as well.  We shall see how far this is true for $\Idbpedia$.
+\end{enumerate}
+
 \todo[inline]{Write: recall initial experiments, and show how the approach performs}%
 \todo[inline]{Write: include results from 12-06/5}
 
