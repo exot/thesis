@@ -1528,7 +1528,7 @@ one of \cite[Theorem~5.12]{Diss-Felix}.
 We can apply this theorem to our setting of computing finite confident bases as follows.
 Let $\mathcal{C} \subseteq \Lux(\mathcal{I}, c)$ be complete for $\Lux(\mathcal{I}, c)$.
 If we compute $\mathcal{L} := \Can(\con K_{\mathcal{I}},
-\pr_{M_{\mathcal{I}}}(\mathcal{B})$, then $\mathcal{L}$ is as required by the above
+\pr_{M_{\mathcal{I}}}(\mathcal{B}))$, then $\mathcal{L}$ is as required by the above
 theorem, and thus $\bigsqcap \mathcal{L} \cup \mathcal{B}$ is complete for $\mathcal{I}$.
 By \Cref{cor:weakened-luxenburger-base-for-gcis} the set $\bigsqcap \mathcal{L} \cup
 \mathcal{C}$ is a finite confident base of $\Th_c(\mathcal{I})$.
@@ -1562,15 +1562,225 @@ this is that the minimality of $\mathcal{L}$ carries over to $\bigsqcap \mathcal
 can show that $\bigsqcap \mathcal{L}$ has minimal cardinality among all sets of GCIs that
 together with $\mathcal{C}$ are complete for $\mathcal{I}$.
 
+\begin{Theorem}
+  \label{thm:minimal-cardinality}
+  Let $\mathcal{I}$ be a finite interpretation over $N_C$ and $N_R$, and let $c \in
+  [0,1]$.  Let $\mathcal{B}$ be a set of GCIs, whose concept descriptions are expressible
+  in terms of $M_{\mathcal{I}}$.  Then
+  \begin{equation*}
+    \mathcal{L} := \Can(\con K_{\mathcal{I}}, \pr_{M_{\mathcal{I}}}(\mathcal{B})
+    \cup \mathcal{S}_{\mathcal{I}})
+  \end{equation*}
+  is such that $\bigsqcap \mathcal{L} \cup \mathcal{B}$ is complete for $\mathcal{I}$, and
+  $\bigsqcap \mathcal{L}$ has minimal cardinality among all sets of valid GCIs of
+  $\mathcal{I}$ which together with $\mathcal{B}$ are complete for $\mathcal{I}$.
+\end{Theorem}
+
+Of course, we can apply this theorem to our setting of finding finite confident bases of
+$\Th_c(\mathcal{I})$.
+
+\begin{Corollary}
+  \label{cor:minimal-cardinality}
+  Let $\mathcal{I}$ be a finite interpretation, let $c \in [0,1]$ and let $\mathcal{C}
+  \subseteq \Lux(\mathcal{I}, c)$ be complete for $\Lux(\mathcal{I}, c)$.  Define
+  \begin{equation*}
+    \mathcal{L} := \Can(\con K_{\mathcal{I}}, \pr_{M_{\mathcal{I}}}(\mathcal{B})
+    \cup \mathcal{S}_{\mathcal{I}}).
+  \end{equation*}
+  Then $\bigsqcap \mathcal{L} \cup \mathcal{B}$ is a finite confident base of
+  $\Th_c(\mathcal{I})$, and $\bigsqcap \mathcal{L}$ has minimal cardinality among all sets
+  of valid GCIs of $\mathcal{I}$ which together with $\mathcal{B}$ are a confident base of
+  $\Th_c(\mathcal{I})$.
+\end{Corollary}
+
 Note that for $c = 0$ we obtain $\Lux(\mathcal{I}, c) = \emptyset$, and then the fact that
 $\bigsqcap \mathcal{L}$ has minimal cardinality just means that $\bigsqcap \mathcal{L}$ is
 a base of $\mathcal{I}$ with minimal cardinality.  This is exactly what is claimed in
-\Cref{thm:Felix-5.18}, which was \cite[Theorem~5.18]{Diss-Felix}.  Therefore, what we are
-about to show is a generalization this result, and for this we shall use the argumentation
-of the proof of \cite[Theorem~5.18]{Diss-Felix} and adapt it to our setting.  This is the
-purpose of the rest of this section.
+\Cref{thm:Felix-5.18}, which was \cite[Theorem~5.18]{Diss-Felix}.
 
-\todo[inline]{Write: MATH-AL-08-2012/7}
+To show \Cref{thm:minimal-cardinality} we adapt the argumentation of the proof of
+\cite[Theorem~5.18]{Diss-Felix} accordingly.  This argumentation in turn is based on a
+generalization of \Cref{thm:canonical-base-with-valid-background-knowledge}, stating that
+the canonical base has minimal cardinality among all bases of a formal context.  In the
+corresponding proof (which we have repeated in the proof of
+\Cref{thm:canonical-base-with-arbitrary-background-knowledge}) we had used the following
+argument: let pseudo-intent be a $P \subseteq M$ of a formal context $\con K$, and let
+$\mathcal{L}$ be a base of $\con K$.  Then $P \to P''$ follows from $\mathcal{L}$, and
+since $P \neq P''$ there must exist an implication $(X \to Y) \in \mathcal{L}$ such that
+\begin{equation*}
+  X \subseteq P \text{ and } Y \not\subseteq P.
+\end{equation*}
+More generally, if $\mathcal{K}$ is a set of implications such that $\mathcal{K} \models
+(S \to T)$ and $S \neq T$, then there must exist an implication $(U \to V) \in
+\mathcal{K}$ such that $U \subseteq S$ and $V \not\subseteq S$.
+
+It has been noted in~\cite{Diss-Felix} that the corresponding statement for GCIs
+consisting of \ELgfpbot concept descriptions is not true in general: the set $\mathcal{B}
+= \set{ \mathsf{A \sqsubseteq \exists r. \top} }$ entails $\mathsf{\exists s. A
+  \sqsubseteq \exists s. \exists r. \top}$, although $\mathsf{A} \not\sqsubseteq
+\mathsf{\exists s. A}$.  However, Distel is able to establish a special case in which this
+statement still holds.
+
+\begin{Lemma}[Lemma~5.16 of~\cite{Diss-Felix}]
+  \label{lem:Felix-5.16}
+  Let $\mathcal{I}$ be a finite interpretation over $N_C$ and $N_R$, and let $\mathcal{B}$
+  be a set of valid GCIs of $\mathcal{I}$.  Let $U \subseteq M_{\mathcal{I}}$ and set $C
+  := \bigsqcap U$.  Let $D$ be an \ELgfpbot concept description over $N_C$ and $N_R$ such
+  that $C \not\subseteq D$.  Then if $C \sqsubseteq D$ follows from $\mathcal{B}$, then
+  there exists a GCI $(E \sqsubseteq F) \in \mathcal{B}$ such that $C \sqsubseteq E$ and
+  $C \not\subseteq F$.
+\end{Lemma}
+
+To prove \Cref{thm:minimal-cardinality} we also need to introduce another technical
+definition.  When we had introduced the mappings $X \mapsto \bigsqcap X$ and $C \mapsto
+\pr_{M_{\mathcal{I}}}(C)$ for $X \subseteq \Delta^{\mathcal{I}}$ and $C$ an \ELgfpbot
+concept description, we had argued that one can see the concept description $\bigsqcap
+\pr_{M_{\mathcal{I}}}(C)$ as an \emph{upper approximation} of $C$ among all concept
+descriptions expressible in terms of $M_{\mathcal{I}}$.  This was motivated by the fact that
+\begin{equation*}
+  C \sqsubseteq \bigsqcap \pr_{M_{\mathcal{I}}}(C).
+\end{equation*}
+For the argumentation of the proof of \Cref{thm:minimal-cardinality}, however, we also
+need a notion of an \emph{lower approximation}, which we shall introduce next.
+
+\begin{Definition}[Lower Approximation]
+  \label{def:lower-approximation}
+  Let $\mathcal{I}$ be a finite interpretation over $N_C$ and $N_R$, and let $C$ be an
+  \ELgfpbot concept description over $N_C$ and $N_R$.  If $C \neq \bot$, then there exist
+  a set $U \subseteq N_C$ and a set $\Pi \subseteq N_R \times \ELgfpbot(N_C, N_R)$ of
+  pairs of role names and concept descriptions such that
+  \begin{equation*}
+    C \equiv \bigsqcap U \sqcap \bigsqcap_{(r, E) \in \Pi} \exists r. E.
+  \end{equation*}
+  Then we define the \emph{lower approximation} $\lapprox_{\mathcal{I}}(C)$ of $C$ to be
+  \begin{equation*}
+    \lapprox_{\mathcal{I}}(C) := \bigsqcap U \sqcap \bigsqcap_{(r, E) \in \Pi} \exists
+    r. E^{\mathcal{I}\mathcal{I}}.
+  \end{equation*}
+  If $C = \bot$, then we define $\lapprox_{\mathcal{I}}(C) = \bot$.
+\end{Definition}
+
+Clearly $\lapprox_{\mathcal{I}}(C)$ is expressible in terms of $M_{\mathcal{I}}$.
+Moreover, it satisfies our intuitive understanding of being an lower approximation in the
+following sense.
+
+\begin{Lemma}[Lemmas~5.8 and~5.17 of~\cite{Diss-Felix}]
+  \label{lem:lapprox-is-lower-approximation}
+  Let $\mathcal{I}$ be a finite interpretation over $N_C$ and $N_R$, and let $C$ be an
+  \ELgfpbot concept description over $N_C$ and $N_R$.  Then
+  \begin{equation*}
+    \lapprox_{\mathcal{I}}(C) \sqsubseteq C.
+  \end{equation*}
+  Moreover, for all $U \subseteq M_{\mathcal{I}}$ it is true that if $\bigsqcap U
+  \subseteq C$, then $\bigsqcap U \sqsubseteq \lapprox_{\mathcal{I}}(C)$.
+\end{Lemma}
+
+In other words, $\lapprox_{\mathcal{I}}(C)$ is the most-general concept description
+expressible in terms of $M_{\mathcal{I}}$ that is subsumed by $C$.
+
+We shall now turn towards the proof of \Cref{thm:minimal-cardinality}, which is a direct
+generalization of the proof of~\cite[Theorem~5.18]{Diss-Felix}.  Since it is quite long
+and technical, let us give a sketch to convey the main line of argumentation.
+
+Recall that we have given a set $\mathcal{B}$ of GCIs, and that we defined
+\begin{equation*}
+  \mathcal{L} := \Can(\con K_{\mathcal{I}}, \pr_{M_{\mathcal{I}}}(\mathcal{B}) \cup
+  \mathcal{S}_{\mathcal{I}}).
+\end{equation*}
+We want to show that $\bigsqcap \mathcal{L} \cup \mathcal{B}$ is complete for
+$\mathcal{I}$ and that $\bigsqcap \mathcal{L}$ has minimal cardinality with this property.
+
+The fact that $\bigsqcap \mathcal{L} \cup \mathcal{B}$ is complete for $\mathcal{I}$ has
+already been shown in \Cref{thm:gci-completion-simple-version}.  Therefore, it remains to
+show that $\bigsqcap \mathcal{L}$ has minimal cardinality.
+
+For this we consider another set $\mathcal{C}$ of GCIs such that $\mathcal{C} \cup
+\mathcal{B}$ is complete for $\mathcal{I}$.  The main idea is now to utilize
+\Cref{thm:canonical-base-with-arbitrary-background-knowledge} which states that
+$\mathcal{L} = \Can(\con K_{\mathcal{I}}, \pr_{M_{\mathcal{I}}}(\mathcal{B}) \cup
+\mathcal{S}_{\mathcal{I}})$ has minimal cardinality among all sets which together with
+$\pr_{M_{\mathcal{I}}} \cup \mathcal{S}_{\mathcal{I}}$ are complete for $\con
+K_{\mathcal{I}}$.
+
+To this end, we have to transfer $\mathcal{C}$ into a set of implications.  We first
+assume without loss of generality that $\mathcal{C}$ only contains GCIs of the form $E
+\sqsubseteq E^{\mathcal{I}\mathcal{I}}$.  Then we consider the set following set of
+implications
+\begin{equation*}
+  \mathcal{L}_{\mathcal{C}} := \set{ \pr_{M_{\mathcal{I}}}(\lapprox_{\mathcal{I}}(E)) \to
+    \pr_{M_{\mathcal{I}}}(E^{\mathcal{I}\mathcal{I}}) \mid (E \sqsubseteq
+    E^{\mathcal{I}\mathcal{I}}) \in \mathcal{C} }.
+\end{equation*}
+For this set we show that $\mathcal{L}_{\mathcal{C}}$ is a set of valid implications of
+$\con K_{\mathcal{I}}$ and that $\mathcal{L}_{\mathcal{C}} \cup
+\pr_{M_{\mathcal{I}}}(\mathcal{B}) \cup \mathcal{S}_{\mathcal{I}}$ is complete for $\con
+K_{\mathcal{I}}$.  Then by \Cref{thm:canonical-base-with-arbitrary-background-knowledge}
+it follows that
+\begin{equation*}
+  \abs{\mathcal{L}_{\mathcal{C}}} \ge \abs{ \mathcal{L} }.
+\end{equation*}
+Then since $\abs{ \mathcal{L}_{\mathcal{C}} } \le \abs{ \mathcal{C} }$ and $\abs{
+  \bigsqcap \mathcal{L} } = \abs{ \mathcal{L} }$ we obtain that $\abs{ \mathcal{C} } \ge
+\abs{ \bigsqcap \mathcal{L} }$ as required.
+
+The reason why we use $\lapprox_{\mathcal{I}}(E)$ in the premises of the implications in
+$\mathcal{L}_{\mathcal{C}}$, and not just $\pr_{M_{\mathcal{I}}}(E)$ is that in general
+the concept description $E$ is not expressible in terms of $M_{\mathcal{I}}$.  However,
+for our argumentation we need to ensure that this is the case, which is why we replaced
+$E$ by $\lapprox_{\mathcal{I}}(E)$ in the premises of the implications in
+$\mathcal{L}_{\mathcal{C}}$.  Note that $E^{\mathcal{I}\mathcal{I}}$ is already
+expressible in terms of $M_{\mathcal{I}}$, so we can just use
+$\pr_{M_{\mathcal{I}}}(E^{\mathcal{I}\mathcal{I}})$ in the conclusion.
+
+\begin{Proof}[~\Cref{thm:minimal-cardinality}]
+  As already argued, the set $\bigsqcap \mathcal{L} \cup \mathcal{B}$ is complete for
+  $\mathcal{I}$.  It therefore remains to show that $\bigsqcap \mathcal{L}$ has minimal
+  cardinality with this property.
+
+  To this end, let $\mathcal{C}$ be a set of valid GCIs of $\mathcal{I}$ such that
+  $\mathcal{C} \cup \mathcal{B}$ is complete for $\mathcal{I}$.  Furthermore, assume
+  without loss of generality that $\mathcal{C}$ only contains GCIs of the form $E
+  \sqsubseteq E^{\mathcal{I}\mathcal{I}}$.  Define, as already mentioned,
+  \begin{equation*}
+    \mathcal{L}_{\mathcal{C}} := \set{ \pr_{M_{\mathcal{I}}}(\lapprox_{\mathcal{I}}(E))
+      \to \pr_{M_{\mathcal{I}}}(E^{\mathcal{I}\mathcal{I}}) \mid (E \sqsubseteq
+      E^{\mathcal{I}\mathcal{I}}) \in \mathcal{C} }.
+  \end{equation*}
+  Then $\abs{ \mathcal{L}_{\mathcal{C}} } \le \abs{ \mathcal{C} }$.
+
+  We shall show now that $\mathcal{L}_{\mathcal{C}}$ is a set of valid implications of
+  $\con K_{\mathcal{I}}$, and that $\mathcal{L}_{\mathcal{C}} \cup
+  \pr_{M_{\mathcal{I}}}(\mathcal{B}) \cup \mathcal{S}_{\mathcal{I}}$ is complete for $\con
+  K_{\mathcal{I}}$.
+
+  For the first claim let
+  \begin{equation*}
+    (\pr_{M_{\mathcal{I}}}(\lapprox_{\mathcal{I}}(E)) \to
+    \pr_{M_{\mathcal{I}}}(E^{\mathcal{I}\mathcal{I}})) \in \mathcal{L}_{\mathcal{C}}.
+  \end{equation*}
+  Then as $\lapprox_{\mathcal{I}}(E)$ is expressible in terms of $M_{\mathcal{I}}$, we
+  obtain from \Cref{prop:connection-I-prime-1} that
+  \begin{equation*}
+    (\pr_{M_{\mathcal{I}}}(\lapprox_{\mathcal{I}}(E)))' = \lapprox_{\mathcal{I}}(E)^{\mathcal{I}}.
+  \end{equation*}
+  By \Cref{lem:lapprox-is-lower-approximation} we have $\lapprox_{\mathcal{I}}(E)
+  \sqsubseteq E$, and thus
+  \begin{equation*}
+    \lapprox_{\mathcal{I}}(E)^{\mathcal{I}} \subseteq E^{\mathcal{I}} =
+    E^{\mathcal{I}\mathcal{I}\mathcal{I}}.
+  \end{equation*}
+  Since $E^{\mathcal{I}\mathcal{I}}$ is expressible in terms of $M_{\mathcal{I}}$,
+  using \Cref{prop:connection-I-prime-1} again yields
+  $E^{\mathcal{I}\mathcal{I}\mathcal{I}} =
+  (\pr_{M_{\mathcal{I}}}(E^{\mathcal{I}\mathcal{I}}))'$ and thus
+  \begin{equation*}
+    (\pr_{M_{\mathcal{I}}}(\lapprox_{\mathcal{I}}(E)))' \subseteq (\pr_{M_{\mathcal{I}}}(E^{\mathcal{I}\mathcal{I}}))'
+  \end{equation*}
+  and thus we see that $\pr_{M_{\mathcal{I}}}(\lapprox_{\mathcal{I}}(E)) \to
+  \pr_{M_{\mathcal{I}}}(E^{\mathcal{I}\mathcal{I}})$ holds in $\con K_{\mathcal{I}}$.
+  
+  ~\todo[inline]{Write: MATH-AL-08-2012/7.11 (proof)}
+\end{Proof}
 
 \subsection{Unravelling \ELgfpbot Bases into \ELbot Bases}
 \label{sec:unrav-elgfpb-bases}
