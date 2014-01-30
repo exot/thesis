@@ -39,6 +39,29 @@
 \usepackage{cleveref}
 \let\thref\Cref\relax
 
+\usepackage{scrpage2}
+\clearscrheadfoot
+\ihead{\headmark}
+\ohead[\pagemark]{\pagemark}
+
+\renewcommand*{\pagemark}{%
+  \usekomafont{pagenumber}%
+  \ifodd\value{page}\makebox[\marginparwidth][l]{\pnumbar\enskip\thepage}%
+  \else\makebox[\marginparwidth][r]{\thepage\enskip\pnumbar}%
+  \fi
+}%
+\newcommand*{\pnumbar}{%
+  \raisebox{0pt}[\ht\strutbox][\dp\strutbox]{%
+    \rule[-\dp\strutbox]{1.5pt}{1.1\baselineskip}%
+  }%
+}
+\AfterCalculatingTypearea{%
+  \setheadwidth[0pt]{%
+    \dimexpr\textwidth+\marginparsep+\marginparwidth\relax
+  }%
+}%
+\recalctypearea
+
 %%% fonts
 
 \usepackage{mathpazo}
