@@ -885,6 +885,10 @@ And finally, the analog of \Cref{cor:weakened-luxenburger-base} of course holds 
   $\mathcal{B} \cup \mathcal{L}$ is a confident base of $\Th_c(\mathcal{I})$.
 \end{Corollary}
 
+\todo[inline]{Write: say that $\Conf(\mathcal{I}, c) \equiv \bigsqcap \Conf(\con
+  K_{\mathcal{I}}, c)$, and same for $\Lux$; this allows to compute these sets by means of
+  FCA}
+
 \subsection{Bases of Confident GCIs from Bases of Confident Implications}
 \label{sec:bases-confident-gcis}
 
@@ -1758,7 +1762,7 @@ As already sketched in \Cref{sec:base-all-valid} the following claims hold.
   By the induction hypothesis \Cref{eq:34} we obtain that
   \begin{align*}
     (Y^{\mathcal{I}})_k
-    &\sqsubseteq (\bigsqcap U \sqcap \bigsqcap_{(r, Z) \in \Pi} \exists
+    &\sqsubseteq \bigsqcap U \sqcap \bigsqcap_{(r, Z) \in \Pi} \exists
     r. (Z^{\mathcal{I}})_k\\
     &\equiv (\bigsqcap U \sqcap \bigsqcap_{(r, Z) \in \Pi} \exists
     r. Z^{\mathcal{I}})_{k+1} \\
@@ -1907,10 +1911,10 @@ and the GCIs contained in there should not be incomprehensible.
 We want to examine how this approach behaves for our data set $\Idbpedia$.  To this end,
 we want to conduct several experiments, namely
 \begin{enumerate}[i. ]
-\item We want to examine the sets $\Lux(\Idbpedia, 0.95)$ and $\Lux(\Idbpedia,0.90)$ in
-  detail, \ie we want to show how large these sets are and which GCIs are contained in
-  them.  Moreover, we shall discuss how the ontology engineer proceeds in deciding whether
-  the GCIs contained in these sets are true or not.
+\item We want to examine the set $\Lux(\Idbpedia, 0.95)$ in detail, \ie we want to show
+  how large these sets are and which GCIs are contained in them.  Moreover, we shall
+  discuss how the ontology engineer proceeds in deciding whether the GCIs contained in
+  these sets are true or not.
 \item We want to compare the sizes of the sets $\Conf(\Idbpedia, c)$ and $\Lux(\Idbpedia,
   c)$ to see in how far we can remove redundancies from $\Conf(\Idbpedia, c)$ by using
   $\Lux(\Idbpedia, c)$ instead.  To this end, we shall compute for all $c \in \set{ 0.0,
@@ -1929,16 +1933,109 @@ we want to conduct several experiments, namely
 The experimental results presented in this section have been published previously in
 \cite{Borchmann-LTCS-12-06}.
 
-\todo[inline]{Write: include results from 12-06/5}
-
-\subsection{Computing Confident Bases of $\Th_c(\Idbpedia)$ for $c = 0.95$ and $c = 0.90$}
+\subsection{Computing Confident Bases of $\Th_c(\Idbpedia)$ for $c = 0.95$}
 \label{sec:comp-conf-bases}
 
-\subsubsection{The case $c = 0.95$}
-\label{sec:case-c-=}
+Recall that we had constructed $\Idbpedia$ from the DBpedia data set by extracting all
+individuals that are in a \textsf{child}-relationship in DBpedia, either as parent or as
+child.  Since Wikipedia (from which DBpedia extracts its data) only contains articles
+about (more or less) famous persons, we can thus consider $\Idbpedia$ as an interpretation
+that contains all properties about the child-relations between \emph{famous} persons.  In
+particular, if an element of $\Idbpedia$ does not have a \textsf{child}-successor in
+$\Idbpedia$ (and this is not an error), then this does not necessarily mean that the
+corresponding person does or did not have children -- it only means that the children were
+not famous enough to deserve their own Wikipedia articles.
 
-\subsubsection{The case $c = 0.90$}
-\label{sec:case-c-=-1}
+In the following we want to examine which GCIs we have to consider in addition to the base
+$\mathcal{B}_{\Idbpedia}$ of $\Idbpedia$ we had computed in
+\Cref{sec:computing-bases-from} if we want to consider also GCIs which have a high
+confidence in $\Idbpedia$.  To this end, we shall compute the set $\Conf(\Idbpedia, c)$
+for $c = 0.95$.  For this set we shall argue whether the GCIs contained in them can be
+seen as being true in the domain which is represented by $\Idbpedia$.
+
+Let $c = 0.95$.  We then can compute $\Conf(\Idbpedia, c)$ to be
+\begin{align*}
+  \{\,
+  & \mathsf{\exists child. \top} \sqsubseteq \mathsf{Person}, \\
+  & \mathsf{Place} \sqsubseteq \mathsf{PopulatedPlace},\\
+  & \mathsf{\exists child. \exists child. \top} \sqcap \mathsf{\exists
+    child. OfficeHolder} \\
+  & \quad \sqsubseteq \mathsf{\exists child. (OfficeHolder \sqcap \exists child. \top)}
+  \,\}
+\end{align*}
+Note that the actual GCIs computed are much more complex, since all concept descriptions
+contained in $\Conf(\Idbpedia, c)$ actually have to be model-based most-specific concept
+descriptions.  For readability, we have removed parts of the concept descriptions which
+are already entailed by the base $\mathcal{B}_\Idbpedia$, so that the GCIs thus obtained
+are still equivalent to the original ones.  Also notice that $\Lux(\Idbpedia, c) =
+\Conf(\Idbpedia, c)$.
+
+The first observation is that $\Lux(\Idbpedia, c)$ is small compared to the size of
+$\mathcal{B}_\Idbpedia$, which has 1252 elements.  Thus, our potential ontology engineer
+only has to consider three more GCIs.  Moreover, as we shall see later, accepting some of
+the above GCIs may even lead to other GCIs in $\mathcal{B}_\Idbpedia$ to become
+dispensable, and thus she does not have to consider those separately.
+
+Let us now consider these three GCIs in detail.  The first one we had already seen in
+\Cref{sec:computing-bases-from}, and there we had argued that this is actually true, since
+the 4 counterexamples contained in $\Idbpedia$ were only due to errors.
+
+The GCI $\mathsf{Place} \sqsubseteq \mathsf{PopulatedPlace}$ also sounds convincing: note
+that places appear in $\Idbpedia$ only due to the fact that they are collected from
+Wikipedia Infoboxes of articles which contain an entry for children, \ie which are
+persons.  Since these places occur in the child-entries of infoboxes, they likely name the
+places of birth of the corresponding children, and those places are usually populated.
+Indeed, the only counterexamples for $\mathsf{Place \sqsubseteq PopulatedPlace}$ is
+\textsf{Greenwich\_Village}, representing the corresponding district of Manhattan, New
+York, which is certainly populated.  Thus also this counterexample is erroneous and we
+accept the GCI as being true (in the domain represented by $\Idbpedia$).
+
+On the other hand, the last GCI
+\begin{equation*}
+  \mathsf{\exists child. \exists child. \top \sqcap \exists child. OfficeHolder
+    \sqsubseteq \exists child. ( OfficeHolder \sqcap \exists child. \top ) }
+\end{equation*}
+looks too specific.  The only counterexample contained in $\Idbpedia$ is the element
+\begin{quote}
+  \textsf{Pierre\_Samuel\_du\_Pont\_de\_Nemours}
+\end{quote}
+representing the french government official Pierre Samuel du Pont de Nemours.  He had two
+sons, namely Victor Marie du Pont and Eleuthère Irénée du Pont.  The former became a
+french diplomat and is therefore listed as \textsf{OfficeHolder} in $\Idbpedia$.  Although
+he had four children, none of them were famous enough to receive their own Wikipedia
+articles.  On the other hand, Eleuthère Irénée du Pont became a famous american industrial
+(founder of the \emph{DuPont} company) and had several famous children which are all
+listed in $\Idbpedia$.  Thus, given our understanding of the \textsf{child}-relation in
+$\Idbpedia$ we can accept this counterexample as being valid, and we therefore reject this
+GCI.
+
+We have accepted the GCIs
+\begin{equation*}
+  \mathcal{B} := \set{ \mathsf{\exists child. \top \sqsubseteq Person},
+    \mathsf{Place \sqsubseteq PopulatedPlace} }
+\end{equation*}
+as being valid although $\Idbpedia$ contains counterexamples for it.  It would now be
+interesting to know what happened if we would include those two GCIs in a computation of a
+base of $\Idbpedia$.  For this note that
+\begin{equation*}
+  \pr_{M_{\Idbpedia}}(\mathcal{B}) = \set{ \set{ \mathsf{\exists child. \top} } \to \set{
+      \mathsf{Person} }, \set{ \mathsf{Place} } \to \set{ \mathsf{PopulatedPlace} } }.
+\end{equation*}
+If we now compute
+\begin{equation*}
+  \mathcal{L} := \Can(\con K_\Idbpedia, \pr_{M_{\Idbpedia}}(\mathcal{B}) \cup
+  \mathcal{S}_{\Idbpedia} )
+\end{equation*}
+then we obtain by \Cref{thm:gci-completion-simple-version} that $\bigsqcap \mathcal{L}
+\cup \mathcal{B}$ is complete for
+\begin{equation*}
+  \Th(\Idbpedia) \cup \set{ \mathsf{\exists child. \top \sqsubseteq Person },
+    \mathsf{Place \sqsubseteq PopulatedPlace} },
+\end{equation*}
+and thus a base of it.  The set $\mathcal{L}$ now contains 1245 GCIs, and thus $\bigsqcap
+\mathcal{L} \cup \mathcal{B}$ contains 1247 GCIs.  Comparing this to the 1252 GCIs we can
+see that some of the GCIs in $\mathcal{B}_\Idbpedia$ indeed became dispensable, although
+it were not that many.
 
 \subsection{Sizes of Finite Bases of $\Th_c(\Idbpedia)$}
 \label{sec:sizes-finite-bases}
@@ -1949,9 +2046,12 @@ The experimental results presented in this section have been published previousl
 \subsubsection{The Size of $\Can(\Th_c(\con K_{\mathcal{I}}))$}
 \label{sec:size-canth_cc-k_math}
 
+\todo[inline]{Write: include results from 12-06/5}
+
+
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "../main"
 %%% End: 
 %  LocalWords:  unintuitive Organisation PopulatedPlace OfficeHolder rdf ns Infobox conf
-%  LocalWords:  gcis DBpedia's Stumme
+%  LocalWords:  gcis DBpedia's Stumme du Pont de Nemours Eleuthère Irénée
