@@ -1897,32 +1897,57 @@ findings about finite confident bases of $\Th_c(\mathcal{I})$ to the interpretat
 $\Idbpedia$ we used before, and we want to see in how far the problem of errors in
 $\Idbpedia$ can be alleviated by using GCIs with high confidence.
 
-To this end, we want to consider a number of different experiments.
+Let us assume that an ontology engineer wants to use the approach of considering GCIs with
+high confidence to extract GCIs from some finite interpretation $\mathcal{I}$.  Then what
+she has to do is that she needs to consider GCIs in $\Lux(\mathcal{I}, c)$ for a suitable
+choice of $c$ and has to decide whether these GCIs should be added to the knowledge base.
+To make this a practical approach, the set $\Lux(\mathcal{I}, c)$ should not be too large,
+and the GCIs contained in there should not be incomprehensible.
+
+We want to examine how this approach behaves for our data set $\Idbpedia$.  To this end,
+we want to conduct several experiments, namely
 \begin{enumerate}[i. ]
-\item We want to examine the sets $\Conf(\Idbpedia, 0.95)$ and $\Conf(\Idbpedia,0.90)$ in
+\item We want to examine the sets $\Lux(\Idbpedia, 0.95)$ and $\Lux(\Idbpedia,0.90)$ in
   detail, \ie we want to show how large these sets are and which GCIs are contained in
-  them.  This is interesting from the point of view of an ontology engineer who wants to
-  extract in addition to a base $\mathcal{B}$ of $\Idbpedia$ also all GCIs with high
-  confidence.  Then the number of GCIs she has to consider in addition to those contained
-  in $\mathcal{B}$ is of practical relevance, because she has to decide for each of those
-  GCIs whether they are indeed true or not.  We shall illustrate this process by means of
-  the two above-mentioned sets.
-\item Continuing the previous experiment, we shall compute the size of the sets
-  $\Conf(\Idbpedia, c)$ and $\Lux(\Idbpedia, c)$ for all $c \in \set{ 0.0, 0.01, \dots,
-    0.99}$ to see how the cardinality of these sets behave.  In particular, we shall
-  examine how many GCIs we can save by considering $\Lux(\Idbpedia, c)$ over
-  $\Conf(\Idbpedia, c)$.
+  them.  Moreover, we shall discuss how the ontology engineer proceeds in deciding whether
+  the GCIs contained in these sets are true or not.
+\item We want to compare the sizes of the sets $\Conf(\Idbpedia, c)$ and $\Lux(\Idbpedia,
+  c)$ to see in how far we can remove redundancies from $\Conf(\Idbpedia, c)$ by using
+  $\Lux(\Idbpedia, c)$ instead.  To this end, we shall compute for all $c \in \set{ 0.0,
+    0.01, \dots, 0.99}$ the size of the sets $\Conf(\Idbpedia, c)$ and $\Lux(\Idbpedia,
+  c)$ to see how the cardinality of these sets behaves.
 \item Finally, we want to consider the size of the canonical base of $\Th_c(\con
   K_\Idbpedia)$ for $c \in \set{ 0.0, 0.01, \dots, 0.99 }$ to see how large this set can
   be.  Recall that $\bigsqcap \Can(\Th_c(\con K_\Idbpedia))$ is a finite base of
-  $\Th_c(\mathcal{I})$, and the number of GCIs in this base can be considered small.  If
-  we decrease the value for $c$, we would expect that the number of GCIs contained in the
-  canonical base decreases as well.  We shall see how far this is true for $\Idbpedia$.
+  $\Th_c(\mathcal{I})$, and the number of GCIs in this base can be considered as a
+  ``small'' upper limit how many GCIs are needed to represent $\Th_c(\mathcal{I})$.
+  Intuitively, if we decrease the value for $c$, we would expect that the number of GCIs
+  contained in the canonical base decreases as well.  We shall see how far this is true
+  for $\Idbpedia$.
 \end{enumerate}
 
-\todo[inline]{Write: recall initial experiments, and show how the approach performs}%
+The experimental results presented in this section have been published previously in
+\cite{Borchmann-LTCS-12-06}.
+
 \todo[inline]{Write: include results from 12-06/5}
 
+\subsection{Computing Confident Bases of $\Th_c(\Idbpedia)$ for $c = 0.95$ and $c = 0.90$}
+\label{sec:comp-conf-bases}
+
+\subsubsection{The case $c = 0.95$}
+\label{sec:case-c-=}
+
+\subsubsection{The case $c = 0.90$}
+\label{sec:case-c-=-1}
+
+\subsection{Sizes of Finite Bases of $\Th_c(\Idbpedia)$}
+\label{sec:sizes-finite-bases}
+
+\subsubsection{The Size of $\Conf(\Idbpedia,c)$ and $\Lux(\Idbpedia, c)$}
+\label{sec:size-confidbpedia-c}
+
+\subsubsection{The Size of $\Can(\Th_c(\con K_{\mathcal{I}}))$}
+\label{sec:size-canth_cc-k_math}
 
 %%% Local Variables: 
 %%% mode: latex
