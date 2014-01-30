@@ -2055,17 +2055,15 @@ considering $\Lux(\Idbpedia, c)$ over $\Conf(\Idbpedia, c)$.
 \subsubsection{The Size of $\Conf(\Idbpedia,c)$ and $\Lux(\Idbpedia, c)$}
 \label{sec:size-confidbpedia-c}
 
-For our experiments we define
-\begin{equation*}
-  V := \set{ 0.0, 0.01, 0.02, \dots, 0.99 }.
-\end{equation*}
-To compute $\abs{ \Conf(\Idbpedia, c) }$ and $\abs{ \Lux(\Idbpedia, c) }$ we note that
+We want to compute $\abs{ \Conf(\Idbpedia, c) }$ and $\abs{ \Lux(\Idbpedia, c) }$ for all
+$c \in \set{ 0.0, 0.01, 0.02, \dots, 0.99 }$.  To achieve this, we use
 \begin{align*}
   \abs{ \Conf(\Idbpedia, c) } &= \abs{ \Conf(\con K_\Idbpedia, c) }, \\
   \abs{ \Lux(\Idbpedia, c) } &= \abs{ \Lux(\con K_\Idbpedia, c) }.
 \end{align*}
-We can therefore conduct the computations in $\con K_\Idbpedia$.  The results are shown in
-\Cref{fig:conf-size-behavior}.  Note that the y-axis is scaled logarithmically.
+and therefore we conduct the computations in $\con K_\Idbpedia$.  The results of these
+computations are shown in \Cref{fig:conf-size-behavior}.  Note that the y-axis is scaled
+logarithmically.
 
 \begin{figure}[tp]
   \centering
@@ -2302,6 +2300,174 @@ c)$ seems questionable.
 
 \subsubsection{The Size of $\Can(\Th_c(\con K_{\mathcal{I}}))$}
 \label{sec:size-canth_cc-k_math}
+
+Instead of computing confident bases of $\Th_c(\Idbpedia)$ by independently computing
+bases of $\Idbpedia$ and conjoining them to $\Conf(\Idbpedia, c)$ or $\Lux(\Idbpedia, c)$,
+we can also utilize
+\Cref{thm:confident-bases-of-GCIs-from-confident-bases-of-implications}.  In this theorem,
+we compute confident bases $\mathcal{L}$ of $\Th_c(\con K_{\Idbpedia})$, and then
+$\bigsqcap \mathcal{L}$ is a finite confident base of $\Th_c(\Idbpedia)$.  An advantage of
+this approach is that bases of $\Th_c(\con K_{\Idbpedia})$ can be smaller then bases
+$\mathcal{B}$ of $\Th(\Idbpedia)$ together with $\Conf(\Idbpedia, c)$, because in the
+latter case GCIs from $\mathcal{B}$ could already be entailed by GCIs from
+$\Conf(\Idbpedia, c)$.  Some of these redundancies could already exist on the level of
+implications, and those could be removed if one computes bases of $\Th_c(\con
+K_{\mathcal{I}})$.
+
+In particular, if we compute the canonical base of $\Th_c(\con K_{\mathcal{I}})$ then all
+those redundancies are removed.  Of course, other dependencies may remain, but the size of
+the canonical base of $\Th_c(\con K_{\mathcal{I}})$ may serve as an upper bound on the
+number of GCIs one needs to represent $\Th_c(\con K_{\mathcal{I}})$.  On the other hand,
+considering the canonical base of $\Th_c(\con K_{\mathcal{I}})$ may result in bases which
+are not confident anymore, \ie which contain GCIs whose confidence is not above $c$.
+
+Let us now see how the size of the canonical base changes for all $c \in \set{ 0, 0.01,
+  0.02, \dots, 0.99 }$.  The results are shown in \Cref{fig:can-Th_c-size-behavior}.
+
+\begin{figure}[tp]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[xlabel={$c$}, ylabel={$|\Can(\Th_c(\con{K}_\Idbpedia))|$}]
+      \addplot[blue, no marks] coordinates {
+        (0.00,    1)
+        (0.01,    1)
+        (0.02,    1)
+        (0.03,    1)
+        (0.04,    1)
+        (0.05,    1)
+        (0.06,    1)
+        (0.07,    1)
+        (0.08,    1)
+        (0.09,    1)
+        (0.10,    1)
+        (0.11,    1)
+        (0.12,    1)
+        (0.13,    1)
+        (0.14,    1)
+        (0.15,    1)
+        (0.16,    1)
+        (0.17,    1)
+        (0.18,    1)
+        (0.19,  114)
+        (0.20,  114)
+        (0.21,  128)
+        (0.22,  128)
+        (0.23,  128)
+        (0.24,  141)
+        (0.25,  154)
+        (0.26,  163)
+        (0.27,  212)
+        (0.28,  212)
+        (0.29,  212)
+        (0.30,  227)
+        (0.31,  227)
+        (0.32,  227)
+        (0.33,  227)
+        (0.34,  227)
+        (0.35,  227)
+        (0.36,  227)
+        (0.37,  246)
+        (0.38,  250)
+        (0.39,  250)
+        (0.40,  264)
+        (0.41,  264)
+        (0.42,  295)
+        (0.43,  319)
+        (0.44,  319)
+        (0.45,  319)
+        (0.46,  319)
+        (0.47,  335)
+        (0.48,  346)
+        (0.49,  357)
+        (0.50,  551)
+        (0.51,  551)
+        (0.52,  561)
+        (0.53,  561)
+        (0.54,  604)
+        (0.55,  604)
+        (0.56,  606)
+        (0.57,  606)
+        (0.58,  626)
+        (0.59,  632)
+        (0.60,  641)
+        (0.61,  641)
+        (0.62,  641)
+        (0.63,  645)
+        (0.64,  675)
+        (0.65,  688)
+        (0.66,  688)
+        (0.67,  772)
+        (0.68,  913)
+        (0.69,  943)
+        (0.70,  954)
+        (0.71,  970)
+        (0.72, 1014)
+        (0.73, 1036)
+        (0.74, 1040)
+        (0.75, 1099)
+        (0.76, 1099)
+        (0.77, 1110)
+        (0.78, 1110)
+        (0.79, 1110)
+        (0.80, 1139)
+        (0.81, 1142)
+        (0.82, 1144)
+        (0.83, 1145)
+        (0.84, 1167)
+        (0.85, 1171)
+        (0.86, 1192)
+        (0.87, 1192)
+        (0.88, 1216)
+        (0.89, 1216)
+        (0.90, 1239)
+        (0.91, 1240)
+        (0.92, 1240)
+        (0.93, 1242)
+        (0.94, 1242)
+        (0.95, 1241)
+        (0.96, 1241)
+        (0.97, 1245)
+        (0.98, 1245)
+        (0.99, 1245)
+        (1.00, 1252)
+      };
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Size of $\Can(\Th_c(\con{K}_\Idbpedia))$ for all $c \in \set{ 0, 0.01, \dots,
+      0.99 }$}
+  \label{fig:can-Th_c-size-behavior}
+\end{figure}
+
+A first observation is that with decreasing values of $c$, the size of $\Can(\Th_c(\con
+K_{\Idbpedia}))$ seems to decrease as well.  This is indeed true, except for the case
+$\abs{ \Can(\Th_{0.95}(\con K_{\Idbpedia})) } = 1241$ and $\abs{ \Can( \Th_{0.94}(\con
+  K_{\Idbpedia})) } = 1242$.  Thus we can observe that with decreasing $c$, the sets
+$\Th_c(\con K_{\Idbpedia})$ get ``simpler'' in the sense that fewer implications are
+necessary to represent them.  If the same is true for bases of $\Th_c(\Idbpedia)$ is not
+clear, tough, as it is not quite clear how to compute finite bases of sets of GCIs.
+
+Clearly, the more $c$ is away from 1, the more the set $\Th_c(\Idbpedia)$ departs from
+$\Th(\Idbpedia)$.  There are three values for $c$ where this becomes especially apparent:
+for $c \in \set{ 0.18, 0.54, 0.66 }$ the curve depicted in
+\Cref{fig:can-Th_c-size-behavior} shows a rather steep decline.  Indeed, these values of
+$c$ are not arbitrary, since we associate with them some special observations:
+\begin{enumerate}[i. ]
+\item For $c \leq 0.18$ the implication $\emptyset \to M_{\Idbpedia}$ is entailed by
+  $\Th_c(\con K_{\Idbpedia})$, resulting in a singleton canonical base.
+\item For $0.18 < c \leq 0.54$ the implication $\set{ \mathsf{\exists child. \top} } \to
+  \set{ \mathsf{\exists child. Person} }$ is contained in $\Th_c(\con K_{\Idbpedia})$,
+  eliminating a large number of special cases.
+\item For $0.54 < c \leq 0.66$ the implication $\emptyset \to \set{ \mathsf{Person} }$ is
+  contained in $\Th_c(\con K_{\Idbpedia})$, also making a number of other GCIs
+  dispensable.
+\end{enumerate}
+
+One can see the phenomena of the last two cases also separately: the canonical base of
+$\Th(\con K_{\Idbpedia})$ contains 1252 elements, but the canonical base of $\Th(\con
+K_{\Idbpedia}) \cup \set{ \emptyset \to \set{ \mathsf{Person} } }$ contains only 1210
+implications.  If we also add the implication $\set{ \mathsf{\exists child. \top} } \to
+\set{ \mathsf{\exists child. Person} }$, then the size of the canonical base drops to
+1163.
 
 \todo[inline]{Write: include results from 12-06/5}
 
