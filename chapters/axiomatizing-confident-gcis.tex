@@ -1571,13 +1571,11 @@ shows that this is not the case.
   \begin{figure}[tp]
     \centering
     \begin{tikzpicture}
-      \begin{scope}[every node/.style={draw,circle}, label distance=0.3ex]
-        \node[label=above:{\textsf{A,B}}] (1) at (0,0) {1};
-        \node[label=above:{\textsf{A,B}}] (2) at (1,0) {2};
-        \node[label=above:{\textsf{A,B}}] (3) at (2,0) {3};
-        \node[label=above:{\textsf{A,B}}] (4) at (3,0) {4};
-        \node[label=above:{\textsf{A}}] (5) at (4,0) {5};
-      \end{scope}
+      \node[draw, circle, label=above:{\textsf{A,B}}] (1) at (0,0) {1};
+      \node[draw, circle, label=above:{\textsf{A,B}}] (2) at (1,0) {2};
+      \node[draw, circle, label=above:{\textsf{A,B}}] (3) at (2,0) {3};
+      \node[draw, circle, label=above:{\textsf{A,B}}] (4) at (3,0) {4};
+      \node[draw, circle, label=above:{\textsf{A}}] (5) at (4,0) {5};
       \draw[->] (2) edge[bend left=50] node[midway,below] {\textsf{r}} (1);
       \draw[->] (3) edge[bend left=80] node[midway,below] {\textsf{r}} (1);
     \end{tikzpicture}
