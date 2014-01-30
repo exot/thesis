@@ -1553,6 +1553,145 @@ attribute set $M_{\mathcal{I}}$.
   $\Th_c(\mathcal{I})$.
 \end{Corollary}
 
+For $c = 0$ we obtain $\Lux(\mathcal{I}, c) = \emptyset$, and thus we are back in the case
+of valid GCIs.  For this we know from \Cref{thm:Felix-5.18} that the set $\bigsqcap
+\mathcal{L}$ in the previous corollary is \emph{minimal} with respect to being a base of
+$\mathcal{I}$.  A natural question is now to ask whether we can also expect such a
+minimality result to be true in the case of GCIs with high confidence, \ie whether
+$\bigsqcap \mathcal{L}$ is minimal with respect to $\bigsqcap \mathcal{L} \cup
+\mathcal{B}$ being a finite confident base of $\Th_c(\mathcal{I})$.  The next example
+shows that this is not the case.
+
+\begin{Example}
+  \label{expl:no-minimality}
+  Let $N_C = \set{ \mathsf{A}, \mathsf{B} }$ and $N_R = \set{ \mathsf{r} }$ and consider
+  the finite interpretation $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ as
+  given in \Cref{fig:no-minimality}.
+
+  \begin{figure}[tp]
+    \centering
+    \begin{tikzpicture}
+      \begin{scope}[every node/.style={draw,circle}, label distance=0.3ex]
+        \node[label=above:{\textsf{A,B}}] (1) at (0,0) {1};
+        \node[label=above:{\textsf{A,B}}] (2) at (1,0) {2};
+        \node[label=above:{\textsf{A,B}}] (3) at (2,0) {3};
+        \node[label=above:{\textsf{A,B}}] (4) at (3,0) {4};
+        \node[label=above:{\textsf{A}}] (5) at (4,0) {5};
+      \end{scope}
+      \draw[->] (2) edge[bend left=50] node[midway,below] {\textsf{r}} (1);
+      \draw[->] (3) edge[bend left=80] node[midway,below] {\textsf{r}} (1);
+    \end{tikzpicture}
+    \caption{Interpretation for \Cref{expl:no-minimality}}
+    \label{fig:no-minimality}
+  \end{figure}
+
+  If $X \subseteq \Delta^{\mathcal{I}}$ is such that $5 \in X$, then $X^{\mathcal{I}} =
+  \mathsf{A}$.  If $5 \notin X$ but $1 \in X$ or $4 \in X$, then $X^{\mathcal{I}} =
+  \mathsf{A} \sqcap \mathsf{B}$.  Otherwise, $X^{\mathcal{I}} = \mathsf{A \sqcap B \sqcap
+    \exists r. A \sqcap B}$.  Thus the set of model-based most-specific concept
+  descriptions of $\mathcal{I}$ up to equivalence is
+  \begin{equation*}
+    \set{ \bot, \mathsf{A}, \mathsf{A \sqcap B}, \mathsf{A \sqcap B \sqcap \exists
+        r.(A \sqcap B)} }
+  \end{equation*}
+  and thus we obtain
+  \begin{equation*}
+    M_{\mathcal{I}} := \set{ \bot, \mathsf{A}, \mathsf{B}, \mathsf{\exists r. A},
+      \mathsf{\exists r. (A \sqcap B)}, \mathsf{\exists r. (A \sqcap B \sqcap \exists
+        r. (A \sqcap B))} }.
+  \end{equation*}
+  The induced context is shown in \Cref{fig:no-minimality-induced-context}.
+
+  \begin{figure}[tp]
+    \centering
+    \begin{math}
+      \begin{array}{c|*{6}{c}}
+        \toprule
+        ~ & \bot & \mathsf{A} & \mathsf{B} & \mathsf{\exists r. A} & \mathsf{\exists r. (A
+          \sqcap B)} & \mathsf{\exists r. (A \sqcap B \sqcap \exists r. (A \sqcap B))} \\
+        \midrule
+        1 & & \times & \times \\
+        2 & & \times & \times & \times & \times \\
+        3 & & \times & \times & \times & \times \\
+        4 & & \times & \times \\
+        5 & & \times  \\
+        \bottomrule
+      \end{array}
+    \end{math}
+    \caption{Induced Context of \Cref{fig:no-minimality}}
+    \label{fig:no-minimality-induced-context}
+  \end{figure}
+
+  Let $c = \frac 4 5$.  Then $\Conf(\con K_{\mathcal{I}}, c) = \set{ \set{ \mathsf{A} }
+    \to \set{ \mathsf{A}, \mathsf{B} } }$, thus
+  \begin{equation*}
+    \Conf(\mathcal{I}, c) = \set{ \mathsf{A} \sqsubseteq \mathsf{A \sqcap B} }.
+  \end{equation*}
+  Set $\mathcal{B} := \Conf(\mathcal{I}, c)$.  Then $\pr_{M_{\mathcal{I}}}(\mathcal{B}) =
+  \Conf(\con K_{\mathcal{I}}, c)$.  Let
+  \begin{equation*}
+    U := \set{ \mathsf{\exists r. A}, \mathsf{A}, \mathsf{B} }.
+  \end{equation*}
+  The $U$ is closed under $\mathcal{S}_{\mathcal{I}}$.  Furthermore, $U$ is a
+  $\pr_{M_{\mathcal{I}}}(\mathcal{B})$-pseudo-intent of $\con K_{\mathcal{I}}$:
+  $\emptyset$ is a $\pr_{M_{\mathcal{I}}}(\mathcal{B})$-pseudo-intent of $\con
+  K_{\mathcal{I}}$, and $\emptyset'' = \set{ \mathsf{A} } \subseteq U$.  The set $\set{
+    \mathsf{A} }$ is an intent of $\con K_{\mathcal{I}}$, and the sets $\set{ \mathsf{B}
+  }$ and $\set{ \mathsf{\exists r. A} }$ are not supersets of $\emptyset'' = \set{
+    \mathsf{A} }$.  The set $\set{ \mathsf{A}, \mathsf{B} }$ is again an intent of $\con
+  K_{\mathcal{I}}$, $\set{ \mathsf{\exists r. A}, \mathsf{A} }$ is not closed under
+  $\pr_{M_{\mathcal{I}}}(\mathcal{B})$ and $\set{ \mathsf{\exists r. A}, \mathsf{B} }$
+  does not contain $A$.  Thus, the only $\pr_{M_{\mathcal{I}}}(\mathcal{B})$-pseudo-intent
+  of $\con K_{\mathcal{I}}$ contained in $U$ is $\emptyset$, and its closure is again
+  contained in $U$.  Thus, $U$ is a $\pr_{M_{\mathcal{I}}}(\mathcal{B})$-pseudo-intent of
+  $\con K_{\mathcal{I}}$.
+
+  Therefore, $(U \to U'') \in \Can(\con K_{\mathcal{I}},
+  \pr_{M_{\mathcal{I}}}(\mathcal{B}) \cup \mathcal{S}_{\mathcal{I}})$, \ie
+  \begin{equation*}
+    (\set{ \mathsf{\exists r. A}, \mathsf{A}, \mathsf{B} } \to \set{ \mathsf{\exists r. (A
+        \sqcap B)} }) \in \Can(\con K_{\mathcal{I}}, \pr_{M_{\mathcal{I}}}(\mathcal{B}) \cup
+    \mathcal{S}_{\mathcal{I}}).
+  \end{equation*}
+  This yields that
+  \begin{equation*}
+    (\mathsf{\exists r. A \sqcap A \sqcap B} \sqsubseteq \mathsf{\exists r. (A \sqcap B)})
+    \in \bigsqcap \Can(\con K_{\mathcal{I}}, \pr_{M_{\mathcal{I}}}(\mathcal{B}) \cup \mathcal{S}_{\mathcal{I}}).
+  \end{equation*}
+  But this GCI is entailed by $\mathcal{B}$, so the set $\bigsqcap \Can(\con
+  K_{\mathcal{I}}, \pr_{M_{\mathcal{I}}}(\mathcal{B}) \cup \mathcal{S}_{\mathcal{I}}) \cup
+  \mathcal{B}$ is not irredundant.  In particular, $\bigsqcap \Can(\con K_{\mathcal{I}},
+  \pr_{M_{\mathcal{I}}}(\mathcal{B}) \cup \mathcal{S}_{\mathcal{I}})$ is not minimal with
+  respect to the property that it forms together with $\mathcal{B}$ a confident base of
+  $\Th_c(\mathcal{I})$.
+\end{Example}
+
+The main reason why the minimality statement fails is that entailment between GCIs can
+happen ``behind the quantifier'': if $\mathcal{B} = \set{ \mathsf{A} \sqsubseteq
+  \mathsf{B} }$, then $\mathcal{B}$ entails $\mathsf{\exists r. A} \sqsubseteq
+\mathsf{\exists r. B}$.  This entailment process can usually not be simulated by
+implications, as they are not allowed to consider the structure of the attributes in a
+formal context.
+
+It is possible to find a special case where entailment behind the quantifier cannot
+happen: if $\mathcal{B}$ is a set of \emph{valid} GCIs of $\mathcal{I}$ and if $C =
+\bigsqcap U$ for $U \subseteq M_{\mathcal{I}}$ and $U \neq \emptyset$.  In this case, $C$
+can be written as
+\begin{equation*}
+  C = \bigsqcap V \sqcap \bigsqcap_{(r, Z) \in \Pi} \exists r. Z^{\mathcal{I}}
+\end{equation*}
+for some $V \subseteq N_C$ and some $\Pi \subseteq N_R \times
+\subsets{\Delta^{\mathcal{I}}}$.  Then one can argue that the concept descriptions
+$Z^{\mathcal{I}}$ behind the quantifier are already ``closed under entailment'' with
+respect to $\mathcal{B}$, because they are model-based most-specific concept descriptions
+and all GCIs in $\mathcal{B}$ are valid in $\mathcal{I}$.  Thus, if a GCI $C \sqsubseteq
+D$ is entailed by $\mathcal{B}$, it must happen on the top-level of the concept
+descriptions, and this entailment can then be simulated by implications.
+
+A formal argumentation requires the notions of \emph{simulations} between \EL description
+graphs, which have not introduced in this work.  For more details on this we refer to
+Lemma~5.16 and the proof of Theorem~5.18 in~\cite{Diss-Felix}.
+
 \subsection{Unravelling \ELgfpbot Bases into \ELbot Bases}
 \label{sec:unrav-elgfpb-bases}
 
