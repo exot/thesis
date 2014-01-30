@@ -2040,8 +2040,265 @@ it were not that many.
 \subsection{Sizes of Finite Bases of $\Th_c(\Idbpedia)$}
 \label{sec:sizes-finite-bases}
 
+We have seen that $\Conf(\Idbpedia, 0.95)$ only contains three GCIs.  This suggests that
+the overhead caused by the approach of considering GCIs with high confidence is rather
+negligible.  Moreover, we have also seen that we can reduce the size of bases of
+$\Idbpedia$ if we include GCIs from $\Conf(\Idbpedia, 0.95)$ as background knowledge, thus
+effectively reducing the number of GCIs our ontology engineer has to consider.
+
+In this section we examine these observations on a larger scale.  For this we shall
+investigate the sizes of the sets $\Conf(\Idbpedia, c)$ and $\Lux(\Idbpedia, c)$ for
+varying values of $c$.  From this we shall see how the overhead of considering GCIs with
+high confidence depends on the choice of the parameter $c$, and how much we can save by
+considering $\Lux(\Idbpedia, c)$ over $\Conf(\Idbpedia, c)$.
+
 \subsubsection{The Size of $\Conf(\Idbpedia,c)$ and $\Lux(\Idbpedia, c)$}
 \label{sec:size-confidbpedia-c}
+
+For our experiments we define
+\begin{equation*}
+  V := \set{ 0.0, 0.01, 0.02, \dots, 0.99 }.
+\end{equation*}
+To compute $\abs{ \Conf(\Idbpedia, c) }$ and $\abs{ \Lux(\Idbpedia, c) }$ we note that
+\begin{align*}
+  \abs{ \Conf(\Idbpedia, c) } &= \abs{ \Conf(\con K_\Idbpedia, c) }, \\
+  \abs{ \Lux(\Idbpedia, c) } &= \abs{ \Lux(\con K_\Idbpedia, c) }.
+\end{align*}
+We can therefore conduct the computations in $\con K_\Idbpedia$.  The results are shown in
+\Cref{fig:conf-size-behavior}.  Note that the y-axis is scaled logarithmically.
+
+\begin{figure}[tp]
+  \centering
+  \begin{tikzpicture}
+    \begin{semilogyaxis}[xlabel={$c$}]
+      \addplot[blue, no marks, dotted] coordinates {
+        (0.00,  6439 )
+        (0.01,  3397 )
+        (0.02,  2835 )
+        (0.03,  2547 )
+        (0.04,  2323 )
+        (0.05,  2188 )
+        (0.06,  2043 )
+        (0.07,  1896 )
+        (0.08,  1787 )
+        (0.09,  1701 )
+        (0.10,  1633 )
+        (0.11,  1561 )
+        (0.12,  1454 )
+        (0.13,  1412 )
+        (0.14,  1356 )
+        (0.15,  1268 )
+        (0.16,  1234 )
+        (0.17,  1153 )
+        (0.18,  1128 )
+        (0.19,  1094 )
+        (0.20,   994 )
+        (0.21,   983 )
+        (0.22,   955 )
+        (0.23,   922 )
+        (0.24,   899 )
+        (0.25,   807 )
+        (0.26,   804 )
+        (0.27,   785 )
+        (0.28,   773 )
+        (0.29,   728 )
+        (0.30,   708 )
+        (0.31,   696 )
+        (0.32,   690 )
+        (0.33,   688 )
+        (0.34,   569 )
+        (0.35,   561 )
+        (0.36,   549 )
+        (0.37,   536 )
+        (0.38,   523 )
+        (0.39,   521 )
+        (0.40,   470 )
+        (0.41,   467 )
+        (0.42,   460 )
+        (0.43,   442 )
+        (0.44,   440 )
+        (0.45,   433 )
+        (0.46,   423 )
+        (0.47,   417 )
+        (0.48,   411 )
+        (0.49,   410 )
+        (0.50,   252 )
+        (0.51,   252 )
+        (0.52,   248 )
+        (0.53,   247 )
+        (0.54,   240 )
+        (0.55,   236 )
+        (0.56,   231 )
+        (0.57,   229 )
+        (0.58,   215 )
+        (0.59,   213 )
+        (0.60,   196 )
+        (0.61,   194 )
+        (0.62,   193 )
+        (0.63,   186 )
+        (0.64,   178 )
+        (0.65,   174 )
+        (0.66,   172 )
+        (0.67,   112 )
+        (0.68,   109 )
+        (0.69,   106 )
+        (0.70,   103 )
+        (0.71,   100 )
+        (0.72,    92 )
+        (0.73,    86 )
+        (0.74,    84 )
+        (0.75,    61 )
+        (0.76,    61 )
+        (0.77,    58 )
+        (0.78,    57 )
+        (0.79,    55 )
+        (0.80,    40 )
+        (0.81,    39 )
+        (0.82,    37 )
+        (0.83,    36 )
+        (0.84,    25 )
+        (0.85,    22 )
+        (0.86,    15 )
+        (0.87,    15 )
+        (0.88,    10 )
+        (0.89,    10 )
+        (0.90,     8 )
+        (0.91,     6 )
+        (0.92,     6 )
+        (0.93,     5 )
+        (0.94,     5 )
+        (0.95,     3 )
+        (0.96,     3 )
+        (0.97,     2 )
+        (0.98,     2 )
+        (0.99,     1 )
+        (1.00,     0 )
+      };
+      \addlegendentry{$|\Conf(\Idbpedia, c)|$}
+
+      \addplot[red, no marks, densely dashdotted] coordinates {
+        (0.00, 1129)
+        (0.01,  891)
+        (0.02,  860)
+        (0.03,  841)
+        (0.04,  827)
+        (0.05,  809)
+        (0.06,  784)
+        (0.07,  760)
+        (0.08,  736)
+        (0.09,  716)
+        (0.10,  701)
+        (0.11,  685)
+        (0.12,  667)
+        (0.13,  654)
+        (0.14,  638)
+        (0.15,  622)
+        (0.16,  612)
+        (0.17,  598)
+        (0.18,  590)
+        (0.19,  579)
+        (0.20,  548)
+        (0.21,  543)
+        (0.22,  537)
+        (0.23,  527)
+        (0.24,  519)
+        (0.25,  492)
+        (0.26,  491)
+        (0.27,  486)
+        (0.28,  484)
+        (0.29,  471)
+        (0.30,  465)
+        (0.31,  461)
+        (0.32,  458)
+        (0.33,  457)
+        (0.34,  406)
+        (0.35,  402)
+        (0.36,  395)
+        (0.37,  391)
+        (0.38,  386)
+        (0.39,  385)
+        (0.40,  363)
+        (0.41,  362)
+        (0.42,  357)
+        (0.43,  347)
+        (0.44,  347)
+        (0.45,  342)
+        (0.46,  338)
+        (0.47,  334)
+        (0.48,  329)
+        (0.49,  328)
+        (0.50,  207)
+        (0.51,  207)
+        (0.52,  204)
+        (0.53,  204)
+        (0.54,  200)
+        (0.55,  199)
+        (0.56,  196)
+        (0.57,  194)
+        (0.58,  186)
+        (0.59,  184)
+        (0.60,  175)
+        (0.61,  175)
+        (0.62,  175)
+        (0.63,  172)
+        (0.64,  165)
+        (0.65,  163)
+        (0.66,  161)
+        (0.67,  106)
+        (0.68,  103)
+        (0.69,  101)
+        (0.70,   99)
+        (0.71,   97)
+        (0.72,   90)
+        (0.73,   86)
+        (0.74,   84)
+        (0.75,   61)
+        (0.76,   61)
+        (0.77,   58)
+        (0.78,   57)
+        (0.79,   55)
+        (0.80,   40)
+        (0.81,   39)
+        (0.82,   37)
+        (0.83,   36)
+        (0.84,   25)
+        (0.85,   22)
+        (0.86,   15)
+        (0.87,   15)
+        (0.88,   10)
+        (0.89,   10)
+        (0.90,    8)
+        (0.91,    6)
+        (0.92,    6)
+        (0.93,    5)
+        (0.94,    5)
+        (0.95,    3)
+        (0.96,    3)
+        (0.97,    2)
+        (0.98,    2)
+        (0.99,    1)
+        (1.00,    0)
+      }; 
+      \addlegendentry{$|\Lux(\Idbpedia, c)|$}
+    \end{semilogyaxis}
+  \end{tikzpicture}
+  \caption{Size of $\Conf(\Idbpedia,c)$ and $\Lux(\Idbpedia, c)$ for all $c \in
+    V$}
+  \label{fig:conf-size-behavior}
+\end{figure}
+
+From this picture we can see that for high values of $c$ the amount of GCIs which has to
+be considered in $\Conf(\Idbpedia, c)$ and $\Lux(\Idbpedia, c)$ is negligible.  Even for
+$c = 0.86$ the set $\Conf(\Idbpedia, c)$ contains only 15 GCIs.  Of course, this
+observation is per se only valid for $\Idbpedia$, however since it originates from
+real-world data one could assume that the same behavior of $\abs{ \Conf(\Idbpedia, c) }$
+and $\abs{ \Lux(\Idbpedia, c) }$ can be expected for other, non-artificial data-sets.
+
+What we also observe is that for values $c \geq 0.73$, $\Conf(\Idbpedia, c)$ and
+$\Lux(\Idbpedia, c)$ are actually the same sets, \ie the optimization provided by
+$\Lux(\Idbpedia, c)$ does not take effect for such values of $c$.  Since one usually
+considers only large values of $c$ the use of $\Lux(\Idbpedia, c)$ over $\Conf(\Idbpedia,
+c)$ seems questionable.
 
 \subsubsection{The Size of $\Can(\Th_c(\con K_{\mathcal{I}}))$}
 \label{sec:size-canth_cc-k_math}
