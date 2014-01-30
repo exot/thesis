@@ -2,7 +2,7 @@
  (lambda ()
     (TeX-run-style-hooks
      "babel"
-     "inputenc"
+     "inputenx"
      "utf8"
      "fontenc"
      "T1"
