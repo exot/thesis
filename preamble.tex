@@ -40,9 +40,6 @@
 \let\thref\Cref\relax
 
 \usepackage{scrpage2}
-\clearscrheadfoot
-\ihead{\headmark}
-\ohead[\pagemark]{\pagemark}
 
 \renewcommand*{\pagemark}{%
   \usekomafont{pagenumber}%
@@ -61,6 +58,10 @@
   }%
 }%
 \recalctypearea
+
+\makeatletter
+\let\ps@plain\ps@empty
+\makeatother
 
 %%% fonts
 
