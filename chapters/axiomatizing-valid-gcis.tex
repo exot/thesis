@@ -619,6 +619,34 @@ in general for concept descriptions $C$, as the following trivial example shows.
   so $C^{\mathcal{I}\mathcal{I}} \neq \bigsqcap \pr_M(C)''$.
 \end{Example}
 
+A useful consequence of \Cref{cor:mmsc-lattice} is the following result.
+
+\begin{Lemma}
+  \label{lem:double-II-gets-double-prime}
+  Let $\mathcal{I}$ be a finite interpretation, and let $A \subseteq M_{\mathcal{I}}$.  Then
+  \begin{equation*}
+    (\bigsqcap A)^{\mathcal{I}\mathcal{I}} = \bigsqcap A'',
+  \end{equation*}
+  where the derivations are done in $\con K_{\mathcal{I}}$.
+\end{Lemma}
+\begin{Proof}
+  Clearly $\bigsqcap A$ is expressible in terms of $M_{\mathcal{I}}$.  Thus
+  \Cref{cor:mmsc-lattice} yields
+  \begin{equation*}
+    (\bigsqcap A)^{\mathcal{I}\mathcal{I}} = \bigsqcap(\pr_{M_{\mathcal{I}}}(\bigsqcap A))''.
+  \end{equation*}
+  By \Cref{prop:connection-I-prime-1} it is true that $\pr_{M_{\mathcal{I}}}(\bigsqcap A)'
+  = (\bigsqcap A)^{\mathcal{I}}$, thus
+  \begin{align*}
+    (\bigsqcap A)^{\mathcal{I}\mathcal{I}}
+    &= \bigsqcap ((\bigsqcap A)^{\mathcal{I}})'\\
+    &= \bigsqcap A''
+  \end{align*}
+  where $(\bigsqcap A)^{\mathcal{I}} = A'$ is true due to
+  \Cref{prop:connection-I-prime-2}.
+\end{Proof}
+
+
 \section{Computing Bases of Valid GCIs of a Finite Interpretation}
 \label{sec:base-all-valid}
 

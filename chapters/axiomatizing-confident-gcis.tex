@@ -743,6 +743,13 @@ From this fact we can now derive the analog of \Cref{lem:chain-rule-for-confiden
   Then the set $\Conf(\mathcal{I}, c) \cup \mathcal{B}$ is a finite confident base of
   $\Th_c(\mathcal{I})$.
 \end{Theorem}
+
+In the definition of $\Conf(\mathcal{I}, c)$ we of course consider all GCIs only up to
+equivalence: if $(X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}), (\bar X^{\mathcal{I}}
+\sqsubseteq Y^{\mathcal{I}}) \in \Conf(\mathcal{I}, c)$ are such that $X^{\mathcal{I}}
+\equiv \bar X^{\mathcal{I}}, Y^{\mathcal{I}} \equiv \bar Y^{\mathcal{I}}$, we only keep
+one of these GCIs in $\Conf(\mathcal{I}, c)$ and discard the other.
+
 \begin{Proof}
   Clearly $\Conf(\mathcal{I}, c) \cup \mathcal{B} \subseteq \Th_c(\mathcal{I})$.
   Furthermore, since $\Delta^{\mathcal{I}}$ is finite, $\Conf(\mathcal{I}, c)$ is finite
@@ -904,10 +911,13 @@ because the computations in $\con K_{\mathcal{I}}$ may be easier to conduct, sin
 have to work with subsets of $M_{\mathcal{I}}$ and not with complex concept descriptions.
 
 The mentioned transformation is actually quite simple: it is true that
-\begin{align*}
-  \Conf(\mathcal{I}, c) &= \bigsqcap \Conf(\con K_{\mathcal{I}}, c) \\
-  \Lux(\mathcal{I}, c) &= \bigsqcap \Lux(\con K_{\mathcal{I}}, c)
-\end{align*}
+\begin{equation}
+  \label{eq:31}
+  \begin{aligned}
+    \Conf(\mathcal{I}, c) &= \bigsqcap \Conf(\con K_{\mathcal{I}}, c) \\
+    \Lux(\mathcal{I}, c) &= \bigsqcap \Lux(\con K_{\mathcal{I}}, c)
+  \end{aligned}
+\end{equation}
 where the equality is meant up to equivalence, \ie every GCI in the set on the left-hand
 side is equivalent to one in the right-hand side, and vice versa.
 
@@ -915,7 +925,131 @@ Establishing these equations is actually quite easy.  We start with a simple con
 between the confidence of GCIs in $\mathcal{I}$ and the confidence of implications in
 $\con K_{\mathcal{I}}$.
 
-\todo[inline]{Write: MATH-AL-08-2012/6.4}
+\begin{Proposition}
+  \label{prop:confidence-in-I-is-confidence-in-K_I}
+  Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be a finite
+  interpretation, and let $X, Y \subseteq \Delta^{\mathcal{I}}$.  Then
+  \begin{equation*}
+    \conf_{\mathcal{I}}(X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}) = \conf_{\con
+      K_{\mathcal{I}}}(X' \to Y').
+  \end{equation*}
+\end{Proposition}
+\begin{Proof}
+  By \Cref{prop:connection-I-prime-3} it is true that $X^{\mathcal{I}\mathcal{I}} = X''$.
+  Thus, if $X^{\mathcal{I}\mathcal{I}} = \emptyset$, then $X'' = \emptyset$ and
+  \begin{equation*}
+    \conf_{\mathcal{I}}(X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}) = 1 = \conf_{\con
+      K_{\mathcal{I}}}(X' \to Y').
+  \end{equation*}
+  If $X^{\mathcal{I}\mathcal{I}} \neq \emptyset$, then $X'' \neq \emptyset$ and we can compute
+  \begin{align*}
+    \conf_{\mathcal{I}}(X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}})
+    &= \frac{ \abs{ (X^{\mathcal{I}} \sqcap Y^{\mathcal{I}})^{\mathcal{I}} } }{ \abs{
+        X^{\mathcal{I}\mathcal{I}} } }\\
+    &= \frac{ \abs{ X^{\mathcal{I}\mathcal{I}} \cap Y^{\mathcal{I}\mathcal{I}} } }{ \abs{
+        X^{\mathcal{I}\mathcal{I}} } } \\
+    &= \frac{ \abs{ X'' \cap Y'' } }{ \abs{ X'' } } \\
+    &= \frac{ \abs{ (X' \cup Y')' } }{ \abs{ X'' } } \\
+    &= \conf_{\con K_{\mathcal{I}}}(X' \to Y').
+  \end{align*}
+\end{Proof}
+
+This already allows us to establish the first equation of \Cref{eq:31}.
+
+\begin{Corollary}
+  \label{cor:Conf-from-K_I}
+  Let $\mathcal{I}$ be a finite interpretation, and let $c \in [0,1]$.  Then
+  \begin{equation*}
+    \Conf(\mathcal{I}, c) = \bigsqcap \Conf(\con K_{\mathcal{I}}, c)
+  \end{equation*}
+  up to equivalence.
+\end{Corollary}
+\begin{Proof}
+  Let $(X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}) \in \Conf(\mathcal{I}, c)$.  Then $Y
+  \subseteq X \subseteq \Delta^{\mathcal{I}}$ and $1 > \conf_{\mathcal{I}}(X^{\mathcal{I}}
+  \sqsubseteq Y^{\mathcal{I}}) \ge c$.  Thus, by
+  \Cref{prop:confidence-in-I-is-confidence-in-K_I}, $1 > \conf_{\con K_{\mathcal{I}}}(X'
+  \to Y') \ge c$.  Since $X' = X'''$, $Y' = Y'''$ and $X' \subseteq Y'$ we obtain that
+  $(X' \to Y') \in \Conf(\con K_{\mathcal{I}}, c)$.  By
+  \Cref{prop:connection-I-prime-2}, $\bigsqcap X' \equiv X^{\mathcal{I}}$ and
+  $\bigsqcap Y' \equiv Y^{\mathcal{I}}$, thus $(X^{\mathcal{I}} \sqsubseteq
+  Y^{\mathcal{I}}) \in \bigsqcap \Conf(\con K_{\mathcal{I}}, c)$ up to equivalence.
+
+  Now let $(\bigsqcap A'' \sqsubseteq \bigsqcap B'') \in \bigsqcap \Conf(\con
+  K_{\mathcal{I}}, c)$.  Then $A \subseteq B \subseteq M_{\mathcal{I}}$ and $1 >
+  \conf_{\con K_{\mathcal{I}}}(A'' \to B'') \ge c$.  Define $X := A'$ and $Y := B'$.  Then
+  $1 > \conf_{\con K_{\mathcal{I}}}(X' \to Y') \ge c$, and thus $1 >
+  \conf_{\mathcal{I}}(X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}) \ge c$.  Furthermore,
+  $Y \subseteq X$, since $A \subseteq B$ implies $Y = B' \subseteq A' = X$.  Again by
+  \Cref{prop:connection-I-prime-2} we have $\bigsqcap A'' = \bigsqcap X' \equiv
+  X^{\mathcal{I}}$ and $\bigsqcap B'' = \bigsqcap Y' \equiv Y^{\mathcal{I}}$, and thus
+  $(X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}) \in \Conf(\mathcal{I}, c)$ as required.
+\end{Proof}
+
+To show the second equation of \Cref{eq:31} we proceed with another technical result.
+
+\begin{Proposition}
+  \label{prop:non-equivalence-implies-non-equality-and-vv}
+  Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be a finite
+  interpretation, and let $X, Y \subseteq \Delta^{\mathcal{I}}$.  Then
+  \begin{enumerate}[i. ]
+  \item $X^{\mathcal{I}} \sqsubsetneq Y^{\mathcal{I}}$ implies
+    $\pr_{M_{\mathcal{I}}}(X^{\mathcal{I}} \supsetneq
+    \pr_{M_{\mathcal{I}}}(Y^{\mathcal{I}})$, and
+  \item $X' \supsetneq Y'$ implies $\bigsqcap X' \sqsubsetneq \bigsqcap Y'$
+  \end{enumerate}
+  where the derivations are done in $\con K_{\mathcal{I}}$.
+\end{Proposition}
+\begin{Proof}
+  We already know from \Cref{cor:mmsc-lattice} that $X^{\mathcal{I}} \sqsubsetneq
+  Y^{\mathcal{I}}$ implies $\pr_{M_{\mathcal{I}}}(X^{\mathcal{I}}) \supseteq
+  \pr_{M_{\mathcal{I}}}(Y^{\mathcal{I}})$ and that $X' \supsetneq Y'$ implies $\bigsqcap
+  X' \sqsubseteq \bigsqcap Y'$.
+
+  Let us assume that $\pr_{M_{\mathcal{I}}}(X^{\mathcal{I}}) =
+  \pr_{M_{\mathcal{I}}}(Y^{\mathcal{I}})$.  Then by
+  \Cref{lem:mmsc-are-expressible-in-terms-of-M_I} and
+  \Cref{lem:characterizing-expressible-in-terms-of}
+  \begin{equation*}
+    X^{\mathcal{I}} \equiv \bigsqcap \pr_{M_{\mathcal{I}}}(X^{\mathcal{I}}) = \bigsqcap
+    \pr_{M_{\mathcal{I}}}(Y^{\mathcal{I}}) \equiv Y^{\mathcal{I}}.
+  \end{equation*}
+  Conversely, if $\bigsqcap X' \equiv \bigsqcap Y'$, then using
+  \Cref{cor:mmsc-lattice} we obtain
+  \begin{equation*}
+    X' = \pr_{M_{\mathcal{I}}}(\bigsqcap X') = \pr_{M_{\mathcal{I}}}(\bigsqcap Y') = Y'
+  \end{equation*}
+  as required.
+\end{Proof}
+
+\begin{Corollary}
+  \label{cor:Lux-from-K_I}
+  Let $\mathcal{I}$ be a finite interpretation, and let $c \in [0,1]$.  Then
+  \begin{equation*}
+    \Lux(\mathcal{I}, c) = \bigsqcap \Lux(\con K_{\mathcal{I}}, c)
+  \end{equation*}
+  up to equivalence.
+\end{Corollary}
+\begin{Proof}
+  Using the same argumentation as in the proof of \Cref{cor:Conf-from-K_I} it suffices to
+  show that for $Y \subseteq Z \subseteq X \subseteq \Delta^{\mathcal{I}}$ it is true that
+  \begin{equation}
+    \label{eq:32}
+    Y^{\mathcal{I}} \not\equiv Z^{\mathcal{I}} \not\equiv X^{\mathcal{I}} \iff Y' \neq Z'
+    \neq X'.
+  \end{equation}
+  Suppose first that $Y^{\mathcal{I}} \not\equiv Z^{\mathcal{I}} \not\equiv
+  X^{\mathcal{I}}$.  Then $Y^{\mathcal{I}} \sqsubsetneq Z^{\mathcal{I}} \sqsubsetneq
+  X^{\mathcal{I}}$, and from \Cref{prop:non-equivalence-implies-non-equality-and-vv} we
+  obtain $\pr_{M_{\mathcal{I}}}(Y^{\mathcal{I}}) \supsetneq \pr_{M_{\mathcal{I}}}(Z^{\mathcal{I}})
+  \supsetneq \pr_{M_{\mathcal{I}}}(X^{\mathcal{I}})$.  \Cref{prop:connection-I-prime-1}
+  then yields $Y' \supsetneq Z' \supsetneq X'$ as required.
+
+  Conversely, suppose $Y' \supsetneq Z' \supsetneq X'$.  Then using
+  \Cref{prop:non-equivalence-implies-non-equality-and-vv} again we obtain $\bigsqcap Y'
+  \sqsubsetneq \bigsqcap Z' \sqsubsetneq \bigsqcap X'$, \ie $Y^{\mathcal{I}} \sqsubsetneq
+  Z^{\mathcal{I}} \sqsubsetneq X^{\mathcal{I}}$ by \Cref{prop:connection-I-prime-2}.
+\end{Proof}
 
 \subsection{Bases of Confident GCIs from Bases of Confident Implications}
 \label{sec:bases-confident-gcis}
@@ -1063,34 +1197,6 @@ formal contexts and confidence of GCIs in finite interpretations.
     &= \conf_{\mathcal{I}} (\bigsqcap X \sqsubseteq \bigsqcap Y)
   \end{align*}
   again using \Cref{prop:connection-I-prime-2}.
-\end{Proof}
-
-Finally, the considerations of \Cref{sec:induced-contexts} yield a close connection
-between model-based most-specific concept descriptions and intents of induced contexts.
-
-\begin{Lemma}
-  \label{lem:double-II-gets-double-prime}
-  Let $\mathcal{I}$ be a finite interpretation, and let $A \subseteq M_{\mathcal{I}}$.  Then
-  \begin{equation*}
-    (\bigsqcap A)^{\mathcal{I}\mathcal{I}} = \bigsqcap A'',
-  \end{equation*}
-  where the derivations are done in $\con K_{\mathcal{I}}$.
-\end{Lemma}
-\begin{Proof}
-  Clearly $\bigsqcap A$ is expressible in terms of $M_{\mathcal{I}}$.  Thus
-  \Cref{cor:mmsc-lattice} yields
-  \begin{equation*}
-    (\bigsqcap A)^{\mathcal{I}\mathcal{I}} = \bigsqcap(\pr_{M_{\mathcal{I}}}(\bigsqcap A))''.
-  \end{equation*}
-  By \Cref{prop:connection-I-prime-1} it is true that $\pr_{M_{\mathcal{I}}}(\bigsqcap A)'
-  = (\bigsqcap A)^{\mathcal{I}}$, thus
-  \begin{align*}
-    (\bigsqcap A)^{\mathcal{I}\mathcal{I}}
-    &= \bigsqcap ((\bigsqcap A)^{\mathcal{I}})'\\
-    &= \bigsqcap A''
-  \end{align*}
-  where $(\bigsqcap A)^{\mathcal{I}} = A'$ is true due to
-  \Cref{prop:connection-I-prime-2}.
 \end{Proof}
 
 The main result of this section is now the following theorem.
