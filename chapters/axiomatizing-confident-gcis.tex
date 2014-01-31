@@ -135,7 +135,14 @@ have chosen a subset of the DBpedia data set as of March 2010 (Version
 3.5)\footnote{\url{http://wiki.dbpedia.org/Downloads35?v=pb8}}.  The linked data contained
 within the DBpedia data-set has been extracted automatically from \emph{Wikipedia
   Infoboxes}, which are a means to represent facts about the topic of the current page in
-a compact way.\todo{picture?}
+a compact way.
+
+\begin{figure}[tp]
+  \centering
+  \includegraphics[width=20em]{chapters/lincoln-infobox.png}
+  \caption{Wikipedia Article about Abraham Lincoln with Infobox on its Right}
+  \label{fig:infobox-screenshot}
+\end{figure}
 
 The subset of the DBpedia data-set we used for our experiments arises by restricting our
 attention to the relation
@@ -885,9 +892,30 @@ And finally, the analog of \Cref{cor:weakened-luxenburger-base} of course holds 
   $\mathcal{B} \cup \mathcal{L}$ is a confident base of $\Th_c(\mathcal{I})$.
 \end{Corollary}
 
-\todo[inline]{Write: say that $\Conf(\mathcal{I}, c) \equiv \bigsqcap \Conf(\con
-  K_{\mathcal{I}}, c)$, and same for $\Lux$; this allows to compute these sets by means of
-  FCA}
+To compute the sets $\Conf(\mathcal{I}, c)$ and $\Lux(\mathcal{I}, c)$ we can just compute
+all model-based most-specific concept descriptions, and compute for each two
+$X^{\mathcal{I}}, Y^{\mathcal{I}}$, $Y \subseteq X \subseteq \Delta^{\mathcal{I}}$ whether
+\begin{equation*}
+  \conf_{\mathcal{I}}(X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}) \ge c.
+\end{equation*}
+However, we can transfer the computation of these sets into a computation which can solely
+be done in the induced formal context $\con K_{\mathcal{I}}$.  This may be desirable
+because the computations in $\con K_{\mathcal{I}}$ may be easier to conduct, since we only
+have to work with subsets of $M_{\mathcal{I}}$ and not with complex concept descriptions.
+
+The mentioned transformation is actually quite simple: it is true that
+\begin{align*}
+  \Conf(\mathcal{I}, c) &= \bigsqcap \Conf(\con K_{\mathcal{I}}, c) \\
+  \Lux(\mathcal{I}, c) &= \bigsqcap \Lux(\con K_{\mathcal{I}}, c)
+\end{align*}
+where the equality is meant up to equivalence, \ie every GCI in the set on the left-hand
+side is equivalent to one in the right-hand side, and vice versa.
+
+Establishing these equations is actually quite easy.  We start with a simple connection
+between the confidence of GCIs in $\mathcal{I}$ and the confidence of implications in
+$\con K_{\mathcal{I}}$.
+
+\todo[inline]{Write: MATH-AL-08-2012/6.4}
 
 \subsection{Bases of Confident GCIs from Bases of Confident Implications}
 \label{sec:bases-confident-gcis}
@@ -2055,8 +2083,8 @@ considering $\Lux(\Idbpedia, c)$ over $\Conf(\Idbpedia, c)$.
 \subsubsection{The Size of $\Conf(\Idbpedia,c)$ and $\Lux(\Idbpedia, c)$}
 \label{sec:size-confidbpedia-c}
 
-We want to compute $\abs{ \Conf(\Idbpedia, c) }$ and $\abs{ \Lux(\Idbpedia, c) }$ for all
-$c \in \set{ 0.0, 0.01, 0.02, \dots, 0.99 }$.  To achieve this, we use
+We computed $\abs{ \Conf(\Idbpedia, c) }$ and $\abs{ \Lux(\Idbpedia, c) }$ for all $c \in
+\set{ 0.0, 0.01, 0.02, \dots, 0.99 }$.  To achieve this, we use
 \begin{align*}
   \abs{ \Conf(\Idbpedia, c) } &= \abs{ \Conf(\con K_\Idbpedia, c) }, \\
   \abs{ \Lux(\Idbpedia, c) } &= \abs{ \Lux(\con K_\Idbpedia, c) }.
@@ -2462,15 +2490,47 @@ $c$ are not arbitrary, since we associate with them some special observations:
   dispensable.
 \end{enumerate}
 
-One can see the phenomena of the last two cases also separately: the canonical base of
-$\Th(\con K_{\Idbpedia})$ contains 1252 elements, but the canonical base of $\Th(\con
-K_{\Idbpedia}) \cup \set{ \emptyset \to \set{ \mathsf{Person} } }$ contains only 1210
-implications.  If we also add the implication $\set{ \mathsf{\exists child. \top} } \to
-\set{ \mathsf{\exists child. Person} }$, then the size of the canonical base drops to
-1163.
+One can observe that the implications found in the last two cases also account for a
+rather drastic decline of the size of the canonical base on their own: the canonical base
+of $\Th(\con K_{\Idbpedia})$ contains 1252 elements, but the canonical base of
+\begin{equation*}
+  \Th(\con K_{\Idbpedia}) \cup \set{ \emptyset \to \set{ \mathsf{Person} } }
+\end{equation*}
+contains only 1210 implications.  If we also add the implication $\set{ \mathsf{\exists
+    child. \top} } \to \set{ \mathsf{\exists child. Person} }$, then the size of the
+canonical base drops to 1163.
 
-\todo[inline]{Write: include results from 12-06/5}
+Notice that this is actually not very surprising: the implications
+\begin{equation*}
+  \set{ \mathsf{\exists  child. \top} \to \set{ \mathsf{\exists child. Person} } }, \quad
+  \emptyset \to \set{ \mathsf{Person} }
+\end{equation*}
+can be considered rather \emph{general}, because they are applicable to a lot of elements
+in $\Idbpedia$.  Because of this generality they can make a lot of other implications
+redundant, causing the size of the canonical base to be reduced noticeably.
 
+Indeed, we could argue that whenever we observe that the canonical base of $\Th_c(\con
+K_{\Idbpedia})$ is reduced drastically, that then it is the very likely that a general GCI
+has been found, in the sense that the confidence threshold is now so low that it is
+accepted.  To this end recall that we had already noticed that the size of the canonical
+base of $\Th_c(\con K_{\Idbpedia})$ can be seen as some kind of indication how
+\emph{complex} this set is: the less implications are contained in the canonical base, the
+less implications are necessary to represent $\Th_c(\con K_\Idbpedia)$ and thus the
+\emph{simpler} this set is, from a logical point of view.  Therefore, if we can observe
+for $c_1 > c_2$ a steep decline in the size of the canonical base of $\Th_{c_2}(\con
+K_{\Idbpedia})$ compared to the size of the canonical base of $\Th_{c_1}(\con
+K_{\Idbpedia})$, it is legitimate to assume that then $\Th_{c_2}(\con K_{\Idbpedia})$
+contains new implications which make a lot of implications in the canonical base of
+$\Th_{c_1}(\con K_\Idbpedia)$ dispensable.  Those implications can then considered to be
+very general, since they need to account for the entailment which in $\Th_{c_1}(\con
+K_\Idbpedia)$ has only been achieved by a larger number of implications.
+
+Therefore, the way the size of $\Can(\Th_c(\con K_{\mathcal{I}}))$ behaves can indicate
+which kind of GCIs have been accepted with the current confidence threshold $c$.  This can
+especially be interesting when looking for general patterns in the interpretation
+$\mathcal{I}$, or when it is not yet clear which value for the confidence threshold to
+choose.  On the other hand it is also quite obvious that the preceding argumentation is
+not formal, and that this approach should be seen as a heuristics.
 
 %%% Local Variables: 
 %%% mode: latex
