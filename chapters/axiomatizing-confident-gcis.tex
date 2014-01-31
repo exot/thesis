@@ -984,6 +984,18 @@ This already allows us to establish the first equation of \Cref{eq:31}.
   \Cref{prop:connection-I-prime-2} we have $\bigsqcap A'' = \bigsqcap X' \equiv
   X^{\mathcal{I}}$ and $\bigsqcap B'' = \bigsqcap Y' \equiv Y^{\mathcal{I}}$, and thus
   $(X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}) \in \Conf(\mathcal{I}, c)$ as required.
+
+  Let $A, \bar A \subseteq M_{\mathcal{I}}$.  Then
+  \begin{align*}
+    \bigsqcap A'' \equiv \bigsqcap \bar A''
+    &\implies (\bigsqcap A'')^{\mathcal{I}} = (\bigsqcap \bar A'')^{\mathcal{I}} \\
+    &\implies (A')^{\mathcal{I}\mathcal{I}} = (\bar A')^{\mathcal{I}\mathcal{I}} \\
+    &\implies A''' = \bar A''' \\
+    &\implies A'' = \bar A'',
+  \end{align*}
+  using \Cref{prop:connection-I-prime-2} and \Cref{prop:connection-I-prime-3}.  Therefore,
+  no two GCIs in $\bigsqcap \Conf(\con K_{\Idbpedia}, c)$ are equivalent, and the claim
+  follows.
 \end{Proof}
 
 To show the second equation of \Cref{eq:31} we proceed with another technical result.
