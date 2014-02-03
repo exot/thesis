@@ -103,12 +103,130 @@ attribute exploration) to work.
 \section{An Abstract View on Attribute Exploration}
 \label{sec:an-abstract-view}
 
-\todo[inline]{Write: give abstract view on exploration}%
-\todo[inline]{Write: formalize notion of expert}%
+Let $M$ be a set and $\mathcal{L} \subseteq \Imp(M)$.  In this section we want to discuss
+how we can turn attribute exploration into an algorithm for \emph{exploring
+  $\mathcal{L}$}.  To this end, we shall first give another perspective on the attribute
+exploration algorithm that we have already met in \Cref{sec:attr-expl}.  Based upon this,
+we shall introduce in \Cref{sec:gener-form-attr} a \emph{generalized attribute
+  exploration} that allows us to explore $\mathcal{L}$.  Finally, we introduce in
+\Cref{sec:weak-gener-attr} another generalization that provides more freedom in the way
+implications are computed.  This generalization later allows us to develop an algorithm
+for exploration by confidence in which all implications asked to the expert have high
+confidence in the data.
+
+\subsection{Classical Attribute Exploration}
+\label{sec:class-attr-expl}
+
+Recall that in attribute exploration we assume that the domain of interest can be
+represented by a formal context $\con K_{\mathsf{back}}$, the background context of the
+exploration.  The goal of attribute exploration is then to find a base of $\con
+K_{\mathsf{back}}$, without having direct access to $\con K_{\mathsf{back}}$.  For this we
+start with a subcontext $\con K = (G, M, I)$ of $\con K_{\mathsf{back}}$, the
+\emph{working context} of the exploration, and a set $\mathcal{K} \subseteq \Imp(M)$ of
+implications which are valid in $\con K_{\mathsf{back}}$, which we call the set of
+\emph{known implications}.  Then we successively compute implications of the form
+\begin{equation*}
+  P \to P''
+\end{equation*}
+where $P$ is a $\mathcal{K}$-pseudo intent of $\con K$, and in particular is closed under
+the set of currently known implications, but is not an intent of the current working
+context.  Those implications are presented to the expert, who either confirms or rejects
+it.
+
+We can view this procedure from a more general perspective\todo{I think Bernhard talked
+  about that in his exploration lecture -- find a reference!}: given the formal context
+$\con K$, we know that all implications in $\Imp(M) \setminus \Th(\con K)$ \emph{are not}
+valid in $\con K_{\mathsf{back}}$, and thus are not valid in our domain.  On the other
+hand, all implications in $\Th(\con K)$ \emph{could} be valid in $\con K_{\mathsf{back}}$,
+depending on whether counterexamples contained in $\con K_{\mathsf{back}}$ invalidate
+implications being valid in $\con K$ or not.  However, what we know is that all
+implications in $\mathcal{K}$ \emph{are} valid in our domain, and thus all implications in
+$\Cn(\mathcal{K})$ are.
+
+Hence, we have the situation that we have three sets of implications, namely the set of
+\emph{all} implications $\Imp(M)$, the set $\Th(\con K)$ of \emph{possibly valid}
+implications, and the set of \emph{certainly valid} implications $\Cn(\mathcal{K})$.
+These sets are related by
+\begin{equation*}
+  \Imp(M) \supseteq \Th(\con K) \supseteq \Cn(\mathcal{K}),
+\end{equation*}
+since $\mathcal{K}$ is supposed to be sound for $\con K$.
+
+Now the set
+\begin{equation*}
+  \Th(\con K) \setminus \Cn(\mathcal{K})
+\end{equation*}
+can be seen as the set of \emph{undecided} implications, \ie the set of those implications
+which are possibly valid in $\con K_{\mathsf{back}}$, but from which we do not know yet
+whether they indeed are valid or not.  Then attribute exploration can be viewed as a
+\emph{systematic search} through the set $\Th(\con K) \setminus \Cn(\mathcal{K})$, in the
+sense that the crucial feature for attribute exploration to work is to be able to compute
+implications
+\begin{equation}
+  \label{eq:33}
+  (P \to P'') \in \Th(\con K) \setminus \Cn(\mathcal{K}).
+\end{equation}
+This implication is then proposed to the expert.  If she accepts $P \to P''$, then we add
+this implication to $\mathcal{K}$, and we obtain the following situation:
+\begin{equation*}
+  \Imp(M) \supseteq \Th(\con K) \supseteq \Cn(\mathcal{K} \cup \set{ P \to P'' })
+  \supsetneq \Cn(\mathcal{K}).
+\end{equation*}
+If the expert rejects $P \to P''$, she has to provide a counterexamples, \ie a set $C
+\subseteq M$ such that $P \subseteq C$ and $P'' \not\subseteq C$.  Denote with $\con K +
+C$ the formal context which arises from $\con K$ by adding a new object $g_C$ to $\con K$
+which has exactly the attributes which are contained $C$, \ie which satisfies
+\begin{equation*}
+  (g_C)' := C
+\end{equation*}
+where the derivation is done in $\con K + C$.  Then the situation from above evolves into
+\begin{equation*}
+  \Imp(M) \supseteq \Th(\con K) \supsetneq \Th(\con K + C) \supseteq \Cn(\mathcal{K}).
+\end{equation*}
+
+In sum, after attribute exploration has finished, we obtain the following situation:
+\begin{align*}
+  \Imp(M) &\supseteq \Th(\con K) \supsetneq \Th(\con K + C_1) \supsetneq \dots \supsetneq
+  \Th(\con K + C_1 + \dots + C_m) \\ &= \Cn(\mathcal{K} \cup \set{ P_1 \to P_1'', \dots, P_n
+    \to P_n'' }) \supsetneq \dots \supsetneq \Cn(\mathcal{K})
+\end{align*}
+where $m, n \in \NN_{\geq 0}$, $C_1, \dots, C_m, P_1, \dots, P_n \subseteq M$, and where
+all derivations are done in $\con K + C_1 + \dots + C_m$.  In particular, this algorithm
+has to terminate, and upon termination it is true that
+\begin{equation*}
+  \Th(\con K + C_1 + \dots + C_m) = \Th(\con K_{\mathsf{back}}) = \Cn(\mathcal{K} \cup
+  \set{ P_1 \to P_1'', \dots, P_n \to P_n'' }
+\end{equation*}
+just because
+\begin{equation*}
+  \Th(\con K + C_1 + \dots + C_i) \supseteq \Th(\con K_{\mathsf{back}}) \supseteq
+  \Cn(\mathcal{K} \cup \set{ P_1 \to P_1'', \dots, P_j \to P_j''} )
+\end{equation*}
+for all $1 \leq i \leq m$ and $1 \leq j \leq n$.  In particular, the set
+\begin{equation*}
+  \set{P_1 \to P_1'', \dots, P_n \to P_n''}
+\end{equation*}
+is a base of $\con K_{\mathsf{back}}$ with background knowledge $\mathcal{K}$, as required.
+
+Note that this discussion did not require that the set $P$ from \Cref{eq:33} is a
+$\mathcal{K}$-pseudo intent of $\con K$.  The only necessary requirement is that $P \neq
+P''$ and that $P \to P''$ does not follow from $\mathcal{K}$.  Both these properties are
+guaranteed by $P$ being a $\mathcal{K}$-pseudo intent of $\con K$, but this is not
+necessary.
+
+On the other hand, if we want to compute the canonical base of $\con K_{\mathsf{back}}$
+with background knowledge $\mathcal{K}$, then $P$ needs to be a $\mathcal{K}$-pseudo
+intent of $\con K$.  However, since attribute exploration should compute \emph{some} base
+of $\con K_{\mathsf{back}}$, we can see the computation of $\Can(\con K_{\mathsf{back}},
+\mathcal{K})$ as an optimization, and not as a crucial requirement.
 
 \subsection{A Generalized Form of Attribute Exploration}
 \label{sec:gener-form-attr}
 
+\todo[inline]{Write: formalize notion of expert}%
+\todo[inline]{Write: problem seems to have easy theoretical solution, but this one is
+  impractical.  Furthermore, the context $\con K_{\mathcal{L}}$ may not be a subcontext of
+  the background context, and thus classical attribute exploration is not applicable}%
 \todo[inline]{Write: 13-04/3.2}
 
 \subsection{A Weaker Generalization of Attribute Exploration}
@@ -135,3 +253,5 @@ attribute exploration) to work.
 %%% mode: latex
 %%% TeX-master: "../main"
 %%% End: 
+
+%  LocalWords:  expl attr gener
