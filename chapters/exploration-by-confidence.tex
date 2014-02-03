@@ -1,6 +1,104 @@
-
 \chapter{Exploration by Confidence}
 \label{cha:expl-conf}
+
+Recall that we have introduced GCIs with high confidence as an approach to extract
+terminological knowledge from erroneous data.  For this approach we have seen in
+\Cref{sec:comp-conf-bases} that the thus obtained GCIs require an additional validation
+step, \ie an expert has to verify whether the extracted GCIs, whose confidence in the data
+$\mathcal{I}$ is above a pre-chosen threshold $c \in [0,1]$, are indeed valid in the
+domain of interest, \ie whether the counterexamples present in the data are valid or not.
+
+This additional validation step can be very costly, and thus it should be avoided as much
+as possible.  On the other hand, we have also seen in \Cref{sec:comp-conf-bases} that as
+soon as some GCI has been confirmed, others may be entailed by it, and a manual validation
+is no longer necessary.  This observation indeed may save a lot of work.
+
+Indeed, utilizing this observation may also save computation time as well: if during the
+computation of bases of $\Th_c(\mathcal{I})$ an expert already rejects a GCI and confirms
+that some counterexamples to it which are present in $\mathcal{I}$ are indeed correct,
+then all GCIs which are falsified by this counterexamples can also be rejected,
+irrespective of whether their confidence in $\mathcal{I}$ is above $c$.
+
+Having these thoughts in mind it may seem desirable to allow expert interaction already
+during the time of the computation of bases of $\Th_c(\mathcal{I})$, and not only at the
+end of the computation, as a separate validation step.
+
+There is also another observation which requires expert interaction, and which has already
+been addressed by Distel~\cite{Diss-Felix}: the data $\mathcal{I}$ may not only contain
+errors, but it may also be \emph{incomplete} in the sense that it lacks certain
+counterexamples.  This would mean that some GCIs are valid in $\mathcal{I}$, even so they
+are not valid in the domain of interest.  If $\mathcal{I}$ may contain errors, it may
+happen that some invalid GCIs $C \sqsubseteq D$ are only falsified in $\mathcal{I}$ by
+erroneous counterexamples, and that correct counterexamples in $\mathcal{I}$ are indeed
+not present.  In such a case, the GCI $C \sqsubseteq D$ would be accepted (since all
+counterexamples are erroneous) although it is not valid.  Here an expert could, as soon as
+$C \sqsubseteq D$ would be computed as an element of a base, provide correct
+counterexamples, inhibiting this GCI from being included in a base.  Such provided
+counterexamples would also affect the following computation, as all GCIs invalided by it
+would also be rejected.
+
+The approach followed by Distel to solve this problem is to adapt attribute exploration
+from its original setting of implications and formal contexts to the setting of GCIs and
+finite interpretations.  Recall that the attribute exploration algorithm, which we had
+already discussed previously in \Cref{sec:attr-expl}, saves a problem which is very
+similar to the one sketched above: given a finite formal context $\con K$, we want to
+compute a base of $\con K$.  However, it may be the case that $\con K$ does not completely
+represent the domain we are interested in, \ie some implications which are not valid in
+our domain actually hold in $\con K$.  Then attribute exploration provides an interactive
+base computation procedure which, as soon as an implication is computed, presents it to
+the expert and ask for validation.  If the expert confirms this implication, then the
+implication is added to the base.  If the expert does not confirm this implication, she
+has to provide a counterexample, which is included in $\con K$.  At the end, the attribute
+exploration algorithm yields a base of the domain we are interested in, and not only of
+the formal context $\con K$.
+
+Distel's generalizations of attribute exploration to the setting of GCIs and finite
+interpretation are called \emph{model exploration} and \emph{ABox exploration}.  Their
+abstract behavior is very similar to the one of attribute exploration: during the
+computation of a base of $\mathcal{I}$, GCIs $C \sqsubseteq D$ are asked to the expert.
+If confirmed, they are added to the base.  If rejected, the expert has to provide a
+counterexample which is being added to $\mathcal{I}$.  Upon termination, the algorithm
+yields a base of the domain which is represented by the expert.
+
+Model exploration and ABox exploration differ in the way counterexamples are provided, and
+we shall discuss the difficulties in some more details in the following chapter.  In model
+exploration, counterexamples are directly added to the interpretation $\mathcal{I}$,
+whereas in ABox exploration the counterexamples are being added to a separate ABox.  While
+the latter is much more user-friendly from the point of view how much needs to be
+specified from a counterexample, it is also much more technical and complicated.
+Therefore, in this work we shall concentrate on model exploration only.
+
+In the following two chapters we want to generalize model exploration to our setting of
+extracting GCIs with high confidence from finite interpretations.  More precisely, what we
+want to obtain is an algorithm that computes bases of $\Th_c(\mathcal{I})$, and, as soon
+as a GCI for the base is computed, asks the expert for validation.  As above, the expert
+may confirm or reject this GCI, where in the latter case she has to provide a
+counterexample.  Upon termination, the algorithm should yield a base of the domain which
+is represented by the expert, to the extent in which this domain is contained in
+$\Th_c(\mathcal{I})$.  We shall make this more precise in \Cref{sec:expl-conf}.
+
+However, before we can discuss model exploration in our setting of GCIs with high
+confidence, we first have to adapt attribute exploration to the setting of implications
+with high confidence.  This \emph{exploration by confidence} should work the same way as
+attribute exploration works, with the notable difference that not only valid implications
+are asked, but also those which have a high confidence in the formal context.  Within this
+generalization, we have to deal with the problem that counterexamples provided by the
+expert are not subject to the confidence measure, as we assume that the expert only gives
+valid counterexamples: a single counterexample provided by the expert suffices to reject a
+GCIs, even if it otherwise has enough confidence in the data.  We shall discuss this
+problem along with its solution in detail in \Cref{sec:expl-conf}.
+
+Our discussion of exploration by confidence will be based on a more general discussion of
+attribute exploration, which we shall conduct in \Cref{sec:an-abstract-view}.  Therein, we
+shall view attribute exploration from a more general and more formal perspective.  This
+generalization will allow us to not only explore formal contexts, but also arbitrary sets
+of implications, and in our discussion of exploration by confidence these sets will be of
+the form $\Th_c(\con K)$.  For this, we shall introduce two variants of a
+\emph{generalized attribute exploration}, one which in its technical details is very
+closely related to attribute exploration, and one which is more liberal in the way
+implications are computed.  Finally, we shall also give a formal specification an
+\emph{expert} has to satisfy for our exploration algorithms (including the classical
+attribute exploration) to work.
 
 \section{An Abstract View on Attribute Exploration}
 \label{sec:an-abstract-view}
