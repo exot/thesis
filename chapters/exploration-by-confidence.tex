@@ -157,7 +157,7 @@ Now the set
 can be seen as the set of \emph{undecided} implications, \ie the set of those implications
 which are possibly valid in $\con K_{\mathsf{back}}$, but from which we do not know yet
 whether they indeed are valid in $\con K_{\mathsf{back}}$ or not (since we do not have
-direct access to $\con K_{\mathsf{back}}$.  Then attribute exploration can be viewed as a
+direct access to $\con K_{\mathsf{back}}$).  Then attribute exploration can be viewed as a
 \emph{systematic search} through the set $\Th(\con K) \setminus \Cn(\mathcal{K})$, in the
 sense that the crucial feature for attribute exploration to work is to be able to compute
 implications
@@ -200,7 +200,7 @@ where $m, n \in \NN_{\geq 0}$, $C_1, \dots, C_m, P_1, \dots, P_n \subseteq M$, a
 all derivations are done in $\con K + C_1 + \dots + C_m$.  It is true that
 \begin{equation*}
   \Th(\con K + C_1 + \dots + C_m) = \Th(\con K_{\mathsf{back}}) = \Cn(\mathcal{K} \cup
-  \set{ P_1 \to P_1'', \dots, P_n \to P_n'' }
+  \set{ P_1 \to P_1'', \dots, P_n \to P_n'' })
 \end{equation*}
 just because
 \begin{equation*}
@@ -230,10 +230,167 @@ requirement.
 \subsection{A Generalized Form of Attribute Exploration}
 \label{sec:gener-form-attr}
 
+The foregone considerations suggest that we can view attribute exploration as an algorithm
+that allows us to ``explore'' the set $\Th(\con K) \setminus \Cn(\mathcal{K})$ of
+undecided implications.  In this section we want to generalize this view to the setting
+where the set of undecided implications has a more general form.  To make this more
+precisely, let $M$ be a finite set, $\mathcal{L} \subseteq \Imp(M)$ and let $\mathcal{K}
+\subseteq \Cn(\mathcal{L})$.  As we have viewed the set $\Th(\con K)$ before as the set of
+possibly valid implications, we can now view the set $\mathcal{L}$ as the set of possibly
+valid implications.  Then the set of undecided implications takes the form
+\begin{equation*}
+  \mathcal{L} \setminus \Cn(\mathcal{K})
+\end{equation*}
+and we want to obtain an algorithm that guides us in finding all valid implications in
+$\mathcal{L} \setminus \Cn(\mathcal{K})$.  More precisely, we want to compute a base of
+all implications valid in $\mathcal{L}$, using $\mathcal{K}$ as background knowledge.  As
+before, we assume that we do not have direct access to the background context $\con
+K_{\mathsf{back}}$, \ie we cannot simply compute $\mathcal{L} \cap \Th(\con
+K_{\mathsf{back}})$, but that we are given an expert that allows us to either validate or
+reject implications.
+
+Before we discuss this problem in more detail, let us consider that it indeed is a
+problem: at first sight, one may be tempted to say that exploring $\mathcal{L}$ can be
+achieved (at least in theory) by considering the formal context
+\begin{equation*}
+  \con K_{\mathcal{L}} = (\set{ \mathcal{L}(X) \mid X \subseteq M }, M, \ni)
+\end{equation*}
+which already appeared in \Cref{prop:context-model-for-implications}.  This proposition
+tells us that $\Th(\con K_{\mathcal{L}}) = \Cn(\mathcal{L})$, and thus one could propose
+that for exploring $\mathcal{L}$ it would just be sufficient to explore $\con
+K_{\mathcal{L}}$.
+
+However, besides the fact that computing $\con K_{\mathcal{L}}$ (or a subcontext of it
+which still has $\Cn(\mathcal{L})$ as its theory) is far from practical, this approach
+also does not solve our initial problem, because in general $\mathcal{L} =
+\Cn(\mathcal{L})$ does not hold.
+
+\begin{Example}
+  \label{expl:why-exploring-implications-is-different}
+  Let $M = \set{ \mathsf{a}, \mathsf{b}, \mathsf{c} }, \mathcal{K} = \emptyset,
+  \mathcal{L} = \set{ \set{ \mathsf{a} } \to \set{ \mathsf{b} } }$ and suppose that our
+  domain can be represented by the formal context
+  \begin{equation*}
+    \begin{array}{c|ccc}
+      \toprule
+      \con K_{\mathsf{back}} & \mathsf{a} & \mathsf{b} & \mathsf{c} \\
+      \midrule
+      x & \times \\
+      \bottomrule
+    \end{array}
+  \end{equation*}
+  Then clearly $\Th(\con K_{\mathsf{back}}) \cap \mathcal{L} = \emptyset$, and thus the
+  only base of this set is the empty set.  On the other hand,
+  \begin{equation*}
+    (\set{ \mathsf{a}, \mathsf{c} } \to \set{ \mathsf{b} }) \in
+    \Cn(\mathcal{L}) \cap \Th(\con K_{\mathsf{back}}),
+  \end{equation*}
+  and therefore bases of $\Th(\con K_{\mathsf{back}}) \cap \Cn(\mathcal{L})$ are not empty.
+\end{Example}
+
+We now want to discuss an algorithm that allows us to explore $\mathcal{L} \setminus
+\Cn(\mathcal{K})$, \ie which successively computes implications $(P \to Q) \in
+\Cn(\mathcal{L}) \setminus \Cn(\mathcal{K})$ and asks them to the expert for validation.
+At the end, the set of accepted implications should form a base of $\mathcal{L} \cap
+\Th(\con K_{\mathsf{back}})$ with background knowledge $\mathcal{K}$.
+
+Intuitively, the algorithm should work as attribute exploration does: if $P \to Q$ is
+accepted by the expert, then it is added to $\mathcal{K}$.  If it is rejected by the
+expert, then a counterexamples $C$ has to be provided by the expert.  In this case, all
+implications from $\mathcal{L}$ for which $C$ is a counterexample are removed.  The
+algorithm terminates if $\mathcal{L} \setminus \Cn(\mathcal{K}) = \emptyset$ (in which
+case also $\Cn(\mathcal{L}) \setminus \Cn(\mathcal{K}) = \emptyset$ holds).
+
+We want to make this intuition more precise, and for this we shall make use of the
+argumentation that we have developed in the previous section.  To keep our argumentation
+formal, however, we shall first start with a formalization of the notion of an
+\emph{expert} that we heretofore have used only intuitively.
+
+\begin{Definition}[Domain Expert]
+  \label{def:domain-expert}
+  Let $M$ be a set.  A \emph{domain expert} on $M$ is a function
+  \begin{equation*}
+    p \colon \Imp(M) \to \set{ \top } \cup \subsets{M},
+  \end{equation*}
+  where $\top \notin \subsets M$, and which satisfies the following conditions
+  \begin{enumerate}[i. ]
+  \item if $(X \to Y) \in \Imp(M)$ such that $p(X \to Y) = C \neq \top$, then $C \subseteq
+    X$ and $C \not\subseteq Y$, (\emph{$p$ gives counterexamples for false implications})
+  \item if $(U \to V), (X \to Y) \in \Imp(M)$ such that $p(U \to V) = \top, p(X \to Y) = C
+    \neq \top$, then $C$ is not a counterexample for $U \to V$, \ie either $C
+    \not\subseteq U$ or $C \subseteq V$. (\emph{counterexamples from $p$ do not invalidate
+      confirmed implications})
+  \end{enumerate}
+  We say that $p$ \emph{confirms} $(X \to Y) \in \Imp(M)$ if and only if $p(X \to Y) =
+  \top$.  Otherwise, we say that $p$ \emph{rejects} $X \to Y$ and \emph{provides $C = p(X
+    \to Y)$ as a counterexample}.  Finally, the \emph{theory} $\Th(p)$ of $p$ is the set
+  of all implications over $M$ which are confirmed by $p$.
+\end{Definition}
+
+We have not specified the notion of a \emph{domain} formally, but instead required that
+every domain is representable by a formal context.  With our formalization of an expert we
+can now show that experts provide an equally good approach to formalize the notion of a
+domain.
+
+\begin{Proposition}
+  \label{prop:domain-expert-from-domain}
+  Let $\con K = (G, M, I)$ be a formal context.  For each $(A \to B) \in \Imp(M) \setminus
+  \Th(\con K)$ let $g_{A \to B} \in G$ such that $A \subseteq g_{A \to B}', B
+  \not\subseteq g_{A \to B}'$.  Then the mapping $p_{\con K} \colon \Imp(M) \to \set{ \top } \cup
+  \subsets M$ defined by
+  \begin{equation*}
+    p_{\con K}(X \to Y) :=
+    \begin{cases}
+      g_{X \to Y} & (X \to Y) \notin \Th(\con K) \\
+      \top & \text{otherwise}
+    \end{cases}
+  \end{equation*}
+  is a domain expert on $M$, and $\Th(\con K) = \Th(p_{\con K})$.
+\end{Proposition}
+\begin{Proof}
+  Clearly, if $(X \to Y) \notin \Th(\con K)$, then $p_{\con K}(X \to Y) = g_{X \to Y}$ is
+  a counterexample for $X \to Y$.  If $(X \to Y) \in \Th(\con K)$, then for all $g \in G$
+  it is true that either $g' \not\subseteq X$ or $g' \subseteq Y$.  Thus, no
+  counterexample provided by $p_{\con K}$ is a counterexample for $X \to Y$.  Therefore,
+  counterexamples provided by $p$ do not invalidate confirmed implications.  The equality
+  $\Th(\con K) = \Th(p_{\con K})$ is clear from the definition of $p_{\con K}$.
+\end{Proof}
+
+Note that the actual definition of $p_{\con K}$ depends on the particular choice of the
+objects $g_{A \to B}$, and thus $\con K$ can give rise to more than one domain expert.
+
+If we have given a domain expert, we can easily construct a formal context from it that
+has the same theory.
+
+\begin{Proposition}
+  \label{prop:domain-from-domain-expert}
+  Let $p$ be domain expert on a set $M$.  Then the formal context $\con K_p = (G, M, \ni)$,
+  where
+  \begin{equation*}
+    G := \set{ p(X \to Y) \mid (X \to Y) \in \Imp(M) \setminus \Th(p) }
+  \end{equation*}
+  is such that $\Th(p) = \Th(\con K_p)$.
+\end{Proposition}
+\begin{Proof}
+  If $(A \to B) \in \Th(p)$, then no counterexample provided by $p$ invalidates $A \to
+  B$.  Since the rows of $\con K_p$ consist of the counterexamples provided by $p$, $\con
+  K_p$ does not contain a counterexample for $A \to B$ and thus $(A \to B) \in \Th(\con
+  K_p)$.
+
+  If $p(A \to B) \notin \Th(p)$, then $p(A \to B) \subseteq M$ is a counterexample for $A
+  \to B$ and therefore $(A \to B) \notin \Th(\con K_p)$.
+\end{Proof}
+
+In particular, for every domain expert $p$ on $M$ and every formal context $\con K = (G,
+M, I)$ it is true that
+\begin{align*}
+  \Th(p) &= \Th(p_{\con K_p}), \\
+  \Th(\con K) &= \Th(\con K_{p_{\con K}}).
+\end{align*}
+In other words, the representation of domains as formal context and in terms of domain
+experts is, from a logical point of view, interchangeable.
+
 \todo[inline]{Write: formalize notion of expert}%
-\todo[inline]{Write: problem seems to have easy theoretical solution, but this one is
-  impractical.  Furthermore, the context $\con K_{\mathcal{L}}$ may not be a subcontext of
-  the background context, and thus classical attribute exploration is not applicable}%
 \todo[inline]{Write: 13-04/3.2}
 
 \subsection{A Weaker Generalization of Attribute Exploration}
