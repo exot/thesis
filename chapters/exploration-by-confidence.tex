@@ -390,7 +390,159 @@ M, I)$ it is true that
 In other words, the representation of domains as formal context and in terms of domain
 experts is, from a logical point of view, interchangeable.
 
-\todo[inline]{Write: formalize notion of expert}%
+With this formal notion of an expert we can reformulate our goal of exploring sets of
+implications.  Let $M$ be a finite set, $p$ a domain expert on $M$, $\mathcal{L} \subseteq
+\Imp(M)$ and $\mathcal{K} \subseteq \Th(p)$.  Then to \emph{explore $\mathcal{L}$ with
+  expert $p$ and background knowledge $\mathcal{K}$} means to compute a base of
+\begin{equation*}
+  \mathcal{L} \cap \Th(p)
+\end{equation*}
+with background knowledge $\mathcal{K}$.
+
+To find an algorithm that allows us to explore $\mathcal{L}$ we want to suitably adapt the
+classical attribute exploration algorithm, as we have described it in the previous
+section.  Within this description the role of the set $\mathcal{L}$ is played by the set
+$\Th(\con K)$.  During the run of the algorithm this set is transferred into sets of the form
+\begin{equation*}
+  \Th(\con K + C_1 + \dots + C_i)
+\end{equation*}
+for $C_1, \dots, C_i \subseteq M$.
+
+The operation that transfers $\Th(\con K)$ into $\Th(\con K + C)$ for some $C \subseteq M$
+can easily be formulated on the level of implications only.  For this we observe that
+$\Th(\con K + C)$ is the set of all implications which are valid in $\con K$ and which are
+not invalidated by $C$.  If we denote the empty formal context with attribute set $M$ by
+$(\emptyset, M, \emptyset)$, then this amounts to
+\begin{equation}
+  \label{eq:35}
+  \Th(\con K + C) = \Th(\con K) \cap \Th( (\emptyset, M, \emptyset) + C ).
+\end{equation}
+Using this simple equation we can now replace $\Th(\con K)$ by $\mathcal{L}$ in our
+formulation of attribute exploration as given in \Cref{sec:class-attr-expl}.  However, we
+can also be more specific and use the original formulation of attribute exploration as
+given in \Cref{alg:attribute-exploration} and make the corresponding changes there.
+
+\addfunctionname{explore-implications,next-closed-non-closed}
+
+\begin{figure}[tp]
+  \begin{Algorithm}[Reformulating Classical Attribute Exploration]
+  \label{alg:explore-attributes-with-next-closed-none-closed}
+  \hspace*{0cm}
+\begin{lstlisting}
+define next-closed-non-closed($M$, $\leq_M$, $A$, $\mathcal{K} \subseteq \Imp(M)$, $\mathcal{L} \subseteq \Imp(M)$)
+  ;; computes the lectically smallest element greater or equal to $A$ that is closed
+  ;; under $\mathcal{K}$ and not closed under $\mathcal{L}$
+
+  if $A$ = nil then
+    return nil
+  else if $A = \mathcal{K}(A)$ and $A \neq \mathcal{L}(A)$ then
+    return $A$
+  else
+    return next-closed-non-closed($M$, $\leq_M$, next-closure($M$, $\leq_M$, $A$, $\mathcal{K}$), $\mathcal{K}$, $\mathcal{L}$)
+  end if
+end
+
+define explore-attributes($M$, $\leq_M$, $p$, $\con K = (G, M, I)$, $\mathcal{K} \subseteq
+\Th(p)$)
+  ;; Classical attribute exploration
+
+  $i$ := 0
+  $\con K_i$ := $\con K$
+  $\mathcal{K}_i$ := $\mathcal{K}$
+  $P_i$ := $\emptyset$
+
+  while $P_i \neq$ nil do
+    $P_{i+1}$ := next-closed-non-closed($M$, $\leq_M$, $P_i$, $\mathcal{K}_i$, $(.)_{\con K_i}''$)
+
+    if $p(P_{i+1} \to (P_{i+1})_{\con K_i}'') = \top$ then
+      $\mathcal{K}_{i+1}$ := $\mathcal{K}_i \cup \set{ P_{i+1} \to (P_{i+1})_{\con K_i}'' }$
+      $\con K_{i+1}$ := $\con K_i$
+    else
+      $\mathcal{K}_{i+1}$ := $\mathcal{K}_i$
+      $C$ := $p(P_{i+1} \to (P_{i+1})_{\con K_i}'')$
+      $\con K_{i+1}$ := $\con K_i + C$
+    end
+
+    $i$ := $i + 1$
+  end while
+
+  return $\mathcal{K}_i$  
+end
+\end{lstlisting}
+  \end{Algorithm}
+\end{figure}
+
+However, the modifications we want to make in the formulation of attribute exploration as
+given in \Cref{alg:attribute-exploration} are a bit more comprehensive.  Instead of
+utilizing the functions \lstinline{first-closed-non-intent} and
+\lstinline{next-closed-non-intent} as discussed in \Cref{alg:canonical-base}, we want to
+introduce a function \lstinline{next-closed-non-closed} which returns the lectically
+smallest set greater \emph{or equal} to some given set that is closed under a set
+$\mathcal{K}$ of implications, but not another set $\mathcal{L}$.  An implementation of
+this function is straight forward and given in
+\Cref{alg:explore-attributes-with-next-closed-none-closed}.  This listing also includes a
+reformulation \lstinline{explore-attributes} that uses \lstinline{next-closed-non-closed}
+as well as our newly introduced formalization of a domain expert.
+
+\begin{figure}[tp]
+  \centering
+  \begin{Algorithm}[Exploration of Sets of Implications]
+    \label{alg:explore-implications}
+    \hspace*{0cm}
+\begin{lstlisting}
+define explore-implications($M$, $\leq_M$, $p$, $\mathcal{L} \subseteq \Imp(M)$, $\mathcal{K} \subseteq \Th(p)$)
+  ;; Algorithm for exploring sets $\mathcal{L}$ of implications using the expert $p$ and
+  ;; the set $\mathcal{K}$ as background knowledge
+
+  $i$ := 0
+  $\mathcal{L}_i$ := $\mathcal{L}$
+  $\mathcal{K}_i$ := $\mathcal{K}$
+  $P_i$ := $\emptyset$
+
+  while $P_i \neq$ nil do
+    $P_{i+1}$ := next-closed-non-closed($M$, $\leq_M$, $P_i$, $\mathcal{K}_i$, $\mathcal{L}_i$)
+
+    if $p(P_{i+1} \to \mathcal{L}_i(P_{i+1})) = \top$ then
+      $\mathcal{K}_{i+1}$ := $\mathcal{K}_i \cup \set{ P_{i+1} \to \mathcal{L}_i(P_{i+1}) }$
+      $\mathcal{L}_{i+1}$ := $\mathcal{L}_i$
+    else
+      $\mathcal{K}_{i+1}$ := $\mathcal{K}_i$
+      $C$ := $p(P_{i+1} \to \mathcal{L}_i(P_{i+1}))$
+      $\mathcal{L}_{i+1}$ := $\set{ (A \to B) \in \mathcal{L}_i \mid A \not\subseteq C
+\text{ or } B \subseteq C }\label{lst:explore-implications-1}$
+    end
+
+    $i$ := $i + 1$
+  end while
+
+  return $\mathcal{K}_i$  
+end
+\end{lstlisting}
+  \end{Algorithm}
+\end{figure}
+
+We now use this reformulation and include the modifications as discussed above.  The
+result is shown in \Cref{alg:explore-implications}.  Note that in
+\lstinline{explore-implications} the set $\mathcal{L}_i$ now plays the role of $\Th(\con
+K_i)$ in \lstinline{explore-attributes} as shown in
+\Cref{alg:explore-attributes-with-next-closed-none-closed}.  In particular, every
+occurrence of the closure operator $(\cdot)_{\con K_i}''$ is replaced by
+$\mathcal{L}_i(\cdot)$, and \Cref{eq:35} has been used to obtain line
+\ref{lst:explore-implications-1} in \Cref{alg:explore-implications}.
+
+We now claim that \lstinline{explore-implications} now yields an algorithm to explore
+$\mathcal{L}$, using $p$ as domain expert and $\mathcal{K}$ as background knowledge.  For
+this we need to show that \lstinline{explore-implications} always terminates and, upon
+termination, yields a base of $\Th(p) \cap \mathcal{L}$ with background knowledge
+$\mathcal{K}$.  Moreover, since \lstinline{explore-implications} arose from
+\lstinline{explore-attributes} by simple syntactic substitutions it is reasonable to
+expect that the base we obtain for $\Th(p) \cap \mathcal{L}$ is actually the canonical
+base of this set, \ie \lstinline{explore-implications} computes
+\begin{equation*}
+  \Can(\Th(p) \cap \mathcal{L}, \mathcal{K}).
+\end{equation*}
+Showing these claims is the purpose of the rest of this section.
+
 \todo[inline]{Write: 13-04/3.2}
 
 \subsection{A Weaker Generalization of Attribute Exploration}

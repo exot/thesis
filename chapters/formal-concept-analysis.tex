@@ -1840,8 +1840,8 @@ not discuss this in detail here, as we are going to look into attribute explorat
 much more detail in Sections~\ref{cha:expl-conf} and~\ref{cha:model-expl-conf}.  Instead,
 we just show an example implementation in Algorithm~\ref{alg:attribute-exploration} gives
 an example implementation of attribute exploration.  In this listing we use the notation
-$\con K + (g,g')$ to denote the formal context which arises from $\con K = (G, M, I)$ by adding
-the object $g$ with attributes $g'$, assuming that $g \notin G$.  In other words,
+$\con K + (g,g')$ to denote the formal context which arises from $\con K = (G, M, I)$ by
+adding the object $g$ with attributes $g'$, assuming that $g \notin G$.  In other words,
 \begin{equation*}
   \con K + (g,g') := (G \cup \set{g}, M, I \cup \set{ (g, m) \mid m \in g' }).
 \end{equation*}
@@ -1856,9 +1856,9 @@ the object $g$ with attributes $g'$, assuming that $g \notin G$.  In other words
     ;; background knowledge $\mathcal{S}$.
 
     $i$ := 0,
-    $P_i$ := first-closed-non-intent($\con{K}$, $\leq_M$, $\mathcal{S}$),
-    $\mathcal{L}_i$ := $\emptyset$
     $\con K_i$ := $\con K$
+    $P_i$ := first-closed-non-intent($\con{K}_i$, $\leq_M$, $\mathcal{S}$),
+    $\mathcal{L}_i$ := $\emptyset$
 
     while $P_i \neq$ nil do
 
@@ -1870,7 +1870,11 @@ the object $g$ with attributes $g'$, assuming that $g \notin G$.  In other words
         $\con K_{i+1}$ := $\con K_{i} + (g, g')$ ;; $g$ counterexample provided by the expert
       end if
 
-      $P_{i + 1}$ := next-closed-non-intent($\con{K}$, $\leq_M$, $P_i$, $\mathcal{L}_{i + 1} \cup \mathcal{S})$,
+      if $P_i \neq P_i''$ then ;; derivation in $\con K_{i+1}$
+        $P_{i+1}$ := $P_i$
+      else
+        $P_{i + 1}$ := next-closed-non-intent($\con{K}_{i+1}$, $\leq_M$, $P_i$, $\mathcal{L}_{i + 1} \cup \mathcal{S})$
+      end if
       $i$ := $i + 1$
 
     end while
