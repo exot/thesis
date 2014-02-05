@@ -392,8 +392,9 @@ experts is, from a logical point of view, interchangeable.
 
 With this formal notion of an expert we can reformulate our goal of exploring sets of
 implications.  Let $M$ be a finite set, $p$ a domain expert on $M$, $\mathcal{L} \subseteq
-\Imp(M)$ and $\mathcal{K} \subseteq \Th(p)$.  Then to \emph{explore $\mathcal{L}$ with
-  expert $p$ and background knowledge $\mathcal{K}$} means to compute a base of
+\Imp(M)$ and $\mathcal{K} \subseteq \Th(p) \cap \Cn(\mathcal{L})$.  Then to \emph{explore
+  $\mathcal{L}$ with expert $p$ and background knowledge $\mathcal{K}$} means to compute a
+base of
 \begin{equation*}
   \mathcal{L} \cap \Th(p)
 \end{equation*}
@@ -408,7 +409,7 @@ exploring $\mathcal{L}$.
 \addfunctionname{explore-implications,next-closed-non-closed}
 
 \begin{figure}[tp]
-  \begin{Algorithm}[Reformulating Classical Attribute Exploration]
+  \begin{Algorithm}[Another Implementation of Attribute Exploration]
   \label{alg:explore-attributes-with-next-closed-none-closed}
   \hspace*{0cm}
 \begin{lstlisting}
@@ -427,12 +428,7 @@ end
 
 define explore-attributes($M$, $\leq_M$, $p$, $\con K = (G, M, I)$, $\mathcal{K} \subseteq
 \Th(p)$)
-  ;; Classical attribute exploration
-
-  $i$ := 0
-  $\con K_i$ := $\con K$
-  $\mathcal{K}_i$ := $\mathcal{K}$
-  $P_i$ := $\emptyset$
+  $i$ := 0, $\con K_i$ := $\con K$, $\mathcal{K}_i$ := $\mathcal{K}$, $P_i$ := $\emptyset$
 
   while $P_i \neq$ nil do
     $P_{i+1}$ := next-closed-non-closed($M$, $\leq_M$, $P_i$, $\mathcal{K}_i$, $(.)_{\con K_i}''$)
@@ -637,6 +633,154 @@ This enables us to show termination.
   Since $M$ is finite, $\subsets{\Imp(M)}$ is finite and therefore this cannot happen.
   Thus the algorithm has to terminate.
 \end{Proof}
+
+We now consider the correctness of \lstinline{explore-implications}.
+
+\begin{Proposition}
+  \label{prop:explore-implications-closedness-persists}
+  Let $M$ be a finite set, $p$ a domain expert on $M$, $\leq_M$ a linear order on $M$,
+  $\mathcal{L} \subseteq \Imp(M)$ and $\mathcal{K} \subseteq \Th(p)$.  Denote with
+  $\preceq$ the lectic order on $\subsets M$ induced by $\leq_M$.  Then in every iteration
+  $i$ of the run of \lstinline{explore-implications} with this input such that $P_{i+1}
+  \neq \text{\lstinline{nil}}$, it is true that for $A \prec P_{i+1}$, if $A$ is
+  $\mathcal{K}_i$-closed, then $A$ is $\mathcal{L}_i$-closed as well.
+\end{Proposition}
+\begin{Proof}
+  We show the claim by induction on $i$.  For the base case $i = 0$ the claim is vacuously
+  true, since $P_1$, if not \lstinline{nil}, is the lectically smallest set which is
+  $\mathcal{K}_0$-closed but not $\mathcal{L}_i$-closed.
+
+  For the step case we assume that $P_{i+2} \neq \text{\lstinline{nil}}$.  We then need to
+  show that for all $A \prec P_{i+2}$, if $A$ is $\mathcal{K}_{i+1}$-closed, then $A$ is
+  also $\mathcal{L}_{i+1}$-closed.
+
+  Thus let $A \prec P_{i+2}$ and $A$ be $\mathcal{K}_{i+1}$-closed.  Let us first consider
+  the case $A \prec P_{i+1}$.  Since $\mathcal{K}_i \subseteq \mathcal{K}_{i+1}$, $A$ is
+  also $\mathcal{K}_i$-closed.  By induction hypothesis, $A$ is also
+  $\mathcal{L}_i$-closed, and since $\mathcal{L}_{i+1} \subseteq \mathcal{L}_i$, we obtain
+  that $A$ is $\mathcal{L}_{i+1}$-closed.
+
+  If $P_{i+1} = P_{i+2}$, nothing remains to be shown.  Therefore assume that $P_{i+1}
+  \neq P_{i+2}$ and let $P_{i+1} \preceq A \prec P_{i+2}$.  By construction, all sets
+  strictly between $P_{i+1}$ and $P_{i+2}$ are $\mathcal{L}_{i+1}$-closed if
+  $\mathcal{K}_{i+2}$-closed, by definition of $P_{i+2}$.
+
+  Therefore, it only remains to consider the case $A = P_{i+1} \neq P_{i+2}$.  But then
+  since $A$ is $\mathcal{K}_{i+2}$-closed and $P_{i+1} \neq P_{i+2}$ we know that
+  $P_{i+1}$ is not $\mathcal{L}_{i+1}$-closed, as otherwise $P_{i+1} = P_{i+2}$.
+  Therefore, $A = P_{i+1}$ is $\mathcal{L}_{i+1}$-closed as required.
+\end{Proof}
+
+\begin{Corollary}
+  \label{cor:explore-implications-closures-coincide}
+  Let $M$, $\leq_M$, $p$, $\mathcal{L}$, $\mathcal{K}$ as before, and denote with $n$ the
+  number of iterations of the algorithm \lstinline{explore-implications} when applied to
+  this input.  Then
+  \begin{equation*}
+    \Cn(\mathcal{K}_n) = \Cn(\mathcal{L}_n \cup \mathcal{K}).
+  \end{equation*}
+\end{Corollary}
+\begin{Proof}
+  We have already shown $\Cn(\mathcal{K}_n \setminus \mathcal{K}) \subseteq
+  \Cn(\mathcal{L}_n)$ in \Cref{prop:technicalities-about-explore-implications}, and thus
+  $\Cn(\mathcal{K}_n) \subseteq \Cn(\mathcal{L}_n \cup \mathcal{K})$.
+
+  By the previous \Cref{prop:explore-implications-closedness-persists} we know that all
+  $\mathcal{K}_n$-closed subsets of $M$ are also $\mathcal{L}_n$-closed.  Let $(X \to Y)
+  \in \Cn(\mathcal{L}_n)$.  Then $Y \subseteq \mathcal{L}_n(X) \subseteq
+  \mathcal{L}_n(\mathcal{K}_n(X))$.  Clearly, $\mathcal{K}_n(X)$ is
+  $\mathcal{K}_n$-closed, so \Cref{prop:explore-implications-closedness-persists} yields
+  that $\mathcal{K}_n(X)$ is also $\mathcal{L}_n$-closed, \ie
+  \begin{equation*}
+    \mathcal{L}_n(\mathcal{K}_n(X)) = \mathcal{K}_n(X).
+  \end{equation*}
+  Thus, $Y \subseteq \mathcal{K}_n(X)$ and therefore $(X \to Y) \in \Cn(\mathcal{K}_n)$.
+  Clearly, $\mathcal{K} \subseteq \Cn(\mathcal{K}_n)$, and thus $\Cn(\mathcal{K}_n)
+  \supseteq \Cn(\mathcal{L}_n \cup \mathcal{K})$ as required.
+\end{Proof}
+
+\begin{Corollary}
+  \label{cor:explore-implications-L_n-exactly-those-confirmed-by-expert}
+  Let $M$, $\leq_M$, $p$, $\mathcal{L}$, $\mathcal{K}$ as before, and let again $n$ be
+  the number of iterations of the run of \lstinline{explore-implications} when applied to
+  this input.  Then
+  \begin{equation*}
+    \mathcal{L}_n = \Th(p) \cap \mathcal{L}.
+  \end{equation*}
+\end{Corollary}
+\begin{Proof}
+  We know that $\Th(p) \cap \mathcal{L} \subseteq \mathcal{L}_{n}$, since $p$ does not
+  provide counterexamples for confirmed implications.  Since $\Cn(\mathcal{L}_{n} \cup
+  \mathcal{K}) = \Cn(\mathcal{K}_{n})$, we obtain $\mathcal{L}_{n} \subseteq
+  \Cn(\mathcal{K}_{n})$.  Since all implications in $\mathcal{K}_{n}$ are confirmed by
+  $p$, it is true that $\Cn(\mathcal{K}_{n}) \subseteq \Th(p)$.  Together with
+  $\mathcal{L}_{n} \subseteq \mathcal{L}$ we thus obtain $\mathcal{L}_{n} \subseteq \Th(p)
+  \cap \mathcal{L}$.
+\end{Proof}
+
+From the results obtained this far we can now conclude our main result that the function
+\lstinline{explore-implications} computes a base of $\mathcal{L} \cap \Th(p)$ with
+background knowledge $\mathcal{K}$.
+
+\begin{Theorem}
+  \label{thm:explore-implications-correctness}
+  Let $M$ be a finite set, $\leq_{M}$ be a linear order on $M$, $p$ a domain expert on
+  $M$, $\mathcal{L} \subseteq \Imp(M)$ and $\mathcal{K} \subseteq \Th(p) \cap
+  \Cn(\mathcal{L})$.  Denote with $n$ the last iteration of
+  \lstinline{explore-implications} applied to this input.  Then $\mathcal{K}_{n} \setminus
+  \mathcal{K}$ is a base of $\Th(p) \cap \mathcal{L}$ with background knowledge
+  $\mathcal{K}$, \ie
+  \begin{equation*}
+    \Cn(\mathcal{K}_{n}) = \Cn(\Th(p) \cap \mathcal{L}).
+  \end{equation*}
+\end{Theorem}
+\begin{Proof}
+  If $\mathcal{K} \subseteq \Cn(\mathcal{L})$, then $\mathcal{K} \subseteq
+  \Cn(\mathcal{L}_{n})$ and \Cref{cor:explore-implications-closures-coincide} yields
+  $\Cn(\mathcal{K}_{n}) = \Cn(\mathcal{L}_{n})$.  Thus
+  \begin{equation*}
+    \Cn(\mathcal{K}_{n}) = \Cn(\mathcal{L}_{n}) = \Cn(\Th(p) \cap \mathcal{L})
+  \end{equation*}
+  by \Cref{cor:explore-implications-L_n-exactly-those-confirmed-by-expert}.
+\end{Proof}
+
+The counterexamples given by the expert $p$ during the run of the algorithm can be
+collected into a formal context $\con L$.  Then this formal context $\con L$ has the nice
+property that every implication in $\mathcal{L}$ is either entailed by $\mathcal{K}_{n}$
+or does not hold in $\con L$.  This fact can be useful on its own.
+
+\begin{Theorem}
+  \label{thm:explore-implications-counterexamples-context}
+  Let $M$ be a finite set, $\leq_{M}$ a linear order on $M$, $p$ a domain expert on $M$,
+  $\mathcal{L} \subseteq \Imp(M)$ and $\mathcal{K} \subseteq \Th(p) \cap
+  \Cn(\mathcal{L})$.  Let $n$ denote the last iteration of
+  \lstinline{explore-implications} applied to this input, and let $\set{ C_{1}, \dots,
+    C_{m} }$ be the counterexamples given by $p$ during this run.  Denote with $\con L$
+  the formal context which arises from these counterexamples, \ie
+  \begin{equation*}
+    \con L = (\set{ C_{1}, \dots, C_{m} }, M, \ni).
+  \end{equation*}
+  Then for each implication $(A \to B) \in \mathcal{L}$ it is true that either $(A \to B)
+  \in \Cn(\mathcal{K}_{n})$ or $(A \to B) \notin \Th(\con L)$.
+\end{Theorem}
+\begin{Proof}
+  We first observe that
+  \begin{equation*}
+    \mathcal{L}_{n} = \Th(\con L) \cap \mathcal{L}.
+  \end{equation*}
+  Then from \Cref{cor:explore-implications-closures-coincide} and $\mathcal{K} \subseteq
+  \Cn(\mathcal{L})$ we obtain as before that $\Cn(\mathcal{K}_{n}) =
+  \Cn(\mathcal{L}_{n})$, and thus
+  \begin{equation}
+    \label{eq:37}
+    \Cn(\mathcal{K}_{n}) = \Cn(\mathcal{L}_{n}) = \Cn(\Th(\con L) \cap \mathcal{L}).
+  \end{equation}
+  Suppose that $(A \to B) \not\in \Cn(\mathcal{K}_{n})$.  Then $(A \to B) \not\in
+  \Cn(\Th(\con L) \cap \mathcal{L})$ by \Cref{eq:37}.  Since $(A \to B) \in \mathcal{L}$,
+  we obtain $(A \to B) \not\in \Th(\con L)$ as required.
+\end{Proof}
+
+
 
 \todo[inline]{Write: 13-04/3.2}
 
