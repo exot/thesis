@@ -401,26 +401,9 @@ with background knowledge $\mathcal{K}$.
 
 To find an algorithm that allows us to explore $\mathcal{L}$ we want to suitably adapt the
 classical attribute exploration algorithm, as we have described it in the previous
-section.  Within this description the role of the set $\mathcal{L}$ is played by the set
-$\Th(\con K)$.  During the run of the algorithm this set is transferred into sets of the form
-\begin{equation*}
-  \Th(\con K + C_1 + \dots + C_i)
-\end{equation*}
-for $C_1, \dots, C_i \subseteq M$.
-
-The operation that transfers $\Th(\con K)$ into $\Th(\con K + C)$ for some $C \subseteq M$
-can easily be formulated on the level of implications only.  For this we observe that
-$\Th(\con K + C)$ is the set of all implications which are valid in $\con K$ and which are
-not invalidated by $C$.  If we denote the empty formal context with attribute set $M$ by
-$(\emptyset, M, \emptyset)$, then this amounts to
-\begin{equation}
-  \label{eq:35}
-  \Th(\con K + C) = \Th(\con K) \cap \Th( (\emptyset, M, \emptyset) + C ).
-\end{equation}
-Using this simple equation we can now replace $\Th(\con K)$ by $\mathcal{L}$ in our
-formulation of attribute exploration as given in \Cref{sec:class-attr-expl}.  However, we
-can also be more specific and use the original formulation of attribute exploration as
-given in \Cref{alg:attribute-exploration} and make the corresponding changes there.
+section.  For this we first transform the attribute exploration algorithm as given in
+\Cref{alg:attribute-exploration} into a simpler form, and then adapt it to our setting of
+exploring $\mathcal{L}$.
 
 \addfunctionname{explore-implications,next-closed-non-closed}
 
@@ -472,17 +455,42 @@ end
   \end{Algorithm}
 \end{figure}
 
-However, the modifications we want to make in the formulation of attribute exploration as
-given in \Cref{alg:attribute-exploration} are a bit more comprehensive.  Instead of
-utilizing the functions \lstinline{first-closed-non-intent} and
-\lstinline{next-closed-non-intent} as discussed in \Cref{alg:canonical-base}, we want to
-introduce a function \lstinline{next-closed-non-closed} which returns the lectically
-smallest set greater \emph{or equal} to some given set that is closed under a set
-$\mathcal{K}$ of implications, but not another set $\mathcal{L}$.  An implementation of
-this function is straight forward and given in
-\Cref{alg:explore-attributes-with-next-closed-none-closed}.  This listing also includes a
-reformulation \lstinline{explore-attributes} that uses \lstinline{next-closed-non-closed}
-as well as our newly introduced formalization of a domain expert.
+In \Cref{alg:attribute-exploration} we have used the special functions to compute the
+lectically first closed set that is not an intent of a given formal context, and to
+compute the lectically next closed set of a given closure operator that is not an intent
+of the current working context.  However, a closer inspection of the way these functions
+are used yields that the actual computation required for the classical attribute
+exploration algorithm is to have a way to compute for a given set $A \subseteq M$ the
+lectically smallest set lectically greater \emph{or equal} to $A$ that is not an intent of
+the current working context but is closed under a given closure operator.  An
+implementation of this function, which we shall call \lstinline{next-closed-non-closed},
+is given in \Cref{alg:explore-attributes-with-next-closed-none-closed}.  This function
+suffices to implement attribute exploration, and the corresponding listing is also shown
+in \Cref{alg:explore-attributes-with-next-closed-none-closed}.
+
+We want to use this reformulation of \lstinline{explore-attributes} to generalize it to an
+algorithm that allows us to explore $\mathcal{L}$.  For this recall our initial
+formulation of attribute exploration as given in \Cref{sec:class-attr-expl}.  We can view
+this formulation as a special case of exploring $\mathcal{L}$, namely for $\mathcal{L} =
+\Th(\con K)$.  During the run of the algorithm this set is transferred into sets of the
+form
+\begin{equation*}
+  \Th(\con K + C_1 + \dots + C_i)
+\end{equation*}
+for $C_1, \dots, C_i \subseteq M$.  The operation that yields this transformation can
+easily be formulated on the level of implications only.  For this we observe that
+$\Th(\con K + C)$ is the set of all implications which are valid in $\con K$ and which are
+not invalidated by $C$, \ie
+\begin{equation}
+  \label{eq:35}
+  \Th(\con K + C) = \set{ (A \to B) \in \Th(\con K) \mid A \not\subseteq C \text{ or } B
+    \subseteq C }.
+\end{equation}
+Using this simple equation we can now replace $\Th(\con K)$ by $\mathcal{L}$ in our
+formulation of attribute exploration as given
+\Cref{alg:explore-attributes-with-next-closed-none-closed} to obtain an algorithm that
+allows us to explore $\mathcal{L}$.  The result is shown in
+\Cref{alg:explore-implications}.
 
 \begin{figure}[tp]
   \centering
@@ -491,13 +499,7 @@ as well as our newly introduced formalization of a domain expert.
     \hspace*{0cm}
 \begin{lstlisting}
 define explore-implications($M$, $\leq_M$, $p$, $\mathcal{L} \subseteq \Imp(M)$, $\mathcal{K} \subseteq \Th(p)$)
-  ;; Algorithm for exploring sets $\mathcal{L}$ of implications using the expert $p$ and
-  ;; the set $\mathcal{K}$ as background knowledge
-
-  $i$ := 0
-  $\mathcal{L}_i$ := $\mathcal{L}$
-  $\mathcal{K}_i$ := $\mathcal{K}$
-  $P_i$ := $\emptyset$
+  $i$ := 0, $\mathcal{L}_i$ := $\mathcal{L}$, $\mathcal{K}_i$ := $\mathcal{K}$, $P_i$ := $\emptyset$
 
   while $P_i \neq$ nil do
     $P_{i+1}$ := next-closed-non-closed($M$, $\leq_M$, $P_i$, $\mathcal{K}_i$, $\mathcal{L}_i$)
@@ -521,27 +523,80 @@ end
   \end{Algorithm}
 \end{figure}
 
-We now use this reformulation and include the modifications as discussed above.  The
-result is shown in \Cref{alg:explore-implications}.  Note that in
-\lstinline{explore-implications} the set $\mathcal{L}_i$ now plays the role of $\Th(\con
-K_i)$ in \lstinline{explore-attributes} as shown in
-\Cref{alg:explore-attributes-with-next-closed-none-closed}.  In particular, every
-occurrence of the closure operator $(\cdot)_{\con K_i}''$ is replaced by
-$\mathcal{L}_i(\cdot)$, and \Cref{eq:35} has been used to obtain line
-\ref{lst:explore-implications-1} in \Cref{alg:explore-implications}.
-
-We now claim that \lstinline{explore-implications} now yields an algorithm to explore
+We now claim that \lstinline{explore-implications} yields an algorithm to explore
 $\mathcal{L}$, using $p$ as domain expert and $\mathcal{K}$ as background knowledge.  For
-this we need to show that \lstinline{explore-implications} always terminates and, upon
-termination, yields a base of $\Th(p) \cap \mathcal{L}$ with background knowledge
-$\mathcal{K}$.  Moreover, since \lstinline{explore-implications} arose from
-\lstinline{explore-attributes} by simple syntactic substitutions it is reasonable to
-expect that the base we obtain for $\Th(p) \cap \mathcal{L}$ is actually the canonical
-base of this set, \ie \lstinline{explore-implications} computes
+this we need to argue that the algorithm always terminates and, upon termination, yields a
+base of $\Th(p) \cap \mathcal{L}$ with background knowledge $\mathcal{K}$.  Moreover,
+since \lstinline{explore-implications} arose from \lstinline{explore-attributes} by simple
+syntactic substitutions it is reasonable to expect that the base we obtain for $\Th(p)
+\cap \mathcal{L}$ is actually the canonical base of this set, \ie
+\lstinline{explore-implications} computes
 \begin{equation*}
   \Can(\Th(p) \cap \mathcal{L}, \mathcal{K}).
 \end{equation*}
-Showing these claims is the purpose of the rest of this section.
+
+Showing these claims is the purpose of the rest of this section, and we start with a
+technical observation.
+\begin{Proposition}
+  \label{prop:technicalities-about-explore-implications}
+  Let $M$ be a finite set, $p$ a domain expert on $M$, $\mathcal{L} \subseteq \Imp(M)$ and
+  $\mathcal{K} \subseteq \Th(p)$.  The for iteration $i$ of the run of
+  \lstinline{explore-implications} with this input, it is true that
+  $\mathcal{K}_i\setminus \mathcal{K} \subseteq \Cn(\mathcal{L}_i)$.  Furthermore,
+  $\mathcal{K}_i \subseteq \mathcal{K}_{i+1}$ and $\mathcal{L}_i \supseteq
+  \mathcal{L}_{i+1}$, and exactly one of these inclusions is strict.
+\end{Proposition}
+\begin{Proof}
+  Suppose that we are in iteration $i$.  Then clearly $\mathcal{K}_i \subseteq
+  \mathcal{K}_{i+1}$ and $\mathcal{L}_i \supseteq \mathcal{L}_{i+1}$ from the very
+  definition of these sets.  Then, if $p$ confirms $P_{i+1} \to \mathcal{L}_i(P_{i+1})$,
+  then $\mathcal{K}_i \subsetneq \mathcal{K}_{i+1}$ and $\mathcal{L}_i =
+  \mathcal{L}_{i+1}$.  If $p$ rejects $P_{i+1} \to \mathcal{L}_i(P_{i+1})$, and $C =
+  p(P_{i+1} \to \mathcal{L}_i(P_{i+1}))$, then there must exist at least one implication
+  $(A \to B) \in \mathcal{L}_i$ such that $A \subseteq C$ and $B \not\subseteq C$, for
+  otherwise $C$ cannot be a counterexample for $P_{i+1} \to \mathcal{L}_i(P_{i+1})$.
+  Therefore, $\mathcal{L}_i \supsetneq \mathcal{L}_{i+1}$, and $\mathcal{K}_i =
+  \mathcal{K}_{i+1}$ holds by definition.
+
+  We show that claim $\mathcal{K}_i \setminus \mathcal{K} \subseteq \Cn(\mathcal{L}_i)$ be
+  induction.  The base case is clear, as $\mathcal{K}_i \setminus \mathcal{K} =
+  \mathcal{K} \setminus \mathcal{K} = \emptyset$.
+
+  For the step case assume $\mathcal{K}_i\setminus \mathcal{K} \subseteq
+  \Cn(\mathcal{L}_i)$, and assume that $P_{i+1} \neq \text{\lstinline{nil}}$.  Then
+  $P_{i+1} = \mathcal{K}_i(P_{i+1})$ and $P_{i+1} \neq \mathcal{L}_i(P_{i+1})$.
+
+  If $p$ confirms $P_{i+1} \to \mathcal{L}_i(P_{i+1})$, then $\mathcal{L}_i =
+  \mathcal{L}_{i+1}$.  Since $\mathcal{K}_i \subseteq \Cn(\mathcal{L}_i)$ and $(P_{i+1}
+  \to \mathcal{L}_i(P_{i+1})) \in \Cn(\mathcal{L}_i)$, it is true that $\mathcal{K}_{i+1}
+  \subseteq \Cn(\mathcal{L}_{i+1})$.
+
+  If $p$ rejects $P_{i+1} \to \mathcal{L}_i(P_{i+1})$, then $\mathcal{K}_{i+1} =
+  \mathcal{K}_i$.  Let $C := p(P_{i+1} \to \mathcal{L}_i(P_{i+1}))$.  If we define
+  \begin{align*}
+    \Th(C)
+    &:= \set{ (A \to B) \in \Imp(M) \mid A \not\subseteq C \text{ or } B \subseteq C } \\
+    &= \Th((C, M, \ni))
+  \end{align*}
+  then
+  \begin{equation*}
+    \mathcal{L}_{i+1} = \mathcal{L}_i \cap \Th(C).
+  \end{equation*}
+  Since $p$ does not provide counterexamples to confirmed implications, we obtain
+  \begin{equation*}
+    \mathcal{K}_i \setminus \mathcal{K} \subseteq \Th(C).
+  \end{equation*}
+  Therefore
+  \begin{align*}
+    \Cn(\mathcal{L}_{i+1})
+    &= \Cn(\Th(C) \cap \mathcal{L}_i) \\
+    &= \Cn(\Th(C) \cap \Cn(\mathcal{L}_i)) \\
+    &\supseteq \Cn(\mathcal{K}_i \setminus \mathcal{K}) \\
+    &\supseteq \mathcal{K}_{i+1} \setminus \mathcal{K}
+  \end{align*}
+  since $\Cn(\mathcal{L}_i) \supseteq \mathcal{K}_i \setminus \mathcal{K}$ and
+  $\mathcal{K}_{i+1} = \mathcal{K}_i$.
+\end{Proof}
 
 \todo[inline]{Write: 13-04/3.2}
 
