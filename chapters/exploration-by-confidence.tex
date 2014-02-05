@@ -542,9 +542,10 @@ technical observation.
   Let $M$ be a finite set, $p$ a domain expert on $M$, $\mathcal{L} \subseteq \Imp(M)$ and
   $\mathcal{K} \subseteq \Th(p)$.  The for iteration $i$ of the run of
   \lstinline{explore-implications} with this input, it is true that
-  $\mathcal{K}_i\setminus \mathcal{K} \subseteq \Cn(\mathcal{L}_i)$.  Furthermore,
-  $\mathcal{K}_i \subseteq \mathcal{K}_{i+1}$ and $\mathcal{L}_i \supseteq
-  \mathcal{L}_{i+1}$, and exactly one of these inclusions is strict.
+  $\mathcal{K}_i\setminus \mathcal{K} \subseteq \Cn(\mathcal{L}_i)$\todo{needed
+    anywhere?}.  Furthermore, $\mathcal{K}_i \subseteq \mathcal{K}_{i+1}$ and
+  $\mathcal{L}_i \supseteq \mathcal{L}_{i+1}$, and exactly one of these inclusions is
+  strict.
 \end{Proposition}
 \begin{Proof}
   Suppose that we are in iteration $i$.  Then clearly $\mathcal{K}_i \subseteq
@@ -582,7 +583,7 @@ technical observation.
   \begin{equation*}
     \mathcal{L}_{i+1} = \mathcal{L}_i \cap \Th(C).
   \end{equation*}
-  Since $p$ does not provide counterexamples to confirmed implications, we obtain
+  Since $p$ does not provide counterexamples to confirmed implications we obtain
   \begin{equation*}
     \mathcal{K}_i \setminus \mathcal{K} \subseteq \Th(C).
   \end{equation*}
@@ -596,6 +597,45 @@ technical observation.
   \end{align*}
   since $\Cn(\mathcal{L}_i) \supseteq \mathcal{K}_i \setminus \mathcal{K}$ and
   $\mathcal{K}_{i+1} = \mathcal{K}_i$.
+\end{Proof}
+
+This enables us to show termination.
+
+\begin{Theorem}
+  \label{thm:explore-implications-termination}
+  Let $M$ be a finite set, $\leq_M$ a linear order on $M$, $p$ a domain expert on $M$,
+  $\mathcal{L} \subseteq \Imp(M)$ and $\mathcal{K} \subseteq \Th(p)$.  Then
+  \lstinline{explore-implications} applied to these arguments terminates after finitely
+  many steps.
+\end{Theorem}
+\begin{Proof}
+  Note that \lstinline{explore-implications} has to terminate if $\Cn(\mathcal{L}_i)
+  \setminus \Cn(\mathcal{K}_i) = \emptyset$.  By
+  \Cref{prop:technicalities-about-explore-implications} we now that $\mathcal{K}_i
+  \subseteq \mathcal{K}_{i+1}$ or $\mathcal{L}_i \supseteq \mathcal{L}_{i+1}$, and exactly
+  one of these inclusions is strict.  The latter fact entails
+  \begin{equation}
+    \label{eq:36}
+    \Cn(\mathcal{L}_{i+1}) \setminus \Cn(\mathcal{K}_{i+1}) \subsetneq \Cn(\mathcal{L}_i)
+    \setminus \Cn(\mathcal{K}_i)
+  \end{equation}
+  This is because if $\mathcal{K}_i \neq \mathcal{K}_{i+1}$ then the implication $P_{i+1}
+  \to \mathcal{L}_i(P_{i+1})$ added to $\mathcal{K}_{i}$ does not follow from
+  $\mathcal{K}_i$, because $P_{i+1} = \mathcal{K}_{i}(P_{i+1})$.  Thus,
+  $\Cn(\mathcal{K}_i) \subsetneq \Cn(\mathcal{K}_{i+1})$.  On the other hand, if
+  $\mathcal{L}_i \neq \mathcal{L}_{i+1}$, then
+  \begin{equation*}
+    (P_{i+1} \to \mathcal{L}_i(P_{i+1})) \in \Cn(\mathcal{L}_i) \setminus \Cn(\mathcal{L}_{i+1})
+  \end{equation*}
+  and $\Cn(\mathcal{L}_i) \supsetneq \Cn(\mathcal{L}_{i+1})$.
+
+  If the algorithm would run forever, it would thus yield an infinite descending chain
+  \begin{equation*}
+    \Cn(\mathcal{L}_0) \setminus \Cn(\mathcal{K}_0) \supsetneq \Cn(\mathcal{L}_1)
+    \setminus \Cn(\mathcal{K}_1) \supsetneq \dots.
+  \end{equation*}
+  Since $M$ is finite, $\subsets{\Imp(M)}$ is finite and therefore this cannot happen.
+  Thus the algorithm has to terminate.
 \end{Proof}
 
 \todo[inline]{Write: 13-04/3.2}
