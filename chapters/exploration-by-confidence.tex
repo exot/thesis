@@ -97,6 +97,9 @@ implications are computed.  Finally, we shall also give a formal specification a
 \emph{expert} has to satisfy for our exploration algorithms (including the classical
 attribute exploration) to work.
 
+The results presented in this section have been published previously in
+\cite{Borch-LTCS-13-04}.
+
 \section{Exploring Sets of Implications}
 \label{sec:an-abstract-view}
 
@@ -929,10 +932,41 @@ We now show that \lstinline{explore-implications} computes the canonical base of
   also not $\mathcal{L}_{i+1}$-closed, as otherwise it would be $\mathcal{K}_{n}$-closed.
   Thus, $P_{i+2} = P_{i+1}$ and $P_{i+2} \preceq Q$ as required.
 
-  \textit{Case $Q \precneq P_{i+1}$}:
-\end{Proof}
+  \textit{Case $Q \precneq P_{i+1}$}:  In this case, the set $P_{i+1}$ must be
+  $\mathcal{K}_{n}$-closed, since otherwise it would be a $\mathcal{K}$-pseudo-closed set
+  of $\mathcal{K}_{n}$, and $P_{i+1} \succeq Q$ would hold.  To see this, we first observe
+  that $P_{i+1}$ is $K_{i}$-closed by definition, and thus also $\mathcal{K}$-closed.
+  Furthermore, if $\bar Q \subsetneq P_{i+1}$ is a $\mathcal{K}$-pseudo-closed set of
+  $\mathcal{K}_{n}$, then by induction hypothesis, the set $\bar Q$ is a premise of
+  $\mathcal{K}_{i}$ and therefore $\mathcal{K}_{n}(\bar Q) \subseteq P_{i+1}$.  Thus, the
+  only possibility for $P_{i+1}$ to not be a $\mathcal{K}$-pseudo-closed set of
+  $\mathcal{K}_{n}$ is that $P_{i+1}$ is $\mathcal{K}_{n}$-closed.
 
-\todo[inline]{Write: copy proof of Theorem 13-04/3.14}%
+  In addition, $P_{i+1}$ is not $\mathcal{L}_{i}$-closed by definition.  Thus, since
+  $P_{i+1}$ is $\mathcal{K}_{n}$-closed, the expert rejects the implication $P_{i+1} \to
+  \mathcal{L}_{i}(P_{i+1})$.  Therefore, $\mathcal{K}_{i+1} = \mathcal{K}_{i}$ and
+  $P_{i+2}$ is the lectically smallest $\mathcal{K}_{i+1}$-closed, not
+  $\mathcal{L}_{i+1}$-closed set which is lectically greater or equal to $P_{i+1}$.  Since
+  $Q$ is also $\mathcal{K}_{i+1}$-closed (by induction hypothesis, as it is a
+  $\mathcal{K}$-pseudo-closed set of $\mathcal{K}_{n}$) but not $\mathcal{L}_{i+1}$-closed
+  (since $Q$ is not $\mathcal{K}_{n}$-closed), it is true that $P_{i+2} \preceq Q$ by
+  construction.
+
+  This finishes the step case and the proof of the above claim.
+
+  Using this claim, we shall now show the theorem.  If $n$ denotes the last iteration of
+  the algorithm, we known that $P_{n+1}$ is equal to \lstinline{nil}.  Therefore, there
+  cannot exist a $\mathcal{K}$-pseudo-closed set of $\mathcal{K}_{n}$ which is not a
+  premise of an implication in $\mathcal{K}_{n} \setminus \mathcal{K}$.  Thus
+  \begin{align*}
+    \mathcal{K}_{n} \setminus \mathcal{K}
+    &= \Can(\mathcal{K}_{n}, \mathcal{K}) \\
+    &= \Can(\mathcal{L}_{n}, \mathcal{K}) \\
+    &= \Can(\Th(p) \cap \mathcal{L}, \mathcal{K})
+  \end{align*}
+  because of \Cref{cor:explore-implications-closures-coincide} and
+  \Cref{cor:explore-implications-L_n-exactly-those-confirmed-by-expert}.  
+\end{Proof}
 
 \subsection{A Weaker Generalization of Attribute Exploration}
 \label{sec:weak-gener-attr}
