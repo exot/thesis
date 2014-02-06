@@ -785,9 +785,154 @@ implications.  However, as mentioned before, we can further extend our results a
 that the base that is computed by \lstinline{explore-implications} is the canonical base
 of $\mathcal{L} \cap \Th(p)$ with background knowledge $\mathcal{K}$.
 
+Note that we had introduce the canonical base in \Cref{sec:bases-implications} only for
+formal contexts, but it is not very difficult to generalize the definition (and the
+corresponding results) to the level of sets of implications.  Indeed, if $\mathcal{L},
+\mathcal{K} \subseteq \Imp(M)$, then the canonical base of $\mathcal{L}$ with background
+knowledge $\mathcal{K}$ can just be defined to be the canonical base of $\con
+K_{\mathcal{L}}$ with background knowledge $\mathcal{K}$, where $\con K_{\mathcal{L}}$ is
+defined as in \Cref{prop:context-model-for-implications}.  However, we can also be a bit
+more specific and generalize the notion of pseudo-intents correspondingly, by considering
+the closure operator induced by $\mathcal{L}$ to be a generalization of the double-prime
+operator $(\cdot)''$ of a formal context.
 
+\begin{Definition}[$\mathcal{K}$-Pseudo-Closed Set of $\mathcal{L}$, Canonical Base]
+  \label{def:pseudo-intents-for-implications}
+  Let $M$ be a finite set and let $\mathcal{L}, \mathcal{K} \subseteq \Imp(M)$.  Then a
+  set $P \subseteq M$ is called a \emph{$\mathcal{K}$-pseudo-closed set} of $\mathcal{L}$
+  if and only if
+  \begin{enumerate}[i. ]
+  \item $P \neq \mathcal{L}(P)$,
+  \item $P = \mathcal{K}(P)$, and
+  \item for all $Q \subsetneq P$ being a $\mathcal{K}$-pseudo-closed set of $\mathcal{L}$
+    it is true that $\mathcal{L}(Q) \subseteq P$.
+  \end{enumerate}
+  The \emph{canonical base} of $\mathcal{L}$ with background knowledge $\mathcal{K}$ is
+  then defined as
+  \begin{equation*}
+    \Can(\mathcal{L}, \mathcal{K}) := \set{ P \to \mathcal{L}(P) \mid P \subseteq M \text{
+        a } \mathcal{K} \text{ pseudo-closed set of } \mathcal{L} }.
+  \end{equation*}
+\end{Definition}
 
-\todo[inline]{Write: 13-04/3.2}
+The relevant property of the canonical base now carries over to this generalized
+formulation, just because
+\begin{equation*}
+  \Can(\mathcal{L}, \mathcal{K}) = \Can(\con K_{\mathcal{L}}, \mathcal{K}).
+\end{equation*}
+Thus, the following corollary follows directly from
+\Cref{thm:canonical-base-with-arbitrary-background-knowledge}.
+
+\begin{Corollary}
+  \label{cor:canonical-base-for-implications}
+  Let $M$ be a finite set and let $\mathcal{L}, \mathcal{K} \subseteq \Imp(M)$.  Then
+  $\Can(\mathcal{L}, \mathcal{K})$ is a set of valid implications of $\mathcal{L}$ such
+  that
+  \begin{equation*}
+    \Can(\mathcal{L}, \mathcal{K}) \cup \mathcal{K}
+  \end{equation*}
+  is complete for $\mathcal{L}$, and $\Can(\mathcal{L}, \mathcal{K})$ has minimal
+  cardinality with this property.
+
+  In particular, if $\mathcal{K} \subseteq \Cn(\mathcal{L})$, then $\Can(\mathcal{L},
+  \mathcal{K})$ is a minimal base of $\mathcal{L}$ with background knowledge
+  $\mathcal{K}$.
+\end{Corollary}
+
+We now show that \lstinline{explore-implications} computes the canonical base of $\Th(p)
+\cap \mathcal{L}$ with background knowledge $\mathcal{K}$.
+
+\begin{Theorem}
+  \label{thm:explore-implications-computes-canonical-base}
+  Let $M$ be a finite set, $\leq_{M}$ be a linear order on $M$, $p$ a domain expert on
+  $M$, $\mathcal{L} \subseteq \Imp(M)$ and $\mathcal{K} \subseteq \Th(p) \cap
+  \mathcal{L}$.  If
+  \begin{equation*}
+    \mathcal{K}_{n} = \text{\lstinline{explore-implications}}(M, \leq_{M}, p, \mathcal{L}, \mathcal{K}),
+  \end{equation*}
+  then
+  \begin{equation*}
+    \Can(\mathcal{L}, \mathcal{K}) = \mathcal{K}_{n} \setminus \mathcal{K}.
+  \end{equation*}
+\end{Theorem}
+\begin{Proof}
+  We start with some simple observations first.  Note that for each implication $(P_{i}
+  \to \mathcal{L}_{i-1}(P_{i})) \in \mathcal{K}_{n} \setminus \mathcal{K}$ it is true that
+  \begin{equation}
+    \label{eq:38}
+    \mathcal{L}_{i-1}(P_{i}) = \mathcal{K}_{n}(P_{i})
+  \end{equation}
+  because of
+  \begin{equation*}
+    \mathcal{K}_{n}(P_{i}) = \mathcal{L}_{n}(P_{i}) \subseteq
+    \mathcal{L}_{i-1}(P_{i}) \subseteq \mathcal{K}_{n}(P_{i}),
+  \end{equation*}
+  and the last inclusion holds because $(P_{i} \to \mathcal{L}_{i-1}(P_{i})) \in
+  \mathcal{K}_{n} \setminus \mathcal{K}$.
+
+  Furthermore, it is easy to see that $\mathcal{K}_{n} \setminus \mathcal{K}$ is an
+  irredundant base of $\mathcal{K}_{n}$ with background knowledge $\mathcal{K}$, \ie no
+  implication in $\mathcal{K}_{n}$ follows from the others and $\mathcal{K}$.
+
+  We are now going to show that the premises in $\mathcal{K}_{n} \setminus \mathcal{K}$
+  are all $\mathcal{K}$-pseudo-closed sets of $\mathcal{K}_{n}$.  For this, we show the
+  following claim by induction over the number $i$ of iterations:
+  \begin{quote}
+    For every iteration $i$, the $k := \abs{ \mathcal{K}_{n} \setminus \mathcal{K} }$
+    lectically first $\mathcal{K}$-pseudo-closed sets of $\mathcal{K}_{n}$ are precisely
+    the premises of the implications in $\mathcal{K}_{n} \setminus \mathcal{K}$.  If the
+    $(k+1)$st $\mathcal{K}$-pseudo-closed set $Q$ of $\mathcal{K}_{n}$ exists, then
+    $P_{i+1} \subseteq M$ (\ie is not \lstinline{nil}), and $P_{i+1} \preceq Q$.
+  \end{quote}
+
+  For the base case $i = 0$ we observe that $\abs{ \mathcal{K}_{0} \setminus \mathcal{K} }
+  = 0$, thus the first part of the claim holds.  If $Q$ is the first
+  $\mathcal{K}$-pseudo-closed set of $\mathcal{K}_{n}$, then $Q$ is $\mathcal{K}$-closed
+  but not $\mathcal{K}_{n}$-closed.  But then $Q$ is also not $\mathcal{L}$-closed,
+  because $\mathcal{K}_{n} \subseteq \Cn(\mathcal{L})$.  Therefore, by construction,
+  $P_{1}$ is not \lstinline{nil} and $P_{1} \preceq Q$.
+
+  For induction step we assume that the claim holds for iteration $i$.  Let $k := \abs{
+    \mathcal{K}_{i} \setminus \mathcal{K} }$.  If there is no more
+  $\mathcal{K}$-pseudo-closed set of $\mathcal{K}_{n}$ which is not already a premise of
+  an implication in $\mathcal{K}_{i} \setminus \mathcal{K}$, then $\mathcal{K}_{i}$ is a
+  base of $\mathcal{K}_{n}$ with background knowledge $\mathcal{K}$.  Since
+  $\mathcal{K}_{i} \subseteq \mathcal{K}_{n}$ we obtain $\mathcal{K}_{i} =
+  \mathcal{K}_{n}$, since $\mathcal{K}_{n}$ is irredundant.  Then $i = n$, or $i < n$ and
+  $\abs{ \mathcal{K}_{i+1} \setminus \mathcal{K}_{n} } = k$ and the claim holds for
+  iteration $i+1$ as well.
+
+  Now assume that $Q$ is the $(k+1)$st $\mathcal{K}$-pseudo-closed set of
+  $\mathcal{K}_{n}$.  By induction hypothesis, $P_{i+1} \subseteq M$ and $P_{i+1} \preceq
+  Q$.  We consider two main cases.
+
+  \textit{Case $Q = P_{i+1}$}:  If $\mathcal{L}_{i}(P_{i+1}) \subseteq
+  \mathcal{K}_{n}(P_{i+1})$, then $p$ accepts the implication
+  \begin{equation*}
+    P_{i+1} \to \mathcal{L}_{i}(P_{i+1}),
+  \end{equation*}
+  which is then an element of $\mathcal{K}_{i+1}$.  Thus, the $\abs{ \mathcal{K}_{i+1}
+    \setminus \mathcal{K} } = k + 1$ lectically first $\mathcal{K}$-pseudo-closed sets of
+  $\mathcal{K}_{n}$ are precisely the premises of the implications in $\mathcal{K}_{i+1}
+  \setminus \mathcal{K}$.
+
+  If the $(k+2)$nd $\mathcal{K}$-pseudo-closed set $\bar Q$ of $\mathcal{K}_{n}$ exists,
+  then in particular $\bar Q$ is closed under $\mathcal{K}_{i+1}$, as for each
+  $\mathcal{K}$-pseudo-closed set $P_{\ell} \subseteq \bar Q$ it is true tat
+  $\mathcal{K}_{n}(P_{\ell}) \subseteq \bar Q$.  Furthermore, $\bar Q$ is not
+  $\mathcal{K}_{n}$-closed, and thus also not $\mathcal{L}_{i+1}$-closed.  Therefore, by
+  construction $P_{i+2} \subseteq M$, \ie is not \lstinline{nil}, and $P_{i+2} \preceq Q$.
+
+  If $\mathcal{L}_{i}(P_{i+1}) \not\subseteq \mathcal{K}_{n}(P_{i+1})$, then $p$ rejects
+  the implication $P_{i+1} \to \mathcal{L}_{i}(P_{i+1})$ and provides a counterexample.
+  Then $\mathcal{K}_{i+1} = \mathcal{K}_{i}$.  Since $P_{i+1} = Q$, the set $P_{i+1}$ is
+  also not $\mathcal{L}_{i+1}$-closed, as otherwise it would be $\mathcal{K}_{n}$-closed.
+  Thus, $P_{i+2} = P_{i+1}$ and $P_{i+2} \preceq Q$ as required.
+
+  \textit{Case $Q \precneq P_{i+1}$}:
+\end{Proof}
+
+\todo[inline]{Write: copy proof of Theorem 13-04/3.14}%
 
 \subsection{A Weaker Generalization of Attribute Exploration}
 \label{sec:weak-gener-attr}
