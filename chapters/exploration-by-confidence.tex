@@ -403,6 +403,8 @@ base of
 \end{equation*}
 with background knowledge $\mathcal{K}$.
 
+\todo[inline]{Write: move reformulation to chapter about FCA}
+
 To find an algorithm that allows us to explore $\mathcal{L}$ we want to suitably adapt the
 classical attribute exploration algorithm, as we have described it in the previous
 section.  For this we first transform the attribute exploration algorithm as given in
@@ -433,8 +435,9 @@ define explore-attributes($M$, $\leq_M$, $p$, $\con K = (G, M, I)$, $\mathcal{K}
 \Th(p)$)
   $i$ := 0, $\con K_i$ := $\con K$, $\mathcal{K}_i$ := $\mathcal{K}$, $P_i$ := $\emptyset$
 
-  while $P_i \neq$ nil do
+  forever do
     $P_{i+1}$ := next-closed-non-closed($M$, $\leq_M$, $P_i$, $\mathcal{K}_i$, $(.)_{\con K_i}''$)
+    if $P_{i+1} =$ nil exit
 
     if $p(P_{i+1} \to (P_{i+1})_{\con K_i}'') = \top$ then
       $\mathcal{K}_{i+1}$ := $\mathcal{K}_i \cup \set{ P_{i+1} \to (P_{i+1})_{\con K_i}'' }$
@@ -971,7 +974,181 @@ We now show that \lstinline{explore-implications} computes the canonical base of
 \subsection{A Weaker Generalization of Attribute Exploration}
 \label{sec:weak-gener-attr}
 
-\todo[inline]{Write: 13-04/3.3}
+We have seen how we can adapt attribute exploration to allow us to explore arbitrary sets
+of implications.  Our initial motivation to consider this generalization of attribute
+exploration was to be able explore sets of the form $\Th_{c}(\con K)$ for arbitrary
+choices of $c \in [0,1]$.  However, for this particular application our algorithm does not
+seem very practical, as during a run we then would need to compute sets of the form
+$\mathcal{L}_{i}(P)$ for some $\mathcal{L}_{i} \subseteq \Th_{c}(\con K)$ and $P \subseteq
+M$.  For $c = 1$ this is not a problem, since
+\begin{equation*}
+  \Th_{1}(\con K)(P) = \Th(\con K)(P) = P''.
+\end{equation*}
+For $c \neq 1$, however, such a simple computation is not known.  Although we shall
+discuss in \Cref{sec:expl-conf-1} some techniques to still achieve the computation of
+$\Th_{c}(\con K)(P)$, the computation itself is potentially much more expensive than in
+the case $c = 1$.
+
+To alleviate this problem, we shall discuss another algorithm for exploring sets of
+implications which does not require to compute closures of the form $\mathcal{L}(P)$ for
+arbitrary sets $\mathcal{L}$.  More precisely, instead of asking questions of the form
+$P_{i+1} \to \mathcal{L}_{i}(P_{i+1})$, it will be sufficient to find \emph{some} $Q
+\subseteq M$ such that $P_{i+1} \subsetneq Q \subseteq \mathcal{L}_{i}(P_{i+1})$, and then
+ask the implication $P \to Q$ to the expert.  If finding such a set $Q$ is even infeasible
+than it seems questionable whether exploration itself can be conducted effectively.
+
+We have to pay for the freedom of choosing the set $Q$ as we want by potentially asking
+more questions, since the implication
+\begin{equation*}
+  P_{i+1} \to \mathcal{L}_{i}(P_{i+1}) \setminus Q
+\end{equation*}
+still needs to be examined by the expert.  The hope is then that the freedom of leaving
+out elements from $\mathcal{L}_{i}(P_{i+1})$ compensates for this extra amount of
+implications the expert has to handle.
+
+We now present a generalization of \Cref{alg:explore-implications} that uses these ideas.
+In this generalization we still require to be able to test whether a set $P$ is closed
+under the set $\mathcal{L}_{i}$ or not.  However, this test can most often be decided
+without computing $\mathcal{L}_{i}(P)$.
+
+\addfunctionname{explore-implications/weaker-version}
+
+\begin{figure}[tp]
+  \begin{Algorithm}[Generalized Exploration of Sets of Implications]
+    \label{alg:explore-implications-weaker-version}
+    \hspace*{0cm}
+\begin{lstlisting}
+define explore-implications/weaker-version($M$, $\leq_{M}$, $p$, $\mathcal{L} \subseteq \Imp(M)$, $\mathcal{K} \subseteq \Th(p)$)
+  $i$ := 0, $\mathcal{L}_i$ := $\mathcal{L}$, $\mathcal{K}_i$ := $\mathcal{K}$, $P_i$ := $\emptyset$
+
+  forever do
+    $P$ := next-closed-non-closed($M$, $\leq_M$, $P_i$, $\mathcal{K}_i$, $\mathcal{L}_i$)$\label{lst:explore-implications-weaker-version-1}$
+    if $P =$ nil exit
+    choose $P_{i+1} \subseteq M \text{ such that } P_{i} \preceq P_{i+1} \preceq P \text{ and }
+P_{i+1} \text{ not } \mathcal{L}_{i}\text{-closed}$
+    choose $Q \subseteq M \text{ such that } P_{i+1} \subsetneq Q \subseteq \mathcal{L}_{i}(P_{i+1})$.
+
+    if $p(P_{i+1} \to Q) = \top$ then
+      $\mathcal{K}_{i+1}$ := $\mathcal{K}_i \cup \set{ P_{i+1} \to Q }$
+      $\mathcal{L}_{i+1}$ := $\mathcal{L}_i$
+    else
+      $\mathcal{K}_{i+1}$ := $\mathcal{K}_i$
+      $C$ := $p(P_{i+1} \to Q)$
+      $\mathcal{L}_{i+1}$ := $\set{ (A \to B) \in \mathcal{L}_i \mid A \not\subseteq C
+\text{ or } B \subseteq C }\label{lst:explore-implications-1}$
+    end
+
+    $i$ := $i + 1$
+  end while
+
+  return $\mathcal{K}_i$  
+end
+\end{lstlisting}
+  \end{Algorithm}
+\end{figure}
+
+Let us consider the algorithm \lstinline{explore-implications/weaker-version} as given in
+\Cref{alg:explore-implications-weaker-version}.  This algorithm is very similar to our
+implementation of \lstinline{explore-implications} as given in
+\Cref{alg:explore-implications}, but differs in a crucial aspect:  we still compute sets
+of the form
+\begin{equation*}
+  P = \text{\lstinline{next-closed-non-closed}}(M, \leq_{M}, P_{i}, \mathcal{K}_{i}, \mathcal{L}_{i})
+\end{equation*}
+but we then do not directly ask $P \to \mathcal{L}_{i}(P)$ to the expert.  Instead, we
+allow the algorithm to choose a set $P_{i+1}$ such that
+\begin{equation*}
+  P_{i} \preceq P_{i+1} \preceq P
+\end{equation*}
+and $P_{i+1}$ is not $\mathcal{L}_{i}$-closed.  Note that such a set always exists since
+$P$ is not $\mathcal{L}_{i}$-closed.
+
+Since $P_{i+1}$ is not $\mathcal{L}_{i}$-closed, $P_{i+1} \subsetneq
+\mathcal{L}_{i}(P_{i+1})$.  We then choose a set $Q$ such that
+\begin{equation*}
+  P_{i+1} \subsetneq Q \subseteq \mathcal{L}_{i}(P_{i+1})
+\end{equation*}
+and finally ask the implication $P \to Q$ to the expert.
+
+Note that if we always choose $P_{i+1} = P$ and $Q = \mathcal{L}_{i}(P_{i+1})$, then we
+obtain the function \lstinline{explore-implications} again.
+
+We now argue that \lstinline{explore-implications/weaker-version} is indeed an algorithm
+that allows to explore $\mathcal{L}$, using $p$ as an expert and $\mathcal{K}$ as
+background knowledge.  For this we first observe that termination can be argued as in the
+case of \Cref{alg:explore-implications}, and therefore the analog of
+\Cref{thm:explore-implications-termination} holds.
+
+\begin{Theorem}
+  \label{thm:explore-implications-weaker-version-termination}
+  Let $M$ be a finite set, $\leq_{M}$ a linear order on $M$, $p$ be a domain expert on
+  $M$, $\mathcal{L} \subseteq \Imp(M)$ and $\mathcal{K} \subseteq \Th(p)$.  Then the call
+  \begin{equation*}
+    \text{\lstinline{explore-implications/weaker-version}}(M, \leq_{M}, p, \mathcal{L}, \mathcal{K})
+  \end{equation*}
+  terminates after finitely many steps.
+\end{Theorem}
+
+For the correctness of \lstinline{explore-implications/weaker-version} we can argue in
+practically the same way as we did for \lstinline{explore-implications}.  The crucial
+argument there was \Cref{prop:explore-implications-closedness-persists}, which also holds
+in this case, with nearly the same proof.  We shall repeat it nevertheless for easier
+comparison.
+
+\begin{Proposition}
+  \label{prop:explore-implications-weaker-version-closedness-persists}
+  Let $M$, $\leq_{M}$, $p$, $\mathcal{L}$, $\mathcal{K}$ as before.  Then for every
+  iteration $i$ in the run of
+  \begin{equation*}
+    \text{\lstinline{explore-implications/weaker-version}}(M, \leq_{M}, p, \mathcal{L}, \mathcal{K})
+  \end{equation*}
+  if $P_{i+1}$ is not \lstinline{nil}, it is true for all $A \prec P_{i+1}$ that, if $A$
+  is $\mathcal{K}_{i}$-closed, then $A$ is also $\mathcal{L}_{i}$-closed.
+\end{Proposition}
+\begin{Proof}
+  We again show the claim by induction over $i$.  For the base case $i = 0$ we know that
+  $P_{i} = \emptyset$, and thus the claim is vacuously true.
+
+  For the step case assume the validity of the proposition for iteration $i$.  Then if
+  $P_{i+2}$ is not \lstinline{nil} we need to show that for each $A \preceq P_{i+2}$, if
+  $A$ is $\mathcal{K}_{i+1}$-closed, then $A$ is also $\mathcal{L}_{i+1}$-closed.
+
+  As before we can reduce this to the case that $P_{i+1} \preceq A \precneq P_{i+2}$ and
+  $A$ being $\mathcal{K}_{i+1}$-closed.  In particular $P_{i+1} \neq P_{i+2}$.  Then
+  $P_{i+1} = A$ is the only interesting case, since all sets strictly lectically lying
+  between $P_{i+1}$ and $P_{i+2}$ which are $\mathcal{K}_{i+1}$-closed are also
+  $\mathcal{L}_{i+1}$-closed, due to the construction of $P_{i+2}$.  Since $P_{i+1} \neq
+  P_{i+2}$ we know that $P_{i+1}$ must also be $\mathcal{L}_{i+1}$-closed, as otherwise
+  the algorithm would compute $P_{i+1} = P_{i+2}$.  Thus, $A = P_{i+1}$ is also
+  $\mathcal{L}_{i+1}$-closed, as required.
+\end{Proof}
+
+Now most of the properties of \lstinline{explore-implications} carry over.  However, since
+we do not ask implications of the form
+\begin{equation}
+  \label{eq:39}
+  P_{i+1} \to \mathcal{L}_{i}(P_{i+1})
+\end{equation}
+anymore, we can also not expect that the algorithm computes the canonical base of
+$\mathcal{L} \cap \Th(p)$ with background knowledge $\mathcal{K}$.  In particular this
+means that the number of implications asked to and confirmed by the expert is not
+necessarily minimal anymore.
+
+\begin{Theorem}
+  \label{thm:explore-implications-weaker-version-all-other-properties}
+  Let $M$ be a finite set, $\leq_{M}$ be a linear order on $M$, $p$ a domain expert on
+  $M$, $\mathcal{L} \subseteq \Imp(M)$ and $\mathcal{K} \subseteq \Th(p) \cap
+  \Cn(\mathcal{L})$.  Denote with $n$ the last iteration of the run of
+  \begin{equation*}
+    \text{\lstinline{explore-implications/weaker-version}}(M, \leq_{M}, p, \mathcal{L}, \mathcal{K}).
+  \end{equation*}
+  Then
+  \begin{enumerate}[i. ]
+  \item $\Cn(\mathcal{K}_{n}) = \Cn(\mathcal{L}_{n})$,
+  \item $\mathcal{L}_{n} = \Th(p) \cap \mathcal{L}$, and
+  \item $\Cn(\mathcal{K}_{n}) = \Cn(\Th(p) \cap \mathcal{L})$.
+  \end{enumerate}
+\end{Theorem}
 
 \section{Exploration by Confidence}
 \label{sec:expl-conf}
