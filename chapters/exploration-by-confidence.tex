@@ -1288,11 +1288,11 @@ M, I_{i})$, which is the formal context
 \begin{equation*}
   \con K \div \con L_{i} := \frac {\con K} {\con L_{i}} := (G \cup G_{i}, M, I \cup I_{i}),
 \end{equation*}
-where we assume that $G$ and $G_{i}$ as well as $I$ and $I_{i}$ are disjoint.  To avoid
-confusion we shall denote thus denote the derivation operators by $(\cdot)'_{\con K}$,
-$(\cdot)'_{\con L_{i}}$ and $(\cdot)'_{\con K \div \con L_{i}}$, respectively.  To ease
-readability, we shall also write $(\cdot)''_{\con K}$ instead of $((\cdot)'_{\con
-  K})'_{\con K}$, and likewise for the other contexts.
+where we assume that $G$ and $G_{i}$ are disjoint.  To avoid confusion we shall denote
+thus denote the derivation operators by $(\cdot)'_{\con K}$, $(\cdot)'_{\con L_{i}}$ and
+$(\cdot)'_{\con K \div \con L_{i}}$, respectively.  To ease readability, we shall also
+write $(\cdot)''_{\con K}$ instead of $((\cdot)'_{\con K})'_{\con K}$, and likewise for
+the other contexts.
 
 To achieve the computation of $\mathcal{L}_{i}(P)$ for some $P$ we first recall the
 definition of $\mathcal{L}_{i}(P)$ as given in \Cref{def:induced-closure-operator}.  There
@@ -1332,8 +1332,9 @@ the difficult part in computing $\mathcal{L}_{i}^{1}(P)$ is to compute the set
 \begin{equation*}
   \mathcal{L}_{i}^{1}(P) \setminus P_{\con K \div \con L_{i}}''.
 \end{equation*}
-For this we need to consider implications $A \to B$ which are not valid in $\con K$, but
-whose confidence is at least $c$ in $\con K$, \ie
+
+One way to achieve this is to consider all implications $A \to B$ which are not valid in
+$\con K$, but whose confidence is at least $c$ in $\con K$, \ie
 \begin{equation*}
   1 > \conf_{\con K}(A \to B) \ge c.
 \end{equation*}
@@ -1341,7 +1342,35 @@ Additionally, we can assume without loss of generality that $\abs B = 1$, becaus
 \begin{equation*}
   \conf_{\con K}(A \to \set{ b }) \ge \conf_{\con K}(A \to B)
 \end{equation*}
-is true for all $b \in B$.
+is true for all $b \in B$.  Finally, since $\mathcal{L}_{i} \subseteq \Th(\con L_{i})$, we
+also know that
+\begin{equation*}
+  \mathcal{L}_{i}(P) \subseteq P_{\con L_{i}}''.
+\end{equation*}
+
+Thus, to obtain all elements in $\mathcal{L}_{i}(P) \setminus P_{\con K \div \con
+  L_{i}}''$, we can check for all elements $b \in P_{\con L_{i}}'' \setminus P_{\con K
+  \div \con L_{i}}$ whether there exists a subset $A \subseteq P$ such that
+\begin{equation*}
+  1 > \conf_{\con K}(A \to \set{ b }) \ge c.
+\end{equation*}
+Then $y \in \mathcal{L}_{i}(P) \setminus P_{\con K \div \con L_{i}}$ if and only if such a
+set $A$ exists.
+
+\begin{Proposition}
+  \label{prop:computing-confident-closure-first-try}
+  Let $\con K = (G, M, I)$ and $\con L_{i} = (G_{i}, M, I)$ be two formal contexts such
+  that $G$ and $G_{i}$ are disjoint.  Let $c \in [0,1]$ and define
+  \begin{equation*}
+    \mathcal{L}_{i} = \Th_{c}(\con K) \cap \Th(\con L_{i}).
+  \end{equation*}
+  Then for $P \subseteq M$ it is true that
+  \begin{equation*}
+    \mathcal{L}_{i}^{1}(P) = A_{\con K \div \con L_{i}}'' \cup \set{ b \in P_{\con
+        L_{i}}'' \mid \exists A \subseteq P \st b \in A_{\con L_{i}}'' \setminus P_{\con K
+      \div \con L_{i}}'' \text{ and } \conf_{\con K}(A \to \set{ b }) \ge c }.
+  \end{equation*}
+\end{Proposition}
 
 \todo[inline]{Write: 13-04/4.1}%
 
