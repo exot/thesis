@@ -771,9 +771,10 @@ or does not hold in $\con L$.  This fact can be useful on its own.
 \end{Theorem}
 \begin{Proof}
   We first observe that
-  \begin{equation*}
+  \begin{equation}
+    \label{eq:40}
     \mathcal{L}_{n} = \Th(\con L) \cap \mathcal{L}.
-  \end{equation*}
+  \end{equation}
   Then from \Cref{cor:explore-implications-closures-coincide} and $\mathcal{K} \subseteq
   \Cn(\mathcal{L})$ we obtain as before that $\Cn(\mathcal{K}_{n}) =
   \Cn(\mathcal{L}_{n})$, and thus
@@ -1035,7 +1036,7 @@ P_{i+1} \text{ not } \mathcal{L}_{i}\text{-closed}$
       $\mathcal{K}_{i+1}$ := $\mathcal{K}_i$
       $C$ := $p(P_{i+1} \to Q)$
       $\mathcal{L}_{i+1}$ := $\set{ (A \to B) \in \mathcal{L}_i \mid A \not\subseteq C
-\text{ or } B \subseteq C }\label{lst:explore-implications-1}$
+\text{ or } B \subseteq C }$
     end
 
     $i$ := $i + 1$
@@ -1153,17 +1154,203 @@ necessarily minimal anymore.
 \section{Exploration by Confidence}
 \label{sec:expl-conf}
 
-\todo[inline]{Write: 13-04/4}
+We now want to use the algorithms we have developed for exploring sets of implications to
+solve our initial problem, namely the exploration of implications with high confidence in
+some given formal context $\con K = (G, M, I)$.  In other words, if $c \in [0,1]$ is
+given, then we want to explore the set $\Th_{c}(\con K)$.  In doing so, we generalize
+attribute exploration such that it not only asks implications which are valid in $\con K$,
+but also presents to the expert implications whose confidence is high enough in the data.
+As described in the introduction of this chapter, this \emph{exploration by confidence} is
+exactly the generalization of attribute exploration we wanted to achieve.
 
-\subsection{Exploration by Confidence with Optimality}
+As a first step to achieve an algorithm for exploration by confidence we shall instantiate
+\Cref{alg:explore-implications} for $\mathcal{L} = \Th_{c}(\con K)$.  While this approach
+is conceptually trivial, it entails some technical problems, the most serious of them
+being able to compute closures of the form
+\begin{equation*}
+  \Th_{c}(\con K)(P)
+\end{equation*}
+for sets $P \subseteq M$.  We discuss some approaches how to achieve this computation more
+efficiently than by iterating through $\Th_{c}(\con K)$, which are, however, still
+potentially expensive.  All this will be done in \Cref{sec:expl-conf-1}.
+
+To remedy this problem we use our weaker formulation
+\Cref{alg:explore-implications-weaker-version} and derive from it in
+\Cref{sec:poss-fast-expl} an algorithm for exploration by confidence that avoids computing
+closures under $\Th_{c}(\con K)$.  The price we have to pay for this simplification are an
+increase in the number of questions asked to the expert, and the fact that we do not
+compute the canonical base anymore.
+
+\subsection{Exploration by Confidence from Exploration of Sets of Implications}
 \label{sec:expl-conf-1}
 
-\todo[inline]{Write: 13-04/4.1}
+As already mentioned, we obtain our first algorithm for exploration by confidence by
+instantiating \Cref{alg:explore-implications} with $\mathcal{L} = \Th_{c}(\con K)$.  The
+first problem we have to face here is how to implement \Cref{lst:explore-implications-1}, \ie
+\begin{equation*}
+  \mathcal{L}_{i+1} := \set{ (A \to B) \in \mathcal{L}_{i} \mid A \not\subseteq C \text{
+      or } B \subseteq C }.
+\end{equation*}
+Naively, if $\mathcal{L} = \Th_{c}(\con K)$, this statement can be implemented by
+enumerating all implications in $\Th_{c}(\con K)$, an approach which we want to avoid for
+obvious reasons.  Instead, we collect all counterexamples in a formal context $\con L_{i}$
+as we did in \Cref{thm:explore-implications-counterexamples-context}, and then use the
+fact which we already used in the proof of this statement (\Cref{eq:40}), which in our
+case amounts to
+\begin{equation*}
+  \mathcal{L}_{i} = \Th_{c}(\con K) \cap \Th(\con L_{i}).
+\end{equation*}
 
-\subsection{An Exploration by Confidence with Faster Generation of Questions}
+\addfunctionname{exploration-by-confidence}
+
+\begin{figure}[tp]
+  \centering
+  \begin{Algorithm}[Exploration by Confidence, First Version]
+    \label{alg:exploration-by-confidence-first-version}
+    \hspace*{0cm}
+\begin{lstlisting}
+define exploration-by-confidence($\con K = (G, M, I)$, $\leq_M$, $p$, $c \in [0,1]$, $\mathcal{K} \subseteq \Th(p)$)
+  $i$ := 0, $\con L_{i} = (\emptyset, M, \emptyset)$, $\mathcal{K}_i$ := $\mathcal{K}$, $P_i$ := $\emptyset$
+
+  while $P_i \neq$ nil do
+    $\mathcal{L}_{i}$ := $\Th_{c}(\con K) \cap \Th(\con L_{i})$
+    $P_{i+1}$ := next-closed-non-closed($M$, $\leq_M$, $P_i$, $\mathcal{K}_i$, $\mathcal{L}_i$)
+
+    if $p(P_{i+1} \to \mathcal{L}_i(P_{i+1})) = \top$ then
+      $\mathcal{K}_{i+1}$ := $\mathcal{K}_i \cup \set{ P_{i+1} \to \mathcal{L}_i(P_{i+1}) }$
+      $\con L_{i+1}$ := $\con L_{i}$
+    else
+      $\mathcal{K}_{i+1}$ := $\mathcal{K}_i$
+      $\con L_{i+1}$ := $\con L_{i} + p(P_{i+1} \to \mathcal{L}_i(P_{i+1}))$ ;; add counterexample to $\con L_{i}$
+    end
+
+    $i$ := $i + 1$
+  end while
+
+  return $\mathcal{K}_i$  
+end
+\end{lstlisting}
+  \end{Algorithm}
+\end{figure}
+
+The algorithm we thus obtain from \Cref{alg:explore-implications} is shown in
+\Cref{alg:exploration-by-confidence-first-version}.  Its correctness and the fact that it
+computes the canonical base of $\Th(p) \cap \Th_{c}(\con K)$ with background knowledge
+$\mathcal{K}$ are now immediate consequences of our foregone discussions.
+
+\begin{Corollary}
+  \label{cor:exploration-by-confidence-first-version}
+  Let $\con K = (G, M, I)$ be a finite formal context, $\leq_{M}$ a linear order on $M$,
+  $c \in [0,1]$, $p$ a domain expert on $M$ and $\mathcal{K} \subseteq \Th_{c}(\con K)
+  \cap \Th(p)$.  Then the call
+  \begin{equation*}
+    \text{\lstinline{exploration-by-confidence}}(\con K, \leq_{M}, p, c, \mathcal{K})
+  \end{equation*}
+  terminates after finitely many steps.  If $n$ is the number of iterations of this call,
+  and if $\mathcal{K}_{n}$ is the corresponding return value, then $\mathcal{K}_{n}
+  \setminus \mathcal{K}$ is a base of $\Th(p) \cap \Th_{c}(\con K)$ with background
+  knowledge $\mathcal{K}$, \ie
+  \begin{equation*}
+    \Cn(\mathcal{K}_{n}) = \Cn(\Th(p) \cap \Th_{c}(\con K)).
+  \end{equation*}
+  More precisely, $\mathcal{K}_{n} \setminus \mathcal{K}$ is the canonical base of $\Th(p)
+  \cap \Th_{c}(\con K)$ with background knowledge $\mathcal{K}$, formally
+  \begin{equation*}
+    \mathcal{K}_{n} \setminus \mathcal{K} = \Can(\Th(p) \cap \Th_{c}(\con K), \mathcal{K}).
+  \end{equation*}
+\end{Corollary}
+
+Recall that when we motivated exploration by confidence that we mentioned that in such an
+implementation we would need to distinguish between different forms of counterexamples: if
+$(A \to B) \in \Imp(M)$, then the counterexamples for $A \to B$ contained in $\con K$ can
+possibly be ignored if only $\conf_{\con K}(A \to B) \ge c$.  On the other hand, if our
+expert $p$ provides a counterexample for $A \to B$, then this counterexample cannot be
+ignored, even if the confidence of $A \to B$ would still be sufficiently high.
+
+Our \Cref{alg:exploration-by-confidence-first-version} solves this problem by just
+considering two formal contexts, namely $\con K$ on the one hand, where we apply the
+confidence threshold, and $\con L_{i}$ on the other hand, of which we only consider valid
+implications.  This distinction is immediate if we consider the definition of
+$\mathcal{L}_{i}$, namely
+\begin{equation*}
+  \mathcal{L}_{i} = \Th_{c}(\con K) \cap \Th(\con L_{i}).
+\end{equation*}
+
+Of course this solution is only practical if we can efficiently compute closures under
+$\mathcal{L}_{i}$.  As already mentioned, we want to avoid enumerating $\Th_{c}(\con K)$
+at all costs, as otherwise the algorithm impractical even from a theoretical point of
+view.  In the following we want to discuss an approach which allows to compute such
+closures.
+
+In what follows we shall consider derivation in various contexts, namely in $\con K$,
+$\con L_{i}$ and the \emph{subposition} of $\con K = (G, M, I)$ and $\con L_{i} = (G_{i},
+M, I_{i})$, which is the formal context
+\begin{equation*}
+  \con K \div \con L_{i} := \frac {\con K} {\con L_{i}} := (G \cup G_{i}, M, I \cup I_{i}),
+\end{equation*}
+where we assume that $G$ and $G_{i}$ as well as $I$ and $I_{i}$ are disjoint.  To avoid
+confusion we shall denote thus denote the derivation operators by $(\cdot)'_{\con K}$,
+$(\cdot)'_{\con L_{i}}$ and $(\cdot)'_{\con K \div \con L_{i}}$, respectively.  To ease
+readability, we shall also write $(\cdot)''_{\con K}$ instead of $((\cdot)'_{\con
+  K})'_{\con K}$, and likewise for the other contexts.
+
+To achieve the computation of $\mathcal{L}_{i}(P)$ for some $P$ we first recall the
+definition of $\mathcal{L}_{i}(P)$ as given in \Cref{def:induced-closure-operator}.  There
+we had defined
+\begin{align*}
+  \mathcal{L}^{1}(P) &:= P \cup \bigcup \set{ B \mid (A \to B) \in \mathcal{L}, A
+    \subseteq P }, \\
+  \mathcal{L}^{j+1}(P) &:= \mathcal{L}^{1}(\mathcal{L}^{j}(P)) \quad (j \in \NN_{> 0}), \\
+  \mathcal{L}(P) & := \bigcup_{i \in \NN_{>0}} \mathcal{L}^{i}(P).
+\end{align*}
+Therefore, if we can find a way to compute $\mathcal{L}_{i}^{1}(P)$ for $\mathcal{L}_{i} =
+\Th_{c}(\con K) \cap \Th(\con L_{i})$ then we are in principle also able to compute
+$\mathcal{L}_{i}(P)$.  Note that we only have to consider $\mathcal{L}_{i}^{j}(P)$ for up
+to at most $j = \abs M$, because $\abs{ \mathcal{L}_{i}(P) } \le \abs M$.
+
+As a first observation to compute $\mathcal{L}_{i}^{1}(P)$ for arbitrary $P \subseteq M$
+we observe that
+\begin{equation}
+  \label{eq:41}
+  P_{\con K \div \con L_{i}}'' \subseteq \mathcal{L}_{i}^{1}(P).
+\end{equation}
+This is because on the one hand we have $P_{\con K \div \con L_{i}}'' \subseteq P_{\con
+  K}''$ and thus the implication $P \to P_{\con K \div \con L_{i}}''$ is valid in $\con
+K$, and in particular $(P \to P_{\con K \div \con L_{i}}'') \in \Th_{c}(\con K)$.
+On other hand, the same argumentation shows that $P_{\con K \div \con L_{i}}'' \subseteq
+P_{\con L_{i}}''$, and thus $(P \to P_{\con K \div \con L_{i}}'') \in \Th(\con L_{i})$.
+Putting these facts together we obtain
+\begin{equation*}
+  (P \to P_{\con K \div \con L_{i}}'') \in \Th_{c}(\con K) \cap \Th(\con L_{i}) = \mathcal{L}_{i}
+\end{equation*}
+and therefore $P_{\con K \div \con L_{i}}'' \subseteq \mathcal{L}_{i}^{1}(P)$.
+
+To completely compute $\mathcal{L}_{i}^{1}(P)$ we need to consider all implications $(A
+\to B) \in \mathcal{L}_{i}$ such that $A \subseteq P$.  If $A \to B$ is valid in $\con K$
+then we know that $B \subseteq P_{\con K \div \con L_{i}}''$.  Therefore, by \Cref{eq:41},
+the difficult part in computing $\mathcal{L}_{i}^{1}(P)$ is to compute the set
+\begin{equation*}
+  \mathcal{L}_{i}^{1}(P) \setminus P_{\con K \div \con L_{i}}''.
+\end{equation*}
+For this we need to consider implications $A \to B$ which are not valid in $\con K$, but
+whose confidence is at least $c$ in $\con K$, \ie
+\begin{equation*}
+  1 > \conf_{\con K}(A \to B) \ge c.
+\end{equation*}
+Additionally, we can assume without loss of generality that $\abs B = 1$, because
+\begin{equation*}
+  \conf_{\con K}(A \to \set{ b }) \ge \conf_{\con K}(A \to B)
+\end{equation*}
+is true for all $b \in B$.
+
+\todo[inline]{Write: 13-04/4.1}%
+
+\subsection{Avoiding Closures under $\Th_{c}(\con K)$}
 \label{sec:poss-fast-expl}
 
-\todo[inline]{Write: 13-04/4.2}
+\todo[inline]{Write: 13-04/4.2}%
+\todo[inline]{Write: say that we can also now ask only implications whose confidence is
+  high enough}
 
 %%% Local Variables: 
 %%% mode: latex

@@ -840,9 +840,9 @@ whether an implication $A \to B$ follows from $\mathcal{L}$ or not.
   \label{def:induced-closure-operator}
   Let $M$ be a set and let $\mathcal{L} \subseteq \Imp(M)$.  Define for $X \subseteq M$
   \begin{align*}
-    \mathcal{L}^1(X) &:= X \cup \bigcup \set{ A \mid (A \to B) \in \mathcal{L}, A
+    \mathcal{L}^1(X) &:= X \cup \bigcup \set{ B \mid (A \to B) \in \mathcal{L}, A
       \subseteq X }, \\
-    \mathcal{L}^{i + 1} &:= \mathcal{L}^1(\mathcal{L}^i(X)) \quad (i \in \NN_0).
+    \mathcal{L}^{i + 1} &:= \mathcal{L}^1(\mathcal{L}^i(X)) \quad (i \in \NN_{> 0}).
   \end{align*}
   Then the \emph{induced closure operator} of $\mathcal{L}$ is defined by the mapping $X
   \mapsto \mathcal{L}(X)$, where
