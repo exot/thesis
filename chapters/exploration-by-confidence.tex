@@ -1461,7 +1461,7 @@ $A_{\con K}'$ that is not contained in $A_{\con K}' \cap \set{b}_{\con K}'$, \ie
 \end{equation*}
 Moreover, the condition $\conf_{\con K}(A \to \set{b}) \ge c$ entails
 \begin{equation*}
-  \abs{ A_{con K}' \cap \set{b}_{\con K}' } \ge c \cdot \abs{A_{\con K}'}.
+  \abs{ A_{\con K}' \cap \set{b}_{\con K}' } \ge c \cdot \abs{A_{\con K}'}.
 \end{equation*}
 We can therefore infer that $\abs{A_{\con K}'} - 1 \geq c \cdot \abs{A_{\con K}'}$, or
 equivalently
@@ -1477,6 +1477,81 @@ this cardinality constraint.  See \cite[Theorem~51]{fca-book} for more details o
 
 \subsection{Avoiding Closures under $\Th_{c}(\con K)$}
 \label{sec:poss-fast-expl}
+
+Our previously discussed \Cref{alg:exploration-by-confidence-first-version} for
+exploration by confidence depends crucially on the computation of closures under
+$\Th_{c}(\con K)$.  As we have seen, however, this computation may be quite costly, and in
+the worst case may render the algorithm useless for practical applications.  Avoiding it
+thus seems highly desirable.
+
+To achieve an algorithm that implements exploration by confidence and at the same time
+avoids the computation of closures under $\Th_{c}(\con K)$, we shall make use of
+\Cref{alg:explore-implications-weaker-version}, our algorithm for exploring sets of
+implications that allows for some freedom in the way implications are asked to the expert.
+To apply this algorithm to our specific setting, the main problem we have to solve is how
+to decide whether a given set $P \subseteq M$ is closed under $\Th_{c}(\con K)$ or not.
+Furthermore, we need to define the way the sets $P_{i+1}$ and $Q$ are computed, which
+eventually will constitute the implication $P_{i+1} \to Q$ which is asked to the expert.
+
+Let us start with some wishful thinking.  To decide whether $P$ is closed under
+$\mathcal{L}_{i} = \Th_{c}(\con K) \cap \Th(\con L_{i})$ it would be ideal if we could
+just check whether no element in $P_{\con L_{i}}''$ is entailed by $P$ with confidence at
+least $c$, \ie
+\begin{equation}
+  \label{eq:43}
+  P = \mathcal{L}_{i}(P) \iff \forall m \in P_{\con L_{i}}'' \setminus P \holds
+  \conf_{\con K}(P \to \set{m}) < c.
+\end{equation}
+The main benefit would be that we would not need to consider all subsets of $P$, and thus
+could avoid this expensive search.
+
+Regrettably, \Cref{eq:43} is not valid in general, but only the direction from left to
+right holds.  However, we can identify a special case in which this equivalence holds.
+
+\begin{Proposition}
+  \label{prop:easy-checking-confidence-closed}
+  Let $\con K = (G, M, I)$ be a finite formal context, and let $c \in [0,1]$.  Let $\con
+  L_{i} = (G_{i}, M, I)$ be another finite formal context such that $G_{i}$ and $G$ are
+  disjoint, and define $\mathcal{L}_{i} = \Th_{c}(\con K) \cap \Th(\con L_{i})$.
+
+  Let $A \subseteq M$, and let $\mathcal{K}_{i} \subseteq \Cn(\mathcal{L}_{i})$ be such
+  that for every intent $X \subsetneq A$ of $\con K \div \con L_{i}$ it is true that
+  \begin{equation}
+    \label{eq:44}
+    \forall m \in X_{\con L_{i}}'' \holds \conf_{\con K}(X \to \set{m}) \ge c \implies m
+    \in \mathcal{K}_{i}(X).
+  \end{equation}
+  In addition, let $A$ be $\mathcal{K}_{i}$-closed.  Then it is true that $A$ is
+  $\mathcal{L}_{i}$-closed if and only if
+  \begin{equation}
+    \label{eq:45}
+    A = A_{\con K \div \con L_{i}}'' \text{ and } \forall m \in A_{\con L_{i}}'' \setminus
+    A \holds \conf_{\con K}(A \to \set{m}) < c.
+  \end{equation}
+\end{Proposition}
+\begin{Proof}
+  Let $A$ be $\mathcal{L}_{i}$-closed.  Since $A \to A_{\con K \div \con L_{i}}''$ is
+  valid in both $\con K$ and $\con L_{i}$, it is true that $(A \to A_{\con K \div \con
+    L_{i}}'') \in \mathcal{L}_{i}$.  Therefore, $A = \mathcal{L}_{i}(A) \supseteq A_{\con
+    K \div \con L_{i}}'' \supseteq A$ and thus $A = A_{\con K \div \con L_{i}}''$ holds.
+  If $m \in A_{\con L_{i}}''$ is such that $\conf_{\con K}(A \to \set{m}) \ge c$, then $(A
+  \to \set{m}) \in \mathcal{L}_{i}$ and therefore $m \in \mathcal{L}_{i}(A) = A$ as
+  required.
+
+  Conversely, suppose that $A$ is not closed under $\mathcal{L}_{i}$ and that $A = A_{\con
+    K \div \con L_{i}}''$ is true.  Then there exists a set $X \subseteq A$ and an
+  attribute $m \in A_{\con L_{i}}'' \setminus A$ such that $(X \to \set{m}) \in
+  \mathcal{L}_{i}$.  Note that then $m \in X_{\con L_{i}}''$, because $X \to \set{m}$
+  holds in $\con L_{i}$.  Since $A = A_{\con K \div \con L_{i}}''$, $X \subseteq A$
+  implies $X_{\con K \div \con L_{i}}'' \subseteq A$.  Assume by contradiction that
+  $X_{\con K \div \con L_{i}}'' \subsetneq A$.  Then $\conf_{\con K}(X_{\con K \div \con
+    L_{i}}'' \to \set{m}) = \conf_{\con K}(X \to \set{m}) \ge c$ and \Cref{eq:44} imply
+  \begin{equation*}
+    m \in \mathcal{K}_{i}(X_{\con K \div \con L_{i}}'') \subseteq \mathcal{K}_{i}(A) = A,
+  \end{equation*}
+  a contradiction.  Therefore, $X_{\con K \div \con L_{i}}'' = A$ and thus $m \in A_{\con
+    L_{i}}'' \setminus A$ satisfies $\conf_{\con K}(A \to \set{m}) \ge c$ as required.
+\end{Proof}
 
 \todo[inline]{Write: 13-04/4.2}%
 \todo[inline]{Write: say that we can also now ask only implications whose confidence is
