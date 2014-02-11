@@ -1359,20 +1359,121 @@ set $A$ exists.
 
 \begin{Proposition}
   \label{prop:computing-confident-closure-first-try}
-  Let $\con K = (G, M, I)$ and $\con L_{i} = (G_{i}, M, I)$ be two formal contexts such
-  that $G$ and $G_{i}$ are disjoint.  Let $c \in [0,1]$ and define
+  Let $\con K = (G, M, I)$ and $\con L_{i} = (G_{i}, M, I)$ be two finite formal contexts
+  such that $G$ and $G_{i}$ are disjoint.  Let $c \in [0,1]$ and define
   \begin{equation*}
     \mathcal{L}_{i} = \Th_{c}(\con K) \cap \Th(\con L_{i}).
   \end{equation*}
   Then for $P \subseteq M$ it is true that
   \begin{equation*}
-    \mathcal{L}_{i}^{1}(P) = A_{\con K \div \con L_{i}}'' \cup \set{ b \in P_{\con
+    \mathcal{L}_{i}^{1}(P) = P_{\con K \div \con L_{i}}'' \cup \set{ b \in P_{\con
         L_{i}}'' \mid \exists A \subseteq P \st b \in A_{\con L_{i}}'' \setminus P_{\con K
       \div \con L_{i}}'' \text{ and } \conf_{\con K}(A \to \set{ b }) \ge c }.
   \end{equation*}
 \end{Proposition}
 
-\todo[inline]{Write: 13-04/4.1}%
+Finding sets $A$ as in the previous equation may be quite expensive, as in the worst case
+we need to search through all subsets of $P$.  A reduction of the number of sets we have
+to consider is thus desirable.  For this we can reuse our previous observation that
+\begin{equation*}
+  \conf_{\con K}(A \to \set{ b }) = \conf_{\con K}(A_{\con K}'' \to \set{ b }).
+\end{equation*}
+The idea is now that we use this fact to avoid considering all subsets of $P$, and just
+consider only those subsets which are intents of $\con K \div \con L_{i}$.  Note that
+since $A \subseteq A_{\con K \div \con L_{i}}'' \subseteq A_{\con K}''$ we also have that
+\begin{equation*}
+  \conf_{\con K}(A \to \set{ b }) = \conf_{\con K}(A_{\con K \div \con L_{i}}'' \to \set{
+    b }).
+\end{equation*}
+To enumerate all intents of $\con K \div \con L_{i}$ which are subsets of $P$ we could use
+the Next Closure algorithm, as discussed in \Cref{sec:bases-implications}.  However, for
+this we would need that $A \mapsto A_{\con K \div \con L_{i}}''$ is indeed a closure
+operator on $P$, \ie we have to guarantee that $P = P_{\con K \div \con L_{i}}''$ is
+true.  While this is not true in general, we can easily remedy by computing
+$\mathcal{L}_{i}^{1}(P_{\con K \div \con L_{i}}'')$ instead of $\mathcal{L}_{i}^{1}(P)$.
+
+\begin{Proposition}
+  \label{prop:computing-confident-closure-second-try}
+  Let $\con K = (G, M, I)$ and $\con L_{i} = (G, M, I)$ be two finite formal contexts such
+  that $G$ and $G_{i}$ are disjoint.  Let $c \in [0,1]$ and define
+  \begin{equation*}
+    \mathcal{L}_{i} = \Th_{c}(\con K) \cap \Th(\con L_{i}).
+  \end{equation*}
+  Define furthermore for $P \subseteq M$
+  \begin{align*}
+    \mathcal{L}_{i}^{1,\conf}(P) &:= P_{\con K \div \con L_{i}}'' \cup \{\, b \in P_{\con
+      L_{i}}'' \mid \exists A \subseteq P_{\con K \div \con L_{i}}'' \st A = A_{\con K
+      \div \con L_{i}}'', b \in A_{\con L_{i}}'' \setminus
+    P_{\con K \div \con L_{i}}''\\ &\hspace*{20em} \text{ and } \conf(A \to \set{b}) \ge c
+    \,\}.\\
+    \mathcal{L}_{i}^{j+1,\conf}(P) &:=
+    \mathcal{L}_{i}^{j,\conf}(\mathcal{L}_{i}^{1,\conf}(P)) \qquad (j \in \NN_{>0}),\\
+    \mathcal{L}_{i}^{\conf}(P) &:= \bigcup_{j \in \NN_{>0}} \mathcal{L}_{i}^{j,\conf}(P).
+  \end{align*}
+  Then
+  \begin{equation*}
+    \mathcal{L}_{i}^{1,\conf}(P) = \mathcal{L}_{i}^{1}(P_{\con K \div \con L_{i}}'')
+  \end{equation*}
+  is true for all $P \subseteq M$.  In particular, $\mathcal{L}_{i}^{\conf}(P) =
+  \mathcal{L}_{i}(P)$.
+\end{Proposition}
+
+Note that the main benefit of $\mathcal{L}_{i}^{\conf}(P)$ over $\mathcal{L}_{i}(P)$ is
+that in the former we are allowed to only consider intents of $\con K \div \con L_{i}$
+instead of all subsets of $P_{\con K \div \con L_{i}}''$.  This can be done using the Next
+Closure algorithm as described above.
+
+\begin{Proof}
+  Let $P \subseteq M$, and let $b \in \mathcal{L}_{i}^{1,\conf}(P) \setminus P_{\con K
+    \div \con L_{i}}''$.  Then there exists a set $A \subseteq P_{\con K \div \con
+    L_{i}}''$ such that $A = A_{\con K \div \con L_{i}}''$, $b \in A_{\con L_{i}}
+  \setminus P_{\con K \div L_{i}}''$ and $\conf (A \to \set{b}) \ge c$.  Since $(P_{\con K
+    \div \con L_{i}}'')_{\con L_{i}}'' = P_{\con L_{i}}''$, the same set $A$ shows that $b
+  \in \mathcal{L}_{i}^{1}(P_{\con K \div \con L_{i}}'') \setminus P_{\con K \div \con L_{i}}$.
+
+  Conversely, let $b \in \mathcal{L}_{i}^{1}(P_{\con K \div \con L_{i}}'') \setminus
+  P_{\con K \div \con L_{i}}''$.  Then $b \in (P_{\con K \div \con L_{i}}'')_{\con
+    L_{i}}'' = P_{\con L_{i}}''$.  Furthermore, there exists a set.  Then there exists $A
+  \subseteq P_{\con K \div \con L_{i}}''$ such that $b \in A_{\con L_{i}}'' \setminus
+  P_{\con K \div \con L_{i}}''$ and $\conf_{\con K}(A \to \set{ b }) \ge c$.  Then $\bar A
+  := A_{\con K \div \con L_{i}}''$ satisfies $\bar A = \bar A_{\con K \div \con L_{i}}''$,
+  $b \in \bar A_{\con L_{i}}'' \setminus P_{\con K \div \con L_{i}}''$ and $\conf_{\con
+    K}(\bar A \to \set{b}) \ge c$, thus $b \in \mathcal{L}_{i}^{1,\conf}(P)\setminus
+  P_{\con K \div \con L_{i}}''$.
+
+  Because of $\mathcal{L}_{i}^{1,\conf}(P) = \mathcal{L}_{i}^{1}(P_{\con K \div \con
+    L_{i}}'')$ we know that
+  \begin{equation*}
+    \mathcal{L}_{i}^{1}(P) \subseteq \mathcal{L}_{i}^{1,\conf}(P) \subseteq \mathcal{L}_{i}(P),
+  \end{equation*}
+  and therefore $\mathcal{L}_{i}^{\conf}(P) = \mathcal{L}_{i}(P)$.
+\end{Proof}
+
+We can further reduce the search space for the sets $A$ by bounding $\abs A$ from below.
+For this we observe that we are looking for sets $A$ such that
+\begin{equation*}
+  1 > \conf_{\con K}(A \to \set{b}) \ge c.
+\end{equation*}
+Since $A \to \set{b}$ does not hold in $\con K$, there exists at least one object in
+$A_{\con K}'$ that is not contained in $A_{\con K}' \cap \set{b}_{\con K}'$, \ie
+\begin{equation*}
+  \abs{ A_{\con K}' } > \abs{ A_{\con K}' \cap \set{ b }_{\con K}' }.
+\end{equation*}
+Moreover, the condition $\conf_{\con K}(A \to \set{b}) \ge c$ entails
+\begin{equation*}
+  \abs{ A_{con K}' \cap \set{b}_{\con K}' } \ge c \cdot \abs{A_{\con K}'}.
+\end{equation*}
+We can therefore infer that $\abs{A_{\con K}'} - 1 \geq c \cdot \abs{A_{\con K}'}$, or
+equivalently
+\begin{equation*}
+  \abs{A_{\con K}'} \geq \frac{1}{1 - c}
+\end{equation*}
+if $c \neq 1$.  Then all sets which are relevant for the computation of
+$\mathcal{L}_{i}^{1}(P)$ or $\mathcal{L}_{i}^{1,\conf}(P)$ satisfy this cardinality
+constraint.  Note that for computing $\mathcal{L}_{i}^{1,\conf}(P)$ the Next Closure
+algorithm can be modified accordingly, \ie the algorithm can be modified in such a way
+that it enumerates only intents contained in $P_{\con K \div \con L_{i}}''$ which satisfy
+this cardinality constraint.  See \cite[Theorem~51]{fca-book} for more details on this.
 
 \subsection{Avoiding Closures under $\Th_{c}(\con K)$}
 \label{sec:poss-fast-expl}
