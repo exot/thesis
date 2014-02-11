@@ -503,8 +503,9 @@ allows us to explore $\mathcal{L}$.  The result is shown in
 define explore-implications($M$, $\leq_M$, $p$, $\mathcal{L} \subseteq \Imp(M)$, $\mathcal{K} \subseteq \Th(p)$)
   $i$ := 0, $\mathcal{L}_i$ := $\mathcal{L}$, $\mathcal{K}_i$ := $\mathcal{K}$, $P_i$ := $\emptyset$
 
-  while $P_i \neq$ nil do
+  forever do
     $P_{i+1}$ := next-closed-non-closed($M$, $\leq_M$, $P_i$, $\mathcal{K}_i$, $\mathcal{L}_i$)
+    if $P_{i+1} =$ nil exit
 
     if $p(P_{i+1} \to \mathcal{L}_i(P_{i+1})) = \top$ then
       $\mathcal{K}_{i+1}$ := $\mathcal{K}_i \cup \set{ P_{i+1} \to \mathcal{L}_i(P_{i+1}) }$
@@ -1212,9 +1213,10 @@ case amounts to
 define exploration-by-confidence($\con K = (G, M, I)$, $\leq_M$, $p$, $c \in [0,1]$, $\mathcal{K} \subseteq \Th(p)$)
   $i$ := 0, $\con L_{i} = (\emptyset, M, \emptyset)$, $\mathcal{K}_i$ := $\mathcal{K}$, $P_i$ := $\emptyset$
 
-  while $P_i \neq$ nil do
+  forever do
     $\mathcal{L}_{i}$ := $\Th_{c}(\con K) \cap \Th(\con L_{i})$
     $P_{i+1}$ := next-closed-non-closed($M$, $\leq_M$, $P_i$, $\mathcal{K}_i$, $\mathcal{L}_i$)
+    if $P_{i+1} =$ nil exit
 
     if $p(P_{i+1} \to \mathcal{L}_i(P_{i+1})) = \top$ then
       $\mathcal{K}_{i+1}$ := $\mathcal{K}_i \cup \set{ P_{i+1} \to \mathcal{L}_i(P_{i+1}) }$
@@ -1222,7 +1224,7 @@ define exploration-by-confidence($\con K = (G, M, I)$, $\leq_M$, $p$, $c \in [0,
     else
       $\mathcal{K}_{i+1}$ := $\mathcal{K}_i$
       $\con L_{i+1}$ := $\con L_{i} + p(P_{i+1} \to \mathcal{L}_i(P_{i+1}))$ ;; add counterexample to $\con L_{i}$
-    end
+    end if
 
     $i$ := $i + 1$
   end while
@@ -1552,6 +1554,64 @@ right holds.  However, we can identify a special case in which this equivalence 
   a contradiction.  Therefore, $X_{\con K \div \con L_{i}}'' = A$ and thus $m \in A_{\con
     L_{i}}'' \setminus A$ satisfies $\conf_{\con K}(A \to \set{m}) \ge c$ as required.
 \end{Proof}
+
+Using the same notation as in \Cref{alg:explore-implications-weaker-version}, the idea is
+now to instantiate this algorithm such that \Cref{eq:44} is satisfied whenever we have to
+test a $\mathcal{K}_{i}$-closed set $A \subseteq M$ for being closed under
+$\mathcal{L}_{i}$.  To achieve this, we shall ask additional questions: in addition to
+asking the expert implications $P_{i+1} \to Q$ where $P_{i+1}$ is
+$\mathcal{K}_{i}$-closed, we shall also ask questions $X \to \set{m}$, where $X$ is an
+intent of $\con K \div \con L_{i}$, where $\con L_{i}$ is the formal context constituted
+of the counterexamples given so far, and $m \in X_{\con L_{i}}'' \setminus
+\mathcal{K}_{i}(X)$ satisfies $\conf_{\con K}(X \to \set{m}) \ge c$.
+
+\addfunctionname{exploration-by-confidence*}
+
+\begin{figure}[tp]
+  \begin{Algorithm}[Exploration by Confidence, Avoiding Closures under $\Th_{c}(\con K)$]
+    \label{alg:exploration-by-confidence-without-Th_c(K)-closures}
+    \hspace*{0cm}
+\begin{lstlisting}
+define exploration-by-confidence*($\con K = (G, M, I)$, $\leq_M$, $p$, $c \in [0,1]$, $\mathcal{K} \subseteq \Th(p) \cap \Th_{c}(\con K)$)
+  $i$ := 0, $\con L_{i} = (\emptyset, M, \emptyset)$, $\mathcal{K}_i$ := $\mathcal{K}$, $P_i$ := $\emptyset$
+
+  forever do
+    $P_{i+1}^{1}$ := $\text{lectically smallest intent } P \text{ of } \con K \div \con
+L_{i} \text{ such that }$
+      - $P_{i} \preceq P$
+      - $\text{there exists } m \in P_{\con L_{i}}'' \setminus \mathcal{K}_{i}(P) \text{ such that } \conf_{\con K}(P \to \set{m}) \ge c$
+    $Q_{i+1}^{1}$ := $\set{ m }$ ;; from above
+
+    $P_{i+1}^{2}$ := next-closed-non-closed($M$, $\leq_{M}$, $P_{i}$, $\mathcal{K}_{i}$, $\con K \div \con L_{i}$)
+    $Q_{i+1}^{2}$ := $(P_{i+1}^{2})_{\con K \div \con L_{i}}''$
+
+    $P_{i+1}$ := $\min\nolimits_{\preceq}(P_{i+1}^{1}, P_{i+1}^{2})$
+    if $P_{i+1} =$ nil exit
+
+    if $P_{i+1} = P_{i+1}^{1}$ then
+      $Q_{i+1}$ := $Q_{i+1}^{1}$
+    else
+      $Q_{i+1}$ := $Q_{i+1}^{2}$
+    end if
+
+    if $p(P_{i+1} \to Q_{i+1}) = \top$ then
+      $\mathcal{K}_{i+1}$ := $\mathcal{K}_i \cup \set{ P_{i+1} \to Q_{i+1} }$
+      $\con L_{i+1}$ := $\con L_{i}$
+    else
+      $\mathcal{K}_{i+1}$ := $\mathcal{K}_i$
+      $\con L_{i+1}$ := $\con L_{i} + p(P_{i+1} \to Q_{i+1})$ ;; add counterexample to $\con L_{i}$
+    end
+
+    $i$ := $i + 1$
+  end while
+
+  return $\mathcal{K}_i$  
+end
+\end{lstlisting}
+  \end{Algorithm}
+\end{figure}
+
+This idea is realized in \Cref{alg:exploration-by-confidence-without-Th_c(K)-closures}.
 
 \todo[inline]{Write: 13-04/4.2}%
 \todo[inline]{Write: say that we can also now ask only implications whose confidence is
