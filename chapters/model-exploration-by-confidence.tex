@@ -36,8 +36,33 @@ point, the set $\mathcal{B}$ is a finite base of $\mathcal{I}_{\mathsf{back}}$.
 The foregone description already suggests that there are some difficulties in transferring
 attribute exploration to the setting of GCIs and finite interpretations.  The most
 apparent is that the set of GCIs we potentially have to cover is infinite, as the set of
-valid GCIs of $\mathcal{I}_{\mathsf{back}}$ is infinite.  The other problem is that
-validity of GCIs in interpretations deploy a \emph{closed-world} semantics.
+valid GCIs of $\mathcal{I}_{\mathsf{back}}$ is infinite.
+
+The other problem is that validity of GCIs in interpretations deploy a \emph{closed-world}
+semantics: if an element $x \in \Delta^{\mathcal{I}}$ of a (finite) interpretation
+$\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ does not have an $r$-successor
+in $\mathcal{I}$, for some $r \in N_{R}$, then it is assumed that $x$ \emph{does not have}
+$r$-successors, instead of just assuming that these $r$-successors are not specified, but
+still could exist.  Therefore, if we add an element $x$ of $\mathcal{I}_{\mathsf{back}}$
+as a counterexample for a GCI to our working interpretation $\mathcal{I}$, then we also
+have to include \emph{all} its role successors (and their role successors, and so on),
+even so they may not be needed as part the counterexample.  This is because otherwise
+elements in $\mathcal{I}$ may serve as counterexamples to GCIs which are valid in
+$\mathcal{I}_{\mathsf{back}}$, because missing information is considered as false
+information.  The approach followed by Distel to account for this problem is to let the
+expert provide \emph{connected subinterpretations} of $\mathcal{I}_{\mathsf{back}}$ as
+counterexamples for GCIs.
+
+Distel was now able to extend his algorithm for computing finite bases of $\mathcal{I}$
+into an model exploration algorithm, and we shall introduce this algorithm with all
+necessary details in \Cref{sec:model-expl-with}.  Based on this discussion, we shall
+develop a model exploration algorithm that also includes GCIs with high confidence among
+those proposed to the expert.  This algorithm, which we shall call \emph{model exploration
+by confidence}, will be introduced in \Cref{sec:model-expl-with-1}, and its construction
+will mimic the argumentation used by Distel for his model exploration algorithm.
+
+The results presented in this section have been published previously in
+\cite{Borc-LTCS-13-11}.
 
 \section{Model Exploration with Valid GCIs}
 \label{sec:model-expl-with}
