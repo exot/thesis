@@ -1,12 +1,43 @@
-
 \chapter[Model Exploration by Confidence]{Model Exploration by Confidence with Completely Specified Counterexamples}
 \label{cha:model-expl-conf}
 
-\section{Model Exploration}
-\label{sec:model-exploration}
+We have seen how we can extend our understanding of attribute exploration to include the
+possibility to explore implications which enjoy a high confidence in some given formal
+context.  In this chapter we want to extend this generalization of attribute exploration
+even further to be able to explore GCIs with high confidence in finite interpretations.
+The basis for this extension will be Distel's \emph{model exploration}
+algorithm~\cite{Diss-Felix}, an extension of attribute exploration to explore valid GCIs
+of finite interpretations.
 
-\todo[inline]{Write: say what this is supposed to mean, and related it to the general
-  formulation of attribute exploration}%
+Model exploration, similarly to attribute exploration, assumes that a certain domain of
+interest is representable by a finite interpretation $\mathcal{I}_{\mathsf{back}}$, which
+we shall call the \emph{background interpretation} of the exploration process.  However,
+we assume that this interpretation is not directly accessible, but instead we have given
+an expert that allows us to decide whether certain GCIs are valid in
+$\mathcal{I}_{\mathsf{back}}$ or not.  In addition, if a given GCI $C \sqsubseteq D$ is
+not valid in $\mathcal{I}_{\mathsf{back}}$, then the expert provides a counterexample for
+$C \sqsubseteq D$ in a suitable way.
+
+The principal way how model exploration now works is again very akin to attribute
+exploration.  Given a finite \emph{connected subinterpretation} $\mathcal{I}$ of
+$\mathcal{I}_{\mathsf{back}}$ and a set $\mathcal{B}$ of valid GCIs of
+$\mathcal{I}_{\mathsf{back}}$, the algorithm successively generates valid GCIs $C
+\sqsubseteq D$ of $\mathcal{I}$ which do not follow from $\mathcal{B}$ and presents them
+to some expert.  If the expert confirms $C \sqsubseteq D$, then it is added to
+$\mathcal{B}$.  If the expert rejects $C \sqsubseteq D$, then she provides a
+counterexample to it in the form of a connected subinterpretation of
+$\mathcal{I}_{\mathsf{back}}$, which is added to $\mathcal{I}$.  Since $\mathcal{I}$ and
+$\mathcal{B}$ thus play the same role as the working context and the set of known
+implications during attribute exploration, we shall refer to them as the \emph{working
+  interpretation} and the \emph{set of known GCIs}, respectively.  If no more GCIs can be
+generated to be asked to the expert the algorithm stops.  It can be shown that at this
+point, the set $\mathcal{B}$ is a finite base of $\mathcal{I}_{\mathsf{back}}$.
+
+The foregone description already suggests that there are some difficulties in transferring
+attribute exploration to the setting of GCIs and finite interpretations.  The most
+apparent is that the set of GCIs we potentially have to cover is infinite, as the set of
+valid GCIs of $\mathcal{I}_{\mathsf{back}}$ is infinite.  The other problem is that
+validity of GCIs in interpretations deploy a \emph{closed-world} semantics.
 
 \section{Model Exploration with Valid GCIs}
 \label{sec:model-expl-with}
