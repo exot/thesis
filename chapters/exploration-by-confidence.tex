@@ -1578,14 +1578,15 @@ define exploration-by-confidence*($\con K = (G, M, I)$, $\leq_M$, $p$, $c \in [0
   forever do
     $P_{i+1}^{1}$ := $\text{lectically smallest intent } P \text{ of } \con K \div \con
 L_{i} \text{ such that }$
-      - $P_{i} \preceq P$
+      - $P_{i} \preceq P \text{, and}$
       - $\text{there exists } m \in P_{\con L_{i}}'' \setminus \mathcal{K}_{i}(P) \text{ such that } \conf_{\con K}(P \to \set{m}) \ge c$
+      $\text{or }$ nil $\text{ if such a set does not exist}$
     $Q_{i+1}^{1}$ := $\set{ m }$ ;; from above
 
     $P_{i+1}^{2}$ := next-closed-non-closed($M$, $\leq_{M}$, $P_{i}$, $\mathcal{K}_{i}$, $\con K \div \con L_{i}$)
     $Q_{i+1}^{2}$ := $(P_{i+1}^{2})_{\con K \div \con L_{i}}''$
 
-    $P_{i+1}$ := $\min\nolimits_{\preceq}(P_{i+1}^{1}, P_{i+1}^{2})$
+    $P_{i+1}$ := $\min\nolimits_{\preceq}(P_{i+1}^{1}, P_{i+1}^{2})$ ;; $\text{\textup{\textbf{nil}}}$ maximal with respect to $\preceq$
     if $P_{i+1} =$ nil exit
 
     if $P_{i+1} = P_{i+1}^{1}$ then
@@ -1612,10 +1613,73 @@ end
 \end{figure}
 
 This idea is realized in \Cref{alg:exploration-by-confidence-without-Th_c(K)-closures}.
+There instead of computing the set $P_{i+1}$ directly, we compute two candidates
+$P_{i+1}^{1}$ and $P_{i+1}^{2}$.  Here, $P_{i+1}^{2}$ is the ``usual'' premise we compute
+for exploration.  On the other hand, the idea of considering the sets $P_{i+1}^{1}$ comes
+from \Cref{eq:44} in \Cref{prop:easy-checking-confidence-closed}: if we are in iteration
+$i$, then all intents $X \subsetneq P_{i}$ of $\con K \div \con L_{i}$ had been considered
+as sets $X = P_{j}^{1}$ for some $j < i$, since $X \subsetneq P_{i}$ implies $X \precneq
+P_{i}$.  Then for all $m \in X_{\con L_{i}}'' \setminus \mathcal{K}_{i}(X)$ satisfying
+$\conf_{\con K}(X \to \set{m}) \ge c$, the implication $X \to \set{m}$ has thus eventually
+been asked to the expert for confirmation.  If confirmed, the implication is contained in
+$\mathcal{K}_{i}$; if rejected, the context $\con L_{i}$ would contain a counterexample,
+and thus $m \notin (P_{i})_{\con L_{i}}''$.  In this way, the condition in \Cref{eq:44} is
+ensured.
+
+That this rather informal argumentation indeed holds for
+\Cref{alg:exploration-by-confidence-without-Th_c(K)-closures} is shown in the following
+proposition.
+
+\begin{Proposition}
+  \label{prop:exploration-by-confidence-crucial-condition-holds}
+  Suppose that we are in iteration $i$ of a run of
+  \lstinline{exploration-by-confidence*}.  Then for all intents $X \precneq P_{i}$ of
+  $\con K \div \con L_{i}$ it is true that
+  \begin{equation}
+    \label{eq:42}
+    \forall m \in X_{\con L_{i}}'' \holds \conf_{\con K}(X \to \set{m}) \ge c \implies m
+    \in \mathcal{K}_{i}(X).
+  \end{equation}
+\end{Proposition}
+\begin{Proof}
+  We show the claim by induction on $i$.  For the base case $i = 0$ the claim is vacuously
+  true since $P_{0} = \emptyset$.  For the step case assume that \Cref{eq:42} holds for
+  iteration $i$, and assume further that iteration $i+1$ exists.  Then to show the claim
+  for iteration $i+1$ let $X \precneq P_{i+1}$ be an intent of $\con K \div \con L_{i+1}$
+  and $m \in X_{\con L_{i}}''$ such that $\conf_{\con K}(X \to \set{m}) \ge c$, and we
+  need to show that $m \in \mathcal{K}_{i}(X)$ is true.  For this, we distinguish two
+  cases.
+
+  \textit{Case $X \precneq P_{i}$}: If $\con L_{i} = \con L_{i+1}$, then $X$ being an
+  intent of $\con K \div \con L_{i+1}$ also trivially means that $X$ is an intent of $\con
+  K \div \con L_{i}$.  By induction hypothesis, we obtain $m \in \mathcal{K}_{i}(X)
+  \subseteq \mathcal{K}_{i+1}(X)$ as required.
+
+  If $\con L_{i} \neq \con L_{i+1}$, then a counterexamples $C \subseteq M$ has been added
+  to $\con L_{i}$ to obtain $\con L_{i+1}$, \ie
+  \begin{equation*}
+    \con L_{i+1} = \con L_{i} + C.
+  \end{equation*}
+  The set $C$ is a counterexample to the implication $P_{i+1} \to Q_{i+1}$, and because of
+  this $P_{i+1} \subseteq C$ is true.  Thus, $X \precneq P_{i+1} \preceq C$.  Therefore,
+  $C \not\subseteq X$, and it follows that $X_{\con L_{i+1}}'' = X_{\con L_{i}}''$.  Since
+  $X$ is an intent of $\con K \div \con L_{i+1}$, this implies that $X$ is also an intent
+  of $\con K \div \con L_{i}$.  Again by induction hypothesis we obtain that $m \in
+  \mathcal{K}_{i}(X) = \mathcal{K}_{i+1}(X)$.
+
+  \textit{Case $P_{i} \preceq X \precneq P_{i+1}$} (note that this case may not occur if
+  $P_{i} = P_{i+1}$): As argued before, $X$ being an intent of $\con K \div \con L_{i+1}$
+  implies that $X$ is also an intent of $\con K \div \con L_{i}$.  Since $X \precneq
+  P_{i+1} \preceq P_{i+1}^{1}$, and $P_{i+1}^{1}$ is the lectically smallest intent of
+  $\con K \div \con L_{i}$ such that there exists an element $n \in (P_{i+1}^{1})_{\con
+    L_{i}}'' \setminus \mathcal{K}_{i}(P_{i+1}^{1})$ satisfying $\conf_{\con
+    K}(P_{i+1}^{1} \to \set{n}) \ge c$, it follows that $m \in \mathcal{K}_{i}(X)$, as
+  required.
+\end{Proof}
 
 \todo[inline]{Write: 13-04/4.2}%
-\todo[inline]{Write: say that we can also now ask only implications whose confidence is
-  high enough}
+\todo[inline]{Write: say that we can only ask implications whose confidence is high
+  enough}
 
 %%% Local Variables: 
 %%% mode: latex
