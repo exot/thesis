@@ -67,16 +67,135 @@ The results presented in this section have been published previously in
 \section{Model Exploration with Valid GCIs}
 \label{sec:model-expl-with}
 
-\todo[inline]{Write: 13-11/4}
+In this section we shall introduce the model exploration algorithm devised by Distel to
+allow to explore valid GCIs of finite interpretations~\cite[Chapter~6]{Diss-Felix}.  In
+the next section, we shall then use the argumentation presented here and shall generalize
+it to the setting of GCIs with high confidence in finite interpretations.
+
+Model exploration is based on the result that bases of finite interpretations
+$\mathcal{I}$ can be obtained from bases of their corresponding induced formal context
+$\con K_{\mathcal{I}}$ (\Cref{thm:Felix-base-B3}).  Since attribute exploration arises
+from the computation of the canonical base by adding suitable expert interaction (see
+\Cref{sec:attr-expl}), one could think of obtaining an algorithm for model exploration by
+adding suitable expert interaction during the computation of bases of $\con
+K_{\mathcal{I}}$.  It shall turn out that this is indeed correct.
+
+There is a technical problem, however, which does not arise in attribute exploration:
+during attribute exploration, the set of attributes is fixed.  On the other hand, when we
+add counterexamples to our current working interpretation $\mathcal{I}$ during model
+exploration, then the attribute set $M_{\mathcal{I}}$ of the corresponding induced context
+$\con K_{\mathcal{I}}$ may change, since it depends on the elements of $\mathcal{I}$:
+recall that $M_{\mathcal{I}}$ was defined as
+\begin{equation*}
+  M_{\mathcal{I}} = N_{C} \cup \set{ \bot } \cup \set{ \exists r. X^{\mathcal{I}} \mid r
+    \in N_{R}, X \subseteq \Delta^{\mathcal{I}}, X \neq \emptyset },
+\end{equation*}
+where $X^{\mathcal{I}}$ denotes the model-based most-specific concept description of $X$
+in $\mathcal{I}$.
+
+Thus, to allow to use attribute exploration as a basis for model exploration we need to
+fix the attribute set, and the best way for this would be to use
+$M_{\mathcal{I}_{\mathsf{back}}}$.  However, since we cannot access the background
+interpretation $\mathcal{I}_{\mathsf{back}}$ directly, we cannot compute this set
+completely.  However, it can be shown that we can compute the set
+$M_{\mathcal{I}_{\mathsf{back}}}$ \emph{incrementally} during the computation, using the
+fact that the expert confirms a certain type GCIs, and then use the parts of
+$M_{\mathcal{I}_{\mathsf{back}}}$ we already know for the exploration process.
+
+To explain how this can be done, we shall first discuss in \Cref{sec:grow-sets-attr} how
+we can compute bases of formal contexts where the set of attributes is allowed to grow
+during the computation.  Thereafter, we shall see in \Cref{sec:comp-bases-given} how we
+can transfer this algorithm to the setting of computing finite bases of finite
+interpretations $\mathcal{I}$, thus allowing the set $M_{\mathcal{I}}$ to be computed
+successively during the computation.  Finally, we shall see in \Cref{sec:an-algor-expl}
+how we can add expert interaction to avoid direct access to the underlying interpretation,
+thus obtaining an algorithm that implements model exploration.
 
 \subsection{Growing Sets of Attributes}
 \label{sec:grow-sets-attr}
 
+We want to find an algorithm that allows us to compute bases of formal contexts where the
+attribute set is allowed to grow during the computation.  We can think of this situation
+as not knowing the attributes of a formal context completely when we start the
+computation, but instead more and more attributes are uncovered during the run of the
+algorithm.
+
+Obtaining such an algorithm is actually not that difficult.  For this let us consider how
+\Cref{alg:canonical-base} computes the canonical base.  There, we use the Next Closure
+algorithm to enumerate the premises of the canonical base of a given formal context $\con
+K = (G, M, I)$, using some linear order $\leq_{M}$ on $M$.  If $M = \set{ m_{1}, \dots,
+  m_{n} }$ and
+\begin{equation*}
+  m_{n} \leq_{M} m_{n-1} \leq_{M} \dots \leq_{M} m_{1},
+\end{equation*}
+then the Next Closure algorithm firstly enumerates all premises which are subsets of
+$\emptyset$, then those which are subsets of $\set{ m_{1} }$, then those of $\set{ m_{1},
+  m_{2} }$ and so on.  In particular, it will not consider an element $m_{k} \in M$ before
+it has enumerated all premises which are subsets of $\set{ m_{1}, \dots, m_{k-1} }$.
+
+We can exploit this idea for our purpose of computing bases with growing sets of
+attributes: if the attribute set in iteration $i$ is $M_{i}$, ordered by $\leq_{M_{i}}$,
+and we are about to add some new attributes $m_{1}, \dots, m_{n}$ to $M_{i}$ to obtain
+\begin{equation*}
+  M_{i+1} := M_{i} \cup \set{ m_{1}, \dots, m_{n} },
+\end{equation*}
+then we define the linear order $\leq_{M_{i+1}}$ on $M_{i+1}$ by ordering the elements in
+$M_{i} \subseteq M_{i+1}$ as before, and requiring in addition that
+\begin{equation*}
+  m_{j} \leq_{M_{i+1}} x
+\end{equation*}
+is true for all $j \in \set{ 1, \dots, n }$ and $x \in M_{i}$.  In other words, we just
+put the new elements \emph{before} the old elements.  In that way, the Next Closure
+behaves as if the elements would have been there from the start, and computes the base as
+desired.
+
+\addfunctionname{base/growing-set-of-attributes}
+
+\begin{figure}[tp]
+  \begin{Algorithm}[Algorithm 8 from~\cite{Diss-Felix}]~ Computing a Base of a Formal
+    Context with Growing Sets of Attributes and Background Knowledge%
+    \label{alg:base/growing-set-of-attributes}
+\begin{lstlisting}
+define base/growing-set-of-attributes($\con K = (G, M, I)$, $\leq_{M}$, $\mathcal{S}$)
+  $i$ := 0
+  $P_i$ := $\emptyset$
+  $\mathcal{L}_i$ := $\emptyset$
+  $\con K_i$ := $\con K$
+  $M_i$ := $M$
+  $\mathcal{S}_i$ := $\mathcal{S}$
+  $\leq_{M_i}$ := $\leq_{M}$
+
+  forever do
+    read $\con K_{i+1} = (G, M_{i+1}, I_{i+1})$ where $M_i \subseteq M_{i+1}$ and $I_i = I_{i+1} \cap M_i \times M_i$
+    read $\mathcal{S}_{i+1}$ where $\mathcal{S}_i \subseteq \mathcal{S}_{i+1} \subseteq \Th(\con K_{i+1})$
+
+    $\mathcal{L}_{i+1}$ := $\set{ P_r \to (P_r)_{\con K_{i+1}}'' \mid P_r \neq
+      (P_r)_{\con K_{i+1}}'', r \in \set{ 0, \ldots, i } }$
+
+    $P_{i+1}$ := next-closure($M_{i+1}$, $\leq_{M_{i+1}}$, $P_{i}$, $\mathcal{L}_{i+1} \cup \mathcal{S}_{i+1})$
+    if $P_{i+1} =$ nil exit
+
+    $i$ := $i + 1$  
+  end
+
+  return $\mathcal{L}_i$  
+end    
+\end{lstlisting}  
+  \end{Algorithm}
+\end{figure}
+
+
+\todo[inline]{Write: 13-11/4.2}
+
 \subsection{Exploring Valid GCIs with Known Background Interpretation}
 \label{sec:comp-bases-given}
 
+\todo[inline]{Write: 13-11/4.3}
+
 \subsection{An Algorithm for Exploring Interpretations}
 \label{sec:an-algor-expl}
+
+\todo[inline]{Write: 13-11/4.4}
 
 \section{Model Exploration with Confident GCIs}
 \label{sec:model-expl-with-1}
