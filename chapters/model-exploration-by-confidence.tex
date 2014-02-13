@@ -140,10 +140,16 @@ and we are about to add some new attributes $m_{1}, \dots, m_{n}$ to $M_{i}$ to 
   M_{i+1} := M_{i} \cup \set{ m_{1}, \dots, m_{n} },
 \end{equation*}
 then we define the linear order $\leq_{M_{i+1}}$ on $M_{i+1}$ by ordering the elements in
-$M_{i} \subseteq M_{i+1}$ as before, and requiring in addition that
-\begin{equation*}
+$M_{i} \subseteq M_{i+1}$ as before, \ie
+\begin{equation}
+  \label{eq:48}
+  \leq_{M_{i}} = {\leq_{M_{i+1}}} \cap M_{i} \times M_{i},
+\end{equation}
+and requiring in addition that
+\begin{equation}
+  \label{eq:49}
   m_{j} \leq_{M_{i+1}} x
-\end{equation*}
+\end{equation}
 is true for all $j \in \set{ 1, \dots, n }$ and $x \in M_{i}$.  In other words, we just
 put the new elements \emph{before} the old elements.  In that way, the Next Closure
 behaves as if the elements would have been there from the start, and computes the base as
@@ -156,36 +162,143 @@ desired.
     Context with Growing Sets of Attributes and Background Knowledge%
     \label{alg:base/growing-set-of-attributes}
 \begin{lstlisting}
-define base/growing-set-of-attributes($\con K = (G, M, I)$, $\leq_{M}$, $\mathcal{S}$)
+define base/growing-set-of-attributes($\con K = (G, M, I)$, $\leq_{M}$, $\mathcal{S} \subseteq \Th(\con K)$)
   $i$ := 0
   $P_i$ := $\emptyset$
-  $\mathcal{L}_i$ := $\emptyset$
+  $\mathcal{K}_i$ := $\emptyset$
   $\con K_i$ := $\con K$
   $M_i$ := $M$
   $\mathcal{S}_i$ := $\mathcal{S}$
   $\leq_{M_i}$ := $\leq_{M}$
 
   forever do
-    read $\con K_{i+1} = (G, M_{i+1}, I_{i+1})$ where $M_i \subseteq M_{i+1}$ and $I_i = I_{i+1} \cap M_i \times M_i$
-    read $\mathcal{S}_{i+1}$ where $\mathcal{S}_i \subseteq \mathcal{S}_{i+1} \subseteq \Th(\con K_{i+1})$
+    read $\con K_{i+1} = (G, M_{i+1}, I_{i+1}) \text{ such that } M_i \subseteq M_{i+1}
+\text{ and } I_i = I_{i+1} \cap M_i \times M_i$
+    read $\mathcal{S}_{i+1} \text{ such that } \mathcal{S}_i \subseteq \mathcal{S}_{i+1} \subseteq \Th(\con K_{i+1})$
+    choose ${\leq_{M_{i+1}}} \text{ such that (\ref{eq:48}) and (\ref{eq:49}) hold.}$
 
-    $\mathcal{L}_{i+1}$ := $\set{ P_r \to (P_r)_{\con K_{i+1}}'' \mid P_r \neq
+    $\mathcal{K}_{i+1}$ := $\set{ P_r \to (P_r)_{\con K_{i+1}}'' \mid P_r \neq
       (P_r)_{\con K_{i+1}}'', r \in \set{ 0, \ldots, i } }$
 
-    $P_{i+1}$ := next-closure($M_{i+1}$, $\leq_{M_{i+1}}$, $P_{i}$, $\mathcal{L}_{i+1} \cup \mathcal{S}_{i+1})$
+    $P_{i+1}$ := next-closure($M_{i+1}$, $\leq_{M_{i+1}}$, $P_{i}$, $\mathcal{K}_{i+1} \cup \mathcal{S}_{i+1})$
     if $P_{i+1} =$ nil exit
 
     $i$ := $i + 1$  
   end
 
-  return $\mathcal{L}_i$  
+  return $\mathcal{K}_i$  
 end    
 \end{lstlisting}  
   \end{Algorithm}
 \end{figure}
 
+An implementation of this idea is shown in \Cref{alg:base/growing-set-of-attributes}.
+Here we start with some initial formal context $\con K_{0} = \con K = (G, M, I)$ and some
+background knowledge $\mathcal{S}_{0} = \mathcal{S} \subseteq \Th(\con K)$.  Then, in
+every iteration we allow to extend the current context $\con K_{i} = (G, M_{i}, I_{i})$ by
+providing a new set $M_{i+1} \supseteq M_{i}$ of attributes and a new incidence relation
+$I_{i+1} \subseteq M_{i+1} \times M_{i+1}$ which satisfies
+\begin{equation*}
+  I_{i} = I_{i+1} \cap M_{i} \times M_{i}.
+\end{equation*}
+This corresponds to our perception that we do not now the actual formal context of which
+we want to compute a base of at the beginning, but instead uncover more and more parts
+during the computation.
 
-\todo[inline]{Write: 13-11/4.2}
+For this algorithm to make sense, we of course need to require that at a certain point all
+of the formal context has been uncovered, \ie that for some $\ell \in \NN_{\geq 0}$ it is
+true that $M_{\ell} = M_{i}$ for all $i \geq \ell$.  From this point on,
+\Cref{alg:base/growing-set-of-attributes} behaves as \Cref{alg:canonical-base} for
+computing the canonical base of a given formal context.
+
+\begin{Theorem}[Theorems~6.2 and~6.3 from~\cite{Diss-Felix}]
+  \label{thm:base-with-growing-set-of-attributes}
+  Let $\con K = (G, M, I)$ be a finite formal context, $\leq_{M}$ a linear order on $M$,
+  and $\mathcal{S} \subseteq \Th(\con K)$.  Then in a run of
+  \Cref{alg:base/growing-set-of-attributes}, let $\ell \in \NN_{\ge 0}$ be such that
+  $M_{\ell} = M_{i}$ for all $i \geq \ell$.  Then this run terminates.  If $n$ is the last
+  iteration of this run, then $\mathcal{K}_{n}$ of $\con K_{n}$ with background knowledge
+  $\mathcal{S}_{n}$.
+\end{Theorem}
+
+A difference to the classical computation of the canonical base as shown in
+\Cref{alg:canonical-base} is that in the latter we only consider sets $P$ as premises for
+implications which are closed under the currently known implications, but are not intents
+of the given formal context.  In contrast to this,
+\Cref{alg:base/growing-set-of-attributes} considers all sets $P_{i}$ which are closed
+under the currently known implications, no matter whether they are intents of $\con K_{i}$
+or not.  The reason for this that even if $P_{i}$ is an intent of $\con K_{i}$, it could
+very well be that $P_{i}$ is not an intent of $\con K_{n}$ (where $n$ is the number of
+iterations of the algorithm) because of attributes which have been introduced in $\con
+K_{n}$, but were not present in $\con K_{i}$.  Since we cannot know whether $P_{i}$ will
+be an intent of $\con K_{n}$ or not when we compute it, we have to consider it as well.
+Otherwise, we cannot guarantee that $\mathcal{K}_{n}$ will be a base of $\con K_{n}$.
+
+Unfortunately, the fact that we have to keep all those sets $P_{i}$ may lead to
+$\mathcal{K}_{n}$ not being irredundant anymore.  This has been illustrated
+in~\cite{Diss-Felix} by the following example.
+
+\begin{Example}[Example~6.1 from~\cite{Diss-Felix}]
+  \label{exp:non-redundant-bases}
+  %
+  \begin{figure}[tp]
+    \centering
+    \begin{equation*}
+      \con K_0 = \con K_1 =
+      \begin{array}{c | c}
+        ~ & \text{A} \\
+        \midrule
+        1 & \times \\
+        2 & 
+      \end{array}
+      \qquad
+      \con K_2 = \con K_3 =
+      \begin{array}{c|cc}
+        ~ & \text{A} & \text{B} \\
+        \midrule
+        1 & \times & \\
+        2 &        & \times
+      \end{array}
+      \qquad
+      \con K_3 = \con K_4 = \con K_5 =
+      \begin{array}{c|ccc}
+        ~ & \text{A} & \text{B} & \text{C}\\
+        \midrule
+        1 & \times & & \times \\
+        2 & & \times &
+      \end{array}
+    \end{equation*}
+    \caption{Formal Contexts for \Cref{exp:non-redundant-bases}}
+    \label{fig:example-context-1}
+  \end{figure}
+  %
+  We consider the following run of \Cref{alg:base/growing-set-of-attributes} with input
+  $\con K = \con K_0$ as shown in \Cref{fig:example-context-1}, and $\mathcal{S} =
+  \mathcal{S}_0 = \emptyset = \mathcal{S}_1 = \ldots = \mathcal{S}_6$:
+  \begin{equation*}
+    \begin{array}{c|ccc}
+      k & M_{k+1} \setminus M_k & \mathcal{L}_k & P_k \\
+      \midrule
+      0 & \emptyset      & \emptyset & \emptyset         \\
+      1 & \emptyset      & \emptyset & \set{\text{A}}    \\
+      2 & \set{\text{B}} & \emptyset & \set{\text{B}}    \\
+      3 & \emptyset      & \emptyset & \set{\text{A}, \text{B}} \\
+      4 & \set{\text{C}} & \set{\set{\text{A}} \to \set{\text{A},\text{C}},
+        \set{\text{A},\text{B}} \to \set{\text{A}, \text{B}, \text{C}}} & \set{\text{C}}\\
+      5 & \emptyset      & \set{\set{\text{A}} \to \set{\text{A},\text{C}},
+        \set{\text{A},\text{B}} \to \set{\text{A}, \text{B}, \text{C}}, \set{\text{C}} \to
+        \set{\text{A},\text{C}}} & \set{\text{A}, \text{B}, \text{C}}\\
+      6 & \emptyset & \set{\set{\text{A}} \to \set{\text{A},\text{C}},
+        \set{\text{A},\text{B}} \to \set{\text{A}, \text{B}, \text{C}}, \set{\text{C}} \to
+        \set{\text{A},\text{C}}} & \text{\lstinline{nil}}
+    \end{array}
+  \end{equation*}
+  In iterations 2 and 4, the new attributes B and C are added, as shown in
+  Figure~\ref{fig:example-context-1}.  The algorithm terminates in iteration 6 with output
+  $\mathcal{L}_6$, which is clearly non-redundant: the implication $\set{\text{A},
+    \text{B}} \to \set{\text{A}, \text{B}, \text{C}}$ is entailed by $\set{\text{A}} \to
+  \set{\text{A}, \text{C}}$.
+\end{Example}
 
 \subsection{Exploring Valid GCIs with Known Background Interpretation}
 \label{sec:comp-bases-given}
