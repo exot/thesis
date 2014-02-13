@@ -300,8 +300,17 @@ in~\cite{Diss-Felix} by the following example.
   \set{\text{A}, \text{C}}$.
 \end{Example}
 
-\subsection{Exploring Valid GCIs with Known Background Interpretation}
+\subsection{Computing Bases of Given Finite Interpretations}
 \label{sec:comp-bases-given}
+
+We now want to use \Cref{alg:base/growing-set-of-attributes} to devise an algorithm that
+allows us to compute bases of finite interpretations $\mathcal{I}$ without computing the
+set $M_{\mathcal{I}}$ first.  Instead, we want that the set $M_{\mathcal{I}}$ is computed
+successively during the run of the algorithm.  In this way, we can immediately start with
+computing valid GCIs of $\mathcal{I}$, and do not have to wait for $M_{\mathcal{I}}$ to be
+computed completely.
+
+
 
 \todo[inline]{Write: 13-11/4.3}
 
