@@ -450,8 +450,9 @@ interpretation, we want to replace every direct access to $\mathcal{I}_{\mathsf{
 that there are two places in \Cref{alg:base-of-interpretation} that directly access the
 given interpretation:
 \begin{enumerate}[i. ]
-\item when computing concept descriptions of the form $\exists r.X^{\mathcal{I}_{\mathsf{back}}}$
-  (line~\ref{lst:base-of-interpretation-1} of \Cref{alg:base-of-interpretation}),
+\item when computing concept descriptions of the form $\exists r.(\bigsqcap
+  P_{i})^{\mathcal{I}_{\mathsf{back}}}$ (line~\ref{lst:base-of-interpretation-1} of
+  \Cref{alg:base-of-interpretation}),
 \item when computing $\con K_{i}$ as induced context of $M_{i}$ and
   $\mathcal{I}_{\mathsf{back}}$ (line~\ref{lst:base-of-interpretation-2} of
   \Cref{alg:base-of-interpretation}).
@@ -459,7 +460,117 @@ given interpretation:
 The computation of $\con K_{i}$ we can fix easily by instead of computing the induced
 context of $M_{i}$ and $\mathcal{I}_{\mathsf{back}}$, we just the induced context $M_{i}$
 and the current working interpretation of the exploration process.  For computing $\exists
-r. X^{\mathcal{I}_{\mathsf{back}}}$, however, we need to use the expert.
+r. (\bigsqcap P_{i})^{\mathcal{I}_{\mathsf{back}}}$, however, we need to use the expert.
+
+Before we shall discuss this in more detail, we need to consider another issue first,
+which we have already talked about in the introduction, namely the way the experts
+specifies counterexamples during the exploration.  We had argued that if the expert gives
+an element $x \in \Delta^{\mathcal{I}_{\mathsf{back}}}$ from the background interpretation
+as a counterexample, then she also has to include all corresponding concept names and role
+successors $x$ has in $\mathcal{I}_{\mathsf{back}}$.  Otherwise, there may exist the
+danger that the counterexamples thus provided invalidate GCIs which are actually valid in
+the background interpretation $\mathcal{I}_{\mathsf{back}}$.
+
+To makes this more formal, Distel introduced the notion of a \emph{connected
+  subinterpretation}, which we shall introduce now.
+
+\begin{Definition}[Connected Subinterpretations; Definition~6.1 from~\cite{Diss-Felix}]
+  \label{def:connected-subinterpretations}
+  Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be a finite
+  interpretation over $N_{C}$ and $N_{R}$.  Define%
+  \def\succop{\operatorname{succ}}%
+  \def\nameop{\operatorname{names}}%
+  \begin{align*}
+    \nameop_{\mathcal{I}}(x) &:= \set{ C \in N_{C} \mid x \in C^{\mathcal{I}} },\\
+    \succop_{\mathcal{I}}(x, r) &:= \set{ y \in \Delta^{\mathcal{I}} \mid (x, y) \in
+      r^{\mathcal{I}} },
+  \end{align*}
+  for $x \in \Delta^{\mathcal{I}}$ and $r \in N_{R}$.
+
+  An interpretation $\mathcal{J} = (\Delta^{\mathcal{J}}, \cdot^{\mathcal{J}})$ over
+  $N_{C}$ and $N_{R}$ is called a \emph{subinterpretation} of $\mathcal{I}$ if and only if
+  \begin{enumerate}[i. ]
+  \item $\Delta^{\mathcal{J}} \subseteq \Delta^{\mathcal{I}}$,
+  \item $\nameop_{\mathcal{I}}(x) = \nameop_{\mathcal{J}}(x)$ for all $x \in
+    \Delta^{\mathcal{J}}$, and
+  \item $\succop_{\mathcal{J}}(x,r) \subseteq \succop_{\mathcal{I}}(x,r)$ for all $x \in
+    \Delta^{\mathcal{J}}, r \in N_{R}$.
+  \end{enumerate}
+  $\mathcal{J}$ is called a \emph{connected subinterpretation} of $\mathcal{I}$ if
+  $\mathcal{J}$ is a subinterpretation of $\mathcal{I}$, and in addition it is true that
+  \begin{equation*}
+    \succop_{\mathcal{J}}(x, r) = \succop_{\mathcal{I}}(x, r)
+  \end{equation*}
+  is true for all $x \in \Delta^{\mathcal{J}}, r \in N_{R}$.  In this case we shall say
+  that $\mathcal{I}$ \emph{extends} $\mathcal{J}$.
+\end{Definition}
+
+If we now ensure that during the exploration process the current working interpretation is
+a connected subinterpretation of the background interpretation
+$\mathcal{I}_{\mathsf{back}}$, then we can guarantee that counterexamples provided by the
+expert do not accidentally invalidate valid GCIs.  This can be achieved by adding
+counterexamples only as connected subinterpretations of $\mathcal{I}_{\mathsf{back}}$ to
+our current working interpretation.
+
+\begin{Lemma}[Lemma~6.12 from~\cite{Diss-Felix}]
+  \label{lem:Felix-6.12}
+  Let $\mathcal{J} = (\Delta^{\mathcal{J}}, \cdot^{\mathcal{J}})$ be an interpretation
+  over $N_{C}$ and $N_{R}$ which is a connected subinterpretation of the interpretation
+  $\mathcal{I}$.  Then for all $\ELgfpbot$ concept descriptions $C$ over $N_{C}$ and
+  $N_{R}$ it is true that
+  \begin{equation*}
+    C^{\mathcal{J}} = C^{\mathcal{I}} \cap \Delta^{\mathcal{J}}.
+  \end{equation*}
+\end{Lemma}
+
+\begin{Theorem}[Corollary~6.13 from~\cite{Diss-Felix}]
+  \label{thm:GCIs-valid-in-interpretations-are-also-valid-in-connected-subinterpretations}
+  Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be a finite
+  interpretation over $N_{C}$ and $N_{R}$, and let $\mathcal{J} = (\Delta^{\mathcal{J}},
+  \cdot^{\mathcal{J}})$ be a connected subinterpretation of $\mathcal{I}$.  Let $C, D$ be
+  two $\ELgfpbot$ concept descriptions over $N_{C}$ and $N_{R}$.  Then if $C \sqsubseteq
+  D$ is valid in $\mathcal{I}$, then $C \sqsubseteq D$ is also valid in $\mathcal{J}$.
+\end{Theorem}
+\begin{Proof}
+  Since $C \sqsubseteq D$ holds in $\mathcal{I}$, it is true that $C^{\mathcal{I}}
+  \subseteq D^{\mathcal{I}}$.  Using \Cref{lem:Felix-6.12} we thus obtain
+  \begin{equation*}
+    C^{\mathcal{J}} = C^{\mathcal{I}} \cap \Delta^{\mathcal{J}} \subseteq D^{\mathcal{J}}
+    \cap \Delta^{\mathcal{J}} = D^{\mathcal{J}},
+  \end{equation*}
+  \ie $C \sqsubseteq D$ holds in $\mathcal{J}$, as it was claimed.
+\end{Proof}
+
+Now that we know how the expert should provide counterexamples to proposed GCIs, let us
+turn back our attention to the question how to compute concept descriptions of the form
+$\exists r. (\bigsqcap P_{i})^{\mathcal{I}_{\mathsf{back}}\mathcal{I}_{\mathsf{back}}}$.
+The problem that in our hypothetical model exploration algorithm, in the iteration when we
+computed $P_{i}$, we do not have access to $\mathcal{I}_{\mathsf{back}}$.  Instead, we
+only have access to the current working interpretation $\mathcal{I}_{\ell}$, so the only
+concept description we can compute is $\exists r. (\bigsqcap
+P_{i})^{\mathcal{I}_{\ell}\mathcal{I}_{\ell}}$.  The good thing is that the expert can
+ensure that $\exists r. (\bigsqcap
+P_{i})^{\mathcal{I}_{\mathsf{back}}\mathcal{I}_{\mathsf{back}}}$ and $\exists
+r. (\bigsqcap P_{i})^{\mathcal{I}_{\ell}\mathcal{I}_{\ell}}$ are equivalent.  The reason
+for this is the following result.
+
+\begin{Lemma}[Lemma~6.14 from~\cite{Diss-Felix}]
+  \label{lem:Felix-6.14}
+  Let $\mathcal{I}$ be a finite interpretation over $N_{C}$ and $N_{R}$, and let
+  $\mathcal{J}$ be a connected subinterpretation of $\mathcal{I}$.  Then for all
+  $\ELgfpbot$ concept descriptions $C$ over $N_{C}$ and $N_{R}$, it is true that if $C
+  \sqsubseteq C^{\mathcal{J}\mathcal{J}}$ is valid in $\mathcal{I}$, then
+  $C^{\mathcal{I}\mathcal{I}} \equiv C^{\mathcal{J}\mathcal{J}}$.
+\end{Lemma}
+
+If we choose $\mathcal{I} = \mathcal{I}_{\mathsf{back}}$, $\mathcal{J} =
+\mathcal{I}_{\ell}$ and $C = \bigsqcap P_{i}$ in the previous lemma we see that if the
+expert confirms the GCI
+\begin{equation*}
+  \bigsqcap P_{i} \sqsubseteq (\bigsqcap P_{i})^{\mathcal{I}_{\ell}\mathcal{I}_{\ell}},
+\end{equation*}
+then $(\bigsqcap P_{i})^{\mathcal{I}_{\ell}\mathcal{I}_{\ell}} \equiv (\bigsqcap
+P_{i})^{\mathcal{I}_{\mathsf{back}}\mathcal{I}_{\mathsf{back}}}$, just as we need it.
 
 \todo[inline]{Write: 13-11/4.4}
 
