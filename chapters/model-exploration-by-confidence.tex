@@ -343,7 +343,8 @@ The resulting algorithm is shown in \Cref{alg:base-of-interpretation}.
     Interpretation with Incremental Computation of $M_{\mathcal{I}}$%
     \label{alg:base-of-interpretation}
     \begin{lstlisting}
-define base-of-interpretation($N_{C}$, $N_{R}$, $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$)
+define base-of-interpretation($\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})
+\text{ over } N_{C} \text{ and } N_{R}$)
   $i$ := 0
   $P_i$ := $\emptyset$
   $M_i$ := $N_C \cup \set{\bot}$
@@ -352,8 +353,8 @@ define base-of-interpretation($N_{C}$, $N_{R}$, $\mathcal{I} = (\Delta^{\mathcal
   choose ${\leq_{M_{i}}} \text{ as a linear order on } M_{i}$
 
   forever do
-    $M_{i+1}$ := $M_i \cup \set{ \exists r.(\bigsqcap P_i)^{\mathcal{I}\mathcal{I}} \mid r \in N_R}$
-    $\con K_{i+1}$ := induced-context($\mathcal{I}$, $M_{i+1}$)
+    $M_{i+1}$ := $M_i \cup \set{ \exists r.(\bigsqcap P_i)^{\mathcal{I}\mathcal{I}} \mid r \in N_R}\label{lst:base-of-interpretation-1}$
+    $\con K_{i+1}$ := induced-context($\mathcal{I}$, $M_{i+1}$)$\label{lst:base-of-interpretation-2}$
     $\mathcal{K}_{i+1}$ := $\set{ P_i \to (P_i)_{\con K_{i+1}}'' \mid P_i \neq
       (P_r)_{\con K_{i+1}}'', r \in \set{ 0, \ldots, i} }$
     $\mathcal{S}_{i+1}$ := $\set{ \set{A} \to \set{B} \mid A, B \in M_{i+1}, A \sqsubseteq
@@ -373,12 +374,22 @@ end
   \end{Algorithm}
 \end{figure}
 
-To see that this definition of $M_{i}$ will eventually yield all elements of
-$M_{\mathcal{I}}$ up to equivalence, we first observe that $M_{i} \subseteq
-M_{\mathcal{I}}$ is true for all iterations $i$ of \Cref{alg:base-of-interpretation}.  On
-the other hand, if $\exists r. X^{\mathcal{I}} \in M_{\mathcal{I}}$, then $X^{\mathcal{I}}
-\equiv X^{\mathcal{I}\mathcal{I}\mathcal{I}} =
-(X^{\mathcal{I}})^{\mathcal{I}\mathcal{I}}$, and $X^{\mathcal{I}}$ is expressible in termsn
+Note that \Cref{alg:base-of-interpretation} has the form of
+\Cref{alg:base/growing-set-of-attributes}, and thus we can argue that a run of
+\Cref{alg:base-of-interpretation} terminates with finite sets $N_{C}, N_{R}$ and a finite
+interpretation $\mathcal{I}$ as input.  In this case, all concept descriptions which are
+added to the set of attributes during the run of the algorithm are, up to equivalence,
+elements of $M_{\mathcal{I}}$, which is finite.  Thus, there exists a number $\ell \in
+\NN_{\ge 0}$ such that for all $i \geq \ell$ it is true that $M_{i} = M_{\ell}$.  Then, by
+\Cref{thm:base-with-growing-set-of-attributes}, \Cref{alg:base-of-interpretation} has to
+terminate.
+
+To see that the definition of $M_{i}$ will eventually yield all elements of
+$M_{\mathcal{I}}$, up to equivalence, we first observe that $M_{i} \subseteq
+M_{\mathcal{I}}$ is true up to equivalence for all iterations $i$ of
+\Cref{alg:base-of-interpretation}.  On the other hand, if $\exists r. X^{\mathcal{I}} \in
+M_{\mathcal{I}}$, then $X^{\mathcal{I}} \equiv X^{\mathcal{I}\mathcal{I}\mathcal{I}} =
+(X^{\mathcal{I}})^{\mathcal{I}\mathcal{I}}$, and $X^{\mathcal{I}}$ is expressible in terms
 of $M_{\mathcal{I}}$ by \Cref{lem:mmsc-are-expressible-in-terms-of-M_I}.  Therefore, there
 exists $U \subseteq M_{\mathcal{I}}$ such that
 \begin{equation*}
@@ -395,12 +406,60 @@ using \Cref{prop:connection-I-prime-2}.  Then
   \exists r. X^{\mathcal{I}} \equiv \exists r. (X^{\mathcal{I}})^{\mathcal{I}\mathcal{I}}
   \equiv \exists r.(\bigsqcap U_{\con K_{n}}'')^{\mathcal{I}\mathcal{I}}.
 \end{equation*}
+Thus, it suffices to consider only intents of the final context $\con K_{n}$.  A result by
+Distel shows that these intents are among the sets $P_{i}$
 
+\begin{Lemma}[Partly Lemma~6.3 from~\cite{Diss-Felix}]
+  \label{lem:Felix-6.3}
+  Consider a terminating run of \Cref{alg:base-of-interpretation} with $n$ iterations, and
+  let $Q \subseteq M_{n}$.  Then if $Q = Q_{\con K_{n}}''$, then $Q = P_{i}$ for some $i
+  \in \set{ 0, \dots, n }$.
+\end{Lemma}
 
-\todo[inline]{Write: 13-11/4.3}
+Using this lemma we can show that $M_{n}$ is, up to equivalence, equal to
+$M_{\mathcal{I}}$.  It can then be shown that a base of the induced context of
+$\mathcal{I}$ and $M_{n}$ yields a base of $\mathcal{I}$ as
+well~\cite[Corollary~5.14]{Diss-Felix}.  From this, we immediately obtain the correctness
+of \Cref{alg:base-of-interpretation}.
+
+\begin{Theorem}[Theorem~6.9 from~\cite{Diss-Felix}]
+  \label{thm:Felix-6.9}
+  Let $\mathcal{I}$ be a finite interpretation over $N_{C}$ and $N_{R}$.  Then the set
+  \begin{equation*}
+    \mathcal{K} = \text{\lstinline{base-of-interpretation}}(\mathcal{I})
+  \end{equation*}
+  is a finite base of $\mathcal{I}$.
+\end{Theorem}
 
 \subsection{An Algorithm for Exploring Interpretations}
 \label{sec:an-algor-expl}
+
+Based on \Cref{alg:base-of-interpretation}, we now want to discuss an algorithm for model
+exploration.  For this, recall that during model exploration we suppose that our domain of
+interest can be represented by a finite interpretation $\mathcal{I}_{\mathsf{back}}$, the
+background interpretation of the exploration.  If we could access
+$\mathcal{I}_{\mathsf{back}}$ directly, then to explore $\mathcal{I}_{\mathsf{back}}$
+would just mean to compute a base of it, which we could achieve by using
+\Cref{alg:base-of-interpretation}.  However, as already discussed, we assume that we
+cannot accessed directly, but instead is represented by an expert.
+
+To turn \Cref{alg:base-of-interpretation} into an algorithm that allows us to compute a
+base of $\mathcal{I}_{\mathsf{back}}$ using only the expert as a means to access this
+interpretation, we want to replace every direct access to $\mathcal{I}_{\mathsf{back}}$ in
+\Cref{alg:base-of-interpretation} by a suitable expert interaction.  For this we observe
+that there are two places in \Cref{alg:base-of-interpretation} that directly access the
+given interpretation:
+\begin{enumerate}[i. ]
+\item when computing concept descriptions of the form $\exists r.X^{\mathcal{I}_{\mathsf{back}}}$
+  (line~\ref{lst:base-of-interpretation-1} of \Cref{alg:base-of-interpretation}),
+\item when computing $\con K_{i}$ as induced context of $M_{i}$ and
+  $\mathcal{I}_{\mathsf{back}}$ (line~\ref{lst:base-of-interpretation-2} of
+  \Cref{alg:base-of-interpretation}).
+\end{enumerate}
+The computation of $\con K_{i}$ we can fix easily by instead of computing the induced
+context of $M_{i}$ and $\mathcal{I}_{\mathsf{back}}$, we just the induced context $M_{i}$
+and the current working interpretation of the exploration process.  For computing $\exists
+r. X^{\mathcal{I}_{\mathsf{back}}}$, however, we need to use the expert.
 
 \todo[inline]{Write: 13-11/4.4}
 
