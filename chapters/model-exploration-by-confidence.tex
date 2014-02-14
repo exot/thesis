@@ -305,11 +305,96 @@ in~\cite{Diss-Felix} by the following example.
 
 We now want to use \Cref{alg:base/growing-set-of-attributes} to devise an algorithm that
 allows us to compute bases of finite interpretations $\mathcal{I}$ without computing the
-set $M_{\mathcal{I}}$ first.  Instead, we want that the set $M_{\mathcal{I}}$ is computed
-successively during the run of the algorithm.  In this way, we can immediately start with
-computing valid GCIs of $\mathcal{I}$, and do not have to wait for $M_{\mathcal{I}}$ to be
-computed completely.
+set $M_{\mathcal{I}}$ first.  Instead, we want that the elements of the set
+$M_{\mathcal{I}}$ are computed successively during the run of the algorithm.  In this way,
+we can immediately start with computing valid GCIs of $\mathcal{I}$, and do not have to
+wait for $M_{\mathcal{I}}$ to be computed completely.
 
+The successive computation of the elements of $M_{\mathcal{I}}$ is achieved in
+\Cref{alg:base/growing-set-of-attributes} by defining the sets $M_{i}$ as follows.  For $i
+= 0$, we define
+\begin{equation*}
+  M_{0} = N_{C} \cup \set{ \bot }.
+\end{equation*}
+Then, during the run of the algorithm, we add elements of the form $\exists
+r. X^{\mathcal{I}}$ for $r \in N_{R}$ and $X \subseteq \Delta^{\mathcal{I}}, X \neq
+\emptyset$.  More precisely, whenever we compute a set $P_{i}$ in
+\Cref{alg:base/growing-set-of-attributes}, we define
+\begin{equation*}
+  M_{i+1} := M_{i} \cup \set{ \exists r. (\bigsqcap P_{i})^{\mathcal{I}\mathcal{I}} \mid r
+    \in N_{R} },
+\end{equation*}
+where the union is only up to equivalence, \ie if for some $C:= \exists r. (\bigsqcap
+P_{i})^{\mathcal{I}\mathcal{I}}$, there already exists $D \in M_{i}$ such that $C \equiv
+D$, then we do not add $C$ in the definition of $M_{i+1}$.
+
+We also need to specify how we define the formal contexts $\con K_{i}$ and the sets
+$\mathcal{S}_{i}$ of background knowledge.  We set $\con K_{i}$ to be the induced formal
+context of $M_{i}$ and $\mathcal{I}$, and we define
+\begin{equation*}
+  \mathcal{S}_{i+1} = \set{ \set{A} \to \set{B} \mid A, B \in M_{i}, A \sqsubseteq B }.
+\end{equation*}
+The resulting algorithm is shown in \Cref{alg:base-of-interpretation}.
+
+\addfunctionname{base-of-interpretation,induced-context}
+
+\begin{figure}[tp]
+  \begin{Algorithm}[Algorithm 9 from~\cite{Diss-Felix}]~ Computing a Base of a Given
+    Interpretation with Incremental Computation of $M_{\mathcal{I}}$%
+    \label{alg:base-of-interpretation}
+    \begin{lstlisting}
+define base-of-interpretation($N_{C}$, $N_{R}$, $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$)
+  $i$ := 0
+  $P_i$ := $\emptyset$
+  $M_i$ := $N_C \cup \set{\bot}$
+  $\mathcal{K}_i$ := $\emptyset$
+  $\mathcal{S}_i$ := $\set{\set{\bot} \to \set{A} \mid A \in N_C}$
+  choose ${\leq_{M_{i}}} \text{ as a linear order on } M_{i}$
+
+  forever do
+    $M_{i+1}$ := $M_i \cup \set{ \exists r.(\bigsqcap P_i)^{\mathcal{I}\mathcal{I}} \mid r \in N_R}$
+    $\con K_{i+1}$ := induced-context($\mathcal{I}$, $M_{i+1}$)
+    $\mathcal{K}_{i+1}$ := $\set{ P_i \to (P_i)_{\con K_{i+1}}'' \mid P_i \neq
+      (P_r)_{\con K_{i+1}}'', r \in \set{ 0, \ldots, i} }$
+    $\mathcal{S}_{i+1}$ := $\set{ \set{A} \to \set{B} \mid A, B \in M_{i+1}, A \sqsubseteq
+      B }$
+    choose ${\leq_{M_{i+1}}} \text{ such that (\ref{eq:48}) and (\ref{eq:49}) hold.}$
+
+    $P_{i+1}$ := next-closure($M_{i+1}$, $\leq_{M_{i+1}}$, $P_i$, $\mathcal{K}_{i+1} \cup \mathcal{S}_{i+1}$)
+    if $P_{i+1} =$ nil exit
+
+    $i$ := $i + 1$  
+  end
+
+  return $\set{ \bigsqcap P \sqsubseteq (\bigsqcap P)^{\mathcal{I}\mathcal{I}} \mid (P \to
+    P_{\con K_{i+1}}'') \in \mathcal{K}_{i+1} }$
+end    
+    \end{lstlisting}  
+  \end{Algorithm}
+\end{figure}
+
+To see that this definition of $M_{i}$ will eventually yield all elements of
+$M_{\mathcal{I}}$ up to equivalence, we first observe that $M_{i} \subseteq
+M_{\mathcal{I}}$ is true for all iterations $i$ of \Cref{alg:base-of-interpretation}.  On
+the other hand, if $\exists r. X^{\mathcal{I}} \in M_{\mathcal{I}}$, then $X^{\mathcal{I}}
+\equiv X^{\mathcal{I}\mathcal{I}\mathcal{I}} =
+(X^{\mathcal{I}})^{\mathcal{I}\mathcal{I}}$, and $X^{\mathcal{I}}$ is expressible in termsn
+of $M_{\mathcal{I}}$ by \Cref{lem:mmsc-are-expressible-in-terms-of-M_I}.  Therefore, there
+exists $U \subseteq M_{\mathcal{I}}$ such that
+\begin{equation*}
+  X^{\mathcal{I}} \equiv \bigsqcap U.
+\end{equation*}
+If $n$ is the number of iterations of the algorithm, and if $\con K_{n}$ denotes the
+induced context of $M_{n}$ and $\mathcal{I}$, then we find
+\begin{equation*}
+  (\bigsqcap U_{\con K_{n}}'')^{\mathcal{I}} = U_{\con K_{n}}''' = U_{\con K_{n}}' =
+  (\bigsqcap U)^{\mathcal{I}}
+\end{equation*}
+using \Cref{prop:connection-I-prime-2}.  Then
+\begin{equation*}
+  \exists r. X^{\mathcal{I}} \equiv \exists r. (X^{\mathcal{I}})^{\mathcal{I}\mathcal{I}}
+  \equiv \exists r.(\bigsqcap U_{\con K_{n}}'')^{\mathcal{I}\mathcal{I}}.
+\end{equation*}
 
 
 \todo[inline]{Write: 13-11/4.3}
