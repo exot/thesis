@@ -705,6 +705,36 @@ into this last algorithm to obtain an algorithm for model exploration by confide
 \subsection{Trusted and Untrusted Individuals}
 \label{sec:trust-untr-indiv}
 
+Let $\mathcal{J}$ be a finite interpretation over $N_{C}$ and $N_{F}$, and let
+$\mathcal{I}$ be a subinterpretation of $\mathcal{J}$.  As already discussed, we want to
+think of $\mathcal{I}$ as the interpretation of \emph{untrusted} elements, and of the
+interpretation
+\begin{equation*}
+  \mathcal{J} \setminus \mathcal{I} := (\Delta^{\mathcal{J}} \setminus
+  \Delta^{\mathcal{I}}, \cdot^{\mathcal{J} \setminus \mathcal{I}})
+\end{equation*}
+as the interpretation of \emph{trusted} elements (provided by the expert), where we define
+\begin{align*}
+  A^{\mathcal{J} \setminus \mathcal{I}} &:= A^{\mathcal{J}} \cap \Delta^{\mathcal{J}}
+  \setminus \Delta^{\mathcal{I}} = A^{\mathcal{J}} \setminus \Delta^{\mathcal{I}},\\
+  r^{\mathcal{J} \setminus \mathcal{I}} &:= r^{\mathcal{J}} \cap (\Delta^{\mathcal{J}}
+  \setminus \Delta^{\mathcal{I}}) \times (\Delta^{\mathcal{J}} \setminus \Delta^{\mathcal{I}})
+\end{align*}
+for $A \in N_{C}$ and $r \in N_{R}$.
+
+The aim of this section is to obtain a method to find finite bases of $\mathcal{J}$ with
+untrusted elements $\mathcal{I}$.  More precisely, let us define for $c \in [0,1]$ the set
+\begin{equation*}
+  \Th_{c}(\mathcal{J}, \mathcal{I}) := \set{ (C \sqsubseteq D) \in \Th(\mathcal{J}
+    \setminus \mathcal{I}) \mid \abs{ (C \sqcap D)^{\mathcal{J}} \cap \Delta^{\mathcal{I}}
+    } \ge c \cdot \abs{ C^{\mathcal{J}} \cap \Delta^{\mathcal{I}} } }.
+\end{equation*}
+We then want to describe a finite base of $\Th_{c}(\mathcal{J}, \mathcal{I})$.
+
+% In our later considerations, $\mathcal{I}$ will be a connected interpretation of
+% $\mathcal{J}$, but the results in this section also apply to the more general situation
+% where $\mathcal{I}$ is just a subinterpretation of $\mathcal{J}$.
+
 \todo[inline]{Write: 13-11/5.1}%
 
 \subsection{Growing Sets of Attributes}
