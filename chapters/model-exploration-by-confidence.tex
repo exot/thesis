@@ -659,19 +659,68 @@ following result.
 \section{Model Exploration with Confident GCIs}
 \label{sec:model-expl-with-1}
 
-\todo[inline]{Write: 13-11/5}%
+In the previous section we have seen how we can obtain an algorithm for model exploration
+by extending Distel's results on computing finite bases of finite interpretations.  In
+this section we want to generalize this argumentation to the setting of GCIs with high
+confidence, \ie we want to obtain an algorithm for model exploration which not only asks
+GCIs which are valid in the current working interpretation, but which is also allowed to
+ask GCIs whose confidence in the original data is just high enough.  This process we shall
+call \emph{model exploration by confidence}.
+
+Distel's argumentation for his model exploration algorithm is based on his method to
+obtain finite bases of finite interpretations.  However, in model exploration by
+confidence we do not compute bases of the current working interpretation
+$\mathcal{I}_{\ell}$, but instead compute bases of $\Th_{c}(\mathcal{I}_{\ell})$, for some
+chosen threshold $c \in [0,1]$.  Moreover, the interpretation $\mathcal{I}_{\ell}$
+contains a connected subinterpretation consisting of the counterexamples given by the
+expert, and all GCIs which are not valid within this subinterpretation should not be
+considered further, even if they have a confidence above $c$ in the initial working
+interpretation.
+
+We can thus think of $\mathcal{I}_{\ell}$ as consisting of two parts: the initial working
+interpretation $\mathcal{I}$, which may contain errors and where we apply our confidence
+heuristics, and a connected subinterpretation $\mathcal{I}_{\ell} \setminus \mathcal{I}$,
+consisting of the counterexamples given by the expert, where we only consider valid GCIs.
+We can think of all elements of $\mathcal{I}$ as \emph{untrusted}, and of all elements of
+$\mathcal{I}_{\ell} \setminus \mathcal{I}$ as \emph{trusted}.
+
+To generalize Distel's argumentation for model exploration to GCIs with high confidence,
+we shall thus start by devising an algorithm that allows us to compute finite
+interpretation containing trusted and untrusted elements, \ie that computes bases of
+\begin{equation*}
+  \Th_{c}(\mathcal{I}) \cap \Th(\mathcal{I}_{\ell} \setminus \mathcal{I}).
+\end{equation*}
+We shall do this in \Cref{sec:trust-untr-indiv}.
+
+Thereafter, we shall follow the argumentation of the previous section.  This means that in
+\Cref{sec:grow-sets-attr-1} we shall discuss an algorithm that computes bases of formal
+contexts containing trusted and untrusted objects, and where the attribute set is allowed
+to grow during the computation.  Thereafter, we shall discuss in
+\Cref{sec:grow-sets-attr-1} how we can adapt this algorithm to compute bases of finite
+interpretation that contain trusted and untrusted individuals, and where the set
+$M_{\mathcal{I}}$ is computed on the fly during the run of the algorithm.  Finally, we
+shall see in \Cref{sec:expl-conf-gcis} how we can introduce suitable expert interaction
+into this last algorithm to obtain an algorithm for model exploration by confidence.
 
 \subsection{Trusted and Untrusted Individuals}
 \label{sec:trust-untr-indiv}
 
+\todo[inline]{Write: 13-11/5.1}%
+
 \subsection{Growing Sets of Attributes}
 \label{sec:grow-sets-attr-1}
+
+\todo[inline]{Write: 13-11/5.2}%
 
 \subsection{Exploring Confident GCIs with Known Background Interpretation}
 \label{sec:expl-conf-gcis}
 
+\todo[inline]{Write: 13-11/5.3}%
+
 \subsection{Exploring Confident GCIs with Expert Interaction}
 \label{sec:expl-conf-gcis-1}
+
+\todo[inline]{Write: 13-11/5.4}%
 
 %%% Local Variables: 
 %%% mode: latex
