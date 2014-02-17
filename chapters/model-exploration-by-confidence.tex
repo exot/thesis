@@ -355,7 +355,7 @@ define base-of-interpretation($\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\math
   forever do
     $M_{i+1}$ := $M_i \cup \set{ \exists r.(\bigsqcap P_i)^{\mathcal{I}\mathcal{I}} \mid r \in N_R}\label{lst:base-of-interpretation-1}$
     $\con K_{i+1}$ := induced-context($\mathcal{I}$, $M_{i+1}$)$\label{lst:base-of-interpretation-2}$
-    $\mathcal{K}_{i+1}$ := $\set{ P_i \to (P_i)_{\con K_{i+1}}'' \mid P_i \neq
+    $\mathcal{K}_{i+1}$ := $\set{ P_r \to (P_r)_{\con K_{i+1}}'' \mid P_r \neq
       (P_r)_{\con K_{i+1}}'', r \in \set{ 0, \ldots, i} }$
     $\mathcal{S}_{i+1}$ := $\set{ \set{A} \to \set{B} \mid A, B \in M_{i+1}, A \sqsubseteq
       B }$
@@ -572,9 +572,89 @@ expert confirms the GCI
 then $(\bigsqcap P_{i})^{\mathcal{I}_{\ell}\mathcal{I}_{\ell}} \equiv (\bigsqcap
 P_{i})^{\mathcal{I}_{\mathsf{back}}\mathcal{I}_{\mathsf{back}}}$, just as we need it.
 
+On the other hand, if the expert rejects $\bigsqcap P_{i} \sqsubseteq (\bigsqcap
+P_{i})^{\mathcal{I}_{\ell}\mathcal{I}_{\ell}}$, then she adds counterexamples to the
+current working interpretation $\mathcal{I}_{\ell}$ to yield a new working interpretation
+$\mathcal{I}_{\ell+1}$.  If $\bigsqcap P_{i} \not\sqsubseteq (\bigsqcap
+P_{i})^{\mathcal{I}_{\ell+1}\mathcal{I}_{\ell+1}}$, then the GCI
+\begin{equation*}
+  \bigsqcap P_{i} \sqsubseteq (\bigsqcap P_{i})^{\mathcal{I}_{\ell+1}\mathcal{I}_{\ell+1}}
+\end{equation*}
+is again proposed to the expert.  If $\bigsqcap P_{i} \sqsubseteq (\bigsqcap
+P_{i})^{\mathcal{I}_{\ell+1}\mathcal{I}_{\ell+1}}$, \ie $\bigsqcap P_{i} \equiv (\bigsqcap
+P_{i})^{\mathcal{I}_{\ell+1}\mathcal{I}_{\ell+1}}$, then the next set $P_{i+1}$ is
+considered.
 
+\addfunctionname{model-exploration}
 
-\todo[inline]{Write: 13-11/4.4}
+\begin{figure}[tp]
+  \begin{Algorithm}[Algorithm 11 from~\cite{Diss-Felix}]~ A Model Exploration Algorithm%
+    \label{alg:model-exploration}
+    \begin{lstlisting}
+define model-exploration($\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}}) \text{ over } N_{C} \text{ and } N_{R}$)
+  $i$ := 0
+  $P_i$ := $\emptyset$
+  $M_i$ := $N_C \cup \set{\bot}$
+  $\mathcal{K}_i$ := $\emptyset$
+  $\mathcal{S}_i$ := $\set{\set{\bot} \to \set{A} \mid A \in N_C}$
+  choose ${\leq_{M_{i}}} \text{ as a linear order on } M_{i}$
+  $\ell$ := 0
+  $\mathcal{I}_{\ell}$ := $\mathcal{I}$
+  
+  forever do
+    ;; expert interaction
+    while $\text{expert refutes } \bigsqcap P_i \sqsubseteq (\bigsqcap P_i)^{\mathcal{I}_\ell\mathcal{I}_\ell}$ do
+      $\mathcal{I}_{\ell+1}$ := $\text{new interpretation such that }$
+        - $\mathcal{I}_{\ell+1} \text{ extends } \mathcal{I}_\ell$
+        - $\mathcal{I}_{\ell+1} \text{ contains counterexamples for } \bigsqcap P_i \sqsubseteq
+        (\bigsqcap P_i)^{\mathcal{I}_\ell\mathcal{I}_\ell}$
+      $\ell$ := $\ell + 1$
+    end
+
+    ;; add new attributes (up to equivalence)
+    $M_{i+1}$ := $M_i \cup \set{ \exists r.(\bigsqcap P_i)^{\mathcal{I}_{\ell}\mathcal{I}_{\ell}} \mid r \in N_R}$
+
+    ;; update $\con K_{i+1}, \mathcal{S}_{i+1}$ and $\mathcal{L}_{i+1}$
+    $\con K_{i+1}$ := induced-context($\mathcal{I}_{\ell}$, $M_{i+1}$)
+    $\mathcal{K}_{i+1}$ := $\set{ P_r \to (P_r)_{\con K_{i+1}}'' \mid P_r \neq
+      (P_r)_{\con K_{i+1}}'', r \in \set{ 0, \ldots, i} }$
+    $\mathcal{S}_{i+1}$ := $\set{ \set{A} \to \set{B} \mid A, B \in M_{i+1}, A \sqsubseteq
+      B }$
+    choose ${\leq_{M_{i+1}}} \text{ such that (\ref{eq:48}) and (\ref{eq:49}) hold}$
+
+    ;; next closed set
+    $P_{i+1}$ := next-closure($M_{i+1}$, $\leq_{M_{i+1}}$, $P_i$, $\mathcal{K}_{i+1} \cup \mathcal{S}_{i+1}$)
+    if $P_{i+1} =$ nil exit
+
+    $i$ := $i + 1$
+  end
+
+  return $\set{ \bigsqcap P \sqsubseteq (\bigsqcap P)^{\mathcal{I}_{\ell}\mathcal{I}_{\ell}} \mid (P \to
+    P_{\con K_{i+1}}'') \in \mathcal{K}_{i+1} }$
+end    
+    \end{lstlisting}  
+  \end{Algorithm}
+\end{figure}
+
+We are now able to adapt \Cref{alg:base-of-interpretation} by replacing all references to
+the background interpretation by expert interactions.  The result is shown in
+\Cref{alg:model-exploration}.  From our previous discussion we now easily obtain the
+following result.
+
+\begin{Theorem}[Theorem~6.16 from~\cite{Diss-Felix}]
+  \label{thm:Felix-6.16}
+  Let $\mathcal{I}_{\mathsf{back}}$ be a finite interpretation, and let $\mathcal{I}$ be a
+  connected subinterpretation of $\mathcal{I}_{\mathsf{back}}$.  Then
+  \Cref{alg:model-exploration} applied to $\mathcal{I}$ and using
+  $\mathcal{I}_{\mathsf{back}}$ as background interpretation terminates after finitely
+  many steps.  If $n$ is the number of iterations in this run, and if $\mathcal{I}_{\ell}$
+  is the final working interpretation, then the set
+  \begin{equation*}
+    \set{ \bigsqcap P \sqsubseteq (\bigsqcap P)^{\mathcal{I}_{\ell}\mathcal{I}_{\ell}}
+      \mid (P \to P_{\con K_{n+1}}'') \in \mathcal{K}_{n+1} }
+  \end{equation*}
+  is a finite base of $\mathcal{I}_{\mathsf{back}}$.
+\end{Theorem}
 
 \section{Model Exploration with Confident GCIs}
 \label{sec:model-expl-with-1}
