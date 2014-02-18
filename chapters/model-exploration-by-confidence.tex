@@ -860,6 +860,78 @@ result in the direction of computing finite bases of $\Th_{c}(\mathcal{J}, \math
 by computing suitable bases in the corresponding induced contexts.  This will be helpful
 later when we develop our algorithm for model exploration by confidence.
 
+\def\restricted{\mathord{\upharpoonright}}
+
+For this theorem we need to introduce some extra notation first.  Let $X \subseteq
+\Delta^{\mathcal{J}}$.  Then we shall denote with $\con K_{\mathcal{J}}\restricted_{X}$
+the formal context whose set of objects is restricted to $X$, \ie
+\begin{equation*}
+  \con K_{\mathcal{J}}\restricted_{X} := (X, M_{\mathcal{J}}, \nabla),
+\end{equation*}
+where $(x, C) \in \nabla \iff x \in C^{\mathcal{J}}$ for $x \in X, C \in M_{\mathcal{J}}$
+as before.
+
+We can now formulate a result that allows to find bases of interpretations with untrusted
+element from bases of corresponding induced contexts.
+
+\begin{Theorem}
+  \label{thm:bases-of-untrusted-interpretations-from-bases-of-contexts}
+  Let $\mathcal{J}$ be a finite interpretation over $N_{C}$ and $N_{R}$, and let
+  $\mathcal{I}$ be a subinterpretation of $\mathcal{J}$.  Let $c \in [0,1]$, and define
+  \begin{equation*}
+    \mathcal{T} := \Th_{c}(\con K_{\mathcal{J}}\restricted_{\Delta^{\mathcal{I}}}) \cap
+    \Th(\con K_{\mathcal{J}}\restricted_{\Delta^{\mathcal{J}}\setminus\Delta^{\mathcal{I}}}).
+  \end{equation*}
+  Let $\mathcal{L} \subseteq \mathcal{T}$ be complete for $\mathcal{T}$.  Then $\bigsqcap
+  \mathcal{L} \subseteq \Th_{c}(\mathcal{J}, \mathcal{I})$ and $\bigsqcap \mathcal{L}$ is
+  complete for $\Th_{c}(\mathcal{J}, \mathcal{I})$.
+\end{Theorem}
+
+\begin{Proof}
+  We first show $\bigsqcap \mathcal{L} \subseteq \Th_{c}(\mathcal{J}, \mathcal{I})$.  For
+  this we need to show that for each $(\bigsqcap X \sqsubseteq \bigsqcap Y) \in \bigsqcap
+  \mathcal{L}$ it is true that
+  \begin{enumerate}[i. ]
+  \item $\abs{ (\bigsqcap X \sqcap \bigsqcap Y)^{\mathcal{J}} \cap \Delta^{\mathcal{I}} }
+    \ge c \cdot \abs{ (\bigsqcap X)^{\mathcal{J}} \cap \Delta^{\mathcal{I}} }$, and
+  \item $(\bigsqcap X)^{\mathcal{J}} \setminus \Delta^{\mathcal{I}} \subseteq (\bigsqcap
+    Y)^{\mathcal{J}} \setminus \Delta^{\mathcal{I}}$.
+  \end{enumerate}
+  For the first subclaim we observe that $\conf_{\con
+    K_{\mathcal{J}}\restricted_{\Delta^{\mathcal{I}}}}(X \to Y) \ge c$, \ie
+  \begin{equation*}
+    \abs{ (X \cup Y)' \cap \Delta^{\mathcal{I}} } \ge c \cdot \abs{ X' \cap
+      \Delta^{\mathcal{I}} }.
+  \end{equation*}
+  Since $X' = (\bigsqcap X)^{\mathcal{J}}$ and $Y' = (\bigsqcap Y)^{\mathcal{J}}$ by
+  \Cref{prop:connection-I-prime-2}, we obtain
+  \begin{equation*}
+    \abs{ (\bigsqcap (X \cup Y))^{\mathcal{J}} \cap \Delta^{\mathcal{I}} } \ge c \cdot
+    \abs{ (\bigsqcap X)^{\mathcal{J}} \cap \Delta^{\mathcal{I}} },
+  \end{equation*}
+  and since $\bigsqcap (X \cup Y) = \bigsqcap X \sqcap \bigsqcap Y$ we finally get
+  \begin{equation*}
+    \abs{ (\bigsqcap X \sqcap \bigsqcap Y))^{\mathcal{J}} \cap \Delta^{\mathcal{I}} } \ge
+    c \cdot \abs{ (\bigsqcap X)^{\mathcal{J}} \cap \Delta^{\mathcal{I}} },
+  \end{equation*}
+  as required.
+
+  For the second subclaim we observe that $X' \setminus \Delta^{\mathcal{I}} \subseteq Y'
+  \setminus \Delta^{\mathcal{I}}$, because $X \to Y$ is valid in $\con
+  K_{\mathcal{J}}\restricted_{\Delta^{\mathcal{J}} \setminus \Delta^{\mathcal{I}}}$.
+  Since $X' = (\bigsqcap X)^{\mathcal{J}}$ and $Y' = (\bigsqcap Y)^{\mathcal{J}}$, we
+  obtain
+  \begin{equation*}
+    (\bigsqcap X)^{\mathcal{J}} \setminus \Delta^{\mathcal{I}} \subseteq (\bigsqcap
+    Y)^{\mathcal{J}} \setminus \Delta^{\mathcal{I}},
+  \end{equation*}
+  as required.
+
+  We have thus shown that $\bigsqcap \mathcal{L} \subseteq \Th_{c}(\mathcal{J},
+  \mathcal{I})$.  We shall now consider the completeness of $\bigsqcap \mathcal{L}$ for
+  $\Th_{c}(\mathcal{J}, \mathcal{I})$.
+\end{Proof}
+
 \todo[inline]{Write: 13-11/5.1}%
 
 \subsection{Growing Sets of Attributes}
