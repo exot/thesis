@@ -724,16 +724,141 @@ for $A \in N_{C}$ and $r \in N_{R}$.
 
 The aim of this section is to obtain a method to find finite bases of $\mathcal{J}$ with
 untrusted elements $\mathcal{I}$.  More precisely, let us define for $c \in [0,1]$ the set
-\begin{equation*}
-  \Th_{c}(\mathcal{J}, \mathcal{I}) := \set{ (C \sqsubseteq D) \in \Th(\mathcal{J}
-    \setminus \mathcal{I}) \mid \abs{ (C \sqcap D)^{\mathcal{J}} \cap \Delta^{\mathcal{I}}
-    } \ge c \cdot \abs{ C^{\mathcal{J}} \cap \Delta^{\mathcal{I}} } }.
-\end{equation*}
-We then want to describe a finite base of $\Th_{c}(\mathcal{J}, \mathcal{I})$.
+\begin{multline*}
+  \Th_{c}(\mathcal{J}, \mathcal{I}) := \{\, C \sqsubseteq D
+    \mid C, D \in \ELgfpbot(N_{C}, N_{R}), \\C^{\mathcal{J}} \setminus \Delta^{\mathcal{I}}
+    \subseteq D^{\mathcal{J}} \setminus \Delta^{\mathcal{I}}, \abs{ (C \sqcap
+      D)^{\mathcal{J}} \cap \Delta^{\mathcal{I}} } \ge c \cdot \abs{ C^{\mathcal{J}} \cap
+      \Delta^{\mathcal{I}} } \,\}.
+\end{multline*}
+We then want to describe a finite base of $\Th_{c}(\mathcal{J}, \mathcal{I})$.  The
+results of this section have been published previously in~\cite{conf/dlog/Borchmann13}.
 
-% In our later considerations, $\mathcal{I}$ will be a connected interpretation of
-% $\mathcal{J}$, but the results in this section also apply to the more general situation
-% where $\mathcal{I}$ is just a subinterpretation of $\mathcal{J}$.
+Note that we have given the confidence constraint in the form of
+\begin{equation}
+  \label{eq:50}
+  \abs{ (C \sqsubseteq D)^{\mathcal{J}} \cap \Delta^{\mathcal{I}} } \ge c \cdot \abs{
+    C^{\mathcal{J}} \cap \Delta^{\mathcal{I}} },
+\end{equation}
+which is the suitable formulation for our setting of $\mathcal{I}$ being a
+subinterpretation of $\mathcal{J}$.  On the other hand, in our later considerations, both
+$\mathcal{I}$ and $\mathcal{J} \setminus \mathcal{I}$ will be connected subinterpretations
+of $\mathcal{J}$, and in this case the definition of $\Th_{c}(\mathcal{J}, \mathcal{I})$
+can be simplified as follows: recall that in the case that $\mathcal{I}$ is a connected
+subinterpretation of $\mathcal{J}$, \Cref{lem:Felix-6.12} yields that for all $C, D \in
+\ELgfpbot(N_{C}, N_{R})$
+\begin{align*}
+  C^{\mathcal{J}} \cap \Delta^{\mathcal{I}} &= C^{\mathcal{I}}, \\
+  (C \sqcap D)^{\mathcal{J}} \cap \Delta^{\mathcal{I}} &= (C \sqcap D)^{\mathcal{I}}.
+\end{align*}
+Thus, \Cref{eq:50} simplifies to
+\begin{equation*}
+  \abs{ (C \sqcap D)^{\mathcal{I}} } \ge c \cdot \abs{ C^{\mathcal{I}} },
+\end{equation*}
+which is equivalent to $\conf_{\mathcal{I}}( C \sqsubseteq D ) \ge c$.  Furthermore, since
+$\mathcal{J} \setminus \mathcal{I}$ is a connected subinterpretation of $\mathcal{J}$, we
+obtain again by \Cref{lem:Felix-6.12} that
+\begin{equation*}
+  C^{\mathcal{J} \setminus \mathcal{I}} = C^{\mathcal{J}} \cap (\Delta^{\mathcal{J}}
+  \setminus \Delta^{\mathcal{I}}) = C^{\mathcal{J}} \setminus \Delta^{\mathcal{J}}
+\end{equation*}
+is true for all $C \in \ELgfpbot(N_{C}, N_{R})$.  Therefore, $C^{\mathcal{J}} \setminus
+\Delta^{\mathcal{I}} \subseteq D^{\mathcal{J}} \setminus \Delta^{\mathcal{I}}$ is
+equivalent to $C^{\mathcal{J}\setminus\mathcal{I}} \subseteq
+D^{\mathcal{J}\setminus\mathcal{I}}$, \ie if $(C \sqsubseteq D) \in \Th(\mathcal{J}
+\setminus \mathcal{I})$.
+
+Thus, the definition of $\Th_{c}(\mathcal{J}, \mathcal{I})$ can now be written as
+\begin{align*}
+  \Th_{c}(\mathcal{J}, \mathcal{I})
+  &= \{\, C \sqsubseteq D \mid C, D \in \ELgfpbot(N_{C}, N_{R}),
+  C^{\mathcal{J}} \setminus \Delta^{\mathcal{I}} \subseteq D^{\mathcal{J}}
+  \setminus \Delta^{\mathcal{I}}, \conf_{\mathcal{I}}( C \sqsubseteq D ) \ge c \,\} \\
+  &= \set{ (C \sqsubseteq D) \in \Th(\mathcal{J} \setminus \mathcal{I}) \mid
+    \conf_{\mathcal{I}} (C \sqsubseteq D) \ge c } \\
+  &= \Th(\mathcal{J} \setminus \mathcal{I}) \cap \Th_{c}(\mathcal{I}),
+\end{align*}
+which corresponds to our intention of finding a finite base of all GCIs which are valid in
+$\mathcal{J} \setminus \mathcal{I}$ and have high confidence in $\mathcal{I}$.
+
+Let us return to the general case that $\mathcal{I}$ is just a subinterpretation of
+$\mathcal{J}$.  To find a base for the set $\Th_{c}(\mathcal{J} \setminus \mathcal{I})$,
+we make use of the ideas we have already used to find finite confident bases of
+$\Th_{c}(\mathcal{I})$.  More precisely, we first observe that
+\begin{equation*}
+  \Th(\mathcal{J}) \subseteq \Th_{c}(\mathcal{J}, \mathcal{I}).
+\end{equation*}
+Since we can find bases of $\Th(\mathcal{J})$ using the results of Distel, we again
+concentrate on finding bases of the set $\Th_{c}(\mathcal{J}, \mathcal{I}) \setminus
+\Th(\mathcal{J})$.  In other words, if $\mathcal{B}$ is a base of $\Th(\mathcal{J})$, then
+we seek a set $\mathcal{C} \subseteq \Th_{c}(\mathcal{J}, \mathcal{I}) \setminus
+\Th(\mathcal{J})$ which is complete for $\Th_{c}(\mathcal{J}, \mathcal{I}) \setminus
+\Th(\mathcal{J})$.  In this case, $\mathcal{B} \cup \mathcal{C}$ is a base of
+$\Th_{c}(\mathcal{J}, \mathcal{I})$.
+
+To find such a set $\mathcal{C}$ we first observe that
+\begin{equation*}
+  (C \sqsubseteq D) \in \Th_{c}(\mathcal{J}, \mathcal{I}) \iff (C^{\mathcal{J}\mathcal{J}}
+  \sqsubseteq D^{\mathcal{J}\mathcal{J}}) \in \Th_{c}(\mathcal{J}, \mathcal{I}).
+\end{equation*}
+This is because
+\begin{align*}
+  C^{\mathcal{J}} &= C^{\mathcal{J}\mathcal{J}\mathcal{J}},\\
+  (C \sqcap D)^{\mathcal{J}} &= (C \sqcap D)^{\mathcal{J}\mathcal{J}\mathcal{J}}
+\end{align*}
+is true, and thus
+\begin{equation*}
+  C^{\mathcal{J}} \setminus \Delta^{\mathcal{I}} \subseteq D^{\mathcal{J}} \setminus
+  \Delta^{\mathcal{I}} \iff C^{\mathcal{J}\mathcal{J}\mathcal{J}} \setminus
+  \Delta^{\mathcal{I}} \subseteq D^{\mathcal{J}\mathcal{J}\mathcal{J}} \setminus \Delta^{\mathcal{I}}
+\end{equation*}
+and \Cref{eq:50} is true if and only if
+\begin{equation*}
+  \abs{ (C \sqsubseteq D)^{\mathcal{J}\mathcal{J}\mathcal{J}} \cap \Delta^{\mathcal{I}} }
+  \ge c \cdot \abs{ C^{\mathcal{J}\mathcal{J}\mathcal{J}} \cap \Delta^{\mathcal{I}} }.
+\end{equation*}
+
+If now $\mathcal{B}$ is a base of $\Th(\mathcal{J})$, then it is true that
+\begin{equation*}
+  \mathcal{B} \cup \set{ C^{\mathcal{J}\mathcal{J}} \sqsubseteq D^{\mathcal{J}\mathcal{J}}
+  } \models (C \sqsubseteq D).
+\end{equation*}
+This is because $\mathcal{B} \models (C \sqsubseteq C^{\mathcal{J}\mathcal{J}})$, since $C
+\sqsubseteq C^{\mathcal{J}\mathcal{J}}$ is valid in $\mathcal{J}$.  Furthermore,
+$D^{\mathcal{J}\mathcal{J}} \sqsubseteq D$, and thus
+\begin{equation*}
+  \mathcal{B} \cup \set{ C^{\mathcal{J}\mathcal{J}} \sqsubseteq D^{\mathcal{J}\mathcal{J}}
+  } \models (C \sqsubseteq C^{\mathcal{J}\mathcal{J}} \sqsubseteq
+  D^{\mathcal{J}\mathcal{J}} \sqsubseteq D).
+\end{equation*}
+
+Having these two considerations in mind we define
+\begin{equation*}
+  \Conf(\mathcal{J}, c, \mathcal{I}) := \set{ C^{\mathcal{J}\mathcal{J}} \sqsubseteq
+    D^{\mathcal{J}\mathcal{J}} \mid (C^{\mathcal{J}\mathcal{J}} \sqsubseteq
+    D^{\mathcal{J}\mathcal{J}}) \in \Th_{c}(\mathcal{J}, \mathcal{I}) }.
+\end{equation*}
+Since $\mathcal{J}$ is a finite interpretation, the set of model-based most-specific
+concept descriptions over $\mathcal{J}$ is finite up to equivalence, and thus
+$\Conf(\mathcal{J}, c, \mathcal{I})$ is finite up to equivalence as well.  We therefore
+obtain the following result.
+
+\begin{Theorem}
+  \label{thm:finite-base-of-interpretation-with-untrusted-individuals}
+  Let $\mathcal{J}$ be a finite interpretation, let $\mathcal{I}$ be a
+  subinterpretation of $\mathcal{J}$, and let $c \in [0,1]$.  Then if $\mathcal{B}$ is a
+  finite base of $\mathcal{J}$, then the set
+  \begin{equation*}
+    \mathcal{B} \cup \Conf(\mathcal{J}, c, \mathcal{I})
+  \end{equation*}
+  is a finite base of $\Th_{c}(\mathcal{J}, \mathcal{I})$.
+\end{Theorem}
+
+This result already solves our initial problem of finding a finite base of
+$\Th_{c}(\mathcal{J} \setminus \mathcal{I})$.  In the following, we want to extend this
+result in the direction of computing finite bases of $\Th_{c}(\mathcal{J}, \mathcal{I})$
+by computing suitable bases in the corresponding induced contexts.  This will be helpful
+later when we develop our algorithm for model exploration by confidence.
 
 \todo[inline]{Write: 13-11/5.1}%
 
