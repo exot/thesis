@@ -834,14 +834,12 @@ $D^{\mathcal{J}\mathcal{J}} \sqsubseteq D$, and thus
 
 Having these two considerations in mind we define
 \begin{equation*}
-  \Conf(\mathcal{J}, c, \mathcal{I}) := \set{ C^{\mathcal{J}\mathcal{J}} \sqsubseteq
-    D^{\mathcal{J}\mathcal{J}} \mid (C^{\mathcal{J}\mathcal{J}} \sqsubseteq
-    D^{\mathcal{J}\mathcal{J}}) \in \Th_{c}(\mathcal{J}, \mathcal{I}) }.
+  \Conf(\mathcal{J}, c, \mathcal{I}) := \set{ X^{\mathcal{J}} \sqsubseteq
+    Y^{\mathcal{J}} \mid Y \subseteq X \subseteq \Delta^{\mathcal{J}}, (X^{\mathcal{J}}
+\sqsubseteq Y^{\mathcal{J}}) \in \Th_{c}(\mathcal{J}, \mathcal{I}) }.
 \end{equation*}
-Since $\mathcal{J}$ is a finite interpretation, the set of model-based most-specific
-concept descriptions over $\mathcal{J}$ is finite up to equivalence, and thus
-$\Conf(\mathcal{J}, c, \mathcal{I})$ is finite up to equivalence as well.  We therefore
-obtain the following result.
+Since $\mathcal{J}$ is a finite interpretation, $\Delta^{\mathcal{J}}$ is finite.  We
+therefore obtain the following result.
 
 \begin{Theorem}
   \label{thm:finite-base-of-interpretation-with-untrusted-individuals}
@@ -930,9 +928,96 @@ element from bases of corresponding induced contexts.
   We have thus shown that $\bigsqcap \mathcal{L} \subseteq \Th_{c}(\mathcal{J},
   \mathcal{I})$.  We shall now consider the completeness of $\bigsqcap \mathcal{L}$ for
   $\Th_{c}(\mathcal{J}, \mathcal{I})$.
-\end{Proof}
 
-\todo[inline]{Write: 13-11/5.1}%
+  To this end, we shall show the following two subclaims
+  \begin{enumerate}[i. ]
+  \item $\bigsqcap \mathcal{L} \models (\bigsqcap U \sqsubseteq (\bigsqcap
+    U)^{\mathcal{J}\mathcal{J}})$ for all $U \subseteq M_{\mathcal{J}}$, and
+  \item $\bigsqcap \mathcal{L} \models \Conf(\mathcal{J}, c, \mathcal{I})$.
+  \end{enumerate}
+  Since
+  \begin{equation*}
+    \set{ \bigsqcap U \sqsubseteq (\bigsqcap U)^{\mathcal{J}\mathcal{J}} \mid U \subseteq
+      M_{\mathcal{J}} }
+  \end{equation*}
+  is a base of $\mathcal{J}$, the completeness of $\bigsqcap \mathcal{L}$ for
+  $\Th_{c}(\mathcal{J}, \mathcal{I})$ then follows immediately from
+  \Cref{thm:finite-base-of-interpretation-with-untrusted-individuals}.
+
+  For the first subclaim let $U \subseteq M_{\mathcal{J}}$.  Because
+  \begin{equation*}
+    \Th(\con K_{\mathcal{J}}) \subseteq \Th_{c}(\con K_{\mathcal{J}}
+    \restricted_{\Delta^{\mathcal{I}}}) \cap \Th(\con K_{\mathcal{J}}
+    \restricted_{\Delta^{\mathcal{J}} \setminus \Delta^{\mathcal{I}}})
+  \end{equation*}
+  it follows that $\mathcal{L}$ is complete for $\con K_{\mathcal{J}}$.  Therefore,
+  \begin{equation*}
+    \mathcal{L} \models (U \to U'').
+  \end{equation*}
+  By \Cref{lem:implicational-entailment-implies-gci-entailment} we obtain
+  \begin{equation*}
+    \bigsqcap \mathcal{L} \models (\bigsqcap U \sqsubseteq \bigsqcap U''),
+  \end{equation*}
+  and since $\bigsqcap U'' \equiv (\bigsqcap U)^{\mathcal{J}\mathcal{J}}$,  we obtain
+  \begin{equation*}
+    \bigsqcap \mathcal{L} \models (\bigsqcap U \sqsubseteq (\bigsqcap U)^{\mathcal{J}\mathcal{J}})
+  \end{equation*}
+  as required.
+
+  For the second subclaim let $(X^{\mathcal{J}} \sqsubseteq Y^{\mathcal{J}}) \in
+  \Conf(\mathcal{J}, c, \mathcal{I})$.  Then by \Cref{prop:connection-I-prime-2} it is
+  true that
+  \begin{equation*}
+    X^{\mathcal{J}} \equiv \bigsqcap X', Y^{\mathcal{J}} \equiv \bigsqcap Y'.
+  \end{equation*}
+  Therefore,
+  \begin{equation}
+    \label{eq:51}
+    \bigsqcap L \models (X^{\mathcal{J}} \sqsubseteq Y^{\mathcal{J}}) \iff \bigsqcap
+    \mathcal{L} \models (\bigsqcap X' \sqsubseteq \bigsqcap Y').
+  \end{equation}
+  Therefore, to show $\bigsqcap \mathcal{L} \models (X^{\mathcal{J}} \sqsubseteq
+  Y^{\mathcal{J}})$ it suffices to show $\mathcal{L} \models (X' \to Y')$.
+
+  Recall that since $(X^{\mathcal{J}} \sqsubseteq Y^{\mathcal{J}}) \in \Conf(\mathcal{J},
+  c, \mathcal{I})$, it is true that
+  \begin{equation*}
+    \abs{ (X^{\mathcal{J}} \sqcap Y^{\mathcal{J}})^{\mathcal{J}} \cap \Delta^{\mathcal{I}}
+      } \ge c \cdot \abs{ X^{\mathcal{J}\mathcal{J}} \cap \Delta^{\mathcal{I}} }.
+  \end{equation*}
+  This implies
+  \begin{equation*}
+    \abs{ (\bigsqcap (X' \cup Y'))^{\mathcal{J}} \cap \Delta^{\mathcal{I}}
+      } \ge c \cdot \abs{ (\bigsqcap X')^{\mathcal{J}} \cap \Delta^{\mathcal{I}} }.
+  \end{equation*}
+  and thus
+  \begin{equation*}
+    \abs{ ((X' \sqcap Y')' \cap \Delta^{\mathcal{I}} } \ge c \cdot \abs{ (\bigsqcap X')'
+      \cap \Delta^{\mathcal{I}}},
+  \end{equation*}
+  \ie $(X' \to Y') \in \Th_{c}(\con K_{\mathcal{J}} \restricted_{\Delta^{\mathcal{I}}})$.
+
+  Furthermore, it is true that
+  \begin{equation*}
+    X^{\mathcal{J}\mathcal{J}} \setminus \Delta^{\mathcal{I}} \subseteq Y^{\mathcal{J}\mathcal{J}} \setminus
+    \Delta^{\mathcal{I}},
+  \end{equation*}
+  and by \Cref{prop:connection-I-prime-2} we have $X^{\mathcal{J}\mathcal{J}} = X'',
+  Y^{\mathcal{J}\mathcal{J}} = Y''$, thus
+  \begin{equation*}
+    X'' \setminus \Delta^{\mathcal{I}} \subseteq Y'' \setminus \Delta^{\mathcal{I}},
+  \end{equation*}
+  \ie $(X' \to Y') \in \Th(\con K_{\mathcal{J}} \restricted_{\Delta^{\mathcal{J}} \setminus
+    \Delta^{\mathcal{I}}})$.
+
+  Since $\mathcal{L}$ is complete for $\mathcal{T}$, we thus obtain that
+  \begin{equation*}
+    \mathcal{L} \models (X' \to Y'),
+  \end{equation*}
+  and thus $\bigsqcap \mathcal{L} \models (\bigsqcap X' \sqsubseteq \bigsqcap Y')$ by
+  \Cref{lem:implicational-entailment-implies-gci-entailment}, and $\bigsqcap \mathcal{L}
+  \models (X^{\mathcal{J}} \sqsubseteq Y^{\mathcal{J}})$ by \Cref{eq:51}.
+\end{Proof}
 
 \subsection{Growing Sets of Attributes}
 \label{sec:grow-sets-attr-1}
