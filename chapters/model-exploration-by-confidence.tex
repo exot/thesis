@@ -1022,6 +1022,44 @@ element from bases of corresponding induced contexts.
 \subsection{Growing Sets of Attributes}
 \label{sec:grow-sets-attr-1}
 
+We have seen how we can obtain finite bases of interpretation that contain untrusted
+elements, for which we apply our confidence heuristics.  In the following two sections we
+want to devise an algorithm that allows us to compute this base in a manner which is
+suitable for being adapted towards model exploration by confidence.  In particular, we
+shall see in this section how we can compute bases of
+\begin{equation}
+  \label{eq:52}
+  \Th_{c}(\con K_{\mathcal{J}} \restricted_{\Delta^{\mathcal{I}}}) \cap \Th(\con
+  K_{\mathcal{J}} \restricted_{\Delta^{\mathcal{J}} \setminus \Delta^{\mathcal{I}}}),
+\end{equation}
+where we compute the set $M_{\mathcal{J}}$ incrementally during the run of the algorithm.
+Then, in the next section we shall see how we can use this algorithm and
+\Cref{thm:bases-of-untrusted-interpretations-from-bases-of-contexts} to compute finite
+bases of interpretation which contain untrusted elements.
+
+Let us consider the problem of finding an algorithm that allows us to compute bases of the
+set given in \Cref{eq:52} from a more abstract point of view.  More precisely, let us
+consider two formal contexts $\con K_{1}$ and $\con K_{2}$ with the same attribute set
+$M$.  Then we want to find an algorithm that computes a base of
+\begin{equation}
+  \label{eq:53}
+  \Th_{c}(\con K_{1}) \cap \Th(\con K_{2}),
+\end{equation}
+and which allows to us incrementally supply the elements of $M$ as the computation
+proceeds.
+
+As a special case of \Cref{eq:53} we first consider the case that $\con K_{2} =
+(\emptyset, M, \emptyset)$, \ie we want to devise the algorithm such that it computes a
+base of $\Th_{c}(\con K_{1})$.  As in \Cref{sec:grow-sets-attr}, we want to obtain such an
+algorithm by adapting the classical algorithm for computing the canonical base of a formal
+context.  Indeed, we could simply obtain such an algorithm if we would replace in
+\Cref{alg:base/growing-set-of-attributes} every occurrence of $(\cdot)_{\con K_{i+1}}''$
+by a call to the closure operator induced by $\Th_{c}(\con K_{i+1})$.  However, as we had
+already argued in \Cref{sec:expl-conf-1}, computing closures under $\Th_{c}(\con K_{i+1})$
+may be infeasible.
+
+
+
 \todo[inline]{Write: 13-11/5.2}%
 
 \subsection{Exploring Confident GCIs with Known Background Interpretation}
