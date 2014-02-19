@@ -1123,10 +1123,120 @@ end
 
 The algorithm that results from these considerations is shown in
 \Cref{alg:confident-base/growing-attributes}.  Note that as in the case of
-\Cref{alg:base/growing-set-of-attributes}, we cannot discard sets $P_{i}$ which are
-intents of the current working context $\con K_{i}$, as they may become non-intents later
-on in the run of the algorithm.
+\Cref{alg:base/growing-set-of-attributes}, we cannot discard sets $P_{i}$ which are closed
+under $(\cdot)^{\con K_{i+1}, c}$, \ie which satisfy $P_{i} = P_{i}^{\con K_{i+1}, c}$, as
+$P_{i}$ may not be closed under $(\cdot)^{\con K_{j}, c}$ for some later iteration $j$.
 
+We can argue termination of \Cref{alg:confident-base/growing-attributes} as we did before
+for \Cref{alg:base/growing-set-of-attributes}: if at a certain iteration $\ell$ it is true
+that for all iterations $k \geq \ell$ that $M_{k} = M_{\ell}$, then
+\Cref{alg:confident-base/growing-attributes} must terminate.  This is in particular the
+case if we want to compute a base of $\Th_{c}(\con K)$ where $\con K$ is a finite formal
+context, and where the attributes of $\con K$ are supplied incrementally during the run of
+the algorithm.
+
+To show that upon termination the set $\mathcal{K}_{n}$ of implications, where $n$ is the
+number of iterations of \Cref{alg:confident-base/growing-attributes}, is indeed a base of
+$\Th_{c}(\con K_{n})$, we adapt the argumentation of \Cref{sec:grow-sets-attr} and
+\Cref{sec:comp-bases-given} accordingly.
+
+The following result, and its proof, are a generalization of~\cite[Lemma~6.3]{Diss-Felix}.
+
+\begin{Proposition}
+  \label{prop:property-of-confident-bases-with-growing-sets-of-attributes}
+  Consider a terminating run of \Cref{alg:confident-base/growing-attributes}, and let $n$
+  be the number of iterations of this run.  Let $Q \subseteq M_{n}$.   Then the following
+  statements hold.
+  \begin{enumerate}[i. ]
+  \item If $Q \neq Q_{\con K_{n}}''$, then $Q$ is not $(\mathcal{S}_{n} \cup
+    \mathcal{K}_{n})$-closed.
+  \item If $Q = Q_{\con K_{n}}''$, then $Q = P_{k}$ for some $k \in \set{ 0, \dots, n }$.
+  \end{enumerate}
+\end{Proposition}
+\begin{Proof}
+  The case $Q = \emptyset = P_{0}$ can be handled quite easily: if $Q \neq Q_{\con
+    K_{n}}''$, then $Q \neq Q^{\con K_{n}, c}$, since $Q_{\con K_{n}}'' \subseteq Q^{\con
+    K_{n}, c}$.  Therefore, $(Q \to Q^{\con K_{n}, c}) \in \mathcal{K}_{n}$ and thus $Q$
+  is not $(\mathcal{S}_{n} \cup \mathcal{K}_{n})$-closed.  If on the other hand $Q =
+  Q_{\con K_{n}}''$, then $Q = P_{0}$ shows the claim.
+
+  Now suppose that $Q \neq \emptyset$.  Then there exists $k \in \set{0, \dots, n}$ such that
+  \begin{equation*}
+    P_{k-1} \precneq Q \preceq P_{k}.
+  \end{equation*}
+  We first argue that $Q \subseteq M_{k}$.  To this end, suppose by contradiction that
+  this is not the case, and let $m \in Q \setminus M_{k}$.  Since $m \notin M_{k}$, it is
+  smaller than every element of $M_{k}$, by construction of the linear order
+  $\leq_{M_{n}}$ on $M_{n}$.  Thus, $M_{k} \precneq \set{m}$, and since $\set{m} \subseteq
+  Q$, we obtain
+  \begin{equation*}
+    M_{k} \precneq \set{m} \preceq Q,
+  \end{equation*}
+  contradicting the fact that $Q \preceq P_{k} \preceq M_{k}$.  Therefore, $Q \subseteq
+  M_{k}$.
+
+  Let us first consider the case $Q \neq Q_{\con K_{n}}''$, and assume by contradiction
+  that $Q$ is $(\mathcal{S}_{n} \cup \mathcal{K}_{n})$-closed.  Then by construction
+  \begin{equation*}
+    Q \preceq P_{k}^{2} \preceq P_{k},
+  \end{equation*}
+  and thus $Q = P_{k}$.  Then $Q \neq Q_{\con K_{n}}''$ means $P_{k} \neq (P_{k})_{\con
+    K_{n}}''$, thus $P_{k} \neq P_{k}^{\con K_{n}, c}$, and therefore
+  \begin{equation*}
+    (P_{k} \to P_{k}^{\con K_{n}, c}) \in \mathcal{K}_{n}.
+  \end{equation*}
+  But this means that $Q$ is not $(\mathcal{S}_{n} \cup \mathcal{K}_{n})$-closed, a
+  contradiction.  Therefore, $Q$ is not $(\mathcal{S}_{n} \cup \mathcal{K}_{n})$-closed,
+  as it was claimed.
+
+  Let us now consider the case that $Q = Q_{\con K_{n}}''$, and we have to show that $Q =
+  P_{\ell}$ for $\ell \in \set{ 0, \dots, n }$.  Since $Q = Q_{\con K_{n}}''$, it is also
+  true that $Q = Q_{\con K_{k}}''$, since
+  \begin{equation*}
+    I_{k} = (G \times M_{k}) \cap I_{n}.
+  \end{equation*}
+  But then $Q \preceq P_{k}^{1} \preceq P_{k}$, and thus $Q = P_{k}$, as required.
+\end{Proof}
+
+\begin{Theorem}
+  \label{thm:confident-bases-with-growing-sets-of-attributes}
+  Let $c \in [0,1]$, and suppose that \Cref{alg:confident-base/growing-attributes} applied
+  to $c$ terminates after $n$ iterations.  Then $\mathcal{K}_{n} \subseteq \Th_{c}(\con
+  K_{n})$ and $\mathcal{S}_{n} \cup \mathcal{K}_{n}$ is complete for $\Th_{c}(\con
+  K_{n})$.
+\end{Theorem}
+\begin{Proof}
+  The fact that $\mathcal{K}_{n} \subseteq \Cn(\Th_{c}(\con K_{n}))$ is clear from the
+  definition of $\mathcal{K}_{n}$, and we thus only need to show that $\mathcal{S}_{n}
+  \cup \mathcal{K}_{n}$ is complete for $\Th_{c}(\con K_{n})$.  For this we shall use
+  \Cref{lem:characterization-of-completeness} and show that every set $Q \subseteq M_{n}$
+  which is $(\mathcal{S}_{n} \cup \mathcal{K}_{n})$-closed is also $\Th_{c}(\con
+  K_{n})$-closed.
+
+  To this end, let us assume by contradiction that $Q$ is $(\mathcal{S}_{n} \cup
+  \mathcal{K}_{n})$-closed, but not $\Th_{c}(\con K_{n})$-closed.  Then there exists an
+  implication $(P \to \set{m}) \in \Th_{c}(\con K_{n})$ such that $P \subseteq Q$ and $m
+  \notin Q$.  Furthermore, since $Q$ is $(\mathcal{S}_{n} \cup \mathcal{K}_{n})$-closed,
+  it follows from \Cref{prop:property-of-confident-bases-with-growing-sets-of-attributes}
+  that $Q = Q_{\con K_{n}}''$.  Then since
+  \begin{equation*}
+    \conf_{\con K_{n}}(P \to \set{m}) = \conf_{\con K_{n}}(P_{\con K_{n}}'' \to \set{m}),
+  \end{equation*}
+  we can assume that $P = P_{\con K_{n}}''$.  But then, using
+  \Cref{prop:property-of-confident-bases-with-growing-sets-of-attributes} again, we obtain
+  that $P = P_{k}$ for some $k \in \set{ 0, \dots, n }$, and thus
+  \begin{equation*}
+    (P \to P^{\con K_{n}, c}) = (P_{k} \to (P_{k}^{\con K_{n}, c}) \in \mathcal{K}_{n},
+  \end{equation*}
+  because $P_{k} \neq P_{k}^{\con K_{n}, c}$, since $m \notin P_{k} \subseteq Q$, but $m
+  \in P_{k}^{\con K_{n}, c}$.  Now since $Q$ is $\mathcal{K}_{n}$-closed, $P_{k} \subseteq
+  Q$ implies $P_{k}^{\con K_{n}, c} \subseteq Q$, and since $m \in P_{k}^{\con K_{n}, c}$,
+  we obtain $m \in Q$, a contradiction.
+
+  Therefore, every set $Q$ that is $(\mathcal{S}_{n} \cup \mathcal{K}_{n})$-closed is also
+  $\Th_{c}(\con K_{n})$-closed, and thus $\mathcal{S}_{n} \cup \mathcal{K}_{n}$ is
+  complete for $\Th_{c}(\con K_{n})$, as it was claimed.
+\end{Proof}
 
 \todo[inline]{Write: 13-11/5.2}%
 
