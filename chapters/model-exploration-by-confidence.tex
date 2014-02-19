@@ -1058,6 +1058,74 @@ by a call to the closure operator induced by $\Th_{c}(\con K_{i+1})$.  However, 
 already argued in \Cref{sec:expl-conf-1}, computing closures under $\Th_{c}(\con K_{i+1})$
 may be infeasible.
 
+To avoid this, we shall make use of the ideas we have developed in
+\Cref{sec:poss-fast-expl}, when we devised an algorithm for exploration by confidence that
+avoids computing closures under $\Th_{c}(\con K)$.  Indeed, we can just take
+\Cref{alg:exploration-by-confidence-without-Th_c(K)-closures}, and instantiate it with an
+expert that confirms all implications.
+
+Recall that in this algorithm there were two cases of implications asked to the expert:
+implications where either of the form $P_{i+1} \to \set{m}$, where $\conf_{\con K}(P_{i+1}
+\to \set{m}) \ge c$ and $c \notin \mathcal{K}_{i}(P_{i+1}$, or $P_{i+1} \to
+(P_{i+1})_{\con K \div \con L_{i}}''$.  We can simplify these two cases into one case by
+defining for $P \subseteq M$ and $c \in [0,1]$
+\begin{equation*}
+  P^{\con K, c} := \set{ m \in M \mid \conf_{\con K}(P \to \set{m}) \ge c }.
+\end{equation*}
+Then we only ask implications of the form
+\begin{equation*}
+  P_{i+1} \to (P_{i+1})^{\con K, c},
+\end{equation*}
+and this then covers both cases.
+
+To make this algorithm into an algorithm that allows the set of attributes to grow during
+the computation, we use the ideas of \Cref{sec:grow-sets-attr}: whenever there are new
+elements to be added to the current set of attributes, we add them as the smallest
+elements.  In this way, the underlying Next Closure algorithm behaves as if those elements
+would have been present right from the start of the run, and thus behaves as desired.
+
+\addfunctionname{confident-base/growing-attributes}
+
+\begin{figure}[tp]
+  \begin{Algorithm}[Axiomatize Confident Implications with Growing Sets of Attributes]
+    \hspace*{0cm}
+    \label{alg:confident-base/growing-attributes}
+    \begin{lstlisting}
+define confident-base/growing-attributes($c \in [0,1]$)
+  $i$ := $0$
+  $M_i$ := $I_i$ := $\mathcal{S}_i$ := $P_i$ := $\mathcal{K}_i$ := $\emptyset$
+  $\leq_{M_{i}}$ := $\emptyset$
+  
+  forever do
+    read $\con K_{i+1} = (G, M_{i+1}, I_{i+1}) \text{ such that } M_i \subseteq M_{i+1}
+\text{ and } I_i = (G \times M_i) \cap I_{i+1}$
+    read $\mathcal{S}_{i+1} \text{ such that } \mathcal{S}_i \subseteq \mathcal{S}_{i+1}
+\subseteq \Th_{c}(\con K_{i+1})$
+    choose ${\leq_{M_{i+1}}} \text{ such that (\ref{eq:48}) and (\ref{eq:49}) hold}$
+
+    $\mathcal{K}_{i+1}$ := $\set{ P_k \to P_k^{\con K_{i+1}, c} \mid k \in \set{0, \ldots,
+        i}, P_k \neq P_k^{\con K_{i+1}, c} }$
+
+    $P_{i+1}^1$ := next-closure($M_{i+1}$, $\leq_{M_{i+1}}$, $P_i$, $\con K_{i+1}$)
+    $P_{i+1}^2$ := next-closure($M_{i+1}$, $\leq_{M_{i+1}}$, $P_i$, $\mathcal{S}_{i+1} \cup \mathcal{K}_{i+1}$)
+
+    $P_{i+1}$ := $\min\nolimits_{\preceq}(P_{i+1}^1, P_{i+1}^2)$.
+    if $P_{i+1} =$ nil exit
+
+    $i$ := $i + 1$
+  end
+
+  return $\mathcal{K}_{i+1}$  
+end
+    \end{lstlisting}
+  \end{Algorithm}
+\end{figure}
+
+The algorithm that results from these considerations is shown in
+\Cref{alg:confident-base/growing-attributes}.  Note that as in the case of
+\Cref{alg:base/growing-set-of-attributes}, we cannot discard sets $P_{i}$ which are
+intents of the current working context $\con K_{i}$, as they may become non-intents later
+on in the run of the algorithm.
 
 
 \todo[inline]{Write: 13-11/5.2}%
