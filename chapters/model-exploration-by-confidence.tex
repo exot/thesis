@@ -702,7 +702,7 @@ $M_{\mathcal{I}}$ is computed on the fly during the run of the algorithm.  Final
 shall see in \Cref{sec:expl-conf-gcis} how we can introduce suitable expert interaction
 into this last algorithm to obtain an algorithm for model exploration by confidence.
 
-\subsection{Bases for Finite Interpretations with Untrusted Elements}
+\subsection{Bases of Finite Interpretations with Untrusted Elements}
 \label{sec:trust-untr-indiv}
 
 Let $\mathcal{J}$ be a finite interpretation over $N_{C}$ and $N_{F}$, and let
@@ -1019,7 +1019,7 @@ element from bases of corresponding induced contexts.
   \models (X^{\mathcal{J}} \sqsubseteq Y^{\mathcal{J}})$ by \Cref{eq:51}.
 \end{Proof}
 
-\subsection{Growing Sets of Attributes}
+\subsection{Computing Bases of Formal Contexts with Growing Sets of Attributes}
 \label{sec:grow-sets-attr-1}
 
 We have seen how we can obtain finite bases of interpretation that contain untrusted
@@ -1355,8 +1355,155 @@ following results.
   $\Th_{c}(\con K_{n}) \cap \Th(\con L_{n})$ with background knowledge $\mathcal{S}_{n}$.
 \end{Theorem}
 
-\subsection{Exploring Confident GCIs with Known Background Interpretation}
+\subsection{Computing Bases of Finite Interpretations with Untrusted Elements}
 \label{sec:expl-conf-gcis}
+
+We shall now use the results of the previous section to devise an algorithm that allows us
+to compute bases of interpretations with untrusted elements.  More precisely, let
+$\mathcal{J}$ be a finite interpretation over $N_{C}$ and $N_{R}$, and let $\mathcal{I}$
+be a finite, connected subinterpretation of $\mathcal{J}$, such that $\mathcal{J}
+\setminus \mathcal{I}$ is also a connected subinterpretation of $\mathcal{J}$.  We then
+want to adapt \Cref{alg:confident-base/growing-attributes-trusted-objects} to compute a
+finite base of $\Th_{c}(\mathcal{J}, \mathcal{I})$.
+
+To this end, we consider as input for
+\Cref{alg:confident-base/growing-attributes-trusted-objects} the induced formal context
+$\con K_{\mathcal{J}}$, represented as the subposition of $\con K_{\mathcal{J}}
+\restricted_{\Delta^{\mathcal{I}}}$ and $\con K_{\mathcal{J}}
+\restricted_{\Delta^{\mathcal{J}} \setminus \Delta^{\mathcal{I}}}$, where the common
+attribute set $M_{\mathcal{I}}$ is computed incrementally as in
+\Cref{alg:base-of-interpretation}.  The result is shown in
+\Cref{alg:confident-base-gcis/trusted-objects}.  Note that in this algorithm we again
+utilize the idea of using
+\begin{equation*}
+  \mathcal{S}_{i+1} = \set{ \set{ C } \to \set{ D } \mid C, D \in M_{i+1}, C \sqsubseteq D }
+\end{equation*}
+as background knowledge, because the resulting set $\bigsqcap \mathcal{S}_{i+1}$ of GCIs
+is trivial, but the set $\mathcal{S}_{i+1}$ of implications is not.
+
+\addfunctionname{confident-base-gcis/trusted-elements}
+
+\begin{figure}[tp]
+  \begin{Algorithm}[Axiomatize Confident GCIs in the Presence of Trusted Elements]
+    \hspace*{0cm}
+    \label{alg:confident-base-gcis/trusted-objects}
+    \begin{lstlisting}
+define confident-base-gcis/trusted-elements($\mathcal{J}$, $\mathcal{I}$, $c \in [0,1]$)
+  $i$ := $0$
+  $M_i$ := $N_{C} \cup \set{ \bot }$
+  $\mathcal{S}_i$ := $P_i$ := $\mathcal{K}_i$ := $\emptyset$
+  choose ${\leq_{M_{i}}} \text{ as a linear order on } M_{i}$
+  
+  forever do
+    $M_{i+1}$ := $M_{i} \cup \set{ \exists r. (\bigsqcap P_{i})^{\mathcal{J}\mathcal{J}} \mid r \in N_{R} }$ ;; union up to equivalence
+    $\con K_{i+1}$ := induced-context($\mathcal{I}$, $M_{i+1}$)
+    $\con L_{i+1}$ := induced-context($\mathcal{J} \setminus \mathcal{I}$, $M_{i+1}$)
+    $\mathcal{S}_{i+1}$ := $\set{ \set{ C } \to \set{ D } \mid C, D \in M_{i+1}, C
+\sqsubseteq D }$.
+    choose ${\leq_{M_{i+1}}} \text{ such that (\ref{eq:48}) and (\ref{eq:49}) hold}$
+
+    $\mathcal{K}_{i+1}$ := $\set{ P_k \to P_k^{\con K_{i+1}, c} \cap P_{\con L_{i+1}}'' \mid k \in \set{0, \ldots, i}, P_k \neq P_k^{\con K_{i+1}, c} \cap P_{\con L_{i+1}}''}$
+
+    $P_{i+1}^1$ := next-closure($M_{i+1}$, $\leq_{M_{i+1}}$, $P_i$, $\con K_{i+1} \div \con L_{i+1}$)
+    $P_{i+1}^2$ := next-closure($M_{i+1}$, $\leq_{M_{i+1}}$, $P_i$, $\mathcal{S}_{i+1} \cup \mathcal{K}_{i+1}$)
+
+    $P_{i+1}$ := $\min\nolimits_{\preceq}(P_{i+1}^1, P_{i+1}^2)$.
+    if $P_{i+1} =$ nil exit
+
+    $i$ := $i + 1$
+  end
+
+  return $\mathcal{K}_{i+1}$  
+end
+    \end{lstlisting}
+  \end{Algorithm}
+\end{figure}
+
+To see that \Cref{alg:confident-base-gcis/trusted-objects} indeed computes a base of
+$\Th_{c}(\mathcal{J}, \mathcal{I})$, we shall first argue that it is of the form of
+\Cref{alg:confident-base/growing-attributes-trusted-objects}.  Thereafter, we shall show
+that when \Cref{alg:confident-base-gcis/trusted-objects} is applied to $\mathcal{J}$,
+$\mathcal{I}$, and $c \in [0,1]$, and terminates after $n$ iterations, that then $M_{n} =
+M_{\mathcal{J}}$ up to equivalence.  Thus, by
+\Cref{thm:confident-bases-with-growing-sets-of-attributes-and-trusted-objects}, the
+algorithm computes a base $\mathcal{K}_{n}$ of $\Th_{c}(\con K_{\mathcal{J}}
+\restricted_{\Delta^{\mathcal{I}}}) \cap \Th(\con K_{\mathcal{J}}
+\restricted_{\Delta^{\mathcal{J}} \setminus \Delta^{\mathcal{I}}})$, and then
+\Cref{thm:bases-of-untrusted-interpretations-from-bases-of-contexts} yields that
+$\bigsqcap \mathcal{K}_{n}$ is a base of $\Th_{c}(\mathcal{J}, \mathcal{I})$.
+
+To argue that \Cref{alg:confident-base-gcis/trusted-objects} is of the form of
+\Cref{alg:confident-base/growing-attributes-trusted-objects} we need to show that the
+variables $M_{i+1}, \con K_{i+1}, \con L_{i+1}, \mathcal{S}_{i+1}$ computed in
+\Cref{alg:confident-base-gcis/trusted-objects} satisfy the constraints given in
+\Cref{alg:confident-base/growing-attributes-trusted-objects}.  However, this it is quite
+clear from the definition of these variables: it is clear that $M_{i} \subseteq M_{i+1}$,
+and that the incidence relations of $\con K_{i+1}$ and $\con L_{i+1}$ restricted to
+$M_{i}$ are the incidence relations of $\con K_{i}$ and $\con L_{i}$, respectively.
+Furthermore, $\mathcal{S}_{i+1} \subseteq \Th_{c}(\con K_{i+1}) \cap \Th(\con L_{i+1})$,
+because $\mathcal{S}_{i+1}$ is even valid in $\con K_{i+1} \div \con L_{i+1}$.
+
+Note that since $\mathcal{J}$ is a finite interpretation, the set $M_{\mathcal{J}}$ is
+finite.  Since $M_{i} \subseteq M_{\mathcal{J}}$ holds for all iterations $i$, up to
+equivalence, it is true that from a certain iteration $\ell$ on, $M_{\ell} = M_{k}$ is
+true for all $k \geq \ell$.  Thus, \Cref{alg:confident-base-gcis/trusted-objects}
+terminates on input $\mathcal{J}$, $\mathcal{I}$, and $c$.
+
+To show that upon termination of \Cref{alg:confident-base-gcis/trusted-objects} that
+$M_{n} = M_{\mathcal{J}}$ is true up to equivalence, we start with the following result,
+which is an adaption of \cite[Lemma~6.7]{Diss-Felix}.
+
+\begin{Proposition}
+  \label{prop:Felix-6.7-adapted}
+  Consider a terminating run of \Cref{alg:confident-base-gcis/trusted-objects}, and let
+  $n$ be the number of iterations.  Then for every $U \subseteq M_{n}$ and $r \in N_{R}$
+  it is true that
+  \begin{equation*}
+    \exists r.(\bigsqcap U)^{\mathcal{J}\mathcal{J}} \in M_{n}
+  \end{equation*}
+  up to equivalence.
+\end{Proposition}
+\begin{Proof}
+  Note that because both $\mathcal{I}$ and $\mathcal{J} \setminus \mathcal{I}$ are
+  connected subinterpretations of $\mathcal{J}$, \Cref{lem:Felix-6.12} shows that $\con
+  K_{n} \div \con L_{n}$ is indeed the induced context of $\mathcal{J}$ and $M_{n}$.
+  Thus, we obtain from \Cref{prop:connection-I-prime-2} that
+  \begin{equation*}
+    (\bigsqcap U_{\con K_{n} \div \con L_{n}}'')^{\mathcal{J}} = U_{\con K_{n} \div \con
+      L_{n}}''' = U_{\con K_{n} \div \con L_{n}}' = (\bigsqcap U)^{\mathcal{J}}.
+  \end{equation*}
+  Therefore, it is true that
+  \begin{equation*}
+    \exists r. (\bigsqcap U_{\con K_{n} \div \con L_{n}}'')^{\mathcal{J}\mathcal{J}}
+    \equiv \exists r. (\bigsqcap U)^{\mathcal{J}\mathcal{J}}.
+  \end{equation*}
+  Since \Cref{alg:confident-base-gcis/trusted-objects} is a special case of
+  \Cref{alg:confident-base/growing-attributes-trusted-objects},
+  \Cref{prop:property-of-confident-bases-with-growing-sets-of-attributes} is also
+  applicable to \Cref{alg:confident-base-gcis/trusted-objects}, and we thus obtain a $k
+  \in \set{ 0, \dots, n }$ such that $U_{\con K_{n} \div \con L_{n}}'' = P_{k}$.  Since
+  $\exists r. (\bigsqcap P_{k})^{\mathcal{J}\mathcal{J}} \in M_{k+1} \subseteq M_{n}$, we obtain
+  \begin{equation*}
+    \exists r. (\bigsqcap U)^{\mathcal{J}\mathcal{J}} \equiv \exists r. (\bigsqcap U_{\con
+      K_{n} \div \con L_{n}}'')^{\mathcal{J}\mathcal{J}} \equiv \exists r. (\bigsqcap
+    P_{k})^{\mathcal{J}\mathcal{J}} \in M_{n},
+  \end{equation*}
+  as desired.
+\end{Proof}
+
+Using this proposition, we shall now show the correctness of
+\Cref{alg:confident-base-gcis/trusted-objects}.
+
+\begin{Theorem}
+  \label{thm:confident-base-gcis-trusted-objects-is-correct}
+  Let $\mathcal{J}$ be a finite interpretation over $N_{C}$ and $N_{R}$, and let
+  $\mathcal{I}$ be a connected subinterpretation of $\mathcal{J}$ such that $\mathcal{J}
+  \setminus \mathcal{I}$ is also a connected subinterpretation of $\mathcal{J}$.  Let $c
+  \in [0,1]$, and let $n$ be the number of iterations of
+  \Cref{alg:confident-base-gcis/trusted-objects} when applied to $\mathcal{J}$,
+  $\mathcal{I}$, and $c \in [0,1]$.  Then $\bigsqcap \mathcal{K}_{n}$ is a base of
+  $\Th_{c}(\mathcal{J}, \mathcal{I})$.
+\end{Theorem}
 
 \todo[inline]{Write: 13-11/5.3}%
 
@@ -1369,3 +1516,5 @@ following results.
 %%% mode: latex
 %%% TeX-master: "../main"
 %%% End: 
+
+%  LocalWords:  gcis
