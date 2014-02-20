@@ -1066,7 +1066,7 @@ expert that confirms all implications.
 
 Recall that in this algorithm there were two cases of implications asked to the expert:
 implications where either of the form $P_{i+1} \to \set{m}$, where $\conf_{\con K}(P_{i+1}
-\to \set{m}) \ge c$ and $c \notin \mathcal{K}_{i}(P_{i+1}$, or $P_{i+1} \to
+\to \set{m}) \ge c$ and $c \notin \mathcal{K}_{i}(P_{i+1})$, or $P_{i+1} \to
 (P_{i+1})_{\con K \div \con L_{i}}''$.  We can simplify these two cases into one case by
 defining for $P \subseteq M$ and $c \in [0,1]$
 \begin{equation*}
@@ -1084,17 +1084,19 @@ elements to be added to the current set of attributes, we add them as the smalle
 elements.  In this way, the underlying Next Closure algorithm behaves as if those elements
 would have been present right from the start of the run, and thus behaves as desired.
 
-\addfunctionname{confident-base/growing-attributes}
+\addfunctionname{confident-base}
 
 \begin{figure}[tp]
   \begin{Algorithm}[Axiomatize Confident Implications with Growing Sets of Attributes]
     \hspace*{0cm}
     \label{alg:confident-base/growing-attributes}
     \begin{lstlisting}
-define confident-base/growing-attributes($c \in [0,1]$)
+define confident-base($\con K = (G, M, I)$, $c \in [0,1]$)
   $i$ := $0$
-  $M_i$ := $I_i$ := $\mathcal{S}_i$ := $P_i$ := $\mathcal{K}_i$ := $\emptyset$
-  $\leq_{M_{i}}$ := $\emptyset$
+  $M_i$ := $M$
+  $I_i$ := $I$
+  $\mathcal{S}_i$ := $P_i$ := $\mathcal{K}_i$ := $\emptyset$
+  choose ${\leq_{M_{i}}} \text{ as a linear order on } M_{i}$
   
   forever do
     read $\con K_{i+1} = (G, M_{i+1}, I_{i+1}) \text{ such that } M_i \subseteq M_{i+1}
@@ -1200,15 +1202,17 @@ The following result, and its proof, are a generalization of~\cite[Lemma~6.3]{Di
 
 \begin{Theorem}
   \label{thm:confident-bases-with-growing-sets-of-attributes}
-  Let $c \in [0,1]$, and suppose that \Cref{alg:confident-base/growing-attributes} applied
-  to $c$ terminates after $n$ iterations.  Then $\mathcal{K}_{n} \subseteq \Th_{c}(\con
-  K_{n})$ and $\mathcal{S}_{n} \cup \mathcal{K}_{n}$ is complete for $\Th_{c}(\con
-  K_{n})$.
+  Let $\con K$ be a finite formal context, $c \in [0,1]$, and suppose that
+  \Cref{alg:confident-base/growing-attributes} applied to $\con K$ and $c$ terminates
+  after $n$ iterations.  Then $\mathcal{K}_{n} \subseteq \Th_{c}(\con K_{n})$ and
+  $\mathcal{K}_{n}$ is a base for $\Th_{c}(\con K_{n})$ with background knowledge
+  $\mathcal{S}_{n}$.
 \end{Theorem}
 \begin{Proof}
-  The fact that $\mathcal{K}_{n} \subseteq \Cn(\Th_{c}(\con K_{n}))$ is clear from the
-  definition of $\mathcal{K}_{n}$, and we thus only need to show that $\mathcal{S}_{n}
-  \cup \mathcal{K}_{n}$ is complete for $\Th_{c}(\con K_{n})$.  For this we shall use
+  The fact that $\mathcal{K}_{n} \cup \mathcal{S}_{n} \subseteq \Cn(\Th_{c}(\con K_{n}))$
+  is clear from the definition of $\mathcal{K}_{n}$ and $\mathcal{S}_{n}$, and we thus
+  only need to show that $\mathcal{S}_{n} \cup \mathcal{K}_{n}$ is complete for
+  $\Th_{c}(\con K_{n})$.  For this we shall use
   \Cref{lem:characterization-of-completeness} and show that every set $Q \subseteq M_{n}$
   which is $(\mathcal{S}_{n} \cup \mathcal{K}_{n})$-closed is also $\Th_{c}(\con
   K_{n})$-closed.
@@ -1226,7 +1230,7 @@ The following result, and its proof, are a generalization of~\cite[Lemma~6.3]{Di
   \Cref{prop:property-of-confident-bases-with-growing-sets-of-attributes} again, we obtain
   that $P = P_{k}$ for some $k \in \set{ 0, \dots, n }$, and thus
   \begin{equation*}
-    (P \to P^{\con K_{n}, c}) = (P_{k} \to (P_{k}^{\con K_{n}, c}) \in \mathcal{K}_{n},
+    (P \to P^{\con K_{n}, c}) = (P_{k} \to P_{k}^{\con K_{n}, c}) \in \mathcal{K}_{n},
   \end{equation*}
   because $P_{k} \neq P_{k}^{\con K_{n}, c}$, since $m \notin P_{k} \subseteq Q$, but $m
   \in P_{k}^{\con K_{n}, c}$.  Now since $Q$ is $\mathcal{K}_{n}$-closed, $P_{k} \subseteq
@@ -1238,7 +1242,118 @@ The following result, and its proof, are a generalization of~\cite[Lemma~6.3]{Di
   complete for $\Th_{c}(\con K_{n})$, as it was claimed.
 \end{Proof}
 
-\todo[inline]{Write: 13-11/5.2}%
+In this theorem, the set $\mathcal{K}_{n}$ does not necessarily contain implications whose
+confidence is at least $c$, \ie $\mathcal{K}_{n} \subseteq \Th_{c}(\con K)$ is not
+necessarily true.  However, a simple modification of
+\Cref{alg:confident-base/growing-attributes} achieves that the computed base is indeed a
+confident base of $\Th_{c}(\con K)$.  For this we define the return value of
+\Cref{alg:confident-base/growing-attributes} as
+\begin{equation*}
+  \hat{\mathcal{K}} := \set{ P \to \set{m} \mid (P \to P^{\con K, c}) \in \mathcal{K}_{n},
+    m \in P^{\con K, c} }.
+\end{equation*}
+Then, by definition of $P^{\con K, c}$, it is true that $\hat{\mathcal{K}} \subseteq
+\Th_{c}(\con K)$.  Of course, instead of choosing $m$ in $P^{\con K, c}$, it also suffices
+to consider only $m \in P^{\con K, c} \setminus \mathcal{S}_{n}(P)$.
+
+With \Cref{alg:confident-base/growing-attributes} we have now obtained an algorithm that
+allows us to compute bases of $\Th_{c}(\con K)$, where the attribute set can be added
+incrementally during the computation.  Based on this algorithm, we now want to turn back
+to our initial problem of finding bases of $\Th_{c}(\con K_{1}) \cap \Th(\con K_{2})$,
+where both formal contexts $\con K_{1}$ and $\con K_{2}$ have the same attribute set $M$.
+
+The main idea to adapt \Cref{alg:confident-base/growing-attributes} to this setting is to
+``divide'' the working context into two formal contexts $\con K_{i+1}$ and $\con L_{i+1}$,
+such that in $\con K_{i+1}$ (the ``untrusted'' part) we apply the usual confidence
+heuristics, and in $\con L_{i+1}$ (the ``trusted'' part) we consider only valid
+implications.  Then instead of computing the sets $P^{\con K_{i+1}, c}$, we consider
+\begin{equation*}
+  P^{\con K_{i+1}, c} \cap P_{\con L_{i+1}}'' = \set{ m \in P_{\con L_{i+1}}'' \mid
+    \conf_{\con K_{i+1}}(P \to \set{m}) \ge c }.
+\end{equation*}
+The division of the working context into $\con K_{i+1}$ and $\con L_{i+1}$ can be
+represented by using the subposition $\con K_{i+1} \div \con L_{i+1}$ as the working
+context.  Then clearly
+\begin{equation}
+  \label{eq:54}
+  P_{\con K_{i+1} \div \con L_{i+1}}'' = P_{\con K_{i+1}}'' \cap P_{\con L_{i+1}}''
+  \subseteq P^{\con K_{i+1}, c} \cap P_{\con L_{i+}}''.
+\end{equation}
+The resulting algorithm is shown in
+\Cref{alg:confident-base/growing-attributes-trusted-objects}.
+
+\addfunctionname{confident-base/trusted-objects}
+
+\begin{figure}[tp]
+  \begin{Algorithm}[Axiomatize Confident Implications with Trusted Objects]
+    \hspace*{0cm}
+    \label{alg:confident-base/growing-attributes-trusted-objects}
+    \begin{lstlisting}
+define confident-base/trusted-objects($\con K = (G_{1}, M, I)$, $\con L = (G_{2}, M, J)$, $c \in [0,1]$)
+  $i$ := $0$
+  $M_i$ := $M$
+  $I_i$ := $I$
+  $J_{i}$ := $J$
+  $\mathcal{S}_i$ := $P_i$ := $\mathcal{K}_i$ := $\emptyset$
+  choose ${\leq_{M_{i}}} \text{ as a linear order on } M_{i}$
+  
+  forever do
+    read $M_{i+1} \text{ such that } M_{i} \subseteq M_{i+1}$
+    read $I_{i+1} \text{ such that } I_{i} = (G_{1} \times M_{i}) \cap I_{i+1}$
+    read $J_{i+1} \text{ such that } J_{i} = (G_{2} \times M_{i}) \cap J_{i+1}$
+    $\con K_{i+1}$ := $(G_{1}, M_{i+1}, I_{i+1})$
+    $\con L_{i+1}$ := $(G_{2}, M_{i+1}, J_{i+1})$
+    read $\mathcal{S}_{i+1} \text{ such that } \mathcal{S}_i \subseteq \mathcal{S}_{i+1}
+\subseteq \Th_{c}(\con K_{i+1}) \cap \Th(\con L_{i+1})$
+    choose ${\leq_{M_{i+1}}} \text{ such that (\ref{eq:48}) and (\ref{eq:49}) hold}$
+
+    $\mathcal{K}_{i+1}$ := $\set{ P_k \to P_k^{\con K_{i+1}, c} \cap P_{\con L_{i+1}}'' \mid k \in \set{0, \ldots, i}, P_k \neq P_k^{\con K_{i+1}, c} \cap P_{\con L_{i+1}}''}$
+
+    $P_{i+1}^1$ := next-closure($M_{i+1}$, $\leq_{M_{i+1}}$, $P_i$, $\con K_{i+1} \div \con L_{i+1}$)
+    $P_{i+1}^2$ := next-closure($M_{i+1}$, $\leq_{M_{i+1}}$, $P_i$, $\mathcal{S}_{i+1} \cup \mathcal{K}_{i+1}$)
+
+    $P_{i+1}$ := $\min\nolimits_{\preceq}(P_{i+1}^1, P_{i+1}^2)$.
+    if $P_{i+1} =$ nil exit
+
+    $i$ := $i + 1$
+  end
+
+  return $\mathcal{K}_{i+1}$  
+end
+    \end{lstlisting}
+  \end{Algorithm}
+\end{figure}
+
+Because of \Cref{eq:54} the proofs of
+\Cref{prop:property-of-confident-bases-with-growing-sets-of-attributes} and
+\Cref{thm:confident-bases-with-growing-sets-of-attributes} can be carried over to
+\Cref{alg:confident-base/growing-attributes-trusted-objects} almost literally, essentially
+by replacing every occurrence of $(\cdot)_{\con K_{i}}''$ by $(\cdot)_{\con K_{i} \div
+  \con L_{i}}''$, and by replacing every expression of the form $P^{\con K_{i}, c}$ by
+$P^{\con K_{i}, c} \cap P_{\con L_{i}}''$.  From this we obtain the validity of the
+following results.
+
+\begin{Proposition}
+  Consider a terminating run of
+  \Cref{alg:confident-base/growing-attributes-trusted-objects}, and let $n$ be the number
+  of iterations of this run.  Let $Q \subseteq M_{n}$.  Then the following statements
+  hold.
+  \begin{enumerate}[i. ]
+  \item If $Q \neq Q_{\con K_{n} \div \con L_{n}}''$, then $Q$ is not $(\mathcal{S}_{n} \cup
+    \mathcal{K}_{n})$-closed.
+  \item If $Q = Q_{\con K_{n} \div \con L_{n}}''$, then $Q = P_{k}$ for some $k \in \set{
+      0, \dots, n }$.
+  \end{enumerate}
+\end{Proposition}
+\begin{Theorem}
+  \label{thm:confident-bases-with-growing-sets-of-attributes-and-trusted-objects}
+  Let $\con K, \con L$ be two finite formal contexts with attribute set $M$ and disjoint
+  sets of objects, $c \in [0,1]$, and suppose that
+  \Cref{alg:confident-base/growing-attributes-trusted-objects} applied to $\con K$, $\con
+  L$ and $c$ terminates after $n$ iterations.  Then $\mathcal{K}_{n} \subseteq
+  \Th_{c}(\con K_{n}) \cap \Th(\con L_{n})$ and $\mathcal{K}_{n}$ is a base for
+  $\Th_{c}(\con K_{n}) \cap \Th(\con L_{n})$ with background knowledge $\mathcal{S}_{n}$.
+\end{Theorem}
 
 \subsection{Exploring Confident GCIs with Known Background Interpretation}
 \label{sec:expl-conf-gcis}
