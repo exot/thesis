@@ -1524,10 +1524,95 @@ allows us to use this argumentation.
 We now prove \Cref{thm:confident-base-gcis-trusted-objects-is-correct}.
 
 \begin{Proof}[\Cref{thm:confident-base-gcis-trusted-objects-is-correct}]
-  
-\end{Proof}
+  We first show that $M_{n} = M_{\mathcal{J}}$ is true up to equivalence, \ie every
+  element of $M_{n}$ is equivalent to some element in $M_{\mathcal{J}}$ and vice versa.
+  Since $M_{n} \subseteq M_{\mathcal{J}}$ up to equivalence by definition of $M_{n}$, it
+  suffices to show that every element of $M_{\mathcal{J}}$ is equivalent to some element
+  in $M_{n}$.
 
-\todo[inline]{Write: 13-11/5.3}%
+  To show that $M_{\mathcal{J}} \subseteq M_{n}$ holds up to equivalence, we shall show
+  that for each $r \in N_{R}$ and $X \subseteq \Delta^{\mathcal{J}}$ there exists $C \in
+  M_{n}$ such that $C \equiv \exists r. X^{\mathcal{J}}$.  To this end, we observe that by
+  \Cref{lem:Felix-5.6} there exists an $\ELbot$ concept description $D$ over $N_{C}$ and
+  $N_{R}$ such that
+  \begin{equation*}
+    D^{\mathcal{J}} = X^{\mathcal{J}\mathcal{J}}.
+  \end{equation*}
+  Since $D^{\mathcal{J}\mathcal{J}} = X^{\mathcal{J}\mathcal{J}\mathcal{J}} =
+  X^{\mathcal{J}}$, it is sufficient for showing $M_{\mathcal{J}} \subseteq M_{n}$ to show
+  that for each $\ELbot$ concept description $D$ and each $r \in N_{R}$ it is true that
+  \begin{equation*}
+    \exists r. D^{\mathcal{J}\mathcal{J}} \in M_{n}
+  \end{equation*}
+  up to equivalence.  We shall show this claim now by induction over the role-depth of
+  $D$.
+
+  The \textit{base case} is $D = \bot$, or $D$ being a conjunction of concept names from
+  $N_{C}$.  The case $D = \bot$ is trivial, as $\exists r. \bot^{\mathcal{J}\mathcal{J}}
+  \equiv \bot \in M_{n}$ for all $r \in N_{R}$.  If $D = \bigsqcap S$ for some $S
+  \subseteq N_{C}$, then since $S \subseteq M_{n}$, \Cref{prop:Felix-6.7-adapted} implies
+  for all $r \in N_{R}$ that
+  \begin{equation*}
+    \exists r. D^{\mathcal{J}\mathcal{J}} = \exists r. (\bigsqcap
+    S)^{\mathcal{J}\mathcal{J}} \in M_{n}
+  \end{equation*}
+  up to equivalence.
+
+  For the \textit{step case} let $D$ be an $\ELbot$ concept description with role-depth $d
+  > 0$, and let $r \in N_{R}$.  Assume by induction hypothesis that for all $\ELbot$
+  concept descriptions $E$ over $N_{C}$ and $N_{R}$ with role depth smaller than $d$ that
+  \begin{equation}
+    \label{eq:55}
+    \exists s. E^{\mathcal{J}\mathcal{J}} \in M_{n}
+  \end{equation}
+  is true up to equivalence for all $s \in N_{R}$.
+
+  Since $D$ is an $\ELbot$ concept description, there exist $U \subseteq N_{C}$, $r_{1},
+  \dots, r_{k} \in N_{R}$ and $E_{1}, \dots, E_{k} \in \ELbot(N_{C}, N_{R})$ such that
+  \begin{equation*}
+    D \equiv \bigsqcap U \sqcap \bigsqcap_{i=1}^{k} \exists r_{i}. E_{i}.
+  \end{equation*}
+  Then by \Cref{prop:double-II-under-I}
+  \begin{align*}
+    D^{\mathcal{J}\mathcal{J}}
+    &\equiv \bigl( \bigsqcap U \sqcap \bigsqcap_{i=1}^{k} \exists r_{i}. E_{i}
+    \bigr)^{\mathcal{J}\mathcal{J}} \\
+    &\equiv \bigl( \bigsqcap U \sqcap \bigsqcap_{i=1}^{k} \exists
+    r_{i}. E_{i}^{\mathcal{J}\mathcal{J}} \bigr)^{\mathcal{J}\mathcal{J}}.
+  \end{align*}
+  By induction hypothesis \Cref{eq:55}, $\exists r_{i}. E_{i}^{\mathcal{J}\mathcal{J}} \in
+  M_{n}$ up to equivalence, for all $i = 1, \dots, k$.  But then
+  \begin{equation*}
+    V := U \cup \set{ \exists r_{i}. E_{i}^{\mathcal{J}\mathcal{J}} \mid i = 1, \dots, k }
+    \subseteq M_{n},
+  \end{equation*}
+  and \Cref{prop:Felix-6.7-adapted} implies that
+  \begin{equation*}
+    \exists r. D^{\mathcal{J}\mathcal{J}} \equiv \exists r. (\bigsqcap
+    V)^{\mathcal{J}\mathcal{J}} \in M_{n}
+  \end{equation*}
+  up to equivalence.  This completes the induction step and shows that $M_{\mathcal{J}} =
+  M_{n}$ holds up to equivalence.
+
+  By \Cref{thm:confident-bases-with-growing-sets-of-attributes-and-trusted-objects} we
+  know that $\mathcal{K}_{n}$ is a base of
+  \begin{equation*}
+    \Th_{c}(\con K_{n}) \cap \Th(\con L_{n})
+  \end{equation*}
+  with background knowledge $\mathcal{S}_{n} = \set{ \set{ C } \to \set{ D } \mid C, D \in
+    M_{n}, C \sqsubseteq D }$.  Since $M_{n} = M_{\mathcal{J}}$ up to equivalence,
+  $\mathcal{K}_{n}$ is, up to equivalence, also a base of
+  \begin{equation*}
+    \Th_{c}(\con K_{\mathcal{J}} \restricted_{\Delta^{\mathcal{I}}}) \cap \Th(\con
+    K_{\mathcal{J}} \restricted_{\Delta^{\mathcal{J}} \setminus \Delta^{\mathcal{I}}})
+  \end{equation*}
+  with background knowledge $\mathcal{S}_{n}$.  By
+  \Cref{thm:bases-of-untrusted-interpretations-from-bases-of-contexts}, $\bigsqcap
+  (\mathcal{K}_{n} \cup \mathcal{S}_{n})$ is a base of $\Th_{c}(\mathcal{J},
+  \mathcal{I})$, and since $\bigsqcap (\mathcal{K}_{n} \cup \mathcal{S}_{n})$ is
+  element-wise equivalent to $\bigsqcap \mathcal{K}_{n}$, we obtain that $\bigsqcap
+  \mathcal{K}_{n}$ is a base of $\Th_{c}(\mathcal{J}, \mathcal{I})$, as required.
+\end{Proof}
 
 \subsection{Exploring Confident GCIs with Expert Interaction}
 \label{sec:expl-conf-gcis-1}
