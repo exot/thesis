@@ -1395,9 +1395,9 @@ define confident-base-gcis/trusted-elements($\mathcal{J}$, $\mathcal{I}$, $c \in
   choose ${\leq_{M_{i}}} \text{ as a linear order on } M_{i}$
   
   forever do
-    $M_{i+1}$ := $M_{i} \cup \set{ \exists r. (\bigsqcap P_{i})^{\mathcal{J}\mathcal{J}} \mid r \in N_{R} }$ ;; union up to equivalence
+    $M_{i+1}$ := $M_{i} \cup \set{ \exists r. (\bigsqcap P_{i})^{\mathcal{J}\mathcal{J}} \mid r \in N_{R} }$ ;; union up to equivalence $\label{lst:confident-base-gcis-line-1}$
     $\con K_{i+1}$ := induced-context($\mathcal{I}$, $M_{i+1}$)
-    $\con L_{i+1}$ := induced-context($\mathcal{J} \setminus \mathcal{I}$, $M_{i+1}$)
+    $\con L_{i+1}$ := induced-context($\mathcal{J} \setminus \mathcal{I}$, $M_{i+1}$) $\label{lst:confident-base-gcis-line-2}$
     $\mathcal{S}_{i+1}$ := $\set{ \set{ C } \to \set{ D } \mid C, D \in M_{i+1}, C
 \sqsubseteq D }$.
     choose ${\leq_{M_{i+1}}} \text{ such that (\ref{eq:48}) and (\ref{eq:49}) hold}$
@@ -1616,6 +1616,55 @@ We now prove \Cref{thm:confident-base-gcis-trusted-objects-is-correct}.
 
 \subsection{Exploring Confident GCIs with Expert Interaction}
 \label{sec:expl-conf-gcis-1}
+
+We are now prepared to devise an algorithm for model exploration by confidence, by
+replacing in \Cref{alg:confident-base-gcis/trusted-objects} every explicit access to the
+interpretation $\mathcal{J}$ by suitable expert interaction.  Recall that this we want to
+do because we now consider $\mathcal{J}$ as the background interpretation of the
+exploration process, which we cannot access directly.
+
+To conduct this adaption of \Cref{alg:confident-base-gcis/trusted-objects}, we observe
+that there are to lines in this algorithm where $\mathcal{J}$ is accessed directly, namely
+\begin{enumerate}[i. ]
+\item\label{item:21} in the computation of $M_{i+1}$
+  (line~\ref{lst:confident-base-gcis-line-1}), more precisely in the computation of the
+  concept description $\exists r.(\bigsqcap P_{i})^{\mathcal{J}\mathcal{J}}$, and
+\item\label{item:22} in the computation of the formal context $\con L_{i+1}$
+  (line~\ref{lst:confident-base-gcis-line-2}) as the induced context of $\mathcal{J}
+  \setminus \mathcal{I}$ and $M_{i+1}$.
+\end{enumerate}
+
+For \cref{item:21} we can argue as in \Cref{sec:an-algor-expl}, using
+\Cref{lem:Felix-6.14}: if $\mathcal{I}_{\ell}$ denotes the current working interpretation,
+which is a connected subinterpretation of the background interpretation $\mathcal{J}$,
+then if the expert confirms the GCI
+\begin{equation*}
+  \bigsqcap P_{i} \sqsubseteq (\bigsqcap P_{i})^{\mathcal{I}_{\ell}\mathcal{I}_{\ell}},
+\end{equation*}
+then $(\bigsqcap P_{i})^{\mathcal{I}_{\ell}\mathcal{I}_{\ell}} \equiv (\bigsqcap
+P_{i})^{\mathcal{J}\mathcal{J}}$ is true.
+
+Handling \cref{item:22} is a bit more problematic, though: the formal context $\con
+L_{i+1}$ is used for the computation of the next candidate set $P_{i+1}^{1}$, and for this
+we need to ensure that $\con L_{i+1}$ contains all ``relevant'' objects are present in
+$\con L_{i+1}$, and this may include objects which are not counterexamples to GCIs
+proposed to the expert.
+
+Let us consider this in more detail: observe that the computation of $P_{i+1}^{1}$ in our
+hypothetical adaption of \Cref{alg:confident-base-gcis/trusted-objects} would \emph{not}
+be correct if the lectically next intent after $P_{i}$ of the current working context
+$\con K_{i+1} \div \con L_{i+1}$ in \Cref{alg:confident-base-gcis/trusted-objects} is not
+an intent of the working context of our hypothetical adaption.  In other words, if we
+denote the working context of our adapted algorithm by $\con K_{i+1} \div \bar{\con
+  L}_{i+1}$, then this means that
+\begin{align*}
+  P_{i+1}^{1} &= (P_{i+1}^{1})_{\con K_{i+1} \div \con L_{i+1}}''\\
+  P_{i+1}^{1} &\neq (P_{i+1}^{1})_{\con K_{i+1} \div \bar{\con L}_{i+1}}''.
+\end{align*}
+If $\bar{\mathcal{S}}_{i+1}$ denotes the currently known implications and
+$\bar{\mathcal{K}}_{i+1}$ the currently confirmed implications in our hypothetical
+adaption, then we know that $\bar{\mathcal{S}}_{i+1} \cup \bar{\mathcal{K}}_{i+1}$ is
+valid in $\bar{\con L}_{i+1}$, and from this we obtain
 
 \todo[inline]{Write: 13-11/5.4}%
 
