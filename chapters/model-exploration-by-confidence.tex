@@ -1650,12 +1650,12 @@ we need to ensure that $\con L_{i+1}$ contains all ``relevant'' objects are pres
 $\con L_{i+1}$, and this may include objects which are not counterexamples to GCIs
 proposed to the expert.
 
-Let us consider this in more detail: observe that the computation of $P_{i+1}^{1}$ in our
-hypothetical adaption of \Cref{alg:confident-base-gcis/trusted-objects} would \emph{not}
-be correct if the lectically next intent after $P_{i}$ of the current working context
-$\con K_{i+1} \div \con L_{i+1}$ in \Cref{alg:confident-base-gcis/trusted-objects} is not
-an intent of the working context of our hypothetical adaption.  In other words, if we
-denote the working context of our adapted algorithm by $\con K_{i+1} \div \bar{\con
+Let us consider this in more detail: we observe that the computation of $P_{i+1}^{1}$ in
+our hypothetical adaption of \Cref{alg:confident-base-gcis/trusted-objects} would
+\emph{not} be correct if the lectically next intent after $P_{i}$ of the current working
+context $\con K_{i+1} \div \con L_{i+1}$ in \Cref{alg:confident-base-gcis/trusted-objects}
+is not an intent of the working context of our hypothetical adaption.  In other words, if
+we denote the working context of our adapted algorithm by $\con K_{i+1} \div \bar{\con
   L}_{i+1}$, then this means that
 \begin{align*}
   P_{i+1}^{1} &= (P_{i+1}^{1})_{\con K_{i+1} \div \con L_{i+1}}''\\
@@ -1665,8 +1665,126 @@ If $\bar{\mathcal{S}}_{i+1}$ denotes the currently known implications and
 $\bar{\mathcal{K}}_{i+1}$ the currently confirmed implications in our hypothetical
 adaption, then we know that $\bar{\mathcal{S}}_{i+1} \cup \bar{\mathcal{K}}_{i+1}$ is
 valid in $\bar{\con L}_{i+1}$, and from this we obtain
+\begin{align*}
+  (\mathcal{S}_{i+1} \cup \mathcal{K}_{i+1})(P_{i+1}^{1})
+  &= (\mathcal{S}_{i+1} \cup \mathcal{K}_{i+1})(P_{i+1}^{1})_{\con L_{i+1}}''\\
+  (\mathcal{S}_{i+1} \cup \mathcal{K}_{i+1})(P_{i+1}^{1})
+  &\neq (\mathcal{S}_{i+1} \cup \mathcal{K}_{i+1})(P_{i+1}^{1})_{\bar{\con L}_{i+1}}''
+\end{align*}
+Therefore, the implication
+\begin{equation*}
+  (\mathcal{S}_{i+1} \cup \mathcal{K}_{i+1})(P_{i+1}^{1}) \to
+  (\mathcal{S}_{i+1} \cup \mathcal{K}_{i+1})(P_{i+1}^{1})_{\bar{\con L}_{i+1}}''
+\end{equation*}
+must be rejected by the expert, because it does not hold in $\con L_{i+1}$, and upon
+rejection all necessary counterexamples are added to $\bar{\con L}_{i+1}$.  Thus, if we
+ask all implications, or their corresponding GCIs, we can ensure that the computation of
+the set $P_{i+1}^{1}$ is done as required in
+\Cref{alg:confident-base-gcis/trusted-objects}.
 
-\todo[inline]{Write: 13-11/5.4}%
+\addfunctionname{model-exploration-by-confidence}
+
+\begin{figure}[tp]
+  \begin{Algorithm}
+    \label{alg:model-exploration-by-confidence} Model Exploration by Confidence
+    \begin{lstlisting}
+define model-exploration-by-confidence($\mathcal{I}$, $c$)
+  $i$ := $\ell$ := $0$
+  $\mathcal{I}_\ell$ := $\mathcal{I}$
+  $\bar P_i$ := $\bar{\mathcal{K}}_i$ := $\emptyset$
+  $\bar M_i$ := $N_{C} \cup \set{ \bot }$
+  $\bar{\mathcal{S}}_i$ := $\set{ \set{ \bot } \to \set{ A } \mid A \in N_{C} }$
+  choose ${\leq_{M_{i}}} \text{ as a linear order on } M_{i}$
+
+  forever do
+    ;; present new GCI to the expert
+    while $\text{expert rejects } \bigsqcap \bar P_i \sqsubseteq (\bigsqcap \bar P_i) ^{\mathcal{I}_\ell\mathcal{I}_\ell}$ do
+      $\mathcal{I}_{\ell + 1}$ := $\text{expert-defined extension of } \mathcal{I}_\ell$
+      $\ell$ := $\ell$ + 1
+    end
+
+    $\bar M_{i+1}$ := $\bar M_i \cup \set{ \exists r. (\bigsqcap P_i)^{\mathcal{I}_\ell\mathcal{I}_\ell} \mid r \in N_R}$ ;; union up to equivalence $\label{item:23}$
+    choose ${\leq_{M_{i+1}}} \text{ such that (\ref{eq:48}) and (\ref{eq:49}) hold}$
+
+    ;; ensure relevant counterexamples for already known GCIs
+    while $\text{expert rejects } \bigsqcap \bar P_k \sqsubseteq \bigsqcap ( \bar P_k^{\con K_{\mathcal{I}, \bar M_{i+1}}, c} \cap (\bar P_k)^{\prime\prime_{\con K_{\mathcal{I}_\ell \setminus \mathcal{I}, \bar M_{i+1}}}})$ do
+      $\mathcal{I}_{\ell+1}$ := $\text{expert-defined extension of } \mathcal{I}_\ell$
+      $\ell$ := $\ell$ + 1
+    end
+
+    $\bar{\con K}_{i+1}$ := induced-context($\mathcal{I}$, $\bar M_{i+1}$)$\label{item:24}$
+    $\bar{\con L}_{i+1}$ := induced-context($\mathcal{I}_{\ell} \setminus \mathcal{I}$, $\bar M_{i+1}$)  
+    $\bar{\mathcal{S}}_{i+1}$ := $\set{ \set{C} \to \set{D} \mid C, D \in \bar M_{i+1}, C \sqsubseteq D }$
+
+    $\bar{\mathcal{K}}_{i+1}$ := $\set{ \bar P_k \to \bar P_k^{\bar{\con K}_{i+1}, c} \cap
+      (\bar P_k)^{\prime\prime_{\bar{\con L}_{i+1}}} \mid k \in \set{0, \ldots, i}, \bar P_k \neq
+      \bar P_k^{\bar{\con K}_{i+1}, c} \cap (\bar P_k)^{\prime\prime_{\bar{\con L}_{i+1}}} }$
+
+    ;; additional expert interaction $\label{item:25}$
+    forall $Q \succeq P$ being $(\bar{\mathcal{K}}_{i+1} \cup \bar{\mathcal{S}}_{i+1})\text{-closed}$ do $\label{ask-many-1}$
+      while $\text{expert rejects } \bigsqcap Q \sqsubseteq \bigsqcap Q^{\prime\prime_{\bar{\con L}_{i+1}}}$ do
+        $\mathcal{I}_{\ell+1}$ := $\text{expert-defined extension of } \mathcal{I}_\ell$
+        $\ell$ := $\ell$ + 1
+        $\bar{\con L}_{i+1}$ := induced-context($\mathcal{I}_\ell \setminus \mathcal{I}$, $\bar M_{i+1}$)
+      end
+    end $\label{ask-many-2}$
+
+    $\bar P_{i+1}^1$ := next-closure($\bar M_{i+1}$, $\leq_{M_{i+1}}$, $\bar P_i$, $\frac{\bar{\con K}_{i+1}}{\bar{\con L}_{i+1}}$)
+    $\bar P_{i+1}^2$ := next-closure($\bar M_{i+1}$, $\leq_{M_{i+1}}$, $\bar P_i$, $\bar{\mathcal{S}}_{i+1} \cup \bar{\mathcal{K}}_{i+1}$)
+
+    $P_{i+1}$ := $\min\nolimits_{\preceq}(P_{i+1}^1, P_{i+1}^2)$.
+    if $P_{i+1} =$ nil exit
+
+    $i$ := $i + 1$
+  end
+
+  return $\bigsqcap \bar{\mathcal{K}}_{i+1}$
+end
+    \end{lstlisting}
+  \end{Algorithm}
+\end{figure}
+
+Let us make this argumentation more concrete, and consider
+\Cref{alg:model-exploration-by-confidence} as an adaption of
+\Cref{alg:confident-base-gcis/trusted-objects} to provide an algorithm for model
+exploration by confidence.  Observe that in \Cref{alg:model-exploration-by-confidence}, as
+in \Cref{alg:model-exploration}, counterexamples collected into the current working
+interpretation $\mathcal{I}_{\ell}$ are supposed to be connected subinterpretations of the
+background interpretation.  Furthermore, since required by
+\Cref{thm:confident-base-gcis-trusted-objects-is-correct}, we also need to ensure that
+$\mathcal{I}_{\ell} \setminus \mathcal{I}$ is a connected subinterpretation of
+$\mathcal{I}_{\ell}$, \ie the expert is not allowed to add role-successors from elements
+of $\mathcal{I}_{\ell} \setminus \mathcal{I}$ to elements of $\mathcal{I}$ when adding
+counterexamples.  These constraints are suppose to be satisfied in every line of the form
+\begin{equation*}
+  \mathcal{I}_{\ell+1} := \text{expert-defined extension of } \mathcal{I}_\ell
+\end{equation*}
+
+To prove that \Cref{alg:model-exploration-by-confidence} indeed provides an algorithm for
+model exploration we shall show that this algorithm computes, when applied to
+$\mathcal{I}$ and using an expert that represents the background interpretation
+$\mathcal{I}_{\mathsf{back}}$, up to equivalence the same intermediate values as
+\Cref{alg:confident-base-gcis/trusted-objects} when directly applied to $\mathcal{I}$ and
+$\mathcal{I}_{\mathsf{back}}$.  Then, since \Cref{alg:confident-base-gcis/trusted-objects}
+terminates, \Cref{alg:model-exploration-by-confidence} will also terminate and returns a
+base of $\Th_{c}(\mathcal{I}_{\mathsf{back}}, \mathcal{I})$.
+
+\begin{Theorem}
+  \label{thm:model-exploration-by-confidence}
+  Let $\mathcal{I}_{\mathsf{back}}$ be a finite interpretation over $N_{C}$ and $N_{R}$,
+  and let $\mathcal{I}$ be a connected subinterpretation of $\mathcal{I}_{\mathsf{back}}$
+  such that $\mathcal{I}_{\mathsf{back}} \setminus \mathcal{I}$ is also a connected
+  subinterpretation of $\mathcal{I}$.  Let $c \in [0,1]$.
+
+  Then \Cref{alg:model-exploration-by-confidence} applied to $\mathcal{I}$, $c$ and using
+  an expert that represents $\mathcal{I}_{\mathsf{back}}$ terminates.  If $n$ is the
+  number of iterations of this run, then $\bigsqcap \bar{\mathcal{K}}_{n}$ is a base of
+  $\Th_{c}(\mathcal{I}_{\mathsf{back}}, \mathcal{I}) =
+  \Th_{c}(\mathcal{I}_{\mathsf{back}}) \cap \Th(\mathcal{I}_{\mathsf{back}} \setminus
+  \mathcal{I})$.
+\end{Theorem}
+
+\todo[inline]{Write: 13-11/5.12 proof}%
 
 %%% Local Variables: 
 %%% mode: latex
