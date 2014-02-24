@@ -1775,18 +1775,17 @@ base of $\Th_{c}(\mathcal{I}_{\mathsf{back}}, \mathcal{I})$.
   Let $\mathcal{I}_{\mathsf{back}}$ be a finite interpretation over $N_{C}$ and $N_{R}$,
   and let $\mathcal{I}$ be a connected subinterpretation of $\mathcal{I}_{\mathsf{back}}$
   such that $\mathcal{I}_{\mathsf{back}} \setminus \mathcal{I}$ is also a connected
-  subinterpretation of $\mathcal{I}$.  Let $c \in [0,1]$.
+  subinterpretation of $\mathcal{I}_{\mathsf{back}}$.  Let $c \in [0,1]$.
 
   Then \Cref{alg:model-exploration-by-confidence} applied to $\mathcal{I}$, $c$ and using
-  an expert that represents $\mathcal{I}_{\mathsf{back}}$ terminates.  If $n$ is the
-  number of iterations of this run, and if $\mathcal{I}_{\ell}$ denotes the final working
-  interpretation, then $\bigsqcap \bar{\mathcal{K}}_{n}$ is a base of
-  $\Th_{c}(\mathcal{I}_{\ell}, \mathcal{I}) = \Th_{c}(\mathcal{I}) \cap
-  \Th(\mathcal{I}_{\ell} \setminus \mathcal{I})$.
+  an expert that represents $\mathcal{I}_{\mathsf{back}} \setminus \mathcal{I}$
+  terminates.  If $n$ is the number of iterations of this run, then $\bigsqcap
+  \bar{\mathcal{K}}_{n}$ is a base of $\Th_{c}(\mathcal{I}_{\mathsf{back}}, \mathcal{I}) =
+  \Th_{c}(\mathcal{I}) \cap \Th(\mathcal{I}_{\mathsf{back}} \setminus \mathcal{I})$.
 \end{Theorem}
 \begin{Proof}
   We show that \Cref{alg:model-exploration-by-confidence} with the input
-  $\mathcal{I}_{\ell}$, $\mathcal{I}$ and $c$ has the same output as
+  $\mathcal{I}_{\mathsf{back}}$, $\mathcal{I}$ and $c$ has the same output as
   \Cref{alg:confident-base-gcis/trusted-objects}.  Then the claim follows from
   \Cref{thm:confident-base-gcis-trusted-objects-is-correct}.
 
@@ -1794,13 +1793,23 @@ base of $\Th_{c}(\mathcal{I}_{\mathsf{back}}, \mathcal{I})$.
   $\bar P_{i} = P_{i}, \bar M_{i} = M_{i}, \bar{\mathcal{K}}_{i} = \mathcal{K}$ and
   $\bar{\mathcal{S}}_{i} = \mathcal{S}_{i}$ is true up to equivalence.  In other words, we
   shall show that every element of $\bar P_{i}$ is equivalent to some element in $P_{i}$,
-  and likewise for $\bar M_{i}$ and $M_{i}$.  Furthermore, we shall show that for each
-  implication $(\bar A \to \bar B) \in \bar{\mathcal{K}}_{i}$ there exists an implication
-  $(A \to B) \in \mathcal{K}_{i}$ such that $\bar A = A$ and $\bar B = B$ is true up to
-  equivalence; the same holds for $\bar{\mathcal{S}}_{i}$ and $\mathcal{S}_{i}$.
-  Moreover, we choose the linear orders on $\bar M_{i+1}$ and $M_{i+1}$ equivalently.
+  and vice versa; likewise for $\bar M_{i}$ and $M_{i}$.  Furthermore, we shall show that
+  for each implication $(\bar A \to \bar B) \in \bar{\mathcal{K}}_{i}$ there exists an
+  implication $(A \to B) \in \mathcal{K}_{i}$ such that $\bar A = A$ and $\bar B = B$ is
+  true up to equivalence, and vice versa; likewise for $\bar{\mathcal{S}}_{i}$ and
+  $\mathcal{S}_{i}$.
 
   We shall show these claims by induction over $i$.
+
+  In the following argumentation, we shall not mention the linear orders we choose on the
+  sets $\bar M_{i+1}$ and $M_{i+1}$ explicitly.  However, we shall
+  choose the linear orders $\leq_{\bar M_{i+1}}$ and $\leq_{M_{i+1}}$ on $\bar M_{i+1}$
+  and $M_{i+1}$ such that
+  \begin{equation*}
+    \bar C \leq_{\bar M_{i+1}} \bar D \iff C \leq_{M_{i+1}} D
+  \end{equation*}
+  for $\bar C, \bar D \in \bar M_{i+1}, C, D \in M_{i+1}$ and $\bar C \equiv C, \bar D
+  \equiv D$.
 
   \textit{Base Case: }  For $i = 0$, it is true that $\bar P_{i} = \emptyset = P_{i}$,
   $\bar M_{i} = N_{C} \cup \set{ \bot } = M_{i}$, $\bar{\mathcal{K}}_{i} = \emptyset =
@@ -1808,23 +1817,25 @@ base of $\Th_{c}(\mathcal{I}_{\mathsf{back}}, \mathcal{I})$.
     \in N_{C} } = \mathcal{S}_{i}$.  Thus, the claim holds for $i = 0$.
 
   \textit{Step Case: } Let us assume that $0 < i < n$ and that the claim holds for all $m
-  \leq i$.  Denote with $\mathcal{I}_{l}$ the current working interpretation when the
-  algorithm has reached line~\ref{item:23}.  The algorithm can only reach this line if the
-  expert has confirmed $\bigsqcap \bar P_{i} \sqsubseteq (\bigsqcap \bar
+  \leq i$.
+
+  Denote with $\mathcal{I}_{l}$ the current working interpretation when the algorithm has
+  reached line~\ref{item:23}.  The algorithm can only reach this line if the expert has
+  confirmed $\bigsqcap \bar P_{i} \sqsubseteq (\bigsqcap \bar
   P_{i})^{\mathcal{I}_{l}\mathcal{I}_{l}}$.  Since $\mathcal{I}_{l}$ is a connected
-  subinterpretation of $\mathcal{I}_{\ell}$, we obtain from \Cref{lem:Felix-6.14}, it is
-  true that $(\bigsqcap \bar P_{i})^{\mathcal{I}_{l}\mathcal{I}_{l}} = (\bigsqcap \bar
-  P_{i})^{\mathcal{I}_{\ell}\mathcal{I}_{\ell}}$.  Since $\bar M_{i} = M_{i}$ up to
-  equivalence holds by induction hypothesis, it is therefore true that $\bar M_{i+1} =
-  M_{i+1}$ up to equivalence.  This also implies $\bar{\mathcal{S}}_{i} = \mathcal{S}_{i}$
-  up to equivalence, since the definition of these sets only depends on $\bar M_{i+1}$ and
-  $M_{i}$, respectively.
+  subinterpretation of $\mathcal{I}_{\mathsf{back}}$, \Cref{lem:Felix-6.14} implies that
+  that $(\bigsqcap \bar P_{i})^{\mathcal{I}_{l}\mathcal{I}_{l}} = (\bigsqcap \bar
+  P_{i})^{\mathcal{I}_{\mathsf{back}}\mathcal{I}_{\mathsf{back}}}$.  Since $\bar M_{i} =
+  M_{i}$ up to equivalence holds by induction hypothesis, it is therefore true that $\bar
+  M_{i+1} = M_{i+1}$ up to equivalence.  This also implies $\bar{\mathcal{S}}_{i} =
+  \mathcal{S}_{i}$ up to equivalence, since the definition of these sets only depends on
+  $\bar M_{i+1}$ and $M_{i}$, respectively.
 
   To show $\bar{\mathcal{K}}_{i} = \mathcal{K}$, it is sufficient to verify that
   \begin{equation}
     \label{eq:56}
-    \bar P_{k}^{\bar{\con K}_{i+1}, c} \cap (\bar P_{k})_{\con L_{i+1}}'' =
-    P_{k}^{\bar{\con K}, c} \cap (P_{k})_{\con L_{i+1}}''
+    \bar P_{k}^{\bar{\con K}_{i+1}, c} \cap (\bar P_{k})_{\bar{\con L}_{i+1}}'' =
+    P_{k}^{\con K_{i+1}, c} \cap (P_{k})_{\con L_{i+1}}''
   \end{equation}
   is true up to equivalence for all $k \in \set{ 0, \dots, i }$.  To this end we first
   observe that $\bar{\con K}_{i+1}$ is the induced context of $\mathcal{I}$ and $\bar
@@ -1839,8 +1850,9 @@ base of $\Th_{c}(\mathcal{I}_{\mathsf{back}}, \mathcal{I})$.
   Let $\mathcal{I}_{m}$ be the current working interpretation in iteration $i$ when
   line~\ref{item:24} is reached.  Recall that $\bar{\con L}_{i+1}$ is the induced context
   of $\mathcal{I}_{m} \setminus \mathcal{I}$ and $\bar M_{i+1}$, and that $\con L_{i+1}$
-  is the induced context of $\mathcal{I}_{\ell} \setminus \mathcal{I}$ and $M_{i+1}$.
-  Since $\mathcal{I}_{m}$ is a connected subinterpretation of $\mathcal{I}_{\ell}$, we can
+  is the induced context of $\mathcal{I}_{\mathsf{back}} \setminus \mathcal{I}$ and
+  $M_{i+1}$.  Since $\mathcal{I}_{m} \setminus \mathcal{I}$ is a connected
+  subinterpretation of $\mathcal{I}_{\mathsf{back}} \setminus \mathcal{I}$, we can
   consider $\bar{\con L}_{i+1}$ as a subcontext of $\con L_{i+1}$, and thus obtain
   \begin{equation*}
     (\bar P_{k})_{\bar{\con L}_{i+1}}'' \supseteq (P_{k})_{\con L_{i+1}}''
@@ -1863,14 +1875,15 @@ base of $\Th_{c}(\mathcal{I}_{\mathsf{back}}, \mathcal{I})$.
       (\bar P_{k})_{\bar{\con L}_{i+1}}''
     \end{equation*}
     since it was proposed to her in line~\ref{item:26}.  In particular, the GCI $\bigsqcap
-    \bar P_{k} \sqsubseteq \bar C$ is valid in $\mathcal{I}_{\ell} \setminus \mathcal{I}$.
-  \item The GCI $\bar P_{k} \sqsubseteq \bar C$ is not confirmed by the expert.  To see
-    this, observe that since $\bar C \in M_{i+1}$, there exists $C \in M_{i+1}$ such that
-    $\bar C \equiv C$.  Then if $\bigsqcap P_{k} \sqsubseteq \bar C$ were confirmed by the
-    expert, it would be true that $C \in (P_{k})_{\con L_{i+1}}''$.  Furthermore, it is
-    true that $\conf_{\bar{\con K}_{i+1}}(\bar P_{k} \to \set{ \bar C }) = \conf_{\con
-      K_{i+1}}(P_{k} \to \set{ C })$ because of $\bar P_{k} = P_{k}, \bar M_{i+1} =
-    M_{i+1}$ holds up to equivalence, and $\bar C \equiv C$.  Since $\bar C \in \bar
+    \bar P_{k} \sqsubseteq \bar C$ is valid in $\mathcal{I}_{\mathsf{back}} \setminus
+    \mathcal{I}$.
+  \item The GCI $\bigsqcap P_{k} \sqsubseteq \bar C$ is not confirmed by the expert.  To
+    see this, observe that since $\bar C \in M_{i+1}$, there exists $C \in M_{i+1}$ such
+    that $\bar C \equiv C$.  Then if $\bigsqcap P_{k} \sqsubseteq \bar C$ were confirmed
+    by the expert, it would be true that $C \in (P_{k})_{\con L_{i+1}}''$.  Furthermore,
+    it is true that $\conf_{\bar{\con K}_{i+1}}(\bar P_{k} \to \set{ \bar C }) =
+    \conf_{\con K_{i+1}}(P_{k} \to \set{ C })$ because of $\bar P_{k} = P_{k}, \bar
+    M_{i+1} = M_{i+1}$ up to equivalence, and $\bar C \equiv C$.  Since $\bar C \in \bar
     P_{k}^{\bar{\con K}_{i+1}, c}$, it is true that $\conf_{\bar{\con K}_{i+1}}(\bar P_{k}
     \to \set{ \bar C }) \ge c$, and thus $\conf_{\con K_{i+1}}(P_{k} \to \set{ C }) \ge
     c$, and hence $C \in P_{k}^{\con K_{i+1}, c}$.  Thus, we obtain
@@ -1879,14 +1892,14 @@ base of $\Th_{c}(\mathcal{I}_{\mathsf{back}}, \mathcal{I})$.
       (P_{k})_{\con L_{i+1}}'',
     \end{equation*}
     contradicting our choice of $\bar C$.  Therefore, $\bigsqcap P_{k} \sqsubseteq \bar C$
-    is not confirmed by the expert, and in particular is not valid in $\mathcal{I}_{\ell}
-    \setminus \mathcal{I}$.
+    is not confirmed by the expert, and in particular is not valid in
+    $\mathcal{I}_{\mathsf{back}} \setminus \mathcal{I}$.
   \end{enumerate}
   However, since $\bar P_{k} = P_{k}$ up to equivalence, the fact that $\bigsqcap \bar
-  P_{k} \sqsubseteq \bar C$ is valid in $\mathcal{I}_{\ell} \setminus \mathcal{I}$ but
-  $\bigsqcap P_{k} \sqsubseteq \bar C$ is not yields the desired contradiction.
-  Therefore, we have established the validity of \Cref{eq:56}, and thus can infer that
-  $\bar{\mathcal{K}}_{k} = \mathcal{K}_{k}$ is true up to equivalence.
+  P_{k} \sqsubseteq \bar C$ is valid in $\mathcal{I}_{\mathsf{back}} \setminus
+  \mathcal{I}$ but $\bigsqcap P_{k} \sqsubseteq \bar C$ is not yields the desired
+  contradiction.  Therefore, we have established the validity of \Cref{eq:56}, and thus
+  can infer that $\bar{\mathcal{K}}_{k} = \mathcal{K}_{k}$ is true up to equivalence.
 
   It remains to be shown that
   \begin{equation}
@@ -1896,17 +1909,17 @@ base of $\Th_{c}(\mathcal{I}_{\mathsf{back}}, \mathcal{I})$.
   is true up to equivalence.  To this end, we observe that $\bar P_{i+1}^{2} =
   P_{i+1}^{2}$ is true up to equivalence, since $\bar P_{i} = P_{i}$ and
   $\bar{\mathcal{K}}_{i+1} \cup \bar{\mathcal{S}}_{i+1} = \mathcal{K}_{i+1} \cup
-  \mathcal{S}_{i+1}$ is true up to equivalence, and the linear orders on $\bar M_{i+1}$
-  and $M_{i}$ are chosen suitably.  Thus, to show \Cref{eq:57} it suffices to verify that
+  \mathcal{S}_{i+1}$ up to equivalence, and the linear orders on $\bar M_{i+1}$ and
+  $M_{i}$ are chosen suitably.  Thus, to show \Cref{eq:57} it suffices to verify that
   \begin{equation}
     \label{eq:58}
     \bar P_{i+1}^{1} = P_{i+1}^{1}.
   \end{equation}
   For this recall that the formal contexts $\bar{\con K}_{i+1}$ and $\con K_{i+1}$ can be
-  considered the same, because $\bar M_{i+1} = M_{i+1}$ is true up to equivalence.  Also
-  recall that we can consider $\bar{\con L}_{i+1}$ as a subcontext of $\con L_{i+1}$,
-  again up to equivalence.  Therefore, we obtain $\bar P_{i+1}^{1} \succeq P_{i+1}^{1}$ up
-  to equivalence.
+  considered the same, because $\bar M_{i+1} = M_{i+1}$ up to equivalence.  Also recall
+  that we can consider $\bar{\con L}_{i+1}$ as a subcontext of $\con L_{i+1}$, again up to
+  equivalence.  Therefore, we obtain $\bar P_{i+1}^{1} \succeq P_{i+1}^{1}$ up to
+  equivalence.
 
   Suppose by contradiction that $\bar P_{i+1}^{1} \succneq P_{i+1}^{1}$.  Then
   $P_{i+1}^{1}$, viewed as a subset of $\bar M_{i+1}$, is not an intent of $\bar{\con
@@ -1936,9 +1949,9 @@ base of $\Th_{c}(\mathcal{I}_{\mathsf{back}}, \mathcal{I})$.
   \begin{equation*}
     ((\bar{\mathcal{K}}_{i+1} \cup \bar{\mathcal{S}}_{i+1})(P_{i+1}^{1}))_{\bar{\con L}_{i+1}}''
     \not\subseteq ((\bar{\mathcal{K}}_{i+1} \cup
-    \bar{\mathcal{S}}_{i+1})(P_{i+1}^{1}))_{\con L_{i+1}}''
+    \bar{\mathcal{S}}_{i+1})(P_{i+1}^{1}))_{\con L_{i+1}}''.
   \end{equation*}
-  up to equivalence.  Therefore, the corresponding GCI
+  Therefore, the corresponding GCI
   \begin{equation}
     \label{eq:59}
     \bigsqcap(\bar{\mathcal{K}}_{i+1} \cup \bar{\mathcal{S}}_{i+1})(P_{i+1}^{1})
@@ -1946,7 +1959,7 @@ base of $\Th_{c}(\mathcal{I}_{\mathsf{back}}, \mathcal{I})$.
     \bar{\mathcal{S}}_{i+1})(P_{i+1}^{1}))_{\bar{\con L}_{i+1}}''
   \end{equation}
   will be rejected by the expert, since $\con L_{i+1}$ is the induced context of
-  $\mathcal{I}_{\ell} \setminus \mathcal{I}$.
+  $\mathcal{I}_{\mathsf{back}} \setminus \mathcal{I}$.
 
   However, when computing $P_{i+1}^{1}$, we have passed the lines~\ref{ask-many-1} up
   to~\ref{ask-many-2}, and the expert has confirmed the GCI given in
