@@ -81,23 +81,132 @@ canonical base of $\Th_{c}(\con K) \cap \Th(p)$ anymore.
 
 The purpose of the then following \Cref{cha:model-expl-conf} was to extend the algorithm
 for exploration by confidence to provide an algorithm for \emph{model exploration by
-  confidence}.  Such an algorithm was obtained in \Cref{sec:expl-conf-gcis-1}, and as a
+  confidence}.  Such an algorithm was obtained in \Cref{sec:expl-conf-gcis-1}.  As a
 byproduct of the argumentation used, we also obtained more practical algorithms for
-computing confident bases of formal contexts (~\Cref{sec:grow-sets-attr-1}) and of finite
-interpretations (~\Cref{sec:expl-conf-gcis}).
+computing confident bases of formal contexts (\Cref{sec:grow-sets-attr-1}) and of finite
+interpretations (\Cref{sec:expl-conf-gcis}).  Those algorithms compute the set
+$M_{\mathcal{I}}$ incrementally, and not completely as a first step in the run, thus
+avoiding this delay when computing implications and GCIs, respectively.
 
-\todo[inline]{Write: support for GCIs can be unintuitive (WDPM paper)}
+The work presented so far is not completed, and a lot remains to be done to turn the
+results of this thesis into practically relevant techniques.  As a first step one could
+extent the results of this thesis to also incorporate the notion of \emph{support} of
+GCIs, and idea which is again borrowed from standard data mining
+approaches~\cite{arules:agrawal:association-rules}.  More precisely, one could define for
+a GCI $C \sqsubseteq D$ its support $\supp_{\mathcal{I}}(C \sqsubseteq D)$ in
+$\mathcal{I}$ to be
+\begin{equation*}
+  \supp_{\mathcal{I}}( C \sqsubseteq D ) := \frac{ \abs{(C \sqcap D)^{\mathcal{I}}} }{
+    \abs{ C^{\mathcal{I}} } }.
+\end{equation*}
+Then one can consider only those GCIs whose support is above a given threshold $s \in
+[0,1]$.  The idea behind this approach is that if the support of $C \sqsubseteq D$ is not
+high enough in $\mathcal{I}$, then this data set does not contain enough information about
+this GCI to decide whether $C \sqsubseteq D$ is true in the domain of discourse or not.
 
-\todo[inline]{Write: exploiting connection between FCA and data-mining to obtain fast
-  algorithms to compute confident bases of finite interpretations}
+An adaption of the results presented in this thesis to include the support measure should
+not be very difficult, and indeed results from formal concept analysis could again be used
+here~\cite{DBLP:conf/ki/StummeTBPL01,arules:Stumme:2002}.  However, one could also step
+back and ask whether the notions of support and confidence are really suitable for a
+description logic setting: it has been argued in~\cite{DBLP:conf/icdm/BorchmannD11} that
+the support (and also the confidence) of a GCI as defined above may be counter-intuitive,
+at least as measures of trustworthiness.  To see this, let us consider the example as
+given in~\cite{DBLP:conf/icdm/BorchmannD11}, which consisted of an interpretation that
+contained an element for the Louvre in Paris, a number of pieces of art that are kept
+there, and an element to represent the city of Paris.  The complete example interpretation
+is sketched in \Cref{fig:support-of-gcis-can-be-counter-intuitive}.
 
-\todo[inline]{Write: cardinality constraints on the premises of the implications/GCIs}
+\begin{figure}[t]
+  \centering
+  \begin{tikzpicture}[
+    element/.style={rectangle,draw,rounded corners},
+    every label/.style={anchor=north east},
+    label distance=1ex,
+    ]
+    \node[element] (Mona-Lisa) at (0,0) {\textsf{Mona-Lisa}};
+    \node (dummy-1) at (0,-1) {};
+    \node (dummy-2) at (0,-2) {};
+    \node[element] (Venus-de-Milo) at (0,-3) {\textsf{Venus-de-Milo}};
+    \node[element,label=above:{\textsf{Museum}}] (Louvre) at (4,-1.5) {\textsf{Louvre}};
+    \node[element,label={[label distance=0.7ex]above:{\textsf{French-City}}}] (Paris) at (8,-1.5) {\textsf{Paris}};
+    \path {
+      (Mona-Lisa) edge[->] node[midway,above,sloped] {\textsf{owned-by}} (Louvre)
+      (Venus-de-Milo) edge[->] node[midway,below,sloped] {\textsf{owned-by}} (Louvre)
+      (dummy-1) edge[->,dashed] (Louvre)
+      (dummy-2) edge[->,dashed] (Louvre)
+      (Louvre) edge[->] node [midway,above,sloped] {\textsf{located-in}} (Paris)
+    };
+  \end{tikzpicture}
+  \caption{Support can be counter-intuitive}
+  \label{fig:support-of-gcis-can-be-counter-intuitive}
+\end{figure}
 
-\todo[inline]{Write: make model exploration by confidence more practical}
+In this example interpretation, the GCI
+\begin{equation*}
+  \mathsf{Museum} \sqsubseteq \exists \text{\textsf{located-in}}. \text{\textsf{French-City}}
+\end{equation*}
+has very low support, because there is only one museum in the data set.  Therefore, one
+could argue that this GCI is not very trustworthy.  Based on this, one could argue that
+the GCI
+\begin{equation*}
+  \exists \text{\textsf{owned-by}}. \mathsf{Museum} \sqsubseteq \exists
+  \text{\textsf{owned-by}}. \exists \text{\textsf{located-in}}. \text{\textsf{French-City}}
+\end{equation*}
+is not more trustworthy then the GCI before.  However, this GCI has very high support in
+the example interpretation, because there are thousands of exhibits in the Louvre.
+Therefore, the support measure would assign this GCI a very high trustworthiness, although
+we would intuitively assign it a rather low one.  Finding a more intuitive approach to
+measure trustworthiness and relevance of GCIs in a given data set remains an open problem.
+
+However, even if one accepts the way we have defined the confidence of an GCI, more work
+remains to be done to make our approach more practically relevant.  For example, in
+\Cref{thm:confident-bases-of-GCIs-from-confident-bases-of-implications} we have shown a
+way how finite confident bases of finite interpretations can be obtained from bases of
+implications with high confidence in the corresponding induced formal context.  What we
+did not talk about was a way how to obtain such bases of implications with high
+confidence.  To obtain these, it may prove fruitful to exploit the close connection of
+formal concept analysis to data mining~\cite{arules:Zaki:1998}, and try to adapt known
+algorithm from data mining for computing association rules to the setting of computing
+bases of implications with high confidence.  In this way, one could hope to obtain much
+faster implementations as those we have used for our
+experiments~\cite{DBLP:conf/icdm/BorchmannD11}, and thus increase the practicability of
+our approach to construct knowledge bases from large amounts of data.
+
+Another usability issue concerns the way we have constructed our algorithm for model
+exploration by confidence, as presented in \Cref{sec:expl-conf-gcis-1}.  There not only
+the number of GCIs asked to the expert is quite high, probably much higher then in the
+model exploration algorithm as proposed by Distel.  Moreover, if the GCIs are presented to
+a human expert, extra care is needed.  More precisely, the GCIs
+\begin{equation*}
+  \bigsqcap P_{i} \sqsubseteq (\bigsqcap P_{i})^{\mathcal{I}_{\ell}\mathcal{I}_{\ell}}
+\end{equation*}
+we ask may contain proper $\ELgfpbot$ concept descriptions, and moreover the size of the
+premises $P_{i}$ may be too large for human comprehension.  The former problem can be
+attacked by only computing bases of GCIs which contain \ELbot concept descriptions with a
+maximum role depth.  In this case, all results obtained by Distel can be carried
+over.\todo{cite lecture notes}  Indeed, limiting the role-depth of the concept
+descriptions involved eliminates the need for the description logic \ELgfpbot, and thus
+simplifies the underlying theory considerably.
+
+To address the fact that $P_{i}$ may be too large one could restrict oneself to only find
+bases of GCIs $C \sqsubseteq D$ where $C$ has at most $k$ conjuncts, for some a-priori
+chosen value $k \in \NN$.  To solve the problem of finding a small base for this set of
+GCIs (which is now finite), one could first try to solve the simpler problem of finding a
+base of the set of valid implications in a formal context $\con K = (G, M, I)$ where the
+premise has size of most $k$.  Note that such a base would be
+\begin{equation*}
+  \set{ A \to A'' \mid A \subseteq M, \abs A \leq k }.
+\end{equation*}
+However, this base has size $\binom{\abs M}{k}$, which may be too large for practical
+applications, and thus finding a smaller base is necessary.  It would also be desirable to
+have an exploration algorithm that only asks implications where the premise does not have
+more than $k$ elements.  As soon as those problems are solved for the setting of
+implications, one should try to transfer them to the setting of GCIs, probably again with
+an a-priori chosen role-depth for the concept descriptions involved.
 
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "../main"
 %%% End: 
 
-%  LocalWords:  gcis thm luxenbuger conf expl attr
+%  LocalWords:  gcis thm luxenbuger conf expl attr de
