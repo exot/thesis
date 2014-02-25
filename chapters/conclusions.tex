@@ -1,8 +1,90 @@
-
-\chapter{Conclusions}
+\chapter{Conclusions and Outlook}
 \label{cha:conclusions}
 
-\todo[inline]{Plan conclusions}
+This work was concerned with axiomatizing all GCIs expressible in the description logic
+$\ELbot$ that enjoy a certain minimal confidence in a given finite interpretation.  The
+motivation for this research stemmed from the observation that the results from
+Distel~\cite{Diss-Felix} on finding finite bases of finite interpretations are very
+sensitive towards sporadic errors in the given interpretation, and thus may not perform
+well on real-world data, which can be assumed to always contain errors.
+
+The way errors affect the results obtained by Distel's results has been assessed in detail
+in \Cref{sec:computing-bases-from}, where we have argued how \emph{linked data} can be
+seen as a variant of finite interpretations, and where we have computed finite bases of a
+finite interpretation $\Idbpedia$ that has been obtained from the DBpedia data set by
+restriction to the \textsf{child} role.  Computing finite bases of the interpretation
+$\Idbpedia$ turned out to be not very insightful, mostly because the concept names
+contained in $\Idbpedia$ consisted mostly of job descriptions, and it cannot be expected
+that the job of a parent affects the jobs of their children, or vice versa, in a way
+expressible as a GCI.  Furthermore, the interpretation $\Idbpedia$ turned out to be
+erroneous to the extent that it contained things that are usually not associated with the
+\textsf{child} role, like places, books or bands.
+
+Despite the deficits of $\Idbpedia$ we have argued that one still can expect certain GCIs
+to be valid in $\Idbpedia$, most notably
+\begin{equation*}
+  \exists \mathsf{child}. \top \sqsubseteq \mathsf{Person}.
+\end{equation*}
+However, this GCI turned out to be not valid in $\Idbpedia$.  On the other hand, we have
+seen that there were only 4 (erroneous) counterexamples in $\Idbpedia$, among 2551
+elements in $\Idbpedia$ to which it is applicable.  This observation motivated us to
+extend the results on axiomatizing valid GCIs into the direction of axiomatizing GCIs with
+\emph{high confidence} in the given data.
+
+This extension has been discussed in \Cref{sec:confident-gcis}, where we had adapted
+results obtain by Luxenburger~\cite{diss:Luxenburger} on \emph{partial implications} in
+finite contexts to the setting of GCIs in finite interpretations $\mathcal{I}$.  From this
+adaption we have obtained finite confident bases of finite interpretations
+(\Cref{thm:conf-base}, \Cref{thm:luxenbuger-base-for-gcis}), and a way to compute finite
+confident bases of GCIs from finite confident bases of implications
+(~\Cref{thm:confident-bases-of-GCIs-from-confident-bases-of-implications}).  We have also
+seen how we can make use of the canonical base of the induced context of $\mathcal{I}$ to
+complete bases of $\Th_{c}(\mathcal{I}) \setminus \Th(\mathcal{I})$ to confident bases of
+$\Th_{c}(\mathcal{I})$.  Finally, we have generalized in \Cref{sec:unrav-elgfpb-bases}
+results of Distel to obtain finite confident $\ELbot$ bases from finite confident
+$\ELgfpbot$ bases, using the technique of \emph{unravelling} $\ELgfpbot$ concept
+descriptions.
+
+The results we had obtained about computing finite confident bases of $\mathcal{I}$ were
+then in turn applied to our example interpretation $\Idbpedia$, to examine how the
+approach of computing finite confident bases performs on this data set.  As expected, we
+could recover the GCIs $\exists \mathsf{child}. \top \sqsubseteq \mathsf{Person}$, as well
+as another GCI.  In particular, we have observed that for relatively large values of the
+confidence threshold $c$, the number of additional GCIs to be examined by the expert is
+relatively small.  Thus, one could argue that the approach of considering GCIs with high
+confidence does not add too much overhead for practical applications, but promises to
+deliver more robust results.
+
+However, the approach of considering GCIs with high confidence is still a heuristic
+approach, and the GCIs thus obtained need to be validated by an external source of
+information, like a human expert.  Indeed, the same is true for valid GCIs of the input
+interpretation $\mathcal{I}$, as it may be that this input data misses some crucial
+counterexamples for the domain of interest.  For this purpose, Distel developed
+\emph{model exploration} to interactively consult an expert during the computation of a
+finite base of $\mathcal{I}$ to provide missing counterexamples if needed.  We have argued
+that providing such an exploration algorithm for the computation of finite confident bases
+may also be helpful for practical applications.
+
+To this end, we have first discussed in \Cref{cha:expl-conf} an approach to obtain an
+exploration algorithm for \emph{implications with high confidence} in some given formal
+context $\con K$, called \emph{exploration by confidence}.  For this, we have introduced
+in \Cref{sec:an-abstract-view} an abstraction of the classical attribute exploration
+algorithm as an algorithm to explore the set $\Th(\con K)$ of implications.  Then in
+\Cref{sec:expl-conf-1}, we have argued how this abstraction can be transferred to the set
+$\Th_{c}(\con K)$, automatically yielding an algorithm that explores the set $\Th_{c}(\con
+K)$.  This algorithm, which indeed computes the canonical base of $\Th_{c}(\con K) \cap
+\Th(p)$ with respect to some given expert $p$, has the practical disadvantage that it
+requires the computation of closures under $\Th_{c}(\con K)$, which may not be feasible in
+certain applications.  To remedy this, we have introduced in \Cref{sec:poss-fast-expl} an
+exploration algorithm that avoids this computation, but does not necessarily compute the
+canonical base of $\Th_{c}(\con K) \cap \Th(p)$ anymore.
+
+The purpose of the then following \Cref{cha:model-expl-conf} was to extend the algorithm
+for exploration by confidence to provide an algorithm for \emph{model exploration by
+  confidence}.  Such an algorithm was obtained in \Cref{sec:expl-conf-gcis-1}, and as a
+byproduct of the argumentation used, we also obtained more practical algorithms for
+computing confident bases of formal contexts (~\Cref{sec:grow-sets-attr-1}) and of finite
+interpretations (~\Cref{sec:expl-conf-gcis}).
 
 \todo[inline]{Write: support for GCIs can be unintuitive (WDPM paper)}
 
@@ -11,7 +93,11 @@
 
 \todo[inline]{Write: cardinality constraints on the premises of the implications/GCIs}
 
+\todo[inline]{Write: make model exploration by confidence more practical}
+
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "../main"
 %%% End: 
+
+%  LocalWords:  gcis thm luxenbuger conf expl attr
