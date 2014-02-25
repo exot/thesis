@@ -37,7 +37,7 @@ finite contexts to the setting of GCIs in finite interpretations $\mathcal{I}$. 
 adaption we have obtained finite confident bases of finite interpretations
 (\Cref{thm:conf-base}, \Cref{thm:luxenbuger-base-for-gcis}), and a way to compute finite
 confident bases of GCIs from finite confident bases of implications
-(~\Cref{thm:confident-bases-of-GCIs-from-confident-bases-of-implications}).  We have also
+(\Cref{thm:confident-bases-of-GCIs-from-confident-bases-of-implications}).  We have also
 seen how we can make use of the canonical base of the induced context of $\mathcal{I}$ to
 complete bases of $\Th_{c}(\mathcal{I}) \setminus \Th(\mathcal{I})$ to confident bases of
 $\Th_{c}(\mathcal{I})$.  Finally, we have generalized in \Cref{sec:unrav-elgfpb-bases}
@@ -182,11 +182,11 @@ a human expert, extra care is needed.  More precisely, the GCIs
 \end{equation*}
 we ask may contain proper $\ELgfpbot$ concept descriptions, and moreover the size of the
 premises $P_{i}$ may be too large for human comprehension.  The former problem can be
-attacked by only computing bases of GCIs which contain \ELbot concept descriptions with a
-maximum role depth.  In this case, all results obtained by Distel can be carried
-over.\todo{cite lecture notes}  Indeed, limiting the role-depth of the concept
-descriptions involved eliminates the need for the description logic \ELgfpbot, and thus
-simplifies the underlying theory considerably.
+attacked by considering only those GCIs where the role-depth is not larger than an
+a-priori chosen maximal role-depth $k \in \NN$.  In this case, all results obtained by
+Distel can be carried over, as sketched in~\cite{FCA-and-Logics}.  Indeed, limiting the
+role-depth of the concept descriptions involved eliminates the need for the description
+logic \ELgfpbot, and thus simplifies the underlying theory considerably.
 
 To address the fact that $P_{i}$ may be too large one could restrict oneself to only find
 bases of GCIs $C \sqsubseteq D$ where $C$ has at most $k$ conjuncts, for some a-priori
@@ -197,12 +197,13 @@ premise has size of most $k$.  Note that such a base would be
 \begin{equation*}
   \set{ A \to A'' \mid A \subseteq M, \abs A \leq k }.
 \end{equation*}
-However, this base has size $\binom{\abs M}{k}$, which may be too large for practical
-applications, and thus finding a smaller base is necessary.  It would also be desirable to
-have an exploration algorithm that only asks implications where the premise does not have
-more than $k$ elements.  As soon as those problems are solved for the setting of
-implications, one should try to transfer them to the setting of GCIs, probably again with
-an a-priori chosen role-depth for the concept descriptions involved.
+However, this base has size $\binom{\abs M}{k}$, which, although polynomial in $\abs M$,
+may be too large for practical applications, and thus finding a smaller base is necessary.
+It would also be desirable to have an exploration algorithm that only asks implications
+where the premise does not have more than $k$ elements.  As soon as those problems are
+solved for the setting of implications, one should try to transfer them to the setting of
+GCIs, probably again with an a-priori chosen role-depth for the concept descriptions
+involved.
 
 %%% Local Variables: 
 %%% mode: latex
