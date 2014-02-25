@@ -62,28 +62,28 @@ in terms of being valid in some interpretation.  We can therefore introduce a no
 Notice the similarity of this definition to \Cref{def:sound-complete-base}.
 
 Let $\mathcal{I}$ be a finite interpretation over $N_C$ and $N_R$, and let us denote with
-$\Th_{\ELbot(N_C, N_R)}(\mathcal{I})$ the set of all \ELbot general concept inclusions
-over $N_C$ and $N_R$ which are valid in $\mathcal{I}$, and likewise denote with
-$\Th_{\ELgfpbot(N_C, N_R)}(\mathcal{I})$ the set of all \ELgfpbot general concept
-inclusions over $N_C$ and $N_R$ which are valid in $\mathcal{I}$.  If the logic used is
-clear from the context, then we shall drop the subscript.
-
+$\Th(\mathcal{I})$ the set of all \ELgfpbot general concept inclusions over $N_C$ and
+$N_R$ which are valid in $\mathcal{I}$, \ie
+\begin{equation*}
+  \Th(\mathcal{I}) := \set{ C \sqsubseteq D \mid C, D \in \ELgfpbot(N_{C}, N_{R}),
+    C^{\mathcal{I}} \subseteq D^{\mathcal{I}} }.
+\end{equation*}
 Let $\mathcal{K}$ be a set of general concept inclusions over $N_C$ and $N_R$.  If
-$\mathcal{K}$ is a set of \ELbot general concept inclusions and is a base for
-$\Th_{\ELbot(N_C, N_R)}(\mathcal{I})$ we shall simply say that $\mathcal{K}$ is an
-\emph{\ELbot base} of $\mathcal{I}$.  If we replace \ELbot by \ELgfpbot, then we call
-$\mathcal{K}$ an \emph{\ELgfpbot base} instead.  If the logic is clear from the context or
-not relevant for the current consideration, we shall leave it out.
+$\mathcal{K}$ is a base of $\Th(\mathcal{I})$, we shall simply say that $\mathcal{K}$ is a
+\emph{base} of $\mathcal{I}$.  If $\mathcal{K}$ consists of $\ELbot$ general concept
+inclusions only, we shall say that $\mathcal{K}$ is an \emph{\ELbot base} of
+$\mathcal{I}$.  Otherwise, we shall occasionally say that $\mathcal{K}$ is an
+\emph{\ELgfpbot base} of $\mathcal{I}$.
 
-Notice that in the case that $\mathcal{K}$ is an \ELbot base of $\mathcal{I}$, all general
-concept inclusions in $\mathcal{K}$ have to hold in $\mathcal{I}$: the set
-$\Th(\mathcal{I})$ is \emph{closed under entailment} in the sense that every \ELbot
-general concept inclusion over $N_C$ and $N_R$ which is entailed by $\Th(\mathcal{I})$ is
-already contained in this set.  Therefore, if $\mathcal{K}$ is sound for
-$\Th(\mathcal{I})$, it must be contained in this set and thus $\mathcal{K}$ is a set of
-general concept inclusions which are valid in $\mathcal{I}$.  Moreover, since
-$\mathcal{K}$ is complete for $\Th(\mathcal{I})$, every general concept inclusion over
-$N_C$ and $N_R$ that holds in $\mathcal{I}$ is entailed by $\mathcal{K}$.
+Notice that in the case that $\mathcal{K}$ is a base of $\mathcal{I}$, all general concept
+inclusions in $\mathcal{K}$ have to hold in $\mathcal{I}$: the set $\Th(\mathcal{I})$ is
+\emph{closed under entailment} in the sense that every \ELgfpbot general concept inclusion
+over $N_C$ and $N_R$ which is entailed by $\Th(\mathcal{I})$ is already contained in this
+set.  Therefore, if $\mathcal{K}$ is sound for $\Th(\mathcal{I})$, it must be contained in
+this set and thus $\mathcal{K}$ is a set of general concept inclusions which are valid in
+$\mathcal{I}$.  Moreover, since $\mathcal{K}$ is complete for $\Th(\mathcal{I})$, every
+\ELgfpbot general concept inclusion over $N_C$ and $N_R$ that holds in $\mathcal{I}$ is
+entailed by $\mathcal{K}$.
 
 \section{Linking Formal Concept Analysis and Description Logics}
 \label{sec:motivation}
