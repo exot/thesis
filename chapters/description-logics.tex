@@ -228,6 +228,11 @@ description logic is usually called \emph{inexpressive} if it does not provide (
 or indirectly) all constructors of \ALC.  A description logic which provides all
 constructors of \ALC is usually called \emph{expressive}.
 
+\ALC played a crucial role in the development of description logics by uncovering a close
+connection to \emph{modal logics}~\cite{MLhandbook,BaaderLutz-MLhandbook-06}:
+in~\cite{DBLP:conf/ijcai/Schild91} it was shown that \ALC can be considered as a syntactic
+variant of the multimodal logic $\mathsf{K}_{(\mathsf{m})}$.
+
 \section{Knowledge Bases and Reasoning}
 \label{sec:knowledge-bases}
 
@@ -381,8 +386,8 @@ Knowledge bases are now just pairs consisting of an ABox and a TBox.
 Knowledge bases are the core method of description logics to represent knowledge.  In some
 more expressive description logics, tough, the expressiveness of knowledge bases is even
 more increased by including other types of axioms as well.  Examples for this are
-\emph{role restrictions} and \emph{role-value maps}.  However, these notions are not
-relevant for our work, and we shall therefore not discuss them here.
+\emph{role restrictions} and \emph{role-value maps}\todo{find a reference}.  However,
+these notions are not relevant for our work, and we shall therefore not discuss them here.
 
 Instead, we consider some of the standard reasoning task which can be conducted as soon as
 a knowledge base is available.  As already mentioned, \emph{reasoning} can be seen as the
@@ -464,6 +469,19 @@ and the complexity of the above reasoning problems has more or less to be establ
 separately.  It has been shown in~\cite{DBLP:conf/ijcai/Baader03a,
   DBLP:conf/ecai/Brandt04, DBLP:conf/ijcai/BaaderBL05} that all the above mentioned
 reasoning problems are tractable, \ie in PTime.
+
+It is worth noting that \ALC, as a variant of the multimodal logic
+$\mathsf{K}_{(\mathsf{m})}$, has the so-called \emph{finite model property}: if
+$\mathcal{K}, C$ is an instance of the satisfiability checking problem, then $C$ is
+satisfiable with respect to $\mathcal{K}$ if and only if there exists a \emph{finite}
+model $\mathcal{I}$ of $\mathcal{K}$ such that $C^{\mathcal{I}} \neq \emptyset$.  This
+also implies that the subsumption problem can be decided over finite models only: if
+$C^{\mathcal{I}} \subseteq D^{\mathcal{I}}$ holds for all finite models $\mathcal{I}$ of
+$\mathcal{K}$, then $C \sqcap \neg D$ is not satisfiable over some finite model of
+$\mathcal{K}$.  Because of the finite model property of \ALC, this implies that $C \sqcap
+\neg D$ is not satisfiable over any model of $\mathcal{K}$, and thus $C$ is subsumed by
+$D$ with respect to $\mathcal{K}$.  Observe that since \ELbot is a sub-logic of \ALC, it
+also has the finite model property.
 
 Apart from the standard reasoning task there are many other reasoning problems connected
 to knowledge bases, like \emph{pinpointing}~\cite{DBLP:phd/de/Nyssen2009a} and

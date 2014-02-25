@@ -957,9 +957,8 @@ satisfies for all $X \subseteq \Delta^{\mathcal{I}}$
 \item $\mathcal{X} \models ( (X^{\mathcal{I}})_d \sqsubseteq X^{\mathcal{I}} )$.
 \end{enumerate}
 The first property can be shown by induction over $k$, and for the second property we
-observe that if $\mathcal{J}$ is a finite interpretation\todo{enough, since \ELbot has
-  finite model property}\ such that $\mathcal{J} \models \mathcal{X}$, then by the first
-property
+observe that if $\mathcal{J}$ is a finite interpretation such that $\mathcal{J} \models
+\mathcal{X}$, then by the first property
 \begin{equation*}
   ((X^{\mathcal{I}})_d)^{\mathcal{J}} \subseteq ((X^{\mathcal{I}})_{d+1})^{\mathcal{J}}
   \subseteq ((X^{\mathcal{I}})_{d+2})^{\mathcal{J}} \subseteq \dots
@@ -970,7 +969,8 @@ $((X^{\mathcal{I}})_k)^{\mathcal{J}} = ((X^{\mathcal{I}})_{k+1})^{\mathcal{J}}$ 
   ((X^{\mathcal{I}})_k)^{\mathcal{J}} = (X^{\mathcal{I}})^{\mathcal{J}}.
 \end{equation*}
 Thus, $\mathcal{J} \models ( (X^{\mathcal{I}})_d \sqsubseteq X^{\mathcal{I}} )$ and
-therefore $\mathcal{X} \models ( (X^{\mathcal{I}})_d \sqsubseteq X^{\mathcal{I}} )$.
+therefore $\mathcal{X} \models ( (X^{\mathcal{I}})_d \sqsubseteq X^{\mathcal{I}} )$,
+because $\ELbot$ has the finite model property.
 
 But then if $(C \sqsubseteq D) \in \mathcal{B}$, then $\mathcal{B}_{\mathsf{u}} \models (
 (C^{\mathcal{I}\mathcal{I}})_d \sqsubseteq C^{\mathcal{I}\mathcal{I}})$ by the argument
