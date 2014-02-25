@@ -10,6 +10,7 @@
      "latex2e"
      "scrbook10"
      "scrbook"
+     "bibtotocnumbered"
      "english"
      "fleqn"
      "preamble"
