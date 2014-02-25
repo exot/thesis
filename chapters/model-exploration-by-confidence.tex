@@ -1968,6 +1968,21 @@ base of $\Th_{c}(\mathcal{I}_{\mathsf{back}}, \mathcal{I})$.
   equivalence.  This finishes the proof.
 \end{Proof}
 
+% Note that in the proof we have
+% \begin{equation*}
+%   (\bar{\mathcal{K}}_{i+1} \cup \bar{\mathcal{S}}_{i+1})(P_{i+1}^{1}) = P_{i+1}^{1},
+% \end{equation*}
+% since $P_{i+1}^{1}$ is an intent of $\con K_{i+1} \div \con L_{i+1}$ and
+% $\bar{\mathcal{K}}_{i+1} \cup \bar{\mathcal{S}}_{i+1}$ is sound for $\con K_{i+1} \cup
+% \con L_{i+1}$ up to equivalence.  Therefore, it suffices in line~\ref{ask-many-1} in
+% \Cref{alg:model-exploration-by-confidence} to ask only those GCIs
+% \begin{equation*}
+%   \bigsqcap Q \sqsubseteq \bigsqcap Q_{\bar{\con L}_{i+1}}''
+% \end{equation*}
+% where $Q$ is $\bar{\mathcal{K}}_{i+1} \cup \bar{\mathcal{S}}_{i+1}$-closed and $Q$ is
+% lectically smaller or equal to the smallest intent of $\bar{\con K}_{i+1} \div \bar{\con
+%   L}_{i+1}$, which is greater or equal to $\bar P_{i}$.
+
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "../main"
