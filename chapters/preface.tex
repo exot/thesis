@@ -1,13 +1,56 @@
-
 \vspace*{23ex}
 
+\todo[inline]{Find suitable dedication}
 \centerline{\textit{dedication goes here}}
 
 \chapter*{Preface}
 \label{cha:preface}
+
 \thispagestyle{empty}
 
-\todo[inline]{Plan preface}
+Knowledge is required to solve problems and to act intelligently in almost all situations
+-- this platitude is not only true for humans, but also for computers.  Thus, to enable
+humans and computers to act intelligently, one has to first solve the problem of
+\emph{acquiring knowledge}, also referred to as \emph{learning}.  In the case of
+computers, another problem has to be tackled, namely the problem of \emph{representing
+  knowledge} in a way that suitable for a machine to work with.
+
+An approach to represent knowledge is to use different flavors of logics, and among these
+flavors \emph{description logics} are a very popular choice.  Description logics are a
+family of different logic-based formalisms with varying reasoning complexity and
+expressiveness, specifically tailored towards efficient decision procedures.  Moreover,
+\emph{description logic knowledge bases} allow for a very powerful mechanism to represent
+knowledge, which is used in practical applications like various bio-medical ontologies, or
+in the semantic web.
+
+The knowledge representable by description logic knowledge bases can be \emph{assertional
+  knowledge} or \emph{terminological knowledge}.  Obtaining assertional knowledge, like
+the fact that Abraham Lincoln was a president of the United States, or that John McCarthy
+was a professor at Stanford University, is comparably easy, and can to a certain extent
+even be done automatically.  This is mostly due to the rather local nature of assertional
+knowledge, which just concerns one or two individuals.  On the other hand, obtaining
+terminological knowledge is much more involved, because this knowledge concepts to each
+other: the fact that every human is mortal, or that every human has a head are examples
+for terminological knowledge.  Obtaining such knowledge, which may concern a wide and
+mostly indefinite range of individuals or things, is much harder, and hoping to obtain it
+automatically seems gullible.
+
+Nevertheless, there have been various approaches to obtain terminological knowledge, at
+least in a preliminary version, from various sources of data, like natural language texts,
+databases or linked data.  One of these approaches has been developed by Franz Baader and
+Felix Distel, and allows the extraction of general terminological knowledge in the form of
+\emph{general concept inclusions} which are valid in a given interpretation.
+Interpretations are structures which are used in description logics to defined the
+semantics of different logics, and can be thought of as directed edge- and vertex-labeled
+graphs.  Therefore, interpretations can be thought of as a variant of \emph{linked data},
+and then the approach by Baader and Distel allows in principle the extraction of
+terminological knowledge from this form of data, which is ubiquitous in the realm of the
+semantic web.  Thus, one could turn the vast amount of linked data into description logic
+knowledge bases and use them to make computers act more intelligently.
+
+
+
+\todo[inline]{Write: preface}
 
 %%% Local Variables: 
 %%% mode: latex
