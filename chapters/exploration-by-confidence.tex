@@ -134,14 +134,16 @@ the set of currently known implications, but is not an intent of the current wor
 context.  Those implications are presented to the expert, who either confirms or rejects
 it.
 
-We can view this procedure from a more general perspective\todo{I think Bernhard talked
-  about that in his exploration lecture -- find a reference!}: given the formal context
-$\con K$, we know that all implications in $\Imp(M) \setminus \Th(\con K)$ \emph{are not}
-valid in $\con K_{\mathsf{back}}$, and thus are not valid in our domain.  On the other
-hand, all implications in $\Th(\con K)$ \emph{could} be valid in $\con K_{\mathsf{back}}$,
-depending on whether counterexamples contained in $\con K_{\mathsf{back}}$ invalidate
-implications being valid in $\con K$ or not.  However, what we are certain of is that all
-implications in $\mathcal{K}$ \emph{are} valid in our domain, and thus all implications in
+We can view this procedure from a more general perspective:\footnote{This idea is similar
+  to the one of considering the process of attribute exploration as a decreasing sequence
+  of intervals in the lattice of closure systems over $M$, see~\cite[pp.\
+  143--145]{GORS-book} for a bit more details} given the formal context $\con K$, we know
+that all implications in $\Imp(M) \setminus \Th(\con K)$ \emph{are not} valid in $\con
+K_{\mathsf{back}}$, and thus are not valid in our domain.  On the other hand, all
+implications in $\Th(\con K)$ \emph{could} be valid in $\con K_{\mathsf{back}}$, depending
+on whether counterexamples contained in $\con K_{\mathsf{back}}$ invalidate implications
+being valid in $\con K$ or not.  However, what we are certain of is that all implications
+in $\mathcal{K}$ \emph{are} valid in our domain, and thus all implications in
 $\Cn(\mathcal{K})$ are.
 
 Hence, we have the situation that we have three sets of implications, namely the set of
@@ -403,13 +405,11 @@ base of
 \end{equation*}
 with background knowledge $\mathcal{K}$.
 
-\todo[inline]{Write: move reformulation to chapter about FCA}
-
 To find an algorithm that allows us to explore $\mathcal{L}$ we want to suitably adapt the
 classical attribute exploration algorithm, as we have described it in the previous
-section.  For this we first transform the attribute exploration algorithm as given in
-\Cref{alg:attribute-exploration} into a simpler form, and then adapt it to our setting of
-exploring $\mathcal{L}$.
+section.  For this we shall first consider a slight reformulation the attribute
+exploration algorithm as given in \Cref{alg:attribute-exploration}, and then adapt it to
+our setting of exploring $\mathcal{L}$.
 
 \addfunctionname{explore-implications,next-closed-non-closed}
 
