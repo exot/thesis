@@ -20,30 +20,33 @@ expressible as a GCI.  Furthermore, the interpretation $\Idbpedia$ turned out to
 erroneous to the extent that it contained things that are usually not associated with the
 \textsf{child} role, like places, books or bands.
 
-Despite the deficits of $\Idbpedia$ we have argued that one still can expect certain GCIs
+Despite the deficits of $\Idbpedia$, we have argued that one still can expect certain GCIs
 to be valid in $\Idbpedia$, most notably
 \begin{equation*}
   \exists \mathsf{child}. \top \sqsubseteq \mathsf{Person}.
 \end{equation*}
-However, this GCI turned out to be not valid in $\Idbpedia$.  On the other hand, we have
-seen that there were only 4 (erroneous) counterexamples in $\Idbpedia$, among 2551
-elements in $\Idbpedia$ to which it is applicable.  This observation motivated us to
-extend the results on axiomatizing valid GCIs into the direction of axiomatizing GCIs with
-\emph{high confidence} in the given data.
+However, this GCI turned out to be not valid in $\Idbpedia$.  The reason for this was that
+among the 2551 elements to which this GCI is applicable in $\Idbpedia$, 4 of them were
+erroneously not an instance of \textsf{Person}.  In other words, the GCI $\exists
+\mathsf{child}. \top \sqsubseteq \mathsf{Person}$ will not be collected by Distel's
+approach because it is erroneously invalidated by a comparably small number of
+counterexamples.
 
-This extension has been discussed in \Cref{sec:confident-gcis}, where we had adapted
-results obtain by Luxenburger~\cite{diss:Luxenburger} on \emph{partial implications} in
-finite contexts to the setting of GCIs in finite interpretations $\mathcal{I}$.  From this
+This observation motivated us to extend the results on axiomatizing valid GCIs into the
+direction of axiomatizing GCIs with \emph{high confidence} in the given data.  This
+extension has been discussed in \Cref{sec:confident-gcis}, where we had adapted results
+obtain by Luxenburger~\cite{diss:Luxenburger} on \emph{partial implications} in finite
+contexts to the setting of GCIs in finite interpretations $\mathcal{I}$.  From this
 adaption we have obtained finite confident bases of finite interpretations
 (\Cref{thm:conf-base}, \Cref{thm:luxenbuger-base-for-gcis}), and a way to compute finite
 confident bases of GCIs from finite confident bases of implications
 (\Cref{thm:confident-bases-of-GCIs-from-confident-bases-of-implications}).  We have also
-seen how we can make use of the canonical base of the induced context of $\mathcal{I}$ to
-complete bases of $\Th_{c}(\mathcal{I}) \setminus \Th(\mathcal{I})$ to confident bases of
-$\Th_{c}(\mathcal{I})$.  Finally, we have generalized in \Cref{sec:unrav-elgfpb-bases}
-results of Distel to obtain finite confident $\ELbot$ bases from finite confident
-$\ELgfpbot$ bases, using the technique of \emph{unravelling} $\ELgfpbot$ concept
-descriptions.
+seen how we can make use of the canonical base of the induced context $\con
+K_{\mathcal{I}}$ of $\mathcal{I}$ to complete bases of $\Th_{c}(\mathcal{I}) \setminus
+\Th(\mathcal{I})$ to confident bases of $\Th_{c}(\mathcal{I})$.  Finally, we have
+generalized in \Cref{sec:unrav-elgfpb-bases} results of Distel to obtain finite confident
+$\ELbot$ bases from finite confident $\ELgfpbot$ bases, using the technique of
+\emph{unravelling} $\ELgfpbot$ concept descriptions.
 
 The results we had obtained about computing finite confident bases of $\mathcal{I}$ were
 then in turn applied to our example interpretation $\Idbpedia$, to examine how the
@@ -58,10 +61,10 @@ deliver more robust results.
 However, the approach of considering GCIs with high confidence is still a heuristic
 approach, and the GCIs thus obtained need to be validated by an external source of
 information, like a human expert.  Indeed, the same is true for valid GCIs of the input
-interpretation $\mathcal{I}$, as it may be that this input data misses some crucial
+interpretation $\mathcal{I}$, as it may be the case that $\mathcal{I}$ misses some crucial
 counterexamples for the domain of interest.  For this purpose, Distel developed
 \emph{model exploration} to interactively consult an expert during the computation of a
-finite base of $\mathcal{I}$ to provide missing counterexamples if needed.  We have argued
+finite base of $\mathcal{I}$ to provide missing counterexamples as needed.  We have argued
 that providing such an exploration algorithm for the computation of finite confident bases
 may also be helpful for practical applications.
 
@@ -91,30 +94,31 @@ avoiding this delay when computing implications and GCIs, respectively.
 The work presented so far is not completed, and a lot remains to be done to turn the
 results of this thesis into practically relevant techniques.  As a first step one could
 extent the results of this thesis to also incorporate the notion of \emph{support} of
-GCIs, and idea which is again borrowed from standard data mining
+GCIs, an idea which is again borrowed from standard data mining
 approaches~\cite{arules:agrawal:association-rules}.  More precisely, one could define for
 a GCI $C \sqsubseteq D$ its support $\supp_{\mathcal{I}}(C \sqsubseteq D)$ in
 $\mathcal{I}$ to be
 \begin{equation*}
   \supp_{\mathcal{I}}( C \sqsubseteq D ) := \frac{ \abs{(C \sqcap D)^{\mathcal{I}}} }{
-    \abs{ C^{\mathcal{I}} } }.
+    \abs{ \Delta^{\mathcal{I}} } }.
 \end{equation*}
 Then one can consider only those GCIs whose support is above a given threshold $s \in
 [0,1]$.  The idea behind this approach is that if the support of $C \sqsubseteq D$ is not
 high enough in $\mathcal{I}$, then this data set does not contain enough information about
 this GCI to decide whether $C \sqsubseteq D$ is true in the domain of discourse or not.
+In this case, the GCI $C \sqsubseteq D$ should be ignored.
 
 An adaption of the results presented in this thesis to include the support measure should
 not be very difficult, and indeed results from formal concept analysis could again be used
 here~\cite{DBLP:conf/ki/StummeTBPL01,arules:Stumme:2002}.  However, one could also step
-back and ask whether the notions of support and confidence are really suitable for a
+back and ask whether the notions of support and confidence are really suitable for our
 description logic setting: it has been argued in~\cite{DBLP:conf/icdm/BorchmannD11} that
 the support (and also the confidence) of a GCI as defined above may be counter-intuitive,
 at least as measures of trustworthiness.  To see this, let us consider the example as
 given in~\cite{DBLP:conf/icdm/BorchmannD11}, which consisted of an interpretation that
-contained an element for the Louvre in Paris, a number of pieces of art that are kept
-there, and an element to represent the city of Paris.  The complete example interpretation
-is sketched in \Cref{fig:support-of-gcis-can-be-counter-intuitive}.
+contained an element for the Louvre in Paris, all pieces of art that are kept there, and
+an element to represent the city of Paris.  The complete example interpretation is
+sketched in \Cref{fig:support-of-gcis-can-be-counter-intuitive}.
 
 \begin{figure}[t]
   \centering
@@ -158,7 +162,7 @@ Therefore, the support measure would assign this GCI a very high trustworthiness
 we would intuitively assign it a rather low one.  Finding a more intuitive approach to
 measure trustworthiness and relevance of GCIs in a given data set remains an open problem.
 
-However, even if one accepts the way we have defined the confidence of an GCI, more work
+But even if one accepts the way we have defined the confidence of an GCI, more work
 remains to be done to make our approach more practically relevant.  For example, in
 \Cref{thm:confident-bases-of-GCIs-from-confident-bases-of-implications} we have shown a
 way how finite confident bases of finite interpretations can be obtained from bases of
@@ -180,30 +184,43 @@ a human expert, extra care is needed.  More precisely, the GCIs
 \begin{equation*}
   \bigsqcap P_{i} \sqsubseteq (\bigsqcap P_{i})^{\mathcal{I}_{\ell}\mathcal{I}_{\ell}}
 \end{equation*}
-we ask may contain proper $\ELgfpbot$ concept descriptions, and moreover the size of the
-premises $P_{i}$ may be too large for human comprehension.  The former problem can be
-attacked by considering only those GCIs where the role-depth is not larger than an
-a-priori chosen maximal role-depth $k \in \NN$.  In this case, all results obtained by
-Distel can be carried over, as sketched in~\cite{FCA-and-Logics}.  Indeed, limiting the
-role-depth of the concept descriptions involved eliminates the need for the description
-logic \ELgfpbot, and thus simplifies the underlying theory considerably.
+we ask to the expert may contain proper $\ELgfpbot$ concept descriptions, and moreover the
+size of the premises $P_{i}$ may be too large, both issues that may inhibit human
+comprehension.
 
-To address the fact that $P_{i}$ may be too large one could restrict oneself to only find
-bases of GCIs $C \sqsubseteq D$ where $C$ has at most $k$ conjuncts, for some a-priori
-chosen value $k \in \NN$.  To solve the problem of finding a small base for this set of
-GCIs (which is now finite), one could first try to solve the simpler problem of finding a
-base of the set of valid implications in a formal context $\con K = (G, M, I)$ where the
-premise has size of most $k$.  Note that such a base would be
+The former problem can be attacked by considering only those GCIs where the role-depth is
+not larger than an a-priori chosen maximal role-depth $k \in \NN$.  More precisely, we can
+define
 \begin{equation*}
-  \set{ A \to A'' \mid A \subseteq M, \abs A \leq k }.
+  \Th_{c}^{k}(\mathcal{I}) := \set{ (C \sqsubseteq D) \in \Th_{c}(\mathcal{I}) \mid d(C), d(D)
+    \leq k },
 \end{equation*}
-However, this base has size $\binom{\abs M}{k}$, which, although polynomial in $\abs M$,
-may be too large for practical applications, and thus finding a smaller base is necessary.
-It would also be desirable to have an exploration algorithm that only asks implications
-where the premise does not have more than $k$ elements.  As soon as those problems are
-solved for the setting of implications, one should try to transfer them to the setting of
-GCIs, probably again with an a-priori chosen role-depth for the concept descriptions
-involved.
+and can then try to find small bases $\mathcal{B} \subseteq \Th_{c}^{k}(\mathcal{I})$ of
+$\Th_{c}^{k}(\mathcal{I})$ (note that now $\Th_{c}^{k}(\mathcal{I})$ is finite, up to
+equivalence).  In the case $c = 1$, where we only consider valid GCIs of $\mathcal{I}$,
+all results obtained by Distel can be carried over, as sketched in~\cite{FCA-and-Logics}.
+Indeed, limiting the role-depth of the concept descriptions involved eliminates the need
+for the description logic \ELgfpbot, and thus simplifies the underlying theory
+considerably.  Transferring these results to the setting of GCIs with high confidence
+seems practically relevant.
+
+To address the fact that $P_{i}$ may be too large to be understandable for human experts,
+one could restrict oneself to only find bases of GCIs $C \sqsubseteq D$ where $C$ has at
+most $\ell$ conjuncts, for some a-priori chosen value $\ell \in \NN$.  To solve the
+problem of finding a small base for this set of GCIs (which is now finite), one could
+first try to solve the simpler problem of finding a base of the set of valid implications
+in a formal context $\con K = (G, M, I)$ where the premise has size of most $\ell$.  Note
+that such a base would be
+\begin{equation*}
+  \set{ A \to A'' \mid A \subseteq M, \abs A \leq \ell }.
+\end{equation*}
+However, this base has size $\binom{\abs M}{\ell}$, which, although polynomial in $\abs
+M$, may be too large for practical applications, and thus finding a smaller base is
+necessary.  It would also be desirable to have an exploration algorithm that only asks
+implications where the premise does not have more than $\ell$ elements.  As soon as those
+problems are solved for the setting of implications, one should try to transfer them to
+the setting of GCIs, probably again with an a-priori chosen role-depth for the concept
+descriptions involved.
 
 %%% Local Variables: 
 %%% mode: latex
