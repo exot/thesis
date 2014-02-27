@@ -24,8 +24,8 @@ is a cat, one can use the assertional axiom
   \label{eq:14}
   \mathsf{Cat}(\mathsf{tom}).
 \end{equation}
-On the other hand, to state that every cat hunts mice, one can use so-called \emph{general
-concept inclusions} and write
+On the other hand, to state the terminological knowledge that every cat hunts mice, one
+can use so-called \emph{general concept inclusions} and write
 \begin{equation}
   \label{eq:15}
   \mathsf{Cat} \sqsubseteq \exists \mathsf{hunts}. \mathsf{Mouse}.
@@ -50,36 +50,36 @@ means of human experts.
 
 An approach to achieve such a semi-automatic translation procedure, or \emph{learning
   procedure}, has been made in~\cite{Diss-Felix}.  There, the focus lied in extracting
-terminological knowledge of the form as given in~(\ref{eq:14}) from some given
-\emph{data}.  In other words, the procedures described in~\cite{Diss-Felix} would
-automatically learn all general concept inclusions which are \emph{valid} in the initially
-given data.  This approach made use of the mathematical theory of \emph{formal concept
-  analysis}, a subfield of mathematical order theory which has very closed connections to
-description logics.
+terminological knowledge of the form as given in \Cref{eq:14} from some given \emph{finite
+  interpretation} $\mathcal{I}$.  More precisely, the procedures described
+in~\cite{Diss-Felix} would automatically learn all general concept inclusions which are
+\emph{valid} in the data set $\mathcal{I}$.  This approach made use of the mathematical
+theory of \emph{formal concept analysis}, a subfield of mathematical order theory which
+has very closed connections to description logics.
 
 Of course, the general concept inclusions learned this way may not be correct, in the
-sense that the general concept inclusion may hold in the initially given data, but this
-data missed to contain some relevant counterexamples.  One way to remedy this is to use an
-algorithm from the field of formal concept analysis which is called \emph{attribute
-  exploration}.  Within this algorithm, an expert (possibly human) is asked extracted
-general concept inclusions for there correctness, and if proposed general concept
-inclusions are not found then the expert has to provide \emph{counterexamples} to them.
-This way, the problem that the data may be \emph{incomplete} in that it lacks crucial
-counterexamples can be solved.  This has also been done in~\cite{Diss-Felix}.
+sense that the general concept inclusion may hold in $\mathcal{I}$, but this data missed
+to contain some relevant counterexamples.  One way to remedy this is to use an algorithm
+from the field of formal concept analysis which is called \emph{attribute exploration}.
+Within this algorithm, an expert (possibly human) is asked extracted general concept
+inclusions for there correctness, and if proposed general concept inclusions are not found
+then the expert has to provide \emph{counterexamples} to them.  This way, the problem that
+the data may be \emph{incomplete} in that it lacks crucial counterexamples can be solved.
+This has also been done in~\cite{Diss-Felix}.
 
 However, there are still problems with this approach, especially if it comes to the
-\emph{quality} of the data from which general concept inclusions are learned.  The main
-problem here is that the data may contain \emph{errors}.  These errors may either cause
-otherwise valid general concept inclusions not to be found, because these errors act as
-\emph{false counterexamples}, or general concept inclusions are found which are not
-correct because errors cause positive counterexamples to vanish.  While the latter
+\emph{quality} of the data $\mathcal{I}$ from which general concept inclusions are
+learned.  The main problem here is that the data may contain \emph{errors}.  These errors
+may either cause otherwise valid general concept inclusions not to be found, because these
+errors act as \emph{false counterexamples}, or general concept inclusions are found which
+are not correct because errors cause positive counterexamples to vanish.  While the latter
 approach can in theory be handled by the attribute exploration approach sketched above,
 the former cannot, because the approach discussed in~\cite{Diss-Felix} will not even
-extract general concept inclusions for which there may be errors in the data.
+extract general concept inclusions for which there may be errors in $\mathcal{I}$.
 
-It is the purpose of this work to extent the results obtain in~\cite{Diss-Felix} to this
-new setting of where the data from which general concept inclusions are learned may
-contain errors.  The main approach for this is to transfer the notion of
+In this work, we want to extent the results obtain in~\cite{Diss-Felix} to this new
+setting of where the data from which general concept inclusions are learned may contain
+errors.  The main approach for this is to transfer the notion of
 \emph{confidence}~\cite{arules:agrawal:association-rules} from the area of data-mining to
 general concept inclusions.  Intuitively, this means that general concept inclusions may
 have \emph{few} errors in the data, as opposed to having none in the original approach
@@ -95,32 +95,61 @@ This will be done in Section~\ref{sec:extr-term-knowl}.  Finally, in
 Section~\ref{sec:related-work}, we briefly discuss some related work which is important
 for our approach, and we summarize our contribution in Section~\ref{sec:contributions}.
 
-\section{Representing Knowledge Using Description Logics}
+\section{Description Logics}
 \label{sec:repr-knowl-using}
 
-\todo[inline]{Write: say how DL can help to represent knowledge}%
+Description logics~\cite{DLhandbook} are a family of logic-based knowledge representation
+formalisms, with a strong emphasis on well-defined semantics and practical reasoning
+procedures.  The family of description logics contains various flavors of logical
+formalisms, varying in expressiveness and reasoning complexity, allowing users to choose
+the expressiveness they need, or the complexity they can afford, in their respective
+applications.
 
-% Description logics~\cite{DLhandbook} are a family of logic-based knowledge representation
-% formalisms.  As such, they provide a well-defined semantics, a feature other knowledge
-% representation formalisms may lack.  Built upon these well-defined semantics, description
-% logics offer a trade-off between expressivity and reasoning complexity for some standard
-% reasoning tasks, and provide, if possible, efficient reasoning procedures.  
+The development of description logics~\cite{baader01overview} was motivated by earlier
+knowledge representation formalisms like \emph{semantic networks}~\cite{SemanticNetworks}
+or \emph{frame}~\cite{Minsky-Frames}, whose semantics was highly ambiguous, and mostly
+depended on human interpretation or implementation details.  The need for well-defined and
+predictable knowledge representation formalisms then lead to the first logic-based
+systems~\cite{journals/cogsci/BrachmanS85}, which were, however,
+incomplete~\cite{conf/kr/Schmidt-Schauss89}.
 
-% , which are also
-% available as implementations, examples being FaCT++~\cite{DBLP:conf/cade/TsarkovH06},
-% Pellet and ELK~\cite{DBLP:conf/semweb/KazakovKS11}.
+The term \enquote{description} in \enquote{description logics} is motivated by the
+intention to use description logics to express knowledge about \emph{concepts
+  descriptions}.  For this, description logics provide a number of constructors, which can
+then be used to build concept descriptions from atomic \emph{concept names} and binary
+\emph{role names}.  Then, two classical \emph{reasoning problems} are \emph{instance
+  checking} and \emph{subsumption}: given an element $a$ and a concept description $C$,
+the instance checking problem is to ask whether $a$ is an \emph{instance} of $C$, \ie
+whether $a$ \emph{satisfies} the concept description $C$.  This can made more precise
+using the notion of \emph{interpretations}, which are used more generally to define the
+semantics of description logics.  Moreover, the subsumption problem is, given two concept
+descriptions $C, D$, to ask whether it is true that $C$ is a \emph{subconcept} of $D$, \ie
+whether every instance of $C$ is also an instance of $D$.
 
-% Because of their formal foundations and the availability for efficient reasoning
-% procedures, description logics play a major role also in practical applications.  A first
-% example for this is the \emph{Web Ontology Language} OWL, the language which is underlying
-% the semantic web and which is based on the \emph{expressive} Description Logic
-% $\mathcal{S}\mathcal{H}\mathcal{O}\mathcal{I}\mathcal{N}$~\cite{horrocks03fromshiqrdftoowl}.
+The first description logics considered were relatively small fragments of first order
+logic, but already for them it could be shown that reasoning is
+intractable~\cite{conf/aaai/BrachmanL84,journals/ai/Nebel88}.  One approach to remedy this
+was to investigate highly optimized reasoning algorithms, which behave well in practice.
+The most prominent class of such algorithms are \emph{tableau algorithms}, first invented
+for the description logic
+$\ALC$~\cite{journals/ai/Schmidt-SchaussS91,conf/ecai/HollunderNS90} for the subsumption
+problem, and thereafter extended to other, even more expressive logics.  After a
+connection of $\ALC$ to multimodal logic $\mathsf{K}_{(\mathsf{m})}$ was
+discovered~\cite{DBLP:conf/ijcai/Schild91}, it was seen that this tableau algorithm is
+actually a re-invention of the tableau algorithms used in modal logics.  The development
+of description logics continued to investigate highly expressive description logics, whose
+expressiveness exceeds that of $\ALC$, but which still behave well in
+practice~\cite{journals/igpl/HorrocksST00}, and for which highly-optimized implementations
+exist~\cite{sirin_pellet:practical_2007,Haarslev:2001,DBLP:conf/cade/TsarkovH06}.  This
+finally lead to the adoption by the W3C of the \emph{Web Ontology Language OWL}, which is
+based on the highly expressive description logic
+$\mathcal{S}\mathcal{H}\mathcal{O}\mathcal{I}\mathcal{N}$~\cite{horrocks03fromshiqrdftoowl}.
 
 % Another example is the use of so-called \emph{inexpressive} Description Logics in
 % biomedical ontologies such as SNOMED~\cite{Spackman97snomedrt} and the Gene
 % Ontology~\cite{gene-ontology}.
 
-\section{Learning Implications Using Formal Concept Analysis}
+\section{Formal Concept Analysis}
 \label{sec:learn-impl-using}
 
 \todo[inline]{Write: say how we can learn implications using FCA (bases, exploration)}%
