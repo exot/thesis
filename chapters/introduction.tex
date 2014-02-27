@@ -88,12 +88,13 @@ the general concept inclusions in the data.
 
 In the following we shall give a more in-depth overview of the problem sketched above, by
 briefly introducing description logics and formal concept analysis in
-Sections~\ref{sec:repr-knowl-using} and~\ref{sec:learn-impl-using}, respectively.  We then
-discuss in more detail what it means to learn general concept inclusions from data, and
-sketch our approach of utilizing the notion of confidence to handle errors in the data.
-This will be done in Section~\ref{sec:extr-term-knowl}.  Finally, in
-Section~\ref{sec:related-work}, we briefly discuss some related work which is important
-for our approach, and we summarize our contribution in Section~\ref{sec:contributions}.
+Sections~\ref{sec:repr-knowl-using} and~\ref{sec:learn-impl-using}, respectively.  These
+introductions will be mostly historical and by means of examples.  Thereafter, we discuss
+in more detail what it means to learn general concept inclusions from data, and sketch our
+approach of utilizing the notion of confidence to handle errors in the data.  This will be
+done in Section~\ref{sec:extr-term-knowl}.  Finally, in Section~\ref{sec:related-work}, we
+briefly discuss some related work which is important for our approach, and we summarize
+our contribution in Section~\ref{sec:contributions}.
 
 \section{Description Logics}
 \label{sec:repr-knowl-using}
@@ -145,9 +146,52 @@ finally lead to the adoption by the W3C of the \emph{Web Ontology Language OWL},
 based on the highly expressive description logic
 $\mathcal{S}\mathcal{H}\mathcal{O}\mathcal{I}\mathcal{N}$~\cite{horrocks03fromshiqrdftoowl}.
 
-% Another example is the use of so-called \emph{inexpressive} Description Logics in
-% biomedical ontologies such as SNOMED~\cite{Spackman97snomedrt} and the Gene
-% Ontology~\cite{gene-ontology}.
+The focus of description logics research departed from the sole focus on expressive
+description logics when it was discovered at the beginning of this millennium that for the
+in inexpressive description logic $\EL$ reasoning is
+tractable~\cite{DBLP:conf/ijcai/Baader03a,DBLP:conf/ecai/Brandt04}, and stays polynomial
+if the expressiveness of $\EL$ is extended
+slightly~\cite{DBLP:conf/ijcai/BaaderBL05,BaaderEtAl-OWLED08DC}.  The practical relevance
+of these results is given by the fact that large biomedical ontologies can be reformulated
+as \emph{description logic knowledge bases} (or \emph{description logic ontologies}) using
+just $\EL$ or a slight extension of it.  Examples for this are the \emph{Systematized
+  Nomenclature of Medicine--Clinical Terms}, the Gene Ontology~\cite{gene-ontology}, and
+large parts of the GALEN ontology~\cite{Rector199475}.
+
+The main constructors of $\EL$ are conjunction ($\sqcap$) and existential restriction
+($\exists$), and examples of $\EL$ concept descriptions are
+\begin{equation*}
+  \mathsf{Cat},\, \mathsf{Cat} \sqcap \mathsf{Mouse},\, \exists \mathsf{hunts}. \mathsf{Mouse}.
+\end{equation*}
+A description logic knowledge base formulated in $\EL$ usually consist, as any description
+logic knowledge base, of two parts, namely an \emph{ABox}, holding assertional knowledge,
+and a \emph{TBox}, containing terminological knowledge.  An example knowledge base would
+then be
+\begin{equation*}
+  \mathcal{K} = (\set{ \mathsf{Cat} \sqsubseteq \exists \mathsf{hunts}. \mathsf{Mouse} },
+  \set{ \mathsf{Cat}(\mathsf{tom}) }),
+\end{equation*}
+where the first entry denotes the TBox, and the second one denotes the ABox.
+
+The semantics of knowledge bases is defined using \emph{interpretations} $\mathcal{I}$,
+which can be thought of as edge- and vertex-labeled graphs.  The labels of the vertices,
+which we shall \emph{elements} or \emph{individuals}, are concept names, and the labels of
+the edges are role names.  An interpretation is a model of a knowledge base if all
+elements satisfy the axioms contained in this knowledge base.  For example, the
+interpretation
+\begin{center}
+  \begin{tikzpicture}[>=stealth']
+    \begin{scope}[every node/.style = { draw, circle }]
+      \node (Tom) {\textsf{tom}};
+      \node[right=2cm of Tom, inner sep = .1cm] (Jerry) {\textsf{jerry}}; % fix
+    \end{scope}
+    \path (Tom) edge[->, bend left=30] node[midway, above] {\textsf{hunts}} (Jerry);
+    \path (Jerry) edge[->, bend left=30] node[midway, below] {\textsf{hunts}} (Tom);
+  \end{tikzpicture}
+\end{center}
+is a model of the knowledge base $\mathcal{K}$, since the element \textsf{tom} is labeled
+with \textsf{Cat}, and every element which is labeled with \textsf{Cat} is connected to
+some element labeled with \textsf{Mouse} via an edge labeled with \textsf{hunts}.
 
 \section{Formal Concept Analysis}
 \label{sec:learn-impl-using}
@@ -157,14 +201,15 @@ $\mathcal{S}\mathcal{H}\mathcal{O}\mathcal{I}\mathcal{N}$~\cite{horrocks03fromsh
 \section{Extracting Terminological Knowledge from Data}
 \label{sec:extr-term-knowl}
 
-\todo[inline]{Write: bring together the above two, say what we want to do}%
+\todo[inline]{Write: bring together the above two, say what we want to do; mention Felix}%
 
 \section{Related Work}
 \label{sec:related-work}
 
 \todo[inline]{Write: mention Felix}%
 \todo[inline]{Write: mention Luxenburger}%
-\todo[inline]{Write: brief overview of what others have done}%
+\todo[inline]{Write: bottom-up construction}%
+\todo[inline]{Write: Sebastian Rudolph}%
 
 \section{Contributions}
 \label{sec:contributions}
@@ -182,11 +227,6 @@ $\mathcal{S}\mathcal{H}\mathcal{O}\mathcal{I}\mathcal{N}$~\cite{horrocks03fromsh
 
 \subsection{Model-Exploration by Confidence with Completely Specified Counterexamples}
 \label{sec:model-expl-conf}
-
-\section{General Prerequisites}
-\label{sec:prerequisites}
-
-\todo[inline]{Write: basic notions of sets, logic, functions, relations}%
 
 \section{Acknowledgments}
 \label{sec:acknowledgements}
