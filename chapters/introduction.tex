@@ -405,11 +405,41 @@ The basis for our considerations are the results obtained by Baader and
 Distel~\cite{Diss-Felix,BaDi09,BaaderDistel08} on computing \emph{finite bases} of
 \emph{valid} general concept inclusions from finite interpretations.
 
-\todo[inline]{Write: bring together the above two, say what we want to do}%
-\todo[inline]{Write: say that this has been implemented and applied to real-world data}%
+For this approach we assume that we want to learn terminological knowledge about a certain
+\emph{domain} of interest, and that we can represent this domain as a finite
+interpretation $\mathcal{I}$.  In other words, our domain is representable as relational
+data, where the elements have additional properties.  Then the terminological knowledge we
+are interested in is exactly the set $\Th(\mathcal{I})$ of valid general concept
+inclusions of $\mathcal{I}$, in our case using the description logic $\ELbot$.
+
+A first problem here is that the set $\Th(\mathcal{I})$ is infinite in general: if $C
+\sqsubseteq D$ is valid in $\mathcal{I}$, and if $r$ is a role name, then the general
+concept inclusion $\exists r. C \sqsubseteq \exists r. D$ is also valid in $\mathcal{I}$.
+To remedy this, Baader and Distel want to compute \emph{finite bases} of
+$\Th(\mathcal{I})$, \ie finite subsets of $\Th(\mathcal{I})$ which are already complete
+for $\mathcal{I}$.  One of the main results of their approach is then that such finite
+bases always exist, and that they can be computed effectively.  Such finite bases can then
+be used as TBoxes of a knowledge base which logically represents the initial domain of
+interest.
+
+To provide these results, Baader and Distel exploit the tight connection between the
+description logic $\ELbot$ and formal concept analysis which is established by \emph{model
+  based most specific concept descriptions} and \emph{induced formal contexts} of finite
+interpretations and sets of concept descriptions.  More precisely, it can be shown that if
+$\con K_{\mathcal{I}}$ denotes the induced formal context of $\mathcal{I}$, that then
+every base of $\con K_{\mathcal{I}}$ gives rise to a finite base of $\mathcal{I}$.
+Moreover, it is possible to transfer the algorithm of attribute exploration applied to the
+context $\con K_{\mathcal{I}}$ to an algorithm for \emph{model exploration} of
+$\mathcal{I}$.  This algorithm then allows to interactively compute bases of
+$\mathcal{I}$, allowing an expert to provide missing facts when required.  The resulting
+algorithms obtain by this approach are all effective, and can be implemented.  This has
+been done in a preliminary version in~\cite{DBLP:conf/icdm/BorchmannD11}.
 
 \section{Other Related Work}
 \label{sec:related-work}
+
+The work of Baader and Distel is not the first attempt to bring together the worlds of
+description logics and formal concept analysis.
 
 \todo[inline]{Write: previous connections between FCA and DL (Baader, Sertkaya, RCA,
   Rudolph, Power Context Families)}%
@@ -419,7 +449,8 @@ Distel~\cite{Diss-Felix,BaDi09,BaaderDistel08} on computing \emph{finite bases} 
 \section{Contributions}
 \label{sec:contributions}
 
-\todo[inline]{Write: say what's new}
+\todo[inline]{Write: say that obtaining an interpretation that faithfully represents a
+  domain of interest is not possible in real applications}
 
 \subsection{Experiments with Extracting Valid GCIs}
 \label{sec:exper-with-extr}
