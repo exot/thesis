@@ -196,6 +196,138 @@ some element labeled with \textsf{Mouse} via an edge labeled with \textsf{hunts}
 \section{Formal Concept Analysis}
 \label{sec:learn-impl-using}
 
+Formal concept analysis~\cite{fca-book} is a subfield of mathematical order theory,
+originally concerned with the study of properties of ordered structures called
+\emph{complete lattices} by representing them in terms of so-called \emph{formal
+  contexts}.  However, since then, this theory has evolved into a rich field, with
+connections to previously unrelated subjects such as
+logics~\cite{books/math/Prediger00,conf/iccs/FerreR00}, data
+mining~\cite{arules:Zaki:1998}, machine learning~\cite{conf/icfca/Kuznetsov04}, and
+artificial intelligence~\cite{rudolph2006relational,Diss-Felix}.  Because of this, formal
+concept analysis today can also be considered as a part of theoretical computer science,
+and thus provides another link between this compute science and mathematics.
+
+The origin of formal concept analysis as it is used in this work can clearly be marked by
+the work of Wille~\cite{fca:Wille:1982}, which introduced formal concept analysis as an
+approach to impose meaning on complete lattices as \emph{hierarchies of concepts}.  This
+work was motivated by previous results from Birkhoff~\cite{books/math/Birkhoff67}, but
+also has a strong philosophical background~\cite{books/phil/Hentig72}, see
+also~\cite{Wille:Begriffsdenken}.  Another early work that included some of the ideas of
+formal concept analysis is~\cite{OrdreEtClassification}.
+
+The fundamental idea of formal concept analysis is to represent complete lattices by a
+\emph{object-attribute-relationship}, which is expressed using \emph{formal contexts}.
+These structures can be thought of as tables of crosses, like the following (taken
+from~\cite{fca:Wille:1982})
+\begin{equation*}
+  \begin{array}[c]{c|*{7}{c}}
+    \toprule
+    ~       & \mathsf{small} & \mathsf{medium} & \mathsf{large} & \mathsf{inner} &
+    \mathsf{outer} & \mathsf{moon} & \mathsf{no moon} \\
+    \midrule
+    \mathsf{Mercury} & \times &   &   & \times &   &   & \times  \\
+    \mathsf{Venus}   & \times &   &   & \times &   &   & \times  \\
+    \mathsf{Earth}   & \times &   &   & \times &   & \times &    \\
+    \mathsf{Mars}    & \times &   &   & \times &   & \times &    \\
+    \mathsf{Jupiter} &   &   & \times &   & \times & \times &    \\
+    \mathsf{Saturn}  &   &   & \times &   & \times & \times &    \\
+    \mathsf{Uranus}  &   & \times &   &   & \times & \times &    \\
+    \mathsf{Neptune} &   & \times &   &   & \times & \times &    \\
+    \mathsf{Pluto}   & \times &   &   &   & \times & \times &    \\
+    \bottomrule
+  \end{array}
+\end{equation*}
+This formal context expresses an object-attribute-relationship between the known planets
+of the solar system (including Pluto) as \emph{objects}, and the \emph{attributes} whether
+a planet is \textsf{small}, \textsf{medium}, or \textsf{large}, whether a planet is an
+\textsf{inner} planet (\ie has an orbit which is closer to the sun than the asteroid
+belt), or is an \textsf{outer} planet, and whether a planet has a \textsf{moon} or not.  A
+cross in this table then means that the object on the corresponding row \emph{has} the
+attribute on the corresponding column.  Thus, for example, \textsf{Mercury} is a
+\textsf{small} planet, and \textsf{Pluto} is an \textsf{outer} planet.
+
+From such a formal context one can then extract \emph{formal concepts}, which can be
+ordered in a natural way to yield the \emph{concept lattice} of the formal context.  In
+our example above, a formal concept which corresponds to the concept of a
+\emph{medium-sized planet in our known solar system} would be the tuple
+\begin{equation*}
+  ( \set{ \mathsf{Uranus}, \mathsf{Neptune} }, \set{ \mathsf{medium}, \mathsf{moon}, \mathsf{outer} } ),
+\end{equation*}
+where the first set is called the \emph{extent}, and the second set is called the
+\emph{intent} of the formal concept.  Formal concept can then be ordered by set-inclusion
+of their extents, and the concept lattice that corresponds to our small example above is
+shown in \ref{fig:example-concept-lattice}.
+
+\begin{figure}[tp]
+  \tikzset{vertexbase/.style={semithick, shape=circle, inner sep=2pt, outer sep=0pt, draw},%
+    vertex/.style={vertexbase},%
+    mivertex/.style={vertexbase},%
+    jivertex/.style={vertexbase},%
+    divertex/.style={vertexbase},%
+    conn/.style={-, thick}%
+  }
+  \begin{center}
+    \begin{tikzpicture}
+      \begin{scope}[xscale=.7] %for scaling and the like
+        \begin{scope} %draw vertices
+          \foreach \nodename/\nodetype/\xpos/\ypos in {%
+            0/vertex/2/5,
+            1/divertex/-4/7,
+            2/jivertex/0/7,
+            3/divertex/8/7,
+            4/divertex/6/7,
+            5/jivertex/4/7,
+            6/mivertex/-2/8,
+            7/vertex/2/8,
+            8/mivertex/6/8,
+            9/mivertex/0/9,
+            10/mivertex/4/9,
+            11/vertex/2/10
+          } \node[\nodetype] (\nodename) at (\xpos, \ypos) {};
+        \end{scope}
+        \begin{scope} %draw connections
+          \path (7) edge[conn] (10);
+          \path (9) edge[conn] (11);
+          \path (5) edge[conn] (8);
+          \path (1) edge[conn] (6);
+          \path (0) edge[conn] (4);
+          \path (0) edge[conn] (3);
+          \path (8) edge[conn] (10);
+          \path (5) edge[conn] (7);
+          \path (6) edge[conn] (9);
+          \path (2) edge[conn] (7);
+          \path (0) edge[conn] (1);
+          \path (3) edge[conn] (8);
+          \path (2) edge[conn] (6);
+          \path (10) edge[conn] (11);
+          \path (7) edge[conn] (9);
+          \path (4) edge[conn] (8);
+          \path (0) edge[conn] (2);
+          \path (0) edge[conn] (5);
+        \end{scope}
+        \begin{scope}[every label/.style={fill=white, font=\sffamily}] %add labels
+          \foreach \nodename/\labelpos/\labelopts/\labelcontent in {%
+            1/below left//{\parbox{2cm}{Mercury,\\ Venus}},
+            1/above left//{no-moon},
+            2/below left//{\parbox{.7cm}{Mars,\\ Earth}},
+            3/below right//{\parbox{2cm}{Jupiter,\\ Saturn}},
+            3/above right//{large},
+            4/below//{\parbox{2cm}{Uranus,\\ Neptune}},
+            4/above//{medium},
+            5/below left//{Pluto},
+            6/above left//{near},
+            8/above right//{far},
+            9/above left//{small},
+            10/above right//{moon}
+          } \coordinate[label={[\labelopts]\labelpos:{\labelcontent}}](c) at (\nodename);
+        \end{scope}
+      \end{scope}
+    \end{tikzpicture}
+  \end{center}
+  \caption{Example Concept Lattice}
+  \label{fig:example-concept-lattice}
+\end{figure}
+
 \todo[inline]{Write: say how we can learn implications using FCA (bases, exploration)}%
 
 \section{Extracting Terminological Knowledge from Data}
