@@ -250,13 +250,21 @@ From such a formal context one can then extract \emph{formal concepts}, which ca
 ordered in a natural way to yield the \emph{concept lattice} of the formal context.  In
 our example above, a formal concept which corresponds to the concept of a
 \emph{medium-sized planet in our known solar system} would be the tuple
-\begin{equation*}
-  ( \set{ \mathsf{Uranus}, \mathsf{Neptune} }, \set{ \mathsf{medium}, \mathsf{moon}, \mathsf{outer} } ),
-\end{equation*}
+\begin{equation}
+  \label{eq:60}
+  ( \set{ \mathsf{Uranus}, \mathsf{Neptune} }, \set{ \mathsf{medium}, \mathsf{moon},
+    \mathsf{outer} } ),
+\end{equation}
 where the first set is called the \emph{extent}, and the second set is called the
 \emph{intent} of the formal concept.  Formal concept can then be ordered by set-inclusion
 of their extents, and the concept lattice that corresponds to our small example above is
-shown in \ref{fig:example-concept-lattice}.
+shown in \ref{fig:example-concept-lattice}.  This diagram also uses the usual, abridged
+annotation of concept lattices: a node $v$ in the lattice diagram represents the formal
+concept whose extent consists of all objects which can be reached by an \emph{descending
+  path} in the diagram, starting from $v$.  Likewise, the intent of $v$ is the set of all
+attributes that can be reached by an \emph{ascending path} in the diagram, starting from
+$v$.  Thus, the gray-shaded node in \Cref{fig:example-concept-lattice} is the formal
+concept of \Cref{eq:60}.
 
 \begin{figure}[tp]
   \tikzset{vertexbase/.style={semithick, shape=circle, inner sep=2pt, outer sep=0pt, draw},%
@@ -271,11 +279,10 @@ shown in \ref{fig:example-concept-lattice}.
       \begin{scope}[xscale=.7] %for scaling and the like
         \begin{scope} %draw vertices
           \foreach \nodename/\nodetype/\xpos/\ypos in {%
-            0/vertex/2/5,
+            0/vertex/2/4,
             1/divertex/-4/7,
             2/jivertex/0/7,
             3/divertex/8/7,
-            4/divertex/6/7,
             5/jivertex/4/7,
             6/mivertex/-2/8,
             7/vertex/2/8,
@@ -284,6 +291,7 @@ shown in \ref{fig:example-concept-lattice}.
             10/mivertex/4/9,
             11/vertex/2/10
           } \node[\nodetype] (\nodename) at (\xpos, \ypos) {};
+          \node[divertex,fill=black!30] (4) at (6,7) {};
         \end{scope}
         \begin{scope} %draw connections
           \path (7) edge[conn] (10);
@@ -305,21 +313,22 @@ shown in \ref{fig:example-concept-lattice}.
           \path (0) edge[conn] (2);
           \path (0) edge[conn] (5);
         \end{scope}
-        \begin{scope}[every label/.style={fill=white, font=\sffamily}] %add labels
+        \begin{scope}[every label/.style={font=\sffamily, inner sep=1pt, fill opacity=.9,
+            text opacity=1, fill=white, label distance=4pt}] %add labels
           \foreach \nodename/\labelpos/\labelopts/\labelcontent in {%
-            1/below left//{\parbox{2cm}{Mercury,\\ Venus}},
+            1/below left//{\parbox{1.4cm}{Mercury\\ Venus}},
             1/above left//{no-moon},
-            2/below left//{\parbox{.7cm}{Mars,\\ Earth}},
-            3/below right//{\parbox{2cm}{Jupiter,\\ Saturn}},
+            2/below//{\parbox{2cm}{\centering Mars\\ Earth}},
+            3/below right//{\parbox{2cm}{Jupiter\\ Saturn}},
             3/above right//{large},
-            4/below//{\parbox{2cm}{Uranus,\\ Neptune}},
-            4/above//{medium},
-            5/below left//{Pluto},
-            6/above left//{near},
-            8/above right//{far},
+            4/below//{\parbox{1.4cm}{\centering Uranus\\ Neptune}},
+            5/below//{Pluto},
+            6/above left//{inner},
+            8/above right//{outer},
             9/above left//{small},
             10/above right//{moon}
-          } \coordinate[label={[\labelopts]\labelpos:{\labelcontent}}](c) at (\nodename);
+          } \node[draw=none,label={[\labelopts]\labelpos:{\labelcontent}}] at (\nodename) {};
+          \node[draw=none,label={[label distance=1pt]above:medium}] at (4) {};
         \end{scope}
       \end{scope}
     \end{tikzpicture}
@@ -328,20 +337,79 @@ shown in \ref{fig:example-concept-lattice}.
   \label{fig:example-concept-lattice}
 \end{figure}
 
-\todo[inline]{Write: say how we can learn implications using FCA (bases, exploration)}%
+One of the key results of formal concepts analysis is that every complete lattice can be
+represented as a concept lattice of a suitably chosen formal context (the so-called
+\emph{fundamental theorem of formal concept analysis}).  A major direction of formal
+concept analysis research is now to consider properties and operations of lattices, such
+as distributivity, modularity, direct and semi-direct products, and transfer them to
+corresponding properties and operations on the level of formal contexts.
+See~\cite{fca-book} for more details on this.
 
-\section{Extracting Terminological Knowledge from Data}
+Another very prominent research direction is the study of \emph{implications} in formal
+contexts, which has been discussed as early as~\cite{fca:Wille:1982}.  Observe that in our
+example formal context above, all outer planets have a moon.  We can express this fact as
+saying that the implication
+\begin{equation*}
+  \set{ \mathsf{outer} } \to \set{ \mathsf{moon} }
+\end{equation*}
+\emph{holds} in our formal context.  Implications are similar to \emph{functional
+  dependencies} from the theory of databases~\cite{DBLP:books/cs/Maier83}, and also play a
+certain role in classical order theory~\cite{Wild1994118}.
+
+One task is then to compute the set of all valid implications of a given formal context.
+Since this set can be quite huge, one usually wants to compute \enquote{small} sets of
+implications which are sufficient, called \emph{bases}.  One very prominent base is the
+so-called \emph{canonical base}~\cite{fca:DuquenneGuigues:1986} (also \emph{stem base},
+\emph{Duquenne-Guigues base}), which is a \emph{minimal} base, \ie a base with minimal
+cardinality.  This base can be computed
+effectively~\cite{DBLP:conf/icfca/Ganter10,DBLP:journals/amai/ObiedkovD07}, however these
+algorithms not efficient~\cite{DBLP:conf/icfca/Distel10} with respect to size of the input
+and the output.  Certain complexity results suggest that efficiently computing the
+canonical base is not possible in general~\cite{DBLP:journals/dam/BabinK13}.  However, if
+this is really the case is an open research question.  Therefore, other bases have been
+investigated, whose computation is algorithmically easier.  An example is the base of
+\emph{proper premises}~\cite{fca-book}, for which fast algorithms
+exist~\cite{RyDiBo-AMAI13}.
+
+An algorithm which is related to the study of valid implications of formal contexts is
+\emph{attribute exploration}~\cite{fca-book,GORS-book}, which is an interactive process
+which extracts valid implications from \emph{incomplete} data utilizing \emph{expert
+  interaction} to obtain missing facts.  Within this process, an external expert is asked
+questions of the form
+\begin{equation*}
+  \text{Is the implication } A \to B \text{ valid?}
+\end{equation*}
+The expert can the either accept this implication, or decline it by providing a
+\emph{counterexample}.  In this way, the expert enriches the currently known formal
+context by missing objects and their attributes.  As soon as the process finishes, the set
+of confirmed implications represents the whole implicational knowledge represented by the
+expert.  In this way, attribute exploration can be seen as an semi-automatic knowledge
+acquisition algorithm.
+
+Attribute exploration has been a major focus of formal concept analysis, and many
+extensions of this algorithm have been developed and discussed.  Examples for this are the
+inclusion of \emph{background
+  knowledge}~\cite{stumme96attribute,DBLP:journals/tcs/Ganter99}, \emph{concept
+  exploration}~\cite{conf/iccs/Stumme97}, \emph{rule
+  exploration}~\cite{phd/de/Zickwolff1991}, \emph{relational
+  exploration}~\cite{rudolph2006relational}, exploration in the presence of \emph{partial
+  knowledge}~\cite{DBLP:conf/fca/BurmeisterH05,conf/owled/BaaderGSS07}, and \emph{model
+  exploration}~\cite{Diss-Felix}.
+
+\section{Extracting Terminological Knowledge from Relational Data}
 \label{sec:extr-term-knowl}
 
 \todo[inline]{Write: bring together the above two, say what we want to do; mention Felix}%
 
-\section{Related Work}
+\section{Other Related Work}
 \label{sec:related-work}
 
-\todo[inline]{Write: mention Felix}%
+\todo[inline]{Write: previous connections between FCA and DL (Baader, Sertkaya, RCA,
+  Rudolph, Power Context Families)}%
 \todo[inline]{Write: mention Luxenburger}%
-\todo[inline]{Write: bottom-up construction}%
-\todo[inline]{Write: Sebastian Rudolph}%
+\todo[inline]{Write: mention Burmeister (attribute exploration with incomplete
+  knowledge)}%
+\todo[inline]{Write: mention Fuzzy-FCA and Fuzzy-DL}%
 
 \section{Contributions}
 \label{sec:contributions}
