@@ -458,17 +458,32 @@ the attribute exploration algorithm eventually computes the canonical base.  The
 implications give rise to a set of general concept inclusions, which can then be used to
 decide subsumption between conjunctions of defined concept names of $\mathcal{T}$.
 
+The results obtained by Baader have been further generalized by
+Stumme~\cite{stumme96concept} to include also disjunction.  For this, a generalization of
+attribute exploration called \emph{distributive concept
+  exploration}~\cite{conf/ki/Stumme98} is used.
+
 Another use of ideas from formal concept analysis for description logic applications is in
-\emph{completing ontologies}~\cite{Sert07,BGSS07}, for which again attribute exploration
-was used.  For this, GCIs of the form
+\emph{knowledge base completion}~\cite{Sert07,BGSS07}, for which again attribute
+exploration was used.  For this, GCIs of the form
 \begin{equation*}
   \bigsqcap U \sqsubseteq \bigsqcap V
 \end{equation*}
 are asked to the expert, where $U, V \subseteq M$ for some previously chosen set $M$ of
-interesting concepts.
+interesting concepts.  The task is then to ensure the given knowledge base is complete
+with respect to all these general concept inclusions, \ie the knowledge base should entail
+all such general concept inclusions which are confirmed by the expert, and should contain
+counterexamples for all other general concept inclusions of this type.  The most
+significant challenge for transferring attribute exploration to this setting is to deal
+with the \emph{open world semantics} of description logic knowledge bases: a fact that is
+not stated in the knowledge base does not mean that the negated fact holds.  For this,
+attribute exploration is generalized to work on \emph{partial contexts}, \ie formal
+context in which certain crosses are unknown.  The resulting algorithm has been
+implemented as a plugin named \emph{OntoComp} for the ontology editor
+\emph{Protégé}~\cite{Sert09b}.
 
-\todo[inline]{Write: previous connections between FCA and DL (Sertkaya, Rudolph, Power
-  Context Families, RCA)}%
+\todo[inline]{Write: previous connections between FCA and DL (Rudolph, Power Context
+  Families, RCA)}%
 \todo[inline]{Write: mention Luxenburger}%
 \todo[inline]{Write: mention Fuzzy-FCA and Fuzzy-DL, Vagueness in general}%
 
@@ -499,3 +514,5 @@ interesting concepts.
 %%% mode: latex
 %%% TeX-master: "../main"
 %%% End: 
+
+%  LocalWords:  Protégé OntoComp
