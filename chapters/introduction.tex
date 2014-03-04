@@ -244,7 +244,9 @@ a planet is \textsf{small}, \textsf{medium}, or \textsf{large}, whether a planet
 belt), or is an \textsf{outer} planet, and whether a planet has a \textsf{moon} or not.  A
 cross in this table then means that the object on the corresponding row \emph{has} the
 attribute on the corresponding column.  Thus, for example, \textsf{Mercury} is a
-\textsf{small} planet, and \textsf{Pluto} is an \textsf{outer} planet.
+\textsf{small} planet, and \textsf{Pluto} is an \textsf{outer} planet.  The set of all
+pairs of objects $g$ and attributes $m$ where $g$ has the attribute $m$ is called the
+\emph{incidence relation} of the formal context.
 
 From such a formal context one can then extract \emph{formal concepts}, which can be
 ordered in a natural way to yield the \emph{concept lattice} of the formal context.  In
@@ -500,8 +502,17 @@ for checking whether $C \sqsubseteq D$ holds in the domain or not is rather comp
 Thus, no general concept inclusions are learned from this approach, and thus it cannot be
 used to obtain terminological knowledge from relational data.
 
-\todo[inline]{Write: previous connections between FCA and DL (Power Context Families,
-  RCA)}%
+The aforementioned approach of binary power context families is an attempt to add
+description logic expressibility to the world of formal concept analysis.  In its easiest
+form, \emph{relational contexts} (also \emph{binary power context families}), a formal
+context is equipped with a family of relations $\mathcal{R}$ on the object set.  Based on
+this notion, \emph{terminological attribute logic}~\cite{books/math/Prediger00} has been
+introduced that allows to define new attributes in terms of old ones, using the relational
+context to extend the incidence relation to the newly defined attributes.  With this
+semantics, terminological attribute logic can be seen as a syntactic variant of the of
+\ALC extended by inverse roles, negated roles and the identity role.
+
+\todo[inline]{Write: previous connections between FCA and DL (RCA)}%
 \todo[inline]{Write: mention Luxenburger}%
 \todo[inline]{Write: mention Fuzzy-FCA and Fuzzy-DL, Vagueness in general}%
 
