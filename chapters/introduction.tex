@@ -383,6 +383,8 @@ The expert can the either accept this implication, or decline it by providing a
 \emph{counterexample}.  In this way, the expert enriches the currently known formal
 context by missing objects and their attributes.  As soon as the process finishes, the set
 of confirmed implications represents the whole implicational knowledge represented by the
+expert, and it indeed be shown that this set of confirmed implications is the canonical
+base of the formal context which is constituted by all counterexamples provided by the
 expert.  In this way, attribute exploration can be seen as an semi-automatic knowledge
 acquisition algorithm.
 
@@ -393,7 +395,7 @@ inclusion of \emph{background
   exploration}~\cite{conf/iccs/Stumme97}, \emph{rule
   exploration}~\cite{phd/de/Zickwolff1991}, \emph{relational
   exploration}~\cite{rudolph2006relational}, exploration in the presence of \emph{partial
-  knowledge}~\cite{DBLP:conf/fca/BurmeisterH05,conf/owled/BaaderGSS07}, and \emph{model
+  knowledge}~\cite{DBLP:conf/fca/BurmeisterH05,BGSS07}, and \emph{model
   exploration}~\cite{Diss-Felix}.
 
 \section{Extracting Terminological Knowledge from Relational Data}
@@ -439,10 +441,34 @@ been done in a preliminary version in~\cite{DBLP:conf/icdm/BorchmannD11}.
 \label{sec:related-work}
 
 The work of Baader and Distel is not the first attempt to bring together the worlds of
-description logics and formal concept analysis.
+description logics and formal concept analysis.  Indeed, there have been several previous
+attempts to utilize formal concept analysis for description logic applications, and to add
+ideas from description logics to notions of formal concepts analysis.
 
-\todo[inline]{Write: previous connections between FCA and DL (Baader, Sertkaya, RCA,
-  Rudolph, Power Context Families)}%
+One of the first results in description logics that utilizes formal concept analysis is
+the work of Baader~\cite{Baader-KRUSE-95}.  In this work, Baader uses the attribute
+exploration algorithm on a special formal context to compute a minimal representation of
+the subsumption hierarchy between all conjunctions of the defined concept names of a given
+acyclic TBox $\mathcal{T}$, formulated in the logic $\ALC$.  To this end, Baader extends
+the classical algorithm~\cite{journals/ai/Schmidt-SchaussS91} for \ALC to decide
+subsumption between \emph{single} defined concept names, and extends it in such a way that
+it provides counterexamples to instances of the subsumption problem.  These
+counterexamples are then collected into a suitable formal context, and from this context
+the attribute exploration algorithm eventually computes the canonical base.  These
+implications give rise to a set of general concept inclusions, which can then be used to
+decide subsumption between conjunctions of defined concept names of $\mathcal{T}$.
+
+Another use of ideas from formal concept analysis for description logic applications is in
+\emph{completing ontologies}~\cite{Sert07,BGSS07}, for which again attribute exploration
+was used.  For this, GCIs of the form
+\begin{equation*}
+  \bigsqcap U \sqsubseteq \bigsqcap V
+\end{equation*}
+are asked to the expert, where $U, V \subseteq M$ for some previously chosen set $M$ of
+interesting concepts.
+
+\todo[inline]{Write: previous connections between FCA and DL (Sertkaya, Rudolph, Power
+  Context Families, RCA)}%
 \todo[inline]{Write: mention Luxenburger}%
 \todo[inline]{Write: mention Fuzzy-FCA and Fuzzy-DL, Vagueness in general}%
 
