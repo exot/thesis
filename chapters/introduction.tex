@@ -482,8 +482,26 @@ context in which certain crosses are unknown.  The resulting algorithm has been
 implemented as a plugin named \emph{OntoComp} for the ontology editor
 \emph{Protégé}~\cite{Sert09b}.
 
-\todo[inline]{Write: previous connections between FCA and DL (Rudolph, Power Context
-  Families, RCA)}%
+A third prominent application of ideas of formal concept analysis in description logics is
+the work of Rudolph on \emph{relational
+  exploration}~\cite{DBLP:phd/de/Rudolph2006,conf/iccs/Rudolph04}.  In this approach, the
+target description logic is \FLE, the extension of \EL by value restriction ($\forall$).
+The domain of interest is not represented as an interpretation, but by means of
+\emph{binary power context families}~\cite{DBLP:conf/iccs/PredigerW99}, which however can
+easily be considered as an interpretation.  Then the exploration process is conducted in
+several phases: in phase $k$, concept descriptions with \emph{role depth} at most $k$ are
+considered as attributes of the current formal context, and on this formal context
+attribute exploration is performed.  Rudolph then shows that this process has only to be
+considered up to a certain maximal role depth, and that the resulting set of implications
+can be used to decide whether an arbitrary general concept inclusion $C \sqsubseteq D$ is
+valid in the original domain or not.  However, it is not shown whether and how this set of
+implications can be transferred into a base of the domain.  Indeed, the decision procedure
+for checking whether $C \sqsubseteq D$ holds in the domain or not is rather complicated.
+Thus, no general concept inclusions are learned from this approach, and thus it cannot be
+used to obtain terminological knowledge from relational data.
+
+\todo[inline]{Write: previous connections between FCA and DL (Power Context Families,
+  RCA)}%
 \todo[inline]{Write: mention Luxenburger}%
 \todo[inline]{Write: mention Fuzzy-FCA and Fuzzy-DL, Vagueness in general}%
 
