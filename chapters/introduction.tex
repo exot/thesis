@@ -515,13 +515,37 @@ this notion, \emph{terminological attribute logic}~\cite{books/math/Prediger00} 
 introduced that allows to define new attributes in terms of old ones, using the relational
 context to extend the incidence relation to the newly defined attributes.  With this
 semantics, terminological attribute logic can be seen as a syntactic variant of the of
-\ALC extended by inverse roles, negated roles and the identity role.
+\ALC extended by inverse roles, negated roles and the identity role.  Terminological
+attribute logic can also be defined for \emph{many-valued contexts} to provide a method
+for \emph{logical scaling}~\cite{conf/krdb/PredigerS99}, which transforms many-valued
+contexts into the usual (two-valued) formal contexts in another way as the usual scaling
+approach of formal concept analysis.
 
-Another approach is \emph{relational concept
-  analysis}~\cite{conf/icfca/RouaneHNV07,journals/amai/HaceneHNV13},
+Another approach to bring a flavor of description logics to formal concept analysis is
+\emph{relational concept analysis}~\cite{conf/icfca/RouaneHNV07,
+  journals/amai/HaceneHNV13}.  The basic structure in this approach is a \emph{relational
+  context family}, which consists of a family of formal context and a set of relations
+between objects of possibly different contexts of this family.  Using a method called
+\emph{relational scaling} new attributes $r \colon C$ are added to the formal contexts
+which roughly correspond to concept descriptions of the form $\forall r. C$ or $\exists
+r. C$, where however $C$ is now a formal concept of a formal context of the family.  In an
+iterative process, relational scaling is used to construct lattices from all formal
+contexts of the relational context family.  These lattices can then be used to derive
+assertional and terminological knowledge formulated in the description logic \FLE.
 
-\todo[inline]{Write: previous connections between FCA and DL (RCA)}%
-\todo[inline]{Write: mention Luxenburger}%
+Other work that is related to this work are approaches in formal concept analysis and
+description logics to tackle the problem of \emph{uncertainty} and \emph{vagueness}.  In
+the area of formal concept analysis, the most notable and relevant work is the one by
+Luxenburger~\cite{diss:Luxenburger,Luxenburger91}, who considers implications in formal
+context together with an \emph{accuracy} (confidence).  Luxenburger then studies the
+problem of \emph{realizations} of partial implications, which in terms of logic is just
+the question whether a set of partial implications is satisfiable.  The results obtained
+here give a characterization in terms of \emph{linear programs}.  Furthermore, he studies
+the problem of finding \emph{bases} of partial implications, and we shall use the main
+ideas in our later considerations.  Luxenburger's ideas have been used in the area of data
+mining, for instance to obtain smaller representations of \emph{association
+  rules}~\cite{DBLP:conf/ki/StummeTBPL01}.
+
 \todo[inline]{Write: mention Fuzzy-FCA and Fuzzy-DL, Vagueness in general}%
 
 \section{Contributions}
