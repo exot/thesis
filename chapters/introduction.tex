@@ -25,7 +25,7 @@ is a cat, one can use the assertional axiom
   \mathsf{Cat}(\mathsf{tom}).
 \end{equation}
 On the other hand, to state the terminological knowledge that every cat hunts mice, one
-can use so-called \emph{general concept inclusions} and write
+can use so-called \emph{general concept inclusions} (GCIs) and write
 \begin{equation}
   \label{eq:15}
   \mathsf{Cat} \sqsubseteq \exists \mathsf{hunts}. \mathsf{Mouse}.
@@ -52,49 +52,47 @@ An approach to achieve such a semi-automatic translation procedure, or \emph{lea
   procedure}, has been made in~\cite{Diss-Felix}.  There, the focus lied in extracting
 terminological knowledge of the form as given in \Cref{eq:14} from some given \emph{finite
   interpretation} $\mathcal{I}$.  More precisely, the procedures described
-in~\cite{Diss-Felix} would automatically learn all general concept inclusions which are
-\emph{valid} in the data set $\mathcal{I}$.  This approach made use of the mathematical
-theory of \emph{formal concept analysis}, a subfield of mathematical order theory which
-has very closed connections to description logics.
+in~\cite{Diss-Felix} would automatically learn all GCIs which are \emph{valid} in the data
+set $\mathcal{I}$.  This approach made use of the mathematical theory of \emph{formal
+  concept analysis}, a subfield of mathematical order theory which has very closed
+connections to description logics.
 
-Of course, the general concept inclusions learned this way may not be correct, in the
-sense that the general concept inclusion may hold in $\mathcal{I}$, but this data missed
-to contain some relevant counterexamples.  One way to remedy this is to use an algorithm
-from the field of formal concept analysis which is called \emph{attribute exploration}.
-Within this algorithm, an expert (possibly human) is asked extracted general concept
-inclusions for there correctness, and if proposed general concept inclusions are not found
-then the expert has to provide \emph{counterexamples} to them.  This way, the problem that
-the data may be \emph{incomplete} in that it lacks crucial counterexamples can be solved.
-This has also been done in~\cite{Diss-Felix}.
+Of course, the GCIs learned this way may not be correct, in the sense that the GCI may
+hold in $\mathcal{I}$, but this data missed to contain some relevant counterexamples.  One
+way to remedy this is to use an algorithm from the field of formal concept analysis which
+is called \emph{attribute exploration}.  Within this algorithm, an expert (possibly human)
+is asked extracted GCIs for there correctness, and if proposed GCIs are not found then the
+expert has to provide \emph{counterexamples} to them.  This way, the problem that the data
+may be \emph{incomplete} in that it lacks crucial counterexamples can be solved.  This has
+also been done in~\cite{Diss-Felix}.
 
 However, there are still problems with this approach, especially if it comes to the
-\emph{quality} of the data $\mathcal{I}$ from which general concept inclusions are
-learned.  The main problem here is that the data may contain \emph{errors}.  These errors
-may either cause otherwise valid general concept inclusions not to be found, because these
-errors act as \emph{false counterexamples}, or general concept inclusions are found which
-are not correct because errors cause positive counterexamples to vanish.  While the latter
-approach can in theory be handled by the attribute exploration approach sketched above,
-the former cannot, because the approach discussed in~\cite{Diss-Felix} will not even
-extract general concept inclusions for which there may be errors in $\mathcal{I}$.
+\emph{quality} of the data $\mathcal{I}$ from which GCIs are learned.  The main problem
+here is that the data may contain \emph{errors}.  These errors may either cause otherwise
+valid GCIs not to be found, because these errors act as \emph{false counterexamples}, or
+GCIs are found which are not correct because errors cause positive counterexamples to
+vanish.  While the latter approach can in theory be handled by the attribute exploration
+approach sketched above, the former cannot, because the approach discussed
+in~\cite{Diss-Felix} will not even extract GCIs for which there may be errors in
+$\mathcal{I}$.
 
 In this work, we want to extent the results obtain in~\cite{Diss-Felix} to this new
-setting of where the data from which general concept inclusions are learned may contain
-errors.  The main approach for this is to transfer the notion of
+setting of where the data from which GCIs are learned may contain errors.  The main
+approach for this is to transfer the notion of
 \emph{confidence}~\cite{arules:agrawal:association-rules} from the area of data-mining to
-general concept inclusions.  Intuitively, this means that general concept inclusions may
-have \emph{few} errors in the data, as opposed to having none in the original approach
-of~\cite{Diss-Felix}.  The notion of ``few'' is quantified by means of the confidence of
-the general concept inclusions in the data.
+GCIs.  Intuitively, this means that GCIs may have \emph{few} errors in the data, as
+opposed to having none in the original approach of~\cite{Diss-Felix}.  The notion of
+``few'' is quantified by means of the confidence of the GCIs in the data.
 
 In the following we shall give a more in-depth overview of the problem sketched above, by
 briefly introducing description logics and formal concept analysis in
 Sections~\ref{sec:repr-knowl-using} and~\ref{sec:learn-impl-using}, respectively.  These
 introductions will be mostly historical and by means of examples.  Thereafter, we discuss
-in more detail what it means to learn general concept inclusions from data, and sketch our
-approach of utilizing the notion of confidence to handle errors in the data.  This will be
-done in Section~\ref{sec:extr-term-knowl}.  Finally, in Section~\ref{sec:related-work}, we
-briefly discuss some related work which is important for our approach, and we summarize
-our contribution in Section~\ref{sec:contributions}.
+in more detail what it means to learn GCIs from data, and sketch our approach of utilizing
+the notion of confidence to handle errors in the data.  This will be done in
+Section~\ref{sec:extr-term-knowl}.  Finally, in Section~\ref{sec:related-work}, we briefly
+discuss some related work which is important for our approach, and we summarize our
+contribution in Section~\ref{sec:contributions}.
 
 \section{Description Logics}
 \label{sec:repr-knowl-using}
@@ -412,24 +410,23 @@ The main purpose of this work is to discuss a way to extract general concept inc
 from relational data (interpretations) which are allowed to contain \enquote{few} errors.
 The basis for our considerations are the results obtained by Baader and
 Distel~\cite{Diss-Felix,BaDi09,BaaderDistel08} on computing \emph{finite bases} of
-\emph{valid} general concept inclusions from finite interpretations.
+\emph{valid} GCIs from finite interpretations.
 
 For this approach we assume that we want to learn terminological knowledge about a certain
 \emph{domain} of interest, and that we can represent this domain as a finite
 interpretation $\mathcal{I}$.  In other words, our domain is representable as relational
 data, where the elements have additional properties.  Then the terminological knowledge we
-are interested in is exactly the set $\Th(\mathcal{I})$ of valid general concept
-inclusions of $\mathcal{I}$, in our case using the description logic $\ELbot$.
+are interested in is exactly the set $\Th(\mathcal{I})$ of valid GCIs of $\mathcal{I}$, in
+our case using the description logic $\ELbot$.
 
 A first problem here is that the set $\Th(\mathcal{I})$ is infinite in general: if $C
-\sqsubseteq D$ is valid in $\mathcal{I}$, and if $r$ is a role name, then the general
-concept inclusion $\exists r. C \sqsubseteq \exists r. D$ is also valid in $\mathcal{I}$.
-To remedy this, Baader and Distel want to compute \emph{finite bases} of
-$\Th(\mathcal{I})$, \ie finite subsets of $\Th(\mathcal{I})$ which are already complete
-for $\mathcal{I}$.  One of the main results of their approach is then that such finite
-bases always exist, and that they can be computed effectively.  Such finite bases can then
-be used as TBoxes of a knowledge base which logically represents the initial domain of
-interest.
+\sqsubseteq D$ is valid in $\mathcal{I}$, and if $r$ is a role name, then the GCI
+$\exists r. C \sqsubseteq \exists r. D$ is also valid in $\mathcal{I}$.  To remedy this,
+Baader and Distel want to compute \emph{finite bases} of $\Th(\mathcal{I})$, \ie finite
+subsets of $\Th(\mathcal{I})$ which are already complete for $\mathcal{I}$.  One of the
+main results of their approach is then that such finite bases always exist, and that they
+can be computed effectively.  Such finite bases can then be used as TBoxes of a knowledge
+base which logically represents the initial domain of interest.
 
 To provide these results, Baader and Distel exploit the tight connection between the
 description logic $\ELbot$ and formal concept analysis which is established by \emph{model
@@ -462,8 +459,8 @@ subsumption between \emph{single} defined concept names, and extends it in such 
 it provides counterexamples to instances of the subsumption problem.  These
 counterexamples are then collected into a suitable formal context, and from this context
 the attribute exploration algorithm eventually computes the canonical base.  These
-implications give rise to a set of general concept inclusions, which can then be used to
-decide subsumption between conjunctions of defined concept names of $\mathcal{T}$.
+implications give rise to a set of GCIs, which can then be used to decide subsumption
+between conjunctions of defined concept names of $\mathcal{T}$.
 
 The results obtained by Baader have been further generalized by
 Stumme~\cite{stumme96concept} to include also disjunction.  For this, a generalization of
@@ -478,14 +475,13 @@ exploration was used.  For this, GCIs of the form
 \end{equation*}
 are asked to the expert, where $U, V \subseteq M$ for some previously chosen set $M$ of
 interesting concepts.  The task is then to ensure the given knowledge base is complete
-with respect to all these general concept inclusions, \ie the knowledge base should entail
-all such general concept inclusions which are confirmed by the expert, and should contain
-counterexamples for all other general concept inclusions of this type.  The most
-significant challenge for transferring attribute exploration to this setting is to deal
-with the \emph{open world semantics} of description logic knowledge bases: a fact that is
-not stated in the knowledge base does not mean that the negated fact holds.  For this,
-attribute exploration is generalized to work on \emph{partial contexts}, \ie formal
-context in which certain crosses are unknown.  The resulting algorithm has been
+with respect to all these GCIs, \ie the knowledge base should entail all such GCIs which
+are confirmed by the expert, and should contain counterexamples for all other GCIs of this
+type.  The most significant challenge for transferring attribute exploration to this
+setting is to deal with the \emph{open world semantics} of description logic knowledge
+bases: a fact that is not stated in the knowledge base does not mean that the negated fact
+holds.  For this, attribute exploration is generalized to work on \emph{partial contexts},
+\ie formal context in which certain crosses are unknown.  The resulting algorithm has been
 implemented as a plugin named \emph{OntoComp} for the ontology editor
 \emph{Protégé}~\cite{Sert09b}.
 
@@ -500,12 +496,12 @@ several phases: in phase $k$, concept descriptions with \emph{role depth} at mos
 considered as attributes of the current formal context, and on this formal context
 attribute exploration is performed.  Rudolph then shows that this process has only to be
 considered up to a certain maximal role depth, and that the resulting set of implications
-can be used to decide whether an arbitrary general concept inclusion $C \sqsubseteq D$ is
-valid in the original domain or not.  However, it is not shown whether and how this set of
-implications can be transferred into a base of the domain.  Indeed, the decision procedure
-for checking whether $C \sqsubseteq D$ holds in the domain or not is rather complicated.
-Thus, no general concept inclusions are learned from this approach, and thus it cannot be
-used to obtain terminological knowledge from relational data.
+can be used to decide whether an arbitrary GCI $C \sqsubseteq D$ is valid in the original
+domain or not.  However, it is not shown whether and how this set of implications can be
+transferred into a base of the domain.  Indeed, the decision procedure for checking
+whether $C \sqsubseteq D$ holds in the domain or not is rather complicated.  Thus, no GCIs
+are learned from this approach, and thus it cannot be used to obtain terminological
+knowledge from relational data.
 
 The aforementioned approach of binary power context families is an attempt to add
 description logic expressibility to the world of formal concept analysis.  In its easiest
@@ -546,22 +542,75 @@ ideas in our later considerations.  Luxenburger's ideas have been used in the ar
 mining, for instance to obtain smaller representations of \emph{association
   rules}~\cite{DBLP:conf/ki/StummeTBPL01}.
 
-\todo[inline]{Write: mention Fuzzy-FCA and Fuzzy-DL, Vagueness in general}%
+Another prominent approach to handle knowledge that may not be completely correct is to
+consider fuzzy extensions of the respective formalisms.  Those exist for both description
+logics~\cite{DBLP:journals/jair/Straccia01,journals/fss/BobilloS09} and formal concept
+analysis~\cite{conf/cla/BelohlavekV05}, and are either based on Zadeh's original approach
+to fuzzy logics~\cite{journals/iandc/Zadeh65}, or on the approach by
+Hájek~\cite{hajek1998metamathematics}, in which the semantics is defined using
+\emph{t-norms} on lattices.  Then logical facts (implications, assertional knowledge,
+terminological knowledge) are annotated with \emph{truth values} from an underlying
+lattice, and the semantics allows to infer truth values for facts where the truth values
+was previously unknown, or at least bounds thereof.
 
 \section{Contributions}
 \label{sec:contributions}
 
-\todo[inline]{Write: say that obtaining an interpretation that faithfully represents a
-  domain of interest is not possible in real applications}
+The goal of this work is to extend the work by Baader and Distel to include the
+possibility that the initially given interpretation $\mathcal{I}$ does not correctly
+represent the domain of interest, and instead contains \emph{errors}.  The motivation for
+this extension stems from the observation that for practical applications it is almost
+always impossible to obtain data sets which are free of errors.  To still be able to apply
+the results of Baader and Distel thus requires a methodology to handle these errors.
+
+The main contributions of this thesis with respect to this extensions are as follows.
 
 \subsection{Experiments with Extracting Valid GCIs}
 \label{sec:exper-with-extr}
 
-\subsection{Extracting GCIs from Erroneous Data}
+All results obtained by Baader and Distel are \emph{effective}, meaning that the resulting
+algorithms can be implemented and applied to arbitrary data.  As a first contribution of
+this work, we shall present an implementation of these algorithms in
+\Cref{sec:computing-bases-from}.  We then apply this implementation to relational data
+from the \emph{DBpedia project}~\cite{DBpedia}, which obtains its data by crawling
+\emph{infoboxes} of Wikipedia articles.  We shall see that the approach by Baader and
+Distel is indeed able to extract terminological knowledge from this data, and we shall
+discuss the corresponding outcome in detail.
+
+The main observation of these experiments, however, is that the errors in the DBpedia data
+set inhibit GCIs from being found which would otherwise be relevant for the domain of the
+chosen data.  The main example is that the GCI
+\begin{equation*}
+  \exists \mathsf{child}. \top \sqsubseteq \mathsf{Person}
+\end{equation*}
+stating the fact that every individual which has a child is a person, was not found during
+our experiments.  The reason for this is that input data contained four counterexamples
+for this GCI, which however were all erroneous.  On the other hand, the input data
+contained 2547 \emph{positive examples} for this GCI.  This shows that the original
+approach of Baader and Distel is very sensitive to errors in the input data, even if they
+are comparably rare.
+
+\subsection{Extracting GCIs with High Confidence from Erroneous Data}
 \label{sec:extracting-gcis-from}
+
+A main results from our experiments is that errors in the input data can inhibit otherwise
+valid GCIs from being extracted.  Based on the assumption that the input data must be of
+sufficient \emph{quality}, \ie must not contain too many errors, we generalize the
+approach by Baader and Distel from computing bases of valid GCIs to computing bases of
+GCIs which are \emph{almost valid} in the input data.  To formalize the notion of being
+\emph{almost valid}, we make use of the notion of \emph{confidence} as it is used in
+data-mining, and transfer it to the setting of GCIs.  Instead of computing bases of valid
+GCIs, we then want to compute bases of GCIs whose confidence is above a certain threshold
+$c$, for some chosen value $c \in [0,1]$.  We shall see that we can generalize most of the
+results of Baader and Distel accordingly.  Finally, we shall apply our results to the data
+sets we used for our experiments to show that certain errors in the input data can be
+handled with out approach.
 
 \subsection{Exploration by Confidence}
 \label{sec:expl-conf-2}
+
+
+
 
 \subsection{Model-Exploration by Confidence with Completely Specified Counterexamples}
 \label{sec:model-expl-conf}
