@@ -172,10 +172,10 @@ then be
 where the first entry denotes the TBox, and the second one denotes the ABox.
 
 The semantics of knowledge bases is defined using \emph{interpretations} $\mathcal{I}$,
-which can be thought of as edge- and vertex-labeled graphs.  The labels of the vertices,
-which we shall \emph{elements} or \emph{individuals}, are concept names, and the labels of
-the edges are role names.  An interpretation is a model of a knowledge base if all
-elements satisfy the axioms contained in this knowledge base.  For example, the
+which can be thought of as directed edge- and vertex-labeled graphs.  The labels of the
+vertices, which we shall \emph{elements} or \emph{individuals}, are concept names, and the
+labels of the edges are role names.  An interpretation is a model of a knowledge base if
+all elements satisfy the axioms contained in this knowledge base.  For example, the
 interpretation
 \begin{center}
   \begin{tikzpicture}[>=stealth']
@@ -570,7 +570,7 @@ this extension stems from the observation that for practical applications it is 
 always impossible to obtain data sets which are free of errors.  To still be able to apply
 the results of Baader and Distel thus requires a methodology to handle these errors.
 
-The main contributions of this thesis with respect to this extensions are as follows.
+The main contributions of this thesis are the following.
 
 \subsection{Experiments with Extracting Valid GCIs}
 \label{sec:exper-with-extr}
@@ -608,7 +608,7 @@ GCIs which are \emph{almost valid} in the input data.  To formalize the notion o
 \emph{almost valid}, we make use of the notion of \emph{confidence} as it is used in
 data-mining, and transfer it to the setting of GCIs.  Instead of computing bases of valid
 GCIs, we then want to compute bases of GCIs whose confidence is above a certain threshold
-$c$, for some chosen value $c \in [0,1]$.  Those GCIs we shall call GCIs with \emph{high
+$c$, for some chosen value $c \in [0,1]$.  Those GCIs we shall call GCIs \emph{with high
   confidence}.  We shall see that we can generalize most of the results of Baader and
 Distel accordingly, using Luxenburger's ideas on his investigation of partial implications
 in formal contexts.  An example for this is the result that bases of the induced context
@@ -633,11 +633,13 @@ considers all such counterexamples manually, and decides whether they are valid 
 
 Expert interaction can also be used to tackle another problem with data, namely its
 \emph{incompleteness}: for certain GCIs relevant counterexample may exist, but may not be
-present in the given data set.  In this case, both the original approach by Baader and
-Distel, as well as our extension to GCIs with high confidence would extract those GCIs for
-which relevant counterexamples are missing.  We could use the external expert to avoid
-this issue, by querying this expert for possible counterexamples for all GCIs we would
-extract.
+present in the given data set.  In other words, we still assume that our domain is
+represented by an interpretation, the so-called \emph{background interpretation}, but we
+only have access to some part of it.  In this case, both the original approach by Baader
+and Distel, as well as our extension to GCIs with high confidence would extract those GCIs
+for which relevant counterexamples are missing.  We could use the external expert to avoid
+this issue, by querying this expert for possible counterexamples from the background
+interpretation for all GCIs we would extract.
 
 This expert interaction may be expensive, however, and an algorithm that keeps this
 interaction to a minimum would be highly desirable.  In the case of valid implications of
@@ -658,16 +660,44 @@ the set $\mathcal{L}$ is just the set of all valid implications of a given forma
 For the case of implications with high confidence, the set $\mathcal{L}$ is then just the
 set of all implications whose confidence is above a certain threshold $c$.
 
-\subsection{Model-Exploration by Confidence with Completely Specified Counterexamples}
+\subsection{Model-Exploration by Confidence}
 \label{sec:model-expl-conf}
 
 The problem of incomplete data already arises in the case of valid GCIs, and to approach
 this problem Baader and Distel propose extensions of attribute exploration which also work
-with valid GCIs.  On of these extensions, called \emph{model exploration}, works mostly
-in the same way as attribute exploration does, with the difference that the expert now
-gets asked GCIs for confirmation instead of implications.  
+with valid GCIs.  On of these extensions, called \emph{model exploration}, works mostly in
+the same way as attribute exploration does, with the difference that the expert now gets
+asked GCIs for confirmation instead of implications.  Model exploration is essentially
+attribute exploration of the induced context of the given interpretation, although several
+technical problems have to be dealt with.
 
-\section{Acknowledgments}
+One of these problems it that the attribute set of the induced context depends on the
+background interpretation.  Clearly, the background interpretation is not available during
+the exploration process.  Model exploration solves this problem by computing the set of
+attributes of the induced context incrementally during the computation.  Another problem
+is the way counterexamples have to be specified: because of the \emph{closed world
+  semantics} of interpretations, every counterexample provided by the expert has to be
+\emph{complete}.  This means that as soon as the expert wants to provide an element as a
+counterexample, all elements which can be reached via directed edges from this elements in
+the background interpretation have to be provided as well.  In other words, the
+counterexamples provided by the expert have to be \emph{connected subinterpretations} of
+the background interpretation.
+
+To generalize model exploration to GCIs with high confidence, we essentially follow the
+argumentation of model exploration.  More precisely, we shall consider exploration by
+confidence of the induced context of the given interpretation, and transform it to
+\emph{model exploration by confidence}, in a very similar way as model exploration arises
+from attribute exploration of the induced context.
+
+A notable difference to the argumentation of Baader and Distel is that we first have to
+generalize our results about computing bases of GCIs with high confidence to include the
+possibility that certain elements of the interpretation are \emph{trusted}, in the sense
+that as soon as a trusted element is a counterexample for some GCI, this GCI is not
+considered any further, even if its confidence is high enough.  The motivation for this
+generalization stems from the fact that we consider all counterexamples provided by the
+expert to be trusted.
+
+\section*{Acknowledgments}
 \label{sec:acknowledgements}
 
 \todo[inline]{Write: acknowledgments}
