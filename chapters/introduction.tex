@@ -84,15 +84,15 @@ GCIs.  Intuitively, this means that GCIs may have \emph{few} errors in the data,
 opposed to having none in the original approach of~\cite{Diss-Felix}.  The notion of
 ``few'' is quantified by means of the confidence of the GCIs in the data.
 
-In the following we shall give a more in-depth overview of the problem sketched above, by
-briefly introducing description logics and formal concept analysis in
-Sections~\ref{sec:repr-knowl-using} and~\ref{sec:learn-impl-using}, respectively.  These
-introductions will be mostly historical and by means of examples.  Thereafter, we discuss
-in more detail what it means to learn GCIs from data, and sketch our approach of utilizing
-the notion of confidence to handle errors in the data.  This will be done in
-Section~\ref{sec:extr-term-knowl}.  Finally, in Section~\ref{sec:related-work}, we briefly
-discuss some related work which is important for our approach, and we summarize our
-contribution in Section~\ref{sec:contributions}.
+% In the following we shall give a more in-depth overview of the problem sketched above, by
+% briefly introducing description logics and formal concept analysis in
+% Sections~\ref{sec:repr-knowl-using} and~\ref{sec:learn-impl-using}, respectively.  These
+% introductions will be mostly historical and by means of examples.  Thereafter, we discuss
+% in more detail what it means to learn GCIs from data, and sketch our approach of utilizing
+% the notion of confidence to handle errors in the data.  This will be done in
+% Section~\ref{sec:extr-term-knowl}.  Finally, in Section~\ref{sec:related-work}, we briefly
+% discuss some related work which is important for our approach, and we summarize our
+% contribution in Section~\ref{sec:contributions}.
 
 \section{Description Logics}
 \label{sec:repr-knowl-using}
@@ -215,26 +215,33 @@ formal concept analysis is~\cite{OrdreEtClassification}.
 
 The fundamental idea of formal concept analysis is to represent complete lattices by a
 \emph{object-attribute-relationship}, which is expressed using \emph{formal contexts}.
-These structures can be thought of as tables of crosses, like the following (taken
-from~\cite{fca:Wille:1982})
-\begin{equation*}
-  \begin{array}[c]{c|*{7}{c}}
-    \toprule
-    ~       & \mathsf{small} & \mathsf{medium} & \mathsf{large} & \mathsf{inner} &
-    \mathsf{outer} & \mathsf{moon} & \mathsf{no moon} \\
-    \midrule
-    \mathsf{Mercury} & \times &   &   & \times &   &   & \times  \\
-    \mathsf{Venus}   & \times &   &   & \times &   &   & \times  \\
-    \mathsf{Earth}   & \times &   &   & \times &   & \times &    \\
-    \mathsf{Mars}    & \times &   &   & \times &   & \times &    \\
-    \mathsf{Jupiter} &   &   & \times &   & \times & \times &    \\
-    \mathsf{Saturn}  &   &   & \times &   & \times & \times &    \\
-    \mathsf{Uranus}  &   & \times &   &   & \times & \times &    \\
-    \mathsf{Neptune} &   & \times &   &   & \times & \times &    \\
-    \mathsf{Pluto}   & \times &   &   &   & \times & \times &    \\
-    \bottomrule
-  \end{array}
-\end{equation*}
+These structures can be thought of as tables of crosses, like the one shown in
+\Cref{fig:example-formal-context}.
+
+\begin{figure}[tp]
+  \centering
+  \begin{math}
+    \begin{array}[c]{c|*{7}{c}}
+      \toprule
+      ~       & \mathsf{small} & \mathsf{medium} & \mathsf{large} & \mathsf{inner} &
+      \mathsf{outer} & \mathsf{moon} & \mathsf{no moon} \\
+      \midrule
+      \mathsf{Mercury} & \times &   &   & \times &   &   & \times  \\
+      \mathsf{Venus}   & \times &   &   & \times &   &   & \times  \\
+      \mathsf{Earth}   & \times &   &   & \times &   & \times &    \\
+      \mathsf{Mars}    & \times &   &   & \times &   & \times &    \\
+      \mathsf{Jupiter} &   &   & \times &   & \times & \times &    \\
+      \mathsf{Saturn}  &   &   & \times &   & \times & \times &    \\
+      \mathsf{Uranus}  &   & \times &   &   & \times & \times &    \\
+      \mathsf{Neptune} &   & \times &   &   & \times & \times &    \\
+      \mathsf{Pluto}   & \times &   &   &   & \times & \times &    \\
+      \bottomrule
+    \end{array}
+  \end{math}
+  \caption{Example Formal Context (taken from~\cite{fca:Wille:1982})}
+  \label{fig:example-formal-context}
+\end{figure}
+
 This formal context expresses an object-attribute-relationship between the known planets
 of the solar system (including Pluto) as \emph{objects}, and the \emph{attributes} whether
 a planet is \textsf{small}, \textsf{medium}, or \textsf{large}, whether a planet is an
@@ -601,19 +608,64 @@ GCIs which are \emph{almost valid} in the input data.  To formalize the notion o
 \emph{almost valid}, we make use of the notion of \emph{confidence} as it is used in
 data-mining, and transfer it to the setting of GCIs.  Instead of computing bases of valid
 GCIs, we then want to compute bases of GCIs whose confidence is above a certain threshold
-$c$, for some chosen value $c \in [0,1]$.  We shall see that we can generalize most of the
-results of Baader and Distel accordingly.  Finally, we shall apply our results to the data
-sets we used for our experiments to show that certain errors in the input data can be
-handled with out approach.
+$c$, for some chosen value $c \in [0,1]$.  Those GCIs we shall call GCIs with \emph{high
+  confidence}.  We shall see that we can generalize most of the results of Baader and
+Distel accordingly, using Luxenburger's ideas on his investigation of partial implications
+in formal contexts.  An example for this is the result that bases of the induced context
+of a finite interpretation give rise to a base of the finite interpretation itself.  We
+shall see that we can generalize this result such that bases of implications with high
+confidence in the induced context give rise to bases of GCIs with high confidence in the
+finite interpretation.  Finally, we shall apply our results to the data sets we used for
+our experiments to show that certain errors in the input data can be handled with out
+approach.
 
 \subsection{Exploration by Confidence}
 \label{sec:expl-conf-2}
 
+The approach of considering GCIs with high confidence is a purely heuristic one: by
+considering GCIs with high confidence, we can ignore rare errors in the input data.
+However, it is not guaranteed that this approach also ignores \emph{rare counterexamples},
+\ie counterexamples which are actually valid, but occur so infrequently that the
+confidence measures ignores them.  In this case, an external source of information is
+needed that can distinguish between errors and rare counterexamples in the data.  An
+example for such an external source of information could be a human expert, which then
+considers all such counterexamples manually, and decides whether they are valid or not.
 
+Expert interaction can also be used to tackle another problem with data, namely its
+\emph{incompleteness}: for certain GCIs relevant counterexample may exist, but may not be
+present in the given data set.  In this case, both the original approach by Baader and
+Distel, as well as our extension to GCIs with high confidence would extract those GCIs for
+which relevant counterexamples are missing.  We could use the external expert to avoid
+this issue, by querying this expert for possible counterexamples for all GCIs we would
+extract.
 
+This expert interaction may be expensive, however, and an algorithm that keeps this
+interaction to a minimum would be highly desirable.  In the case of valid implications of
+a formal context, the attribute exploration algorithm would be such an algorithm, as it
+asks the expert a minimal number of different questions.  Therefore, we want to generalize
+attribute exploration to the setting of GCIs with high confidence to obtain an algorithm
+that allows the use of an expert to distinguish between errors and rare counterexamples.
+
+To this end, we shall consider as a first step the easier problem where we consider
+\emph{implications with high confidence} instead of GCIs.  In this step, we shall
+generalize attribute exploration to \emph{exploration by confidence}, where the algorithm
+not only asks implications to the expert which are valid in the current context, but also
+those which only have high confidence.  For this, we first investigate generalizations of
+attribute exploration which allow us to explore \emph{sets of implications}.  In these
+generalizations, a set $\mathcal{L}$ of implications can be specified for which the expert
+should decide which elements of $\mathcal{L}$ are valid or not.  In attribute exploration,
+the set $\mathcal{L}$ is just the set of all valid implications of a given formal context.
+For the case of implications with high confidence, the set $\mathcal{L}$ is then just the
+set of all implications whose confidence is above a certain threshold $c$.
 
 \subsection{Model-Exploration by Confidence with Completely Specified Counterexamples}
 \label{sec:model-expl-conf}
+
+The problem of incomplete data already arises in the case of valid GCIs, and to approach
+this problem Baader and Distel propose extensions of attribute exploration which also work
+with valid GCIs.  On of these extensions, called \emph{model exploration}, works mostly
+in the same way as attribute exploration does, with the difference that the expert now
+gets asked GCIs for confirmation instead of implications.  
 
 \section{Acknowledgments}
 \label{sec:acknowledgements}
