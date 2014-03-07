@@ -231,9 +231,9 @@ intuitively.
 Firstly, some of the GCIs contained in $\mathcal{B}_\Idbpedia$ constitute knowledge about
 the relationships among the concept names occurring in $\Idbpedia$ only, for example
 \begin{align*}
-  \sf Politician &\sqsubseteq \sf Person \\
-  \sf MemberOfParliament &\sqsubseteq \sf Person \sqcap Politician \\
-  \sf Criminal \sqcap Politician &\sqsubseteq \bot
+  \mathsf{Politician} &\sqsubseteq \mathsf{Person} \\
+  \mathsf{MemberOfParliament} &\sqsubseteq \mathsf{Person \sqcap Politician} \\
+  \mathsf{Criminal \sqcap Politician} &\sqsubseteq \bot
 \end{align*}
 This knowledge can indeed be useful to learn the hierarchy of concept names
 (\emph{taxonomy}) of $\Idbpedia$.  On the other side, this knowledge does not yet show
@@ -246,7 +246,7 @@ be useful in applications.  The disjointness constraint shown above only contain
 names.  However, Distel's approach let's us find more disjointness constraints than just
 between concept names.  For example, $\mathcal{B}_{\Idbpedia}$ contains the GCI
 \begin{equation*}
-   \sf Philosopher \sqcap \exists child. \top \sqsubseteq \bot
+   \mathsf{Philosopher} \sqcap \exists \mathsf{child}. \top \sqsubseteq \bot
 \end{equation*}
 expressing that philosophers don't have children (or at least not children famous enough
 to occur in Wikipedia).  Indeed, since $\mathcal{B}_{\Idbpedia}$ is complete for
@@ -257,8 +257,9 @@ There are other GCIs contained in $\mathcal{B}_\Idbpedia$ which are not disjoint
 constraints or only express knowledge about concept names.  Two of them for which we could
 argue that they can be useful are
 \begin{align*}
-  \sf \exists child. Person &\sqsubseteq \sf Person, \\
-  \sf FictionalCharacter \sqcap \exists child. Person &\sqsubseteq \sf \exists child. FictionalCharacter
+  \mathsf{\exists child. Person} &\sqsubseteq \mathsf{Person}, \\
+  \mathsf{FictionalCharacter \sqcap \exists child. Person} &\sqsubseteq \mathsf{\exists
+    child. FictionalCharacter}
 \end{align*}
 where the second GCI can be seen as some kind of \ELbot approximation of the fact that
 fictional characters can only have fictional characters as their children.  These GCIs can
@@ -272,25 +273,25 @@ concepts, or they are too specific.
 
 An example for the first case is
 \begin{equation*}
-  \sf Person \sqcap \exists child. Book \sqsubseteq FictionalCharacter
+  \mathsf{Person \sqcap \exists child. Book \sqsubseteq FictionalCharacter}
 \end{equation*}
 which does not really represent any meaningful knowledge.  On the other hand, this GCI
 indicates that DBpedia finds books as children only on Wikipedia pages on fictional
 characters.  Thus, such GCIs may help to find errors in the way DBpedia extracts
 information, but are not helpful as knowledge itself.  Similar examples are
 \begin{align*}
-  \sf \exists child. Newspaper \sqcap Person &\sqsubseteq \sf Writer, \\
-  \sf \exists child. MilitaryUnit &\sqsubseteq \sf Judge, \\
-  \sf \exists child. Settlement \sqcap Politician &\sqsubseteq \sf Congressman.
+  \mathsf{\exists child. Newspaper \sqcap Person} &\sqsubseteq \mathsf{Writer}, \\
+  \mathsf{\exists child. MilitaryUnit} &\sqsubseteq \mathsf{Judge}, \\
+  \mathsf{\exists child. Settlement \sqcap Politician} &\sqsubseteq \mathsf{Congressman}.
 \end{align*}
 
 GCIs which could be too specific can be considered to most common case among all GCIs in
 $\mathcal{B}_{\Idbpedia}$, examples of them being
 \begin{gather*}
-  \sf \exists child. Ambassador \sqcap OfficeHolder \\
-  \sqsubseteq \sf \exists child. (Ambassador \sqcap \exists child. Person) \sqcap {}\\
-  \phantom{\sqsubseteq{}} \sf\exists child. (OfficeHolder \sqcap \exists child.
-  Congressman \sqcap \exists child. Actor \sqcap \exists child OfficeHolder).
+  \mathsf{\exists child. Ambassador \sqcap OfficeHolder} \\
+  \sqsubseteq \mathsf{\exists child. (Ambassador \sqcap \exists child. Person) \sqcap {}}\\
+  \phantom{\sqsubseteq{}} \mathsf{\exists child. (OfficeHolder \sqcap \exists child.
+  Congressman \sqcap \exists child. Actor \sqcap \exists child OfficeHolder)}.
 \end{gather*}
 Indeed, this GCI only applies to the individual \texttt{Joseph\_P.\_Kennedy\%2C\_Sr.}, and
 thus it states information only about this very individual and its children.  To cope with
@@ -308,13 +309,13 @@ However, this approach leads to some unintuitive behavior, see \Cref{cha:conclus
 Finally, among the GCIs contained in $\mathcal{B}_\Idbpedia$ there exist some which convey
 the impression of being redundant, like
 \begin{equation*}
-  \sf \exists child. \exists child. \top \sqsubseteq \exists child. (Person \sqcap \exists child. \top),
+  \mathsf{\exists child. \exists child. \top \sqsubseteq \exists child. (Person \sqcap \exists child. \top)},
 \end{equation*}
 because it should be quite clear from the construction of $\Idbpedia$ that only persons
 can have children, \ie the following GCI
 \begin{equation}
   \label{eq:23}
-  \sf \exists child. \top \sqsubseteq Person
+  \mathsf{\exists child. \top \sqsubseteq Person}
 \end{equation}
 should hold in $\Idbpedia$.  This is because only Wikipedia articles of human beings
 should contain a child-entry within their Infobox.  Thus, even with all the errors in
@@ -322,8 +323,8 @@ $\Idbpedia$ concerning non-persons that we have discussed before, the GCI in \Cr
 should hold in $\Idbpedia$.
 
 However, this is not the case, since there are four counterexamples to this GCI in
-$\Idbpedia$, \ie elements $x \in \Delta^{\Idbpedia}$ satisfying $x \in (\sf \exists
-child. \top)^{\Idbpedia} \setminus Person^{\Idbpedia}$.  These
+$\Idbpedia$, \ie elements $x \in \Delta^{\Idbpedia}$ satisfying $x \in (\mathsf{\exists
+  child. \top})^{\Idbpedia} \setminus \mathsf{Person}^{\Idbpedia}$.  These
 are\footnote{Coincidentally, all these are artists from Hong Kong}
 \begin{equation*}
   \mathtt{Teresa\_Carpio},\; \mathtt{Charles\_Heung},\;
@@ -332,19 +333,19 @@ are\footnote{Coincidentally, all these are artists from Hong Kong}
 However, these elements clearly represent human beings, so they \emph{should} actually be
 instances of \textsf{Person}.  In other words, these counterexamples are all
 \emph{erroneous} counterexamples, but since they are present in $\Idbpedia$ the approach
-developed by Distel will not ignore them.  This not only inhibits finding the GCI $\sf
-\exists child. \top \sqsubseteq Person$, but also causes incomprehensible GCIs to be
-found which are special cases of this GCI but somehow try to ``circumvent'' the erroneous
-counterexamples. An example for this is
+developed by Distel will not ignore them.  This not only inhibits finding the GCI
+$\mathsf{\exists child. \top \sqsubseteq Person}$, but also causes incomprehensible GCIs
+to be found which are special cases of this GCI but somehow try to ``circumvent'' the
+erroneous counterexamples. An example for this is
 \begin{gather*}
-  \sf Person \sqcap \exists child. (Person \sqcap \exists child. (Person \sqcap \exists child.
-  (Person \sqcap {}\\
-  \quad \quad \sf \exists child. \exists child. (Person \sqcap \exists child. \top))))
+  \mathsf{Person \sqcap \exists child. (Person \sqcap \exists child. (Person \sqcap \exists child.
+    (Person \sqcap {}}\\
+  \quad \quad \mathsf{\exists child. \exists child. (Person \sqcap \exists child. \top))))}
   \\
-  \sf \quad \sqsubseteq
-  \exists child. (Person \sqcap \exists child. (Person \sqcap \exists child. (Person \sqcap
-  \exists child. (Person \sqcap {}\\
-  \sf \quad \quad \exists child. \exists child. Person)))).
+  \mathsf{ \quad \sqsubseteq
+    \exists child. (Person \sqcap \exists child. (Person \sqcap \exists child. (Person \sqcap
+    \exists child. (Person \sqcap {}}\\
+  \mathsf{\quad \quad \exists child. \exists child. Person))))}.
 \end{gather*}
 
 \section{GCIs with High Confidence in Finite Interpretations}
@@ -372,15 +373,15 @@ if the number of positive examples is much higher than the number of negative on
 approach to ignore erroneous counterexamples would then be to consider these ``almost
 valid'' GCIs in addition to the valid ones, and try to find finite bases for both of them.
 
-This actually works quite well for our example interpretation $\Idbpedia$, as the GCI $\sf
-\exists child. \top \sqsubseteq Person$ has much more positive than negative examples:
-there are 2551 elements $x \in \Delta^{\Idbpedia}$ to which $\sf \exists child. \top
-\sqsubseteq Person$ applies, \ie which satisfy $x \in (\sf \exists child. \top)$, but only
-4 of those (the ones mentioned above) fail to also satisfy $x \in \sf Person^{\Idbpedia}$.
-Therefore, $\sf \exists child. \top \sqsubseteq Person$ has 2547 positive examples, but
-only 4 negative ones.  By our approach, we can consider these negative examples as errors
-and ignore them.  Thus, $\sf \exists child. \top \sqsubseteq Person$ would be extracted
-from $\Idbpedia$.
+This actually works quite well for our example interpretation $\Idbpedia$, as the GCI
+$\mathsf{\exists child. \top \sqsubseteq Person}$ has much more positive than negative
+examples: there are 2551 elements $x \in \Delta^{\Idbpedia}$ to which $\mathsf{\exists
+  child. \top \sqsubseteq Person}$ applies, \ie which satisfy $x \in (\mathsf{\exists
+  child. \top})$, but only 4 of those (the ones mentioned above) fail to also satisfy $x
+\in \mathsf{Person}^{\Idbpedia}$.  Therefore, $\mathsf{\exists child. \top \sqsubseteq
+  Person}$ has 2547 positive examples, but only 4 negative ones.  By our approach, we can
+consider these negative examples as errors and ignore them.  Thus, $\mathsf{\exists
+  child. \top \sqsubseteq Person}$ would be extracted from $\Idbpedia$.
 
 Of course, this approach is highly heuristic in general: if valid counterexamples for a
 GCI $C \sqsubseteq D$ are just \emph{rare} in $\mathcal{I}$, then the above sketched
@@ -429,10 +430,10 @@ number of positive examples is higher than the number of negative ones.
 
 \begin{Example}
   \label{expl:Idbpedia-confidence}
-  Recall that $\sf \exists child. \top \sqsubseteq Person$ has 2547 positive and 4
+  Recall that $\mathsf{\exists child. \top \sqsubseteq Person}$ has 2547 positive and 4
   negative examples in $\Idbpedia$, thus
   \begin{equation*}
-    \conf_\Idbpedia( {\sf \exists child. \top \sqsubseteq Person } ) = \frac{ 2547 }{ 2551 }.
+    \conf_\Idbpedia( {\mathsf{\exists child. \top \sqsubseteq Person} } ) = \frac{ 2547 }{ 2551 }.
   \end{equation*}
 \end{Example}
 
@@ -1371,13 +1372,13 @@ may contain redundancies, as the following example shows.
     \centering
     \begin{tikzpicture}
       \begin{scope}[every node/.style = {draw,circle}]
-        \node[label=above:{$\sf A$}] (1) at (-2,0) {\small 1};
-        \node[label=above:{$\sf A$}] (2) at ( 0,0) {\small 2};
-        \node[label=above:{$\sf B$}] (3) at ( 2,0) {\small 3};
-        \node[label=below:{$\sf A, B$}] (4) at (-1.5,-2) {\small 4};
-        \node[label=below:{$\sf A, B$}] (5) at (-0.5,-2) {\small 5};
-        \node[label=below:{$\sf A, B$}] (6) at ( 0.5,-2) {\small 6};
-        \node[label=below:{$\sf A, B$}] (7) at ( 1.5,-2) {\small 7};
+        \node[label=above:{$\mathsf{A}$}] (1) at (-2,0) {\small 1};
+        \node[label=above:{$\mathsf{A}$}] (2) at ( 0,0) {\small 2};
+        \node[label=above:{$\mathsf{B}$}] (3) at ( 2,0) {\small 3};
+        \node[label=below:{$\mathsf{A, B}$}] (4) at (-1.5,-2) {\small 4};
+        \node[label=below:{$\mathsf{A, B}$}] (5) at (-0.5,-2) {\small 5};
+        \node[label=below:{$\mathsf{A, B}$}] (6) at ( 0.5,-2) {\small 6};
+        \node[label=below:{$\mathsf{A, B}$}] (7) at ( 1.5,-2) {\small 7};
       \end{scope}
       \path[every edge/.style={draw,->}] {
         \foreach \x in {1,2,3} {
@@ -1405,9 +1406,9 @@ may contain redundancies, as the following example shows.
   $\mathcal{L}$ contains both $\set{ \mathsf{A} } \to \set{ \mathsf{B} }$ and $\set{
     \mathsf{\exists r. A} } \to \set{ \mathsf{\exists r. (A \sqcap B)} }$.  We find
   \begin{multline*}
-    M_{\mathcal{I}} = \{\, \sf \bot, A, B, \exists r.(A \sqcap \exists r.(A \sqcap B)), \\
-    \sf \exists r.(B \sqcap \exists r.(A \sqcap B)), \exists r.(A \sqcap B), \exists
-    r.\exists r.(A \sqcap B), \exists r.A, \exists r.B, \exists r.\top \,\},
+    M_{\mathcal{I}} = \{\, \mathsf{ \bot, A, B, \exists r.(A \sqcap \exists r.(A \sqcap B)), }\\
+    \mathsf{ \exists r.(B \sqcap \exists r.(A \sqcap B)), \exists r.(A \sqcap B), \exists
+    r.\exists r.(A \sqcap B), \exists r.A, \exists r.B, \exists r.\top } \,\},
   \end{multline*}
   and $\con K_{\mathcal{I}}$ is as shown in
   \Cref{fig:induced-formal-context-of-example-interpretation-1}.
@@ -1415,18 +1416,18 @@ may contain redundancies, as the following example shows.
   \begin{figure}[tp]
     \centering
     \newcommand{\attbox}[1]{\parbox[b][1ex][b]{1cm}{
-        \rotatebox{45}{$\sf #1$}}}
+        \rotatebox{45}{$\mathsf{#1}$}}}
     \vspace*{1.5cm}
     \begin{equation*}
       \begin{array}[c]{c||*{3}{c}*{7}{>{}c<{}}}
-        \con{K}_{\mathcal{I}} & \bot & \sf A & \sf B &
+        \con{K}_{\mathcal{I}} & \bot & \mathsf{A} & \mathsf{B} &
         \hbox to 1cm{\attbox{\exists r.(A \sqcap \exists r.(A \sqcap B))}} &
         \attbox{\exists r.(B \sqcap \exists r.(A \sqcap B))} &
         \attbox{\exists r.(A \sqcap B)} &
         \attbox{\exists r.\exists r.(A \sqcap B)} &
-        {\sf \exists r.A} &
-        {\sf \exists r.B} &
-        {\sf \exists r.\top} \\
+        {\mathsf{\exists r.A}} &
+        {\mathsf{\exists r.B}} &
+        {\mathsf{\exists r.\top}} \\
         \hline
         1 & . & \times & . & . & . & \times & . & \times & \times & \times \\
         2 & . & \times & . & . & . & \times & . & \times & \times & \times \\
@@ -1448,15 +1449,15 @@ may contain redundancies, as the following example shows.
   background knowledge $\mathcal{S}_{\mathcal{I}}$ is given by the following list of
   implications:
   \begin{align*}
-    \emptyset &\to \set{\sf A},\\
-    \set{\sf A}    &\to \set{\sf B},\\
-    \set{\sf \exists r.A} &\to \set{\sf \exists r.(A \sqcap B)},\\
-    \set{\sf \exists r.B} &\to \set{\sf \exists r.(A \sqcap B)},\\
-    \set{\sf \exists r.\top} &\to \set{\exists r.(A \sqcap B)},\\
-    \set{\sf A, B, \exists r.(A \sqcap B)} &\to \set{\bot},\\
-    \set{\sf \exists r.\exists r.(A \sqcap B)} &\to \set{\bot},\\
-    \set{\sf \exists r.(B \sqcap \exists r.(A \sqcap B))} &\to \set{\bot},\\
-    \set{\sf \exists r.(A \sqcap \exists r.(A \sqcap B))} &\to \set{\bot}.
+    \emptyset &\to \set{\mathsf A},\\
+    \set{\mathsf A}    &\to \set{\mathsf B},\\
+    \set{\mathsf{\exists r.A}} &\to \set{\mathsf{\exists r.(A \sqcap B)}},\\
+    \set{\mathsf{\exists r.B}} &\to \set{\mathsf{\exists r.(A \sqcap B)}},\\
+    \set{\mathsf{\exists r.\top}} &\to \set{\exists r.(A \sqcap B)},\\
+    \set{\mathsf{A, B, \exists r.(A \sqcap B)}} &\to \set{\bot},\\
+    \set{\mathsf{\exists r.\exists r.(A \sqcap B)}} &\to \set{\bot},\\
+    \set{\mathsf{\exists r.(B \sqcap \exists r.(A \sqcap B))}} &\to \set{\bot},\\
+    \set{\mathsf{\exists r.(A \sqcap \exists r.(A \sqcap B))}} &\to \set{\bot}.
   \end{align*}
   Then $\mathcal{L}$ is irredundant and by
   \Cref{cor:using-background-knowledge-for-confident-bases} the set $\bigsqcap
