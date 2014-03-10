@@ -104,13 +104,13 @@ formalisms, varying in expressiveness and reasoning complexity, allowing users t
 the expressiveness they need, or the complexity they can afford, in their respective
 applications.
 
-The development of description logics~\cite{baader01overview} was motivated by earlier
-knowledge representation formalisms like \emph{semantic networks}~\cite{SemanticNetworks}
-or \emph{frame}~\cite{Minsky-Frames}, whose semantics was highly ambiguous, and mostly
-depended on human interpretation or implementation details.  The need for well-defined and
-predictable knowledge representation formalisms then lead to the first logic-based
-systems~\cite{journals/cogsci/BrachmanS85}, which were, however,
-incomplete~\cite{conf/kr/Schmidt-Schauss89}.
+The development of description logics~\cite{journals/sLogica/BaaderS01} was motivated by
+earlier knowledge representation formalisms like \emph{semantic
+  networks}~\cite{SemanticNetworks} or \emph{frame}~\cite{Minsky-Frames}, whose semantics
+was highly ambiguous, and mostly depended on human interpretation or implementation
+details.  The need for well-defined and predictable knowledge representation formalisms
+then lead to the first logic-based systems~\cite{journals/cogsci/BrachmanS85}, which were,
+however, incomplete~\cite{conf/kr/Schmidt-Schauss89}.
 
 The term \enquote{description} in \enquote{description logics} is motivated by the
 intention to use description logics to express knowledge about \emph{concepts
@@ -201,7 +201,7 @@ originally concerned with the study of properties of ordered structures called
 connections to previously unrelated subjects such as
 logics~\cite{books/math/Prediger00,conf/iccs/FerreR00}, data
 mining~\cite{arules:Zaki:1998}, machine learning~\cite{conf/icfca/Kuznetsov04}, and
-artificial intelligence~\cite{rudolph2006relational,Diss-Felix}.  Because of this, formal
+artificial intelligence~\cite{phd/de/Rudolph2006,Diss-Felix}.  Because of this, formal
 concept analysis today can also be considered as a part of theoretical computer science,
 and thus provides another link between this compute science and mathematics.
 
@@ -406,8 +406,8 @@ inclusion of \emph{background
   knowledge}~\cite{stumme96attribute,DBLP:journals/tcs/Ganter99}, \emph{concept
   exploration}~\cite{conf/iccs/Stumme97}, \emph{rule
   exploration}~\cite{phd/de/Zickwolff1991}, \emph{relational
-  exploration}~\cite{rudolph2006relational}, exploration in the presence of \emph{partial
-  knowledge}~\cite{book/fca/BurmeisterH05,BGSS07}, and \emph{model
+  exploration}~\cite{phd/de/Rudolph2006}, exploration in the presence of \emph{partial
+  knowledge}~\cite{book/fca/BurmeisterH05,conf/ijcai/BaaderGSS07}, and \emph{model
   exploration}~\cite{Diss-Felix}.
 
 \section{Extracting Terminological Knowledge from Relational Data}
@@ -475,8 +475,8 @@ attribute exploration called \emph{distributive concept
   exploration}~\cite{conf/ki/Stumme98} is used.
 
 Another use of ideas from formal concept analysis for description logic applications is in
-\emph{knowledge base completion}~\cite{Sert07,BGSS07}, for which again attribute
-exploration was used.  For this, GCIs of the form
+\emph{knowledge base completion}~\cite{Sert07,conf/ijcai/BaaderGSS07}, for which again
+attribute exploration was used.  For this, GCIs of the form
 \begin{equation*}
   \bigsqcap U \sqsubseteq \bigsqcap V
 \end{equation*}
@@ -490,11 +490,11 @@ bases: a fact that is not stated in the knowledge base does not mean that the ne
 holds.  For this, attribute exploration is generalized to work on \emph{partial contexts},
 \ie formal context in which certain crosses are unknown.  The resulting algorithm has been
 implemented as a plugin named \emph{OntoComp} for the ontology editor
-\emph{Protégé}~\cite{Sert09b}.
+\emph{Protégé}~\cite{conf/esws/Sertkaya09}.
 
 A third prominent application of ideas of formal concept analysis in description logics is
 the work of Rudolph on \emph{relational
-  exploration}~\cite{DBLP:phd/de/Rudolph2006,conf/iccs/Rudolph04}.  In this approach, the
+  exploration}~\cite{phd/de/Rudolph2006,conf/iccs/Rudolph04}.  In this approach, the
 target description logic is \FLE, the extension of \EL by value restriction ($\forall$).
 The domain of interest is not represented as an interpretation, but by means of
 \emph{binary power context families}~\cite{DBLP:conf/iccs/PredigerW99}, which however can
