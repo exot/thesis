@@ -74,28 +74,39 @@ counterexample.  Upon termination, the algorithm should yield a base of the doma
 is represented by the expert, to the extent in which this domain is contained in
 $\Th_c(\mathcal{I})$.  We shall make this more precise in \Cref{cha:model-expl-conf}.
 
-However, before we can discuss model exploration in our setting of GCIs with high
-confidence, we first want to adapt attribute exploration to the setting of implications
-with high confidence.  This \emph{exploration by confidence} should work the same way as
-attribute exploration works, with the notable difference that not only valid implications
-are asked, but also those which have a high confidence in the formal context.  Within this
-generalization, we have to deal with the problem that counterexamples provided by the
-expert are not subject to the confidence measure, as we assume that the expert only gives
-valid counterexamples: a single counterexample provided by the expert suffices to reject a
-GCI, even if it otherwise has enough confidence in the data.  We shall discuss this
-problem along with its solution in detail in \Cref{sec:expl-conf}.
+The purpose of this chapter is to prepare this generalization of model exploration to GCIs
+with high confidence by first discussing the analogous problem in the world of formal
+concept analysis.  For this, we want to develop an algorithm for \emph{exploration by
+  confidence}, which not only asks implications which are valid in the current working
+context, but which may just enjoy a high confidence in the original data set.
 
-Our discussion of exploration by confidence will be based on a more general discussion of
-attribute exploration, which we shall conduct in \Cref{sec:an-abstract-view}.  Therein, we
-shall view attribute exploration from a more general and more formal perspective.  This
-generalization will allow us to not only explore formal contexts, but also to explore
-arbitrary sets of implications, and in our discussion of exploration by confidence these
-sets will be of the form $\Th_c(\con K)$.  For this, we shall introduce two variants of a
-\emph{generalized attribute exploration}, one which in its technical details is very
-closely related to attribute exploration, and one which is more liberal in the way
-implications are computed.  Finally, we shall also give a formal specification an
-\emph{expert} has to satisfy for our exploration algorithms (including the classical
-attribute exploration) to work.
+To this end, we shall first consider in \Cref{sec:class-attr-expl} classical attribute
+exploration from a more abstract point of view.  In this consideration, we shall see that
+we can consider attribute exploration of a formal context $\con K$ as an algorithm that
+\enquote{explores} the set $\Th(\con K)$, in the sense that attribute exploration tries to
+find out which implications in $\Th(\con K)$ are confirmed by an expert and which not.  To
+make this more precise, we shall also introduce a formalization of the up to know only
+informally treated notion of an \emph{expert}.
+
+Based on the observation that attribute exploration is an algorithm to explore $\Th(\con
+K)$, we shall introduce in \Cref{sec:gener-attr-expl} a generalization of attribute
+exploration that allows to explore arbitrary sets $\mathcal{L}$ of implications.  The main
+idea is that this \emph{exploration of sets of implications} works in the same way as
+attribute exploration, namely by asking implications from $\mathcal{L}$ to the expert to
+try to find out which of the implications in $\mathcal{L}$ are accepted by the expert and
+which not.
+
+However, the algorithm we are going to present in \Cref{sec:gener-attr-expl} will not
+complete achieve this goal, but instead will provide us with an \emph{approximative
+  exploration} of $\mathcal{L}$, a notion which we shall make clear then.  Intuitively,
+this means that also implications which are not elements of $\mathcal{L}$, but of
+$\Cn(\mathcal{L})$, can be asked to the expert, and thus may appear in the output.  Still,
+we shall see in \Cref{sec:expl-conf} that this approximative exploration is sufficient to
+allow us to obtain an algorithm for exploration by confidence.  The main idea for this is
+to use the set $\mathcal{L} = \Th_{c}(\con K)$ as the set we want to explore.  In this
+case we shall also see how the approximative exploration provided by the general algorithm
+can be turned into a proper exploration, \ie we can ensure in this case that all
+implications asked to the expert indeed have high confidence in the original data set.
 
 The results presented in this section have partially been published previously in
 \cite{Borch-LTCS-13-04}.
@@ -394,7 +405,7 @@ experts is, from a logical point of view, interchangeable.
 \subsection{A Generalized Attribute Exploration}
 \label{sec:gener-attr-expl}
 
-With this formal notion of an expert we can reformulate our goal of exploring sets of
+With the formal notion of an expert we can reformulate our goal of exploring sets of
 implications.  Let $M$ be a finite set, $p$ a domain expert on $M$, $\mathcal{L} \subseteq
 \Imp(M)$ and $\mathcal{K} \subseteq \Th(p) \cap \Cn(\mathcal{L})$.  Then to \emph{explore
   $\mathcal{L}$ with expert $p$ and background knowledge $\mathcal{K}$} means to compute a
@@ -404,11 +415,11 @@ base of
 \end{equation*}
 with background knowledge $\mathcal{K}$.
 
-To find an algorithm that allows us to explore $\mathcal{L}$ we want to suitably adapt the
-classical attribute exploration algorithm, as we have described it in the previous
-section.  For this we shall first consider a slight reformulation the attribute
-exploration algorithm as given in \Cref{alg:attribute-exploration}, and then adapt it to
-our setting of exploring $\mathcal{L}$.
+An approach to find an algorithm that allows us to explore $\mathcal{L}$ we want to
+suitably adapt the classical attribute exploration algorithm, as we have described it in
+the previous section.  For this we shall first consider a slight reformulation of the
+attribute exploration algorithm as given in \Cref{alg:attribute-exploration}, and then
+adapt it to our setting of exploring $\mathcal{L}$.
 
 \addfunctionname{next-closed-non-closed}
 
@@ -469,8 +480,8 @@ is given in \Cref{alg:explore-attributes-with-next-closed-none-closed}.  This fu
 suffices to implement attribute exploration, and the corresponding listing is also shown
 in \Cref{alg:explore-attributes-with-next-closed-none-closed}.
 
-We want to use the reformulation of \lstinline{explore-attributes} to generalize it to an
-algorithm that allows us to explore $\mathcal{L}$.  For this recall our initial
+We want to use this reformulation of \lstinline{explore-attributes} to generalize it to an
+algorithm that would allow us to explore $\mathcal{L}$.  For this recall our initial
 formulation of attribute exploration as given in \Cref{sec:class-attr-expl}.  We can view
 this formulation as a special case of exploring $\mathcal{L}$, namely for $\mathcal{L} =
 \Th(\con K)$.  During the run of the algorithm this set is transferred into sets of the
@@ -489,8 +500,8 @@ not invalidated by $C$, \ie
 \end{equation}
 Using this simple equation we can now replace $\Th(\con K)$ by $\mathcal{L}$ in our
 formulation of attribute exploration as given
-\Cref{alg:explore-attributes-with-next-closed-none-closed} to obtain an algorithm that
-allows us to explore $\mathcal{L}$.  The result is shown in
+\Cref{alg:explore-attributes-with-next-closed-none-closed} and hope to obtain an algorithm
+that allows us to explore $\mathcal{L}$.  The result is shown in
 \Cref{alg:explore-implications}.
 
 \addfunctionname{explore-implications}
@@ -527,26 +538,25 @@ end
   \end{Algorithm}
 \end{figure}
 
-Ideally, \lstinline{explore-implications} would yield an algorithm to explore
+However, \Cref{alg:explore-implications} does not exactly yield an algorithm to explore
 $\mathcal{L}$, using $p$ as domain expert and $\mathcal{K}$ as background knowledge.
-However, this is not always the case, as it may be that the set of implications returned
-by $\mathcal{K}_{n} := \text{\lstinline{explore-implications}}$ too many implications, \ie
-it may happen that
+Indeed, it may be the case that the set $\mathcal{K}_{n}$ of implications returned by
+\Cref{alg:explore-implications} contains too many implications, \ie it may happen that
 \begin{equation*}
   \Cn(\mathcal{K}_{n}) \supsetneq \Cn(\Th(p) \cap \mathcal{L}).
 \end{equation*}
-However, we can show that
+However, we shall show that it is always true that
 \begin{equation}
   \label{eq:61}
-  \Cn(\mathcal{L}) \cap \Th(p) \supseteq \Cn(\mathcal{K}_{n}) \supseteq \Cn(\Th(p) \cap \mathcal{L})
+  \Cn(\mathcal{L}) \cap \Th(p) \supseteq \Cn(\mathcal{K}_{n}) \supseteq \Cn(\Th(p) \cap \mathcal{L}).
 \end{equation}
-always holds, and this is indeed sufficient for our considerations of finding an algorithm
-for exploration by confidence, as we shall see in \Cref{sec:poss-fast-expl}.  In this
-sense, \lstinline{explore-implications} \emph{approximately explores} the set
-$\mathcal{L}$, using $p$ as external expert and $\mathcal{K}$ as background knowledge.
+In this sense, \lstinline{explore-implications} \emph{approximately explores} the set
+$\mathcal{L}$, using $p$ as external expert and $\mathcal{K}$ as background knowledge.  It
+will turn out that this is indeed sufficient for our considerations of finding an
+algorithm for exploration by confidence, as we shall see in \Cref{sec:poss-fast-expl}.
 
 It is the purpose of the following argumentation to show that
-\lstinline{explore-implications} approximately explores $\mathcal{L}$ as described above.
+\Cref{alg:explore-implications} approximately explores $\mathcal{L}$ as described above.
 For this we need to argue that the algorithm always terminates and, upon termination,
 \Cref{eq:61} is satisfied.
 
@@ -759,17 +769,18 @@ or does not hold in $\con L$.  This fact can be useful on its own.
   L)$.  Thus, $(A \to B) \in \Th(\con L) \cap \mathcal{L}$, as required.
 \end{Proof}
 
-An interesting observation for \lstinline{explore-implications} is the following.
-Although it may not hold that $\mathcal{K}_{n}$ is a base of $\mathcal{L} \cap \Th(p)$
-with background knowledge $\mathcal{K}$, the set of implications computed by
+An interesting observation for \Cref{alg:explore-implications} is the following.  Although
+it may not hold that $\mathcal{K}_{n}$ is a base of $\mathcal{L} \cap \Th(p)$ with
+background knowledge $\mathcal{K}$, the set of implications computed by
 \lstinline{explore-implications} is \emph{minimal} in the sense that it is the canonical
 base of itself, \ie
 \begin{equation*}
   \Can(\mathcal{K}_{n}, \mathcal{K}) = \mathcal{K}_{n} \setminus \mathcal{K}.
 \end{equation*}
-This fact is indeed not very surprising, given the syntactic similarities between
-\Cref{alg:explore-implications} and the classical attribute exploration algorithm as given
-in \Cref{alg:explore-attributes-with-next-closed-none-closed}.
+This fact is indeed not very surprising, given the fact that we have obtained
+\Cref{alg:explore-implications} from
+\Cref{alg:explore-attributes-with-next-closed-none-closed} by simple syntactic
+substitutions.
 
 Note that we had introduced the canonical base in \Cref{sec:bases-implications} only for
 formal contexts, but it is not very difficult to generalize the definition (and the
@@ -825,7 +836,7 @@ Thus, the following corollary follows directly from
   $\mathcal{K}$.
 \end{Corollary}
 
-We now show that \lstinline{explore-implications} computes the canonical base of $\Th(p)
+We now show that \Cref{alg:explore-implications} computes the canonical base of $\Th(p)
 \cap \mathcal{L}$ with background knowledge $\mathcal{K}$.
 
 \begin{Theorem}
@@ -967,21 +978,19 @@ Also, the fact that \Cref{alg:explore-implications} only provides an approximate
 exploration of $\mathcal{L}$ using $p$ as an expert is unsatisfactory.  Of course, this
 situation can easily be avoided if the implications asked to the expert are elements of
 $\mathcal{L}$, or at least if those implications are entailed by $\mathcal{L}_{n}$.  In
-this case, $\mathcal{K}_{n} \subseteq \Cn(\mathcal{L}_{n})$ holds, and thus
-\Cref{cor:explore-implications-closures-coincide} and
-\Cref{cor:explore-implications-L_n-exactly-those-confirmed-by-expert} yield
-\begin{equation*}
-  \Cn(\mathcal{K}_{n}) = \Cn(\mathcal{L}_{n}) = \Cn(\Th(p) \cap \mathcal{L}).
-\end{equation*}
-\ie $\mathcal{K}_{n}$ is a base of $\Th(p) \cap \mathcal{L}$ as required.
+the case that all implications asked to the expert are elements of $\mathcal{L}$, it is
+true that $\mathcal{K}_{n} \subseteq \mathcal{L} \cap \Th(p)$, and thus it follows from
+\Cref{thm:explore-implications-correctness} that $\Cn(\mathcal{K}_{n}) = \Cn(\mathcal{L}
+\cap \Th(p))$.
 
 However, it cannot be guaranteed in general that the implications $P_{i+1} \to
-\mathcal{L}_{i}(P_{i+1})$ are entailed by $\mathcal{L}_{n}$.  To approach this problem, we
-shall discuss in the following a relaxation of \Cref{alg:explore-implications} that allows
-for more freedom in the choice which implications are asked to the expert.  In this way,
-it may be easier to ensure that the implications asked are entailed by $\mathcal{L}_{n}$.
-We shall see in \Cref{sec:poss-fast-expl} how this works for the case of exploration by
-confidence.
+\mathcal{L}_{i}(P_{i+1})$ are elements of $\mathcal{L}$.  Thus, to approach this problem,
+we shall discuss in the following a relaxation of \Cref{alg:explore-implications} that
+allows for more freedom in the choice which implications are asked to the expert.  In this
+way, it may be easier to ensure that the implications asked are indeed elements of
+$\mathcal{L}$, and thus that the exploration does not contain too many questions.  We
+shall see in \Cref{sec:poss-fast-expl} how this idea can be applied for our case of
+exploration by confidence.
 
 In this relaxation, instead of asking questions of the form $P_{i+1} \to
 \mathcal{L}_{i}(P_{i+1})$, it will be sufficient to find \emph{some} $Q \subseteq M$ such
@@ -1466,25 +1475,29 @@ this cardinality constraint.  See \cite[Theorem~51]{fca-book} for more details o
 \subsection{A Non-Approximative Exploration by Confidence}
 \label{sec:poss-fast-expl}
 
-Our previously discussed \Cref{alg:exploration-by-confidence-first-version} for
-exploration by confidence depends crucially on the computation of closures under
-$\Th_{c}(\con K)$.  As we have seen, however, this computation may be quite costly, and in
-the worst case may render the algorithm useless for practical applications.  Avoiding it
-thus seems highly desirable.
+\Cref{alg:exploration-by-confidence-first-version} has two main flaws: in general, it only
+provides an approximative exploration of $\Th_{c}(\con K)$, and it depends crucially on
+the computation of closures under $\Th_{c}(\con K)$.  The former fact can lead to
+questions asked which do not have enough confidence in $\con K$, and the latter fact may
+render the algorithm practically useless, because computing closures under $\Th_{c}(\con
+K)$ can be quite costly.  Eliminating these flaws thus seems highly desirable.
 
-To achieve an algorithm that implements exploration by confidence and at the same time
-avoids the computation of closures under $\Th_{c}(\con K)$, we shall make use of
+To achieve an algorithm that indeed implements exploration by confidence and at the same
+time avoids the computation of closures under $\Th_{c}(\con K)$, we shall make use of
 \Cref{alg:explore-implications-weaker-version}, our algorithm for exploring sets of
 implications that allows for some freedom in the way implications are asked to the expert.
 To apply this algorithm to our specific setting, the main problem we have to solve is how
 to decide whether a given set $P \subseteq M$ is closed under $\Th_{c}(\con K)$ or not.
 Furthermore, we need to define the way the sets $P_{i+1}$ and $Q$ are computed, which
 eventually will constitute the implication $P_{i+1} \to Q$ which is asked to the expert.
+As it turns out, we can define the set $Q$ in such a way that $P_{i+1} \to Q$ will always
+have confidence at least $c$ in $\con K$.
 
-Let us start with some wishful thinking.  To decide whether $P$ is closed under
-$\mathcal{L}_{i} = \Th_{c}(\con K) \cap \Th(\con L_{i})$ it would be ideal if we could
-just check whether no element in $P_{\con L_{i}}''$ is entailed by $P$ with confidence at
-least $c$, \ie
+Let us first consider the issue of avoiding the computation of closures under
+$\Th_{c}(\con K)$, and for this, let us start with some wishful thinking.  To decide
+whether $P$ is closed under $\mathcal{L}_{i} = \Th_{c}(\con K) \cap \Th(\con L_{i})$ it
+would be ideal if we could just check whether no element in $P_{\con L_{i}}''$ is entailed
+by $P$ with confidence at least $c$, \ie
 \begin{equation}
   \label{eq:43}
   P = \mathcal{L}_{i}(P) \iff \forall m \in P_{\con L_{i}}'' \setminus P \holds
@@ -1748,9 +1761,9 @@ indeed has the form of \Cref{alg:explore-implications-weaker-version}.  The foll
 result is then an immediate consequence of
 \Cref{thm:explore-implications-weaker-version-termination} and
 \Cref{thm:explore-implications-weaker-version-all-other-properties}.  Note that our
-algorithm only asks implications which are either valid in $\con K$ or have confidence at
-least $c$ in $\con K$.  Thus, $\mathcal{K}_{i} \setminus \mathcal{K} \subseteq
-\Th_{c}(\con K)$ holds in every iteration $i$.  Therefore, in contrast to
+algorithm only asks implications which are either valid in $\con K$, or at least have
+confidence at least $c$ in $\con K$.  Thus, $\mathcal{K}_{i} \setminus \mathcal{K}
+\subseteq \Th_{c}(\con K)$ holds in every iteration $i$.  Therefore, in contrast to
 \Cref{alg:exploration-by-confidence-first-version},
 \Cref{alg:exploration-by-confidence-without-Th_c(K)-closures} always computes a base of
 $\Th(p) \cap \Th_{c}(\con K)$.
