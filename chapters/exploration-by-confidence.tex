@@ -15,12 +15,11 @@ is no longer necessary.  This observation may indeed save a lot of work.
 
 Even more, utilizing this observation may save computation time as well: if during the
 computation of bases of $\Th_c(\mathcal{I})$ an expert already rejects a GCI and confirms
-that some counterexamples for it, which are present in $\mathcal{I}$, are indeed correct,
-then all GCIs which are falsified by this counterexamples can also be rejected,
-irrespective of whether their confidence in $\mathcal{I}$ is above $c$.  It is thus
-desirable to allow expert interaction already during the time of the computation of bases
-of $\Th_c(\mathcal{I})$, and not only at the end of the computation, as a separate
-validation step.
+some counterexamples contained in $\mathcal{I}$ are indeed correct, then all GCIs which
+are falsified by this counterexamples can also be rejected, irrespective of whether their
+confidence in $\mathcal{I}$ is above $c$.  It is thus desirable to allow expert
+interaction already during the time of the computation of bases of $\Th_c(\mathcal{I})$,
+and not only at the end of the computation, as a separate validation step.
 
 There is also another issue which requires expert interaction, and which has already been
 addressed by Distel~\cite{Diss-Felix}: the data $\mathcal{I}$ may not only contain errors,
@@ -32,8 +31,8 @@ counterexamples, and that correct counterexamples are not present in $\mathcal{I
 such a case, the GCI $C \sqsubseteq D$ would be accepted (since all counterexamples are
 erroneous) although it is not valid.  Here an expert could, as soon as $C \sqsubseteq D$
 would be computed as an element of a base, provide correct counterexamples, inhibiting
-this GCI from being included in a base.  Such provided counterexamples would also affect
-the following computation, as all GCIs invalided by it would also be rejected.
+this GCI from being included in a base.  Such counterexamples would also affect the
+following computation, as all GCIs invalided by it would also be rejected.
 
 The approach followed by Distel to solve this problem is to adapt attribute exploration
 from its original setting of implications and formal contexts to the setting of GCIs and
@@ -46,9 +45,9 @@ are not valid in our domain actually hold in $\con K$.  Then attribute explorati
 provides an interactive base computation procedure which, as soon as an implication is
 computed, presents it to the expert and asks for validation.  If the expert confirms this
 implication, then the implication is added to the base.  If the expert does not confirm
-this implication, she has to provide a counterexample, which is included in $\con K$.  At
-the end, the attribute exploration algorithm yields a base of the domain we are interested
-in, and not only one for the formal context $\con K$.
+this implication, she has to provide a counterexample, which is then included in $\con K$.
+At the end, the attribute exploration algorithm yields a base of the domain we are
+interested in, and not only one for the formal context $\con K$.
 
 Distel's generalizations of attribute exploration to the setting of GCIs and finite
 interpretation are called \emph{model exploration} and \emph{ABox exploration}.  Their
@@ -94,19 +93,18 @@ exploration that allows to explore arbitrary sets $\mathcal{L}$ of implications.
 idea is that this \emph{exploration of sets of implications} works in the same way as
 attribute exploration, namely by asking implications from $\mathcal{L}$ to the expert to
 try to find out which of the implications in $\mathcal{L}$ are accepted by the expert and
-which not.
-
-However, the algorithm we are going to present in \Cref{sec:gener-attr-expl} will not
-complete achieve this goal, but instead will provide us with an \emph{approximative
-  exploration} of $\mathcal{L}$, a notion which we shall make clear then.  Intuitively,
-this means that also implications which are not elements of $\mathcal{L}$, but of
-$\Cn(\mathcal{L})$, can be asked to the expert, and thus may appear in the output.  Still,
-we shall see in \Cref{sec:expl-conf} that this approximative exploration is sufficient to
-allow us to obtain an algorithm for exploration by confidence.  The main idea for this is
-to use the set $\mathcal{L} = \Th_{c}(\con K)$ as the set we want to explore.  In this
-case we shall also see how the approximative exploration provided by the general algorithm
-can be turned into a proper exploration, \ie we can ensure in this case that all
-implications asked to the expert indeed have high confidence in the original data set.
+which not.  However, the algorithm we are going to present in \Cref{sec:gener-attr-expl}
+will not complete achieve this goal, but instead will provide us with an
+\emph{approximative exploration} of $\mathcal{L}$, a notion which we shall make clear
+then.  Intuitively, this means that also implications which are not elements of
+$\mathcal{L}$, but of $\Cn(\mathcal{L})$, can be asked to the expert, and thus may appear
+in the output.  Still, we shall see in \Cref{sec:expl-conf} that this approximative
+exploration is sufficient to allow us to obtain an algorithm for exploration by
+confidence.  The main idea for this is to use the set $\mathcal{L} = \Th_{c}(\con K)$ as
+the set we want to explore.  In this case we shall also see how the approximative
+exploration provided by the general algorithm can be turned into a proper exploration, \ie
+we can ensure in the special case of $\mathcal{L} = \Th_{c}(\con K)$ that all implications
+asked to the expert indeed have high confidence in the original data set.
 
 The results presented in this section have partially been published previously in
 \cite{Borch-LTCS-13-04}.
@@ -125,15 +123,15 @@ only approximative, in a sense that we shall make clear then.
 \subsection{An Abstract View on Attribute Exploration}
 \label{sec:class-attr-expl}
 
-Recall that in attribute exploration as we had introduced it in \Cref{sec:attr-expl} we
-assume that the domain of interest can be represented by a formal context $\con
-K_{\mathsf{back}}$, which we call the \emph{background context} of the exploration.  The
-goal of attribute exploration is then to find a base of $\con K_{\mathsf{back}}$, without
-having direct access to $\con K_{\mathsf{back}}$.  For this we start with a subcontext
-$\con K = (G, M, I)$ of $\con K_{\mathsf{back}}$, the \emph{working context} of the
-exploration, and a set $\mathcal{K} \subseteq \Imp(M)$ of implications which are valid in
-$\con K_{\mathsf{back}}$, which we call the set of \emph{known implications}.  Then we
-successively compute implications of the form
+Recall that in attribute exploration as introduced in \Cref{sec:attr-expl} we assumed that
+the domain of interest can be represented by a formal context $\con K_{\mathsf{back}}$,
+which we call the \emph{background context} of the exploration.  The goal of attribute
+exploration is then to find a base of $\con K_{\mathsf{back}}$, without having direct
+access to $\con K_{\mathsf{back}}$.  For this we start with a subcontext $\con K = (G, M,
+I)$ of $\con K_{\mathsf{back}}$, the \emph{working context} of the exploration, and a set
+$\mathcal{K} \subseteq \Imp(M)$ of implications which are valid in $\con
+K_{\mathsf{back}}$, called the set of \emph{known implications}.  Then we successively
+compute implications of the form
 \begin{equation*}
   P \to P''
 \end{equation*}
@@ -145,8 +143,8 @@ it.
 We can view this procedure from a more general perspective:\footnote{This idea is similar
   to the one of considering the process of attribute exploration as a decreasing sequence
   of intervals in the lattice of closure systems over $M$, see~\cite[pp.\
-  143--145]{GORS-book} for a bit more details} given the formal context $\con K$, we know
-that all implications in $\Imp(M) \setminus \Th(\con K)$ \emph{are not} valid in $\con
+  143--145]{GORS-book} for more details} given the formal context $\con K$, we know that
+all implications in $\Imp(M) \setminus \Th(\con K)$ \emph{are not} valid in $\con
 K_{\mathsf{back}}$, and thus are not valid in our domain.  On the other hand, all
 implications in $\Th(\con K)$ \emph{could} be valid in $\con K_{\mathsf{back}}$, depending
 on whether counterexamples contained in $\con K_{\mathsf{back}}$ invalidate implications
@@ -161,9 +159,7 @@ These sets are related by
 \begin{equation*}
   \Imp(M) \supseteq \Th(\con K) \supseteq \Cn(\mathcal{K}),
 \end{equation*}
-since $\mathcal{K}$ is supposed to be sound for $\con K$.
-
-Now the set
+since $\mathcal{K}$ is supposed to be sound for $\con K$.  Now the set
 \begin{equation*}
   \Th(\con K) \setminus \Cn(\mathcal{K})
 \end{equation*}
@@ -201,16 +197,16 @@ where the derivation is done in $\con K + C$.  Then the situation from above evo
 \end{equation*}
 
 If $\Th(\con K) \setminus \Cn(\mathcal{K}) = \emptyset$, then the algorithm terminates.
-Note that this indeed has to happen since the base set $M$ is finite.  We then obtain the
-situation\footnote{We read $\con K + C_1 + \dots + C_m$ as $(\dots(\con K + C_1) + \dots )
-  + C_m$ and nothing else.}
+(Note that this indeed has to happen since the base set $M$ is finite.)  When this
+happens, the situation can be described as follows\footnote{We read $\con K + C_1 + \dots
+  + C_m$ as $(\dots(\con K + C_1) + \dots ) + C_m$ and nothing else.}
 \begin{align*}
   \Imp(M) &\supseteq \Th(\con K) \supsetneq \Th(\con K + C_1) \supsetneq \dots \supsetneq
   \Th(\con K + C_1 + \dots + C_m) \\ &= \Cn(\mathcal{K} \cup \set{ P_1 \to P_1'', \dots, P_n
     \to P_n'' }) \supsetneq \dots \supsetneq \Cn(\mathcal{K})
 \end{align*}
 where $m, n \in \NN_{\geq 0}$, $C_1, \dots, C_m, P_1, \dots, P_n \subseteq M$, and where
-all derivations are done in $\con K + C_1 + \dots + C_m$.  It is true that
+all derivations are done in $\con K + C_1 + \dots + C_m$.  It is then true that
 \begin{equation*}
   \Th(\con K + C_1 + \dots + C_m) = \Th(\con K_{\mathsf{back}}) = \Cn(\mathcal{K} \cup
   \set{ P_1 \to P_1'', \dots, P_n \to P_n'' })
@@ -227,53 +223,51 @@ for all $1 \leq i \leq m$ and $1 \leq j \leq n$.  In particular, the set
 is a base of $\con K_{\mathsf{back}}$ with background knowledge $\mathcal{K}$, as
 required.
 
-Note that this discussion did not require that the set $P$ from \Cref{eq:33} is a
-$\mathcal{K}$-pseudo intent of $\con K$.  The only necessary requirement is that $P \neq
-P''$ and that $P \to P''$ does not follow from $\mathcal{K}$.  Both these properties are
-guaranteed by $P$ being a $\mathcal{K}$-pseudo intent of $\con K$, but this is not
-necessary.
+Note that we did not require that the set $P$ from \Cref{eq:33} is a $\mathcal{K}$-pseudo
+intent of $\con K$.  The only necessary requirement is that $P \neq P''$ and that $P \to
+P''$ does not follow from $\mathcal{K}$.  Both these properties are guaranteed by $P$
+being a $\mathcal{K}$-pseudo intent of $\con K$, but this is not necessary.
 
 On the other hand, if we want to compute the canonical base of $\con K_{\mathsf{back}}$
 with background knowledge $\mathcal{K}$, then $P$ obviously needs to be a
-$\mathcal{K}$-pseudo intent of $\con K$.  However, since attribute exploration should
-compute \emph{some} base of $\con K_{\mathsf{back}}$, we can see the computation of
-$\Can(\con K_{\mathsf{back}}, \mathcal{K})$ as an optimization, and not as a crucial
-requirement.
+$\mathcal{K}$-pseudo intent of $\con K$.  However, since in our perception attribute
+exploration should compute \emph{some} base of $\con K_{\mathsf{back}}$, we can see the
+computation of $\Can(\con K_{\mathsf{back}}, \mathcal{K})$ as an optimization, and not as
+a crucial requirement.
+
+\subsection{A Generalized Attribute Exploration}
+\label{sec:gener-attr-expl}
 
 The foregone considerations suggest that we can view attribute exploration as an algorithm
 that allows us to ``explore'' the set $\Th(\con K) \setminus \Cn(\mathcal{K})$ of
 undecided implications.  In this section we want to generalize this view to the setting
-where the set of undecided implications has a more general form.  To make this more
-precise, let $M$ be a finite set, $\mathcal{L} \subseteq \Imp(M)$ and let $\mathcal{K}
-\subseteq \Cn(\mathcal{L})$.  As we have viewed the set $\Th(\con K)$ before as the set of
-possibly valid implications, we can now view the set $\mathcal{L}$ as the set of possibly
-valid implications.  Then the set of undecided implications takes the form
+where the set of undecided implications has a more general form.
+
+To make this more precise, let $M$ be a finite set, $\mathcal{L} \subseteq \Imp(M)$ and
+let $\mathcal{K} \subseteq \Cn(\mathcal{L})$.  As we have viewed the set $\Th(\con K)$ as
+the set of possibly valid implications, we can now view the set $\mathcal{L}$ as the set
+of possibly valid implications.  Then the set of undecided implications takes the form
 \begin{equation*}
   \mathcal{L} \setminus \Cn(\mathcal{K})
 \end{equation*}
-and we want to obtain an algorithm that guides us in finding all valid implications in
-$\mathcal{L} \setminus \Cn(\mathcal{K})$.  More precisely, we want to compute a base of
+and we want to obtain an algorithm that guides an expert in finding all valid implications
+in $\mathcal{L} \setminus \Cn(\mathcal{K})$.  More precisely, we want to compute a base of
 all implications valid in $\mathcal{L}$, using $\mathcal{K}$ as background knowledge.  As
 before, we assume that we do not have direct access to the background context $\con
-K_{\mathsf{back}}$, \ie we cannot simply compute $\mathcal{L} \cap \Th(\con
-K_{\mathsf{back}})$, but that we are given an expert that allows us to either validate or
-reject implications.
+K_{\mathsf{back}}$, the formal context that is represented by the expert.
 
-Before we discuss this problem in more detail, let us consider that it indeed is a
-problem: at first sight, one may be tempted to say that exploring $\mathcal{L}$ can be
-achieved (at least in theory) by considering the formal context
+At first sight, one may be tempted to say that exploring $\mathcal{L}$ can be achieved (at
+least in theory) by considering the formal context
 \begin{equation*}
   \con K_{\mathcal{L}} = (\set{ \mathcal{L}(X) \mid X \subseteq M }, M, \ni)
 \end{equation*}
 which already appeared in \Cref{prop:context-model-for-implications}.  This proposition
 tells us that $\Th(\con K_{\mathcal{L}}) = \Cn(\mathcal{L})$, and thus one could propose
 that for exploring $\mathcal{L}$ it would just be sufficient to explore $\con
-K_{\mathcal{L}}$.
-
-However, besides the fact that computing $\con K_{\mathcal{L}}$ (or a subcontext of it
-which still has $\Cn(\mathcal{L})$ as its theory) is far from practical, this approach
-also does not solve our initial problem, because in general $\mathcal{L} =
-\Cn(\mathcal{L})$ does not hold.
+K_{\mathcal{L}}$.  However, besides the fact that computing $\con K_{\mathcal{L}}$ (or a
+subcontext of it which still has $\Cn(\mathcal{L})$ as its theory) is far from practical,
+this approach also does not solve our initial problem, because in general $\mathcal{L} =
+\Cn(\mathcal{L})$ does not hold.  This is illustrated by the following example.
 
 \begin{Example}
   \label{expl:why-exploring-implications-is-different}
@@ -298,25 +292,21 @@ also does not solve our initial problem, because in general $\mathcal{L} =
   \end{equation*}
   and therefore bases of $\Th(\con K_{\mathsf{back}}) \cap \Cn(\mathcal{L})$ contain
   non-trivial implications.
+
+  Thus, exploring $\mathcal{L}$ and exploring $\Cn(\mathcal{L})$, using the aforementioned
+  expert and $\mathcal{K}$ as background knowledge, are different tasks.
 \end{Example}
 
-We now want to discuss an algorithm that allows us to explore $\mathcal{L} \setminus
-\Cn(\mathcal{K})$, \ie which successively computes implications $(P \to Q) \in
-\Cn(\mathcal{L}) \setminus \Cn(\mathcal{K})$ and asks them to the expert for validation.
-At the end, the set of accepted implications should form a base of $\mathcal{L} \cap
-\Th(\con K_{\mathsf{back}})$ with background knowledge $\mathcal{K}$.
+Intuitively, an algorithm for exploring $\mathcal{L}$ should work as attribute exploration
+does: if $P \to Q$ is accepted by the expert, then it is added to $\mathcal{K}$.  If it is
+rejected by the expert, then a counterexamples $C$ has to be provided by the expert.  In
+this case, all implications from $\mathcal{L}$ for which $C$ is a counterexample are
+removed.  The algorithm terminates if $\mathcal{L} \setminus \Cn(\mathcal{K}) = \emptyset$
+(in which case also $\Cn(\mathcal{L}) \setminus \Cn(\mathcal{K}) = \emptyset$ holds).
 
-Intuitively, the algorithm should work as attribute exploration does: if $P \to Q$ is
-accepted by the expert, then it is added to $\mathcal{K}$.  If it is rejected by the
-expert, then a counterexamples $C$ has to be provided by the expert.  In this case, all
-implications from $\mathcal{L}$ for which $C$ is a counterexample are removed.  The
-algorithm terminates if $\mathcal{L} \setminus \Cn(\mathcal{K}) = \emptyset$ (in which
-case also $\Cn(\mathcal{L}) \setminus \Cn(\mathcal{K}) = \emptyset$ holds).
-
-We want to make this intuition more precise, and for this we shall make use of the
-argumentation that we have developed in the previous section.  To keep our argumentation
-formal, however, we shall first start with a formalization of the notion of an
-\emph{expert} that we heretofore have used only intuitively.
+In what follows, we want to make this idea more precise.  To this end, we shall first
+start with a formalization of the notion of an \emph{expert} that we heretofore have used
+only intuitively.
 
 \begin{Definition}[Domain Expert]
   \label{def:domain-expert}
@@ -326,11 +316,12 @@ formal, however, we shall first start with a formalization of the notion of an
   \end{equation*}
   where $\top \notin \subsets M$, and which satisfies the following conditions
   \begin{enumerate}[i. ]
-  \item if $(X \to Y) \in \Imp(M)$ such that $p(X \to Y) = C \neq \top$, then $C \subseteq
-    X$ and $C \not\subseteq Y$, (\emph{$p$ gives counterexamples for false implications})
+  \item if $(X \to Y) \in \Imp(M)$ such that $p(X \to Y) = C \neq \top$, then $ X
+    \subseteq C$ and $Y \not\subseteq C$, (\emph{$p$ gives counterexamples for false
+      implications})
   \item if $(U \to V), (X \to Y) \in \Imp(M)$ such that $p(U \to V) = \top, p(X \to Y) = C
-    \neq \top$, then $C$ is not a counterexample for $U \to V$, \ie either $C
-    \not\subseteq U$ or $C \subseteq V$. (\emph{counterexamples from $p$ do not invalidate
+    \neq \top$, then $C$ is not a counterexample for $U \to V$, \ie either $U
+    \not\subseteq C$ or $V \subseteq C$. (\emph{counterexamples from $p$ do not invalidate
       confirmed implications})
   \end{enumerate}
   We say that $p$ \emph{confirms} $(X \to Y) \in \Imp(M)$ if and only if $p(X \to Y) =
@@ -342,7 +333,7 @@ formal, however, we shall first start with a formalization of the notion of an
 We have not specified the notion of a \emph{domain} formally, but instead required that
 every domain is representable by a formal context.  With our formalization of an expert we
 can now show that experts provide an equally good approach to formalize the notion of a
-domain.
+domain as formal contexts do.
 
 \begin{Proposition}
   \label{prop:domain-expert-from-domain}
@@ -362,7 +353,7 @@ domain.
 \begin{Proof}
   Clearly, if $(X \to Y) \notin \Th(\con K)$, then $p_{\con K}(X \to Y) = g_{X \to Y}$ is
   a counterexample for $X \to Y$.  If $(X \to Y) \in \Th(\con K)$, then for all $g \in G$
-  it is true that either $g' \not\subseteq X$ or $g' \subseteq Y$.  Thus, no
+  it is true that either $X \not\subseteq g'$ or $Y \subseteq g'$.  Thus, no
   counterexample provided by $p_{\con K}$ is a counterexample for $X \to Y$.  Therefore,
   counterexamples provided by $p$ do not invalidate confirmed implications.  The equality
   $\Th(\con K) = \Th(p_{\con K})$ is clear from the definition of $p_{\con K}$.
@@ -381,7 +372,7 @@ has the same theory.
   \begin{equation*}
     G := \set{ p(X \to Y) \mid (X \to Y) \in \Imp(M) \setminus \Th(p) }
   \end{equation*}
-  is such that $\Th(p) = \Th(\con K_p)$.
+  satisfies $\Th(p) = \Th(\con K_p)$.
 \end{Proposition}
 \begin{Proof}
   If $(A \to B) \in \Th(p)$, then no counterexample provided by $p$ invalidates $A \to
@@ -402,24 +393,26 @@ M, I)$ it is true that
 In other words, the representation of domains as formal context and in terms of domain
 experts is, from a logical point of view, interchangeable.
 
-\subsection{A Generalized Attribute Exploration}
-\label{sec:gener-attr-expl}
-
 With the formal notion of an expert we can reformulate our goal of exploring sets of
-implications.  Let $M$ be a finite set, $p$ a domain expert on $M$, $\mathcal{L} \subseteq
-\Imp(M)$ and $\mathcal{K} \subseteq \Th(p) \cap \Cn(\mathcal{L})$.  Then to \emph{explore
-  $\mathcal{L}$ with expert $p$ and background knowledge $\mathcal{K}$} means to compute a
-base of
-\begin{equation*}
-  \mathcal{L} \cap \Th(p)
-\end{equation*}
-with background knowledge $\mathcal{K}$.
+implications.
 
-An approach to find an algorithm that allows us to explore $\mathcal{L}$ we want to
-suitably adapt the classical attribute exploration algorithm, as we have described it in
-the previous section.  For this we shall first consider a slight reformulation of the
-attribute exploration algorithm as given in \Cref{alg:attribute-exploration}, and then
-adapt it to our setting of exploring $\mathcal{L}$.
+\begin{Definition}[Exploring Sets of Implications]
+  \label{def:exploring-sets-of-implications}
+  Let $M$ be a finite set, $p$ a domain expert on $M$, $\mathcal{L} \subseteq \Imp(M)$ and
+  $\mathcal{K} \subseteq \Th(p) \cap \Cn(\mathcal{L})$.  Then to \emph{explore
+    $\mathcal{L}$ with expert $p$ and background knowledge $\mathcal{K}$} means to compute
+  a base of
+  \begin{equation*}
+    \mathcal{L} \cap \Th(p)
+  \end{equation*}
+  with background knowledge $\mathcal{K}$.
+\end{Definition}
+
+As an approach to find an algorithm that allows us to explore $\mathcal{L}$, we want to
+suitably adapt the classical attribute exploration algorithm.  To this end, we shall first
+consider a slight reformulation of the attribute exploration algorithm as given in
+\Cref{alg:attribute-exploration}, and then try to adapt it to our setting of exploring
+$\mathcal{L}$.
 
 \addfunctionname{next-closed-non-closed}
 
