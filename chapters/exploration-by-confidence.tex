@@ -460,42 +460,43 @@ end
   \end{Algorithm}
 \end{figure}
 
-In \Cref{alg:attribute-exploration} we have used the special functions to compute the
-lectically first closed set that is not an intent of a given formal context, and to
-compute the lectically next closed set of a given closure operator that is not an intent
-of the current working context.  However, a closer inspection of the way these functions
-are used yields that the actual computation required for the classical attribute
-exploration algorithm is to have a way to compute for a given set $A \subseteq M$ the
-lectically smallest set lectically greater \emph{or equal} to $A$ that is not an intent of
-the current working context but is closed under a given closure operator.  An
-implementation of this function, which we shall call \lstinline{next-closed-non-closed},
-is given in \Cref{alg:explore-attributes-with-next-closed-none-closed}.  This function
-suffices to implement attribute exploration, and the corresponding listing is also shown
-in \Cref{alg:explore-attributes-with-next-closed-none-closed}.
+Recall that in \Cref{alg:attribute-exploration} we have used two special functions, namely
+for computing the lectically first closed set that is not an intent of a given formal
+context, and for computing the lectically next closed set of a given closure operator that
+is not an intent of the current working context.  However, a closer inspection of the way
+these functions are used yields that the actual computation required for attribute
+exploration is to have a way to compute for a given set $A \subseteq M$ the lectically
+smallest set lectically greater \emph{or equal} to $A$ that is not an intent of the
+current working context but is closed under a given closure operator.  An implementation
+of this function, called \lstinline{next-closed-non-closed}, is given in
+\Cref{alg:explore-attributes-with-next-closed-none-closed}.  This function suffices to
+implement attribute exploration, and the corresponding listing is also shown in
+\Cref{alg:explore-attributes-with-next-closed-none-closed}.
 
-We want to use this reformulation of \lstinline{explore-attributes} to generalize it to an
-algorithm that would allow us to explore $\mathcal{L}$.  For this recall our initial
-formulation of attribute exploration as given in \Cref{sec:class-attr-expl}.  We can view
-this formulation as a special case of exploring $\mathcal{L}$, namely for $\mathcal{L} =
-\Th(\con K)$.  During the run of the algorithm this set is transferred into sets of the
-form
+We want to use this reformulation as a starting point to discuss an algorithm for
+exploring $\mathcal{L}$.  To this end, recall how we have considered attribute exploration
+in \Cref{sec:class-attr-expl} as an algorithm for exploring $\Th(\con K)$.  Then in
+iteration $i$ of the attribute exploration algorithm, the set of possibly valid
+implications is given by $\Th(\con K_{i})$, where
 \begin{equation*}
-  \Th(\con K + C_1 + \dots + C_i)
+  \con K_{i} = \con K + C_{1} + \dots + C_{k_{i}}
 \end{equation*}
-for $C_1, \dots, C_i \subseteq M$.  The operation that yields this transformation can
-easily be formulated on the level of implications only.  For this we observe that
-$\Th(\con K + C)$ is the set of all implications which are valid in $\con K$ and which are
-not invalidated by $C$, \ie
-\begin{equation}
-  \label{eq:35}
-  \Th(\con K + C) = \set{ (A \to B) \in \Th(\con K) \mid A \not\subseteq C \text{ or } B
-    \subseteq C }.
-\end{equation}
-Using this simple equation we can now replace $\Th(\con K)$ by $\mathcal{L}$ in our
-formulation of attribute exploration as given
-\Cref{alg:explore-attributes-with-next-closed-none-closed} and hope to obtain an algorithm
-that allows us to explore $\mathcal{L}$.  The result is shown in
-\Cref{alg:explore-implications}.
+for some $k_{i} \in \NN, C_{1}, \dots, C_{k_{i}} \subseteq M$.  The idea is now that in
+\Cref{alg:explore-attributes-with-next-closed-none-closed} we replace every reference to
+$\Th(\con K_{i})$ by a reference to a set $\mathcal{L}_{i}$ of implications.  For this we
+observe that if a counterexample $C \subseteq M$ is given by the expert in iteration $i$,
+then
+\begin{align*}
+  \Th(\con K_{i+1})
+  &= \Th(\con K_{i} + C) \\
+  &= \set{ (A \to B) \in \Th(\con K) \mid A \not\subseteq C \text{ or } B \subseteq C }.
+\end{align*}
+Correspondingly, we obtain
+\begin{align*}
+  \mathcal{L}_{i+1}
+  &= \set{ (A \to B) \in \mathcal{L}_{i} \mid A \not\subseteq C \text{ or } B \subseteq C }.
+\end{align*}
+The result of this simple replacement is shown in \Cref{alg:explore-implications}.
 
 \addfunctionname{explore-implications}
 
@@ -536,17 +537,36 @@ $\mathcal{L}$, using $p$ as domain expert and $\mathcal{K}$ as background knowle
 Indeed, it may be the case that the set $\mathcal{K}_{n}$ of implications returned by
 \Cref{alg:explore-implications} contains too many implications, \ie it may happen that
 \begin{equation*}
-  \Cn(\mathcal{K}_{n}) \supsetneq \Cn(\Th(p) \cap \mathcal{L}).
+  \Cn(\mathcal{K}_{n}) \setminus \Cn(\Th(p) \cap \mathcal{L}) \neq \emptyset.
 \end{equation*}
-However, we shall show that it is always true that
+This is illustrated by the following example\footnote{This example has been provided by an
+  anonymous reviewer, who also pointed our an error in the original argumentation (as
+  given in~\cite{Borch-LTCS-13-04})}
+
+\begin{Example}
+  \label{expl:exploring-sets-of-implications-may-be-approximative}
+  Let $M = \set{ \mathsf{a}, \mathsf{b}, \mathsf{c} }$, $a \leq_{M} b \leq_{M} c$, and
+  define an expert $p$ on $M$ by $\Th(p) = \Cn(\set{ \mathsf{c} } \to \set{ \mathsf{a},
+    \mathsf{b} })$.  Define furthermore $\mathcal{L} = \set{ \set{ \mathsf{a} } \to \set{
+      \mathsf{b} }, \set{ \mathsf{c} } \to \set{ \mathsf{a} } }$.  Then the implication
+  \begin{equation*}
+    \set{ \mathsf{c} } \to \set{ \mathsf{a}, \mathsf{b} },
+  \end{equation*}
+  is proposed to the expert $p$, who confirms it.  Thus, this implication is an element of
+  $\mathcal{K}_{n}$, but is not contained in $\Th(p) \cap \mathcal{L}$.
+\end{Example}
+
+However, we shall show that \Cref{alg:explore-implications} \emph{approximately explores}
+$\mathcal{L}$, in the sense that the set $\mathcal{K}_{n}$ satisfies
 \begin{equation}
   \label{eq:61}
   \Cn(\mathcal{L}) \cap \Th(p) \supseteq \Cn(\mathcal{K}_{n}) \supseteq \Cn(\Th(p) \cap \mathcal{L}).
 \end{equation}
-In this sense, \lstinline{explore-implications} \emph{approximately explores} the set
-$\mathcal{L}$, using $p$ as external expert and $\mathcal{K}$ as background knowledge.  It
-will turn out that this is indeed sufficient for our considerations of finding an
-algorithm for exploration by confidence, as we shall see in \Cref{sec:poss-fast-expl}.
+In other words, the resulting set of confirmed implications will at least be complete for
+$\Cn(\Th(p) \cap \mathcal{L})$, and the implications which are not entailed by $\Th(p)
+\cap \mathcal{L}$ are at least entailed by $\Cn(\mathcal{L}) \cap \Th(p)$.  It will turn
+out that this is indeed sufficient for our considerations of finding an algorithm for
+exploration by confidence, as we shall see in \Cref{sec:poss-fast-expl}.
 
 It is the purpose of the following argumentation to show that
 \Cref{alg:explore-implications} approximately explores $\mathcal{L}$ as described above.
@@ -584,7 +604,7 @@ For this we need to argue that the algorithm always terminates and, upon termina
 \begin{Proof}
   Note that \lstinline{explore-implications} has to terminate if $\Cn(\mathcal{L}_i)
   \setminus \Cn(\mathcal{K}_i) = \emptyset$.  By
-  \Cref{prop:technicalities-about-explore-implications} we now that $\mathcal{K}_i
+  \Cref{prop:technicalities-about-explore-implications} we know that $\mathcal{K}_i
   \subseteq \mathcal{K}_{i+1}$ or $\mathcal{L}_i \supseteq \mathcal{L}_{i+1}$, and exactly
   one of these inclusions is strict.  The latter fact entails
   \begin{equation}
@@ -611,7 +631,7 @@ For this we need to argue that the algorithm always terminates and, upon termina
   Thus the algorithm has to terminate.
 \end{Proof}
 
-We now consider the correctness of \lstinline{explore-implications}.
+We now consider the correctness of \Cref{alg:explore-implications}.
 
 \begin{Proposition}
   \label{prop:explore-implications-closedness-persists}
@@ -684,7 +704,8 @@ We now consider the correctness of \lstinline{explore-implications}.
 \begin{Proof}
   We know that $\Th(p) \cap \mathcal{L} \subseteq \mathcal{L}_{n}$, since $p$ does not
   provide counterexamples for confirmed implications.  Since $\Cn(\mathcal{L}_{n} \cup
-  \mathcal{K}) \supseteq \Cn(\mathcal{K}_{n})$, we obtain $\mathcal{L}_{n} \subseteq
+  \mathcal{K}) \subseteq \Cn(\mathcal{K}_{n})$ by
+  \Cref{cor:explore-implications-closures-coincide}, we obtain $\mathcal{L}_{n} \subseteq
   \Cn(\mathcal{K}_{n})$.  Since all implications in $\mathcal{K}_{n}$ are confirmed by
   $p$, it is true that $\Cn(\mathcal{K}_{n}) \subseteq \Th(p)$.  Together with
   $\mathcal{L}_{n} \subseteq \mathcal{L}$ we thus obtain $\mathcal{L}_{n} \subseteq \Th(p)
@@ -698,11 +719,11 @@ We now consider the correctness of \lstinline{explore-implications}.
   \Cn(\mathcal{L})$.  Denote with $n$ the last iteration of
   \lstinline{explore-implications} applied to this input.  Then
   \begin{equation*}
-    \Cn(\mathcal{L}) \cap \Th(p) \supseteq \Cn(\mathcal{K}_{n}) \supseteq \Cn(\Th(p) \cap \mathcal{L}).
+    \Th(p) \cap \Cn(\mathcal{L}) \supseteq \Cn(\mathcal{K}_{n}) \supseteq \Cn(\Th(p) \cap \mathcal{L}).
   \end{equation*}
 \end{Theorem}
 \begin{Proof}
-  If $\mathcal{K} \subseteq \Cn(\mathcal{L})$, then $\mathcal{K} \subseteq
+  Since $\mathcal{K} \subseteq \Cn(\mathcal{L})$, it is true that $\mathcal{K} \subseteq
   \Cn(\mathcal{L}_{n})$ and \Cref{cor:explore-implications-closures-coincide} yields
   $\Cn(\mathcal{K}_{n}) \supseteq \Cn(\mathcal{L}_{n})$.  Thus
   \begin{equation*}
@@ -710,9 +731,9 @@ We now consider the correctness of \lstinline{explore-implications}.
   \end{equation*}
   by \Cref{cor:explore-implications-L_n-exactly-those-confirmed-by-expert}.
 
-  $\Cn(\mathcal{L}) \supseteq \Cn(\mathcal{K}_{n})$ holds by the definition of
-  $\mathcal{K}_{n}$.  Furthermore, all implications in $\mathcal{K}$ have been confirmed
-  by the expert, thus $\Th(p) \supseteq \Cn(\mathcal{K}_{n})$ holds.  This yields
+  Furthermore, $\Cn(\mathcal{L}) \supseteq \Cn(\mathcal{K}_{n})$ holds by the definition
+  of $\mathcal{K}_{n}$.  Since all implications in $\mathcal{K}$ have been confirmed by
+  the expert, $\Th(p) \supseteq \Cn(\mathcal{K}_{n})$ also holds.  This yields
   \begin{equation*}
     \Cn(\mathcal{L}) \cap \Th(p) \supseteq \Cn(\mathcal{K}_{n}),
   \end{equation*}
@@ -721,7 +742,7 @@ We now consider the correctness of \lstinline{explore-implications}.
 
 The counterexamples given by the expert $p$ during the run of the algorithm can be
 collected into a formal context $\con L$.  Then this formal context $\con L$ has the nice
-property that every implication in $\mathcal{L}$ is either entailed by $\mathcal{K}_{n}$
+property that every implication in $\mathcal{L}$ is either entailed by $\mathcal{K}_{n}$,
 or does not hold in $\con L$.  This fact can be useful on its own.
 
 \begin{Theorem}
@@ -756,13 +777,12 @@ or does not hold in $\con L$.  This fact can be useful on its own.
   \Cn(\Th(\con L) \cap \mathcal{L})$ by \Cref{eq:37}.  Since $(A \to B) \in \mathcal{L}$,
   we obtain $(A \to B) \not\in \Th(\con L)$ as required.
 
-  Now suppose that $(A \to B) \in \Cn(\mathcal{K}_{n})$.  Since $p$ does not provide
-  counterexamples for confirmed implications, and all implications in $\mathcal{K}_{n}$
-  have been confirmed by $p$, we obtain that $\Cn(\mathcal{K}_{n}) \subseteq \Th(\con
-  L)$.  Thus, $(A \to B) \in \Th(\con L) \cap \mathcal{L}$, as required.
+  On the other hand, since $p$ does not provide counterexamples for confirmed
+  implications, and all implications in $\mathcal{K}_{n}$ have been confirmed by $p$, we
+  can infer that $\Cn(\mathcal{K}_{n}) \subseteq \Th(\con L)$.
 \end{Proof}
 
-An interesting observation for \Cref{alg:explore-implications} is the following.  Although
+An interesting observation for \Cref{alg:explore-implications} is the following: although
 it may not hold that $\mathcal{K}_{n}$ is a base of $\mathcal{L} \cap \Th(p)$ with
 background knowledge $\mathcal{K}$, the set of implications computed by
 \lstinline{explore-implications} is \emph{minimal} in the sense that it is the canonical
@@ -770,7 +790,7 @@ base of itself, \ie
 \begin{equation*}
   \Can(\mathcal{K}_{n}, \mathcal{K}) = \mathcal{K}_{n} \setminus \mathcal{K}.
 \end{equation*}
-This fact is indeed not very surprising, given the fact that we have obtained
+This fact is indeed not very surprising, given that we have obtained
 \Cref{alg:explore-implications} from
 \Cref{alg:explore-attributes-with-next-closed-none-closed} by simple syntactic
 substitutions.
@@ -822,11 +842,9 @@ Thus, the following corollary follows directly from
     \Can(\mathcal{L}, \mathcal{K}) \cup \mathcal{K}
   \end{equation*}
   is complete for $\mathcal{L}$, and $\Can(\mathcal{L}, \mathcal{K})$ has minimal
-  cardinality with this property.
-
-  In particular, if $\mathcal{K} \subseteq \Cn(\mathcal{L})$, then $\Can(\mathcal{L},
-  \mathcal{K})$ is a minimal base of $\mathcal{L}$ with background knowledge
-  $\mathcal{K}$.
+  cardinality with this property.  In particular, if $\mathcal{K} \subseteq
+  \Cn(\mathcal{L})$, then $\Can(\mathcal{L}, \mathcal{K})$ is a minimal base of
+  $\mathcal{L}$ with background knowledge $\mathcal{K}$.
 \end{Corollary}
 
 We now show that \Cref{alg:explore-implications} computes the canonical base of $\Th(p)
@@ -846,9 +864,9 @@ We now show that \Cref{alg:explore-implications} computes the canonical base of 
   \end{equation*}
 \end{Theorem}
 \begin{Proof}
-  First note that it is easy to see that $\mathcal{K}_{n} \setminus \mathcal{K}$ is an
-  irredundant base of $\mathcal{K}_{n}$ with background knowledge $\mathcal{K}$, \ie no
-  implication in $\mathcal{K}_{n}$ follows from the others and $\mathcal{K}$.
+  First note that $\mathcal{K}_{n} \setminus \mathcal{K}$ is an irredundant base of
+  $\mathcal{K}_{n}$ with background knowledge $\mathcal{K}$, \ie no implication in
+  $\mathcal{K}_{n}$ follows from the others and $\mathcal{K}$.
 
   We are going to show that the premises in $\mathcal{K}_{n} \setminus \mathcal{K}$ are
   all $\mathcal{K}$-pseudo-closed sets of $\mathcal{K}_{n}$.  For this, we show the
@@ -933,16 +951,9 @@ We now show that \Cref{alg:explore-implications} computes the canonical base of 
     \label{eq:38}
     \mathcal{L}_{i-1}(P_{i}) = \mathcal{K}_{n}(P_{i})
   \end{equation}
-  because of
-  \begin{equation*}
-    \mathcal{K}_{n}(P_{i}) = \mathcal{L}_{i-1}(P_{i}) \subseteq \mathcal{K}_{n}(P_{i}).
-  \end{equation*}
-  Here, $\mathcal{K}_{n}(P_{i}) = \mathcal{L}_{i}(P_{i})$, because
-  $\mathcal{L}_{i}(P_{i})$ is already $\mathcal{K}_{n}$-closed.  The last inclusion holds
-  because $(P_{i} \to \mathcal{L}_{i-1}(P_{i})) \in \mathcal{K}_{n} \setminus
-  \mathcal{K}$.
-
-  If $n$ denotes the last iteration of the algorithm, we known that $P_{n+1}$ is equal to
+  because $\mathcal{L}_{i}(P_{i})$ is already $\mathcal{K}_{n}$-closed, and $(P_{i} \to
+  \mathcal{L}_{i-1}(P_{i})) \in \mathcal{K}_{n} \setminus \mathcal{K}$.  If now $n$
+  denotes the last iteration of the algorithm, we known that $P_{n+1}$ is equal to
   \lstinline{nil}.  Therefore, there cannot exist a $\mathcal{K}$-pseudo-closed set of
   $\mathcal{K}_{n}$ which is not a premise of an implication in $\mathcal{K}_{n} \setminus
   \mathcal{K}$.  Because of \Cref{eq:38}, we therefore obtain
