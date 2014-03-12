@@ -1186,9 +1186,9 @@ do not compute the canonical base anymore.
 \subsection{An Approximative Exploration by Confidence}
 \label{sec:expl-conf-1}
 
-As already mentioned, we obtain our first algorithm for exploration by confidence by
-instantiating \Cref{alg:explore-implications} with $\mathcal{L} = \Th_{c}(\con K)$.  The
-first problem we have to face here is how to implement \Cref{lst:explore-implications-1}, \ie
+We obtain our first algorithm for exploration by confidence by instantiating
+\Cref{alg:explore-implications} with $\mathcal{L} = \Th_{c}(\con K)$.  The first problem
+we have to face here is how to implement \Cref{lst:explore-implications-1}, \ie
 \begin{equation*}
   \mathcal{L}_{i+1} := \set{ (A \to B) \in \mathcal{L}_{i} \mid A \not\subseteq C \text{
       or } B \subseteq C }.
@@ -1276,12 +1276,92 @@ $\mathcal{L}_{i}$, namely
 Of course this solution is only practical if we can efficiently compute closures under
 $\mathcal{L}_{i}$.  As already mentioned, we want to avoid enumerating $\Th_{c}(\con K)$
 at all costs, as otherwise the algorithm impractical even from a theoretical point of
-view.  In the following we want to discuss an approach which allows to compute such
-closures.
+view.
 
-In what follows we shall consider derivation in various contexts, namely in $\con K$,
-$\con L_{i}$ and the \emph{subposition} of $\con K = (G, M, I)$ and $\con L_{i} = (G_{i},
-M, I_{i})$, which is the formal context
+\begin{Example}
+  \label{expl:simple-exploration-by-confidence-does-not-work}
+  It is worth noting that an apparently simpler approach to avoid computing closures under
+  $\Th_{c}(\con K)$ does not work.  More precisely, one may be tempted to replace in
+  \Cref{alg:exploration-by-confidence-first-version} all implications of the form
+  \begin{equation*}
+    P_{i+1} \to \mathcal{L}_{i}(P_{i+1})
+  \end{equation*}
+  simply by
+  \begin{equation*}
+    P_{i+1} \to \set{ m \in (P_{i+1})_{\con L_{i}}'' \mid \conf_{\con K}(P_{i+1} \to
+      \set{ m }) \ge c }.
+  \end{equation*}
+  However, the resulting algorithm would not be complete, \ie implications with high
+  confidence in $\con K$ may not be asked to the expert.
+
+  \begin{figure}[t]
+    \centering
+    \def\x{\times}
+    \begin{math}
+      \begin{array}{c|ccc}
+        \toprule
+        \con K & \mathsf{a} & \mathsf{b} & \mathsf{c} \\
+        \midrule
+        1 & \x & \x &    \\
+        2 & \x & \x &    \\
+        3 & \x & \x &    \\
+        4 & \x & \x & \x \\
+        5 & \x & \x & \x \\
+        6 & \x &    & \x \\
+        7 & \x &    & \x \\
+        8 &    &    &    \\
+        9 &    &    &    \\
+        10 &   &    &    \\
+        \bottomrule
+      \end{array}
+    \end{math}
+    \caption{\label{fig:simple-exploration-by-confidence-does-not-work} Context which
+      shows that a simple approach to exploration by confidence does not work}
+  \end{figure}
+  
+  To see that this indeed can happen, consider the formal context $\con K$ as given in
+  \Cref{fig:simple-exploration-by-confidence-does-not-work}, let $\mathcal{K} = \set{
+    \set{\mathsf{a}} \to \set{\mathsf{b}} }$, and choose $c = \frac 1 2$.  Then since all
+  sets $P_{i+1}$ are closed under $\mathcal{K}$, the implication $\set{ \mathsf{a} } \to
+  \set{ \mathsf{c} }$ is never asked to the expert, because $\set{ \mathsf{a} }$ is not
+  closed under $\mathcal{K}$.  On the other hand,
+  \begin{equation*}
+    \conf_{\con K} ( \set{ \mathsf{a} } \to \set{ \mathsf{c} }) = \frac 4 7 > \frac 1 2,
+  \end{equation*}
+  \ie $(\set{ \mathsf{a} } \to \set{ \mathsf{c} }) \in \Th_{c}(\con K)$, and thus should
+  actually be asked to the expert.  Furthermore, the implication $\set{ \mathsf{a} } \to
+  \set{ \mathsf{c} }$ does also not follow form other implications asked to the expert, as
+  the implications $\set{ \mathsf{b} } \to \set{ \mathsf{c} }$, $\set{ \mathsf{a},
+    \mathsf{b} } \to \set{ \mathsf{c} }$, and $\emptyset \to \set{ \mathsf{c} }$ will also
+  not be asked to the expert, because
+  \begin{align*}
+    \conf_{\con K} (\set{ \mathsf{b} } \to \set{ \mathsf{c} }) &= \frac 2 5 < \frac 1 2\\
+    \conf_{\con K} (\set{ \mathsf{a}, \mathsf{b} } \to \set{ \mathsf{c} }) &= \frac 2 5 <
+    \frac 1 2\\
+    \conf_{\con K}( \emptyset \to \set{ \mathsf{c} } ) &= \frac 4 {10} < \frac 1 2
+  \end{align*}
+  Thus, if we assume that the expert $p$ confirms all proposed implications, and if we
+  denote the set of confirmed implications by $\mathcal{K}_{n}$, then
+  \begin{equation*}
+    \mathcal{K}_{n}(\set{ \mathsf{a} }) = \set{ \mathsf{a}, \mathsf{b} }.
+  \end{equation*}
+  However, $\Th_{c}(\con K) \cap \Th(p) = \Th_{c}(\con K)$, and
+  \begin{equation*}
+    \Th_{c}(\con K)(\set{ \mathsf{a} }) = \set{ \mathsf{a}, \mathsf{b}, \mathsf{c} }.
+  \end{equation*}
+  Thus, the set $\mathcal{K}_{n}$ is not complete for $\Th_{c}(\con K) \cap \Th(p)$.
+\end{Example}
+
+However, it is indeed possible to use the simple idea presented in the previous example to
+obtain a correct algorithm for exploration by confidence.  However, to ensure
+completeness, extra steps are necessary in the algorithm.  We shall see in
+\Cref{sec:poss-fast-expl} how this can be done.
+
+In the rest of this section we shall discuss an approach which allows to compute closures
+under $\Th_{c}(\con K)$ at least a bit more efficiently.  In what follows we shall
+consider derivation in various contexts, namely in $\con K$, $\con L_{i}$ and the
+\emph{subposition} of $\con K = (G, M, I)$ and $\con L_{i} = (G_{i}, M, I_{i})$, which is
+the formal context
 \begin{equation*}
   \con K \div \con L_{i} := \frac {\con K} {\con L_{i}} := (G \cup G_{i}, M, I \cup I_{i}),
 \end{equation*}
@@ -1476,11 +1556,11 @@ this cardinality constraint.  See \cite[Theorem~51]{fca-book} for more details o
 \label{sec:poss-fast-expl}
 
 \Cref{alg:exploration-by-confidence-first-version} has two main flaws: in general, it only
-provides an approximative exploration of $\Th_{c}(\con K)$, and it depends crucially on
+provides an approximative exploration of $\Th_{c}(\con K)$, and it crucially depends on
 the computation of closures under $\Th_{c}(\con K)$.  The former fact can lead to
 questions asked which do not have enough confidence in $\con K$, and the latter fact may
 render the algorithm practically useless, because computing closures under $\Th_{c}(\con
-K)$ can be quite costly.  Eliminating these flaws thus seems highly desirable.
+K)$ can be quite costly.
 
 To achieve an algorithm that indeed implements exploration by confidence and at the same
 time avoids the computation of closures under $\Th_{c}(\con K)$, we shall make use of
