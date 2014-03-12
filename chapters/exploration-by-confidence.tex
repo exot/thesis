@@ -963,13 +963,12 @@ We now show that \Cref{alg:explore-implications} computes the canonical base of 
   as required.
 \end{Proof}
 
-We have seen how we can adapt attribute exploration to allow us to explore arbitrary sets
-of implications.  Our initial motivation to consider this generalization of attribute
-exploration was to be able explore sets of the form $\Th_{c}(\con K)$ for arbitrary
-choices of $c \in [0,1]$.  However, for this particular application our algorithm does not
-seem very practical, as during a run we then would need to compute sets of the form
-$\mathcal{L}_{i}(P)$ for some $\mathcal{L}_{i} \subseteq \Th_{c}(\con K)$ and $P \subseteq
-M$.  For $c = 1$ this is not a problem, since
+Recall that our initial motivation to consider the generalization of attribute exploration
+as given in \Cref{alg:explore-implications} was to be able explore sets of the form
+$\Th_{c}(\con K)$ for arbitrary choices of $c \in [0,1]$.  However, for this particular
+application our algorithm does not seem very practical, as during a run we then would need
+to compute sets of the form $\mathcal{L}_{i}(P)$ for some $\mathcal{L}_{i} \subseteq
+\Th_{c}(\con K)$ and $P \subseteq M$.  For $c = 1$ this is not a problem, since
 \begin{equation*}
   \Th_{1}(\con K)(P) = \Th(\con K)(P) = P''.
 \end{equation*}
@@ -981,39 +980,33 @@ the case $c = 1$.
 Also, the fact that \Cref{alg:explore-implications} only provides an approximate
 exploration of $\mathcal{L}$ using $p$ as an expert is unsatisfactory.  Of course, this
 situation can easily be avoided if the implications asked to the expert are elements of
-$\mathcal{L}$, or at least if those implications are entailed by $\mathcal{L}_{n}$.  In
-the case that all implications asked to the expert are elements of $\mathcal{L}$, it is
-true that $\mathcal{K}_{n} \subseteq \mathcal{L} \cap \Th(p)$, and thus it follows from
-\Cref{thm:explore-implications-correctness} that $\Cn(\mathcal{K}_{n}) = \Cn(\mathcal{L}
-\cap \Th(p))$.
+$\mathcal{L}$, because then $\Cn(\mathcal{K}_{n}) \subseteq \mathcal{L} \cap \Th(p)$ and
+thus~\Cref{thm:explore-implications-correctness} yields that
+\begin{equation*}
+  \Cn(\mathcal{K}_{n}) = \Cn(\mathcal{L} \cap \Th(p)),
+\end{equation*}
+\ie $\mathcal{K}_{n}$ is a base of $\mathcal{L} \cap \Th(p)$.
 
 However, it cannot be guaranteed in general that the implications $P_{i+1} \to
-\mathcal{L}_{i}(P_{i+1})$ are elements of $\mathcal{L}$.  Thus, to approach this problem,
-we shall discuss in the following a relaxation of \Cref{alg:explore-implications} that
-allows for more freedom in the choice which implications are asked to the expert.  In this
-way, it may be easier to ensure that the implications asked are indeed elements of
-$\mathcal{L}$, and thus that the exploration does not contain too many questions.  We
-shall see in \Cref{sec:poss-fast-expl} how this idea can be applied for our case of
-exploration by confidence.
+\mathcal{L}_{i}(P_{i+1})$ are elements of $\mathcal{L}$.  To remedy this problem, we shall
+discuss in the following a relaxation of \Cref{alg:explore-implications} that allows for
+more freedom in the choice which implications are asked to the expert.  In this way, it
+may be easier to ensure that the implications asked are indeed elements of $\mathcal{L}$,
+and thus that the exploration does not contain too many questions.  We shall see in
+\Cref{sec:poss-fast-expl} how this idea can be applied for our case of exploration by
+confidence.
 
 In this relaxation, instead of asking questions of the form $P_{i+1} \to
 \mathcal{L}_{i}(P_{i+1})$, it will be sufficient to find \emph{some} $Q \subseteq M$ such
 that $P_{i+1} \subsetneq Q \subseteq \mathcal{L}_{i}(P_{i+1})$, and then ask the
-implication $P \to Q$ to the expert.  If finding such a set $Q$ is even infeasible than it
-seems questionable whether exploration itself can be conducted effectively.  Of course, we
-have to pay for the freedom of choosing the set $Q$ as we want by potentially asking more
-questions, since the implication
+implication $P \to Q$ to the expert.  Of course, we have to pay for the freedom of
+choosing the set $Q$ freely by potentially asking more questions, since the implication
 \begin{equation*}
   P_{i+1} \to \mathcal{L}_{i}(P_{i+1}) \setminus Q
 \end{equation*}
-still needs to be (implicitly or explicitly) examined by the expert.  The hope is then
-that the freedom of leaving out elements from $\mathcal{L}_{i}(P_{i+1})$ compensates for
-this extra amount of implications the expert has to handle.
-
-We now present a generalization of \Cref{alg:explore-implications} that uses these ideas.
-In this generalization we still require to be able to test whether a set $P$ is closed
-under the set $\mathcal{L}_{i}$ or not.  However, this test can most often be decided
-without computing $\mathcal{L}_{i}(P)$.
+still needs to be examined (implicitly or explicitly) by the expert.  The hope is that the
+freedom of leaving out elements from $\mathcal{L}_{i}(P_{i+1})$ compensates for this extra
+amount of implications the expert has to handle.
 
 \addfunctionname{explore-implications/weaker-version}
 
@@ -1051,11 +1044,11 @@ end
   \end{Algorithm}
 \end{figure}
 
-Let us consider the algorithm \lstinline{explore-implications/weaker-version} as given in
-\Cref{alg:explore-implications-weaker-version}.  This algorithm is very similar to our
-implementation of \lstinline{explore-implications} as given in
-\Cref{alg:explore-implications}, but differs in a crucial aspect:  we still compute sets
-of the form
+\Cref{alg:explore-implications-weaker-version} presents a generalization of
+\Cref{alg:explore-implications} that uses these ideas.
+\Cref{alg:explore-implications-weaker-version} is very similar to
+\Cref{alg:explore-implications}, but differs in a crucial aspect: we still compute sets of
+the form
 \begin{equation*}
   P = \text{\lstinline{next-closed-non-closed}}(M, \leq_{M}, P_{i}, \mathcal{K}_{i}, \mathcal{L}_{i})
 \end{equation*}
@@ -1075,12 +1068,11 @@ Since $P_{i+1}$ is not $\mathcal{L}_{i}$-closed, $P_{i+1} \subsetneq
 and finally ask the implication $P \to Q$ to the expert.
 
 Note that if we always choose $P_{i+1} = P$ and $Q = \mathcal{L}_{i}(P_{i+1})$, then we
-obtain the function \lstinline{explore-implications} again.
+obtain \Cref{alg:explore-implications} again.
 
-We now argue that \lstinline{explore-implications/weaker-version} is indeed an algorithm
-that allows to explore $\mathcal{L}$, using $p$ as an expert and $\mathcal{K}$ as
-background knowledge, in the same approximative sense as in the case of
-\lstinline{explore-implications}.  For this we first observe that termination can be
+We now argue that \Cref{alg:explore-implications-weaker-version} is indeed an algorithm
+that allows to approximately explores $\mathcal{L}$, using $p$ as an expert and
+$\mathcal{K}$ as background knowledge.  For this we first observe that termination can be
 argued as in the case of \Cref{alg:explore-implications}, and therefore the analog of
 \Cref{thm:explore-implications-termination} holds.
 
@@ -1088,14 +1080,12 @@ argued as in the case of \Cref{alg:explore-implications}, and therefore the anal
   \label{thm:explore-implications-weaker-version-termination}
   Let $M$ be a finite set, $\leq_{M}$ a linear order on $M$, $p$ be a domain expert on
   $M$, $\mathcal{L} \subseteq \Imp(M)$ and $\mathcal{K} \subseteq \Th(p)$.  Then the call
-  \begin{equation*}
-    \text{\lstinline{explore-implications/weaker-version}}(M, \leq_{M}, p, \mathcal{L}, \mathcal{K})
-  \end{equation*}
-  terminates after finitely many steps.
+  to \Cref{alg:explore-implications-weaker-version} with this input terminates after
+  finitely many steps.
 \end{Theorem}
 
-For the correctness of \lstinline{explore-implications/weaker-version} we can argue in
-practically the same way as we did for \lstinline{explore-implications}.  The crucial
+For the correctness of \Cref{alg:explore-implications-weaker-version} we can argue in
+practically the same way as we did for \Cref{alg:explore-implications}.  The crucial
 argument there was \Cref{prop:explore-implications-closedness-persists}, which also holds
 in this case, with nearly the same proof.  We shall repeat it nevertheless for easier
 comparison.
@@ -1128,26 +1118,24 @@ comparison.
   $\mathcal{L}_{i+1}$-closed, as required.
 \end{Proof}
 
-Now most of the properties of \lstinline{explore-implications} carry over.  However, since
-we do not ask implications of the form
+Now most of the properties of \Cref{alg:explore-implications} carry over to
+\Cref{alg:explore-implications-weaker-version}.  However, since we do not necessarily ask
+implications of the form
 \begin{equation}
   \label{eq:39}
   P_{i+1} \to \mathcal{L}_{i}(P_{i+1})
 \end{equation}
 anymore, we can also not expect that the algorithm computes the canonical base of
-$\mathcal{L} \cap \Th(p)$ with background knowledge $\mathcal{K}$.  In particular this
-means that the number of implications asked to and confirmed by the expert is not
-necessarily minimal anymore.
+$\mathcal{K}_{n}$ with background knowledge $\mathcal{K}$.  In particular this means that
+the number of implications asked to and confirmed by the expert is not necessarily
+minimal.
 
 \begin{Theorem}
   \label{thm:explore-implications-weaker-version-all-other-properties}
   Let $M$ be a finite set, $\leq_{M}$ be a linear order on $M$, $p$ a domain expert on
   $M$, $\mathcal{L} \subseteq \Imp(M)$ and $\mathcal{K} \subseteq \Th(p) \cap
   \Cn(\mathcal{L})$.  Denote with $n$ the last iteration of the run of
-  \begin{equation*}
-    \text{\lstinline{explore-implications/weaker-version}}(M, \leq_{M}, p, \mathcal{L}, \mathcal{K}).
-  \end{equation*}
-  Then
+  \Cref{alg:explore-implications-weaker-version} applied to this input.  Then
   \begin{enumerate}[i. ]
   \item $\Cn(\mathcal{K}_{n}) \supseteq \Cn(\mathcal{L}_{n})$,
   \item $\mathcal{L}_{n} = \Th(p) \cap \mathcal{L}$, and
