@@ -8,83 +8,84 @@
 
 \thispagestyle{empty}
 
-Knowledge is required to solve problems, and to act intelligently in almost all situations
--- this simple fact is as true for humans as it is for computers.  To enable humans and
-computers to act intelligently, it is thus necessary to first solve the problem of
+Knowledge is necessary to solve problems and to act intelligently in almost all situations
+-- a simple fact that is true for humans and computers alike.  Therefore, to enable humans
+and computers to act intelligently, it is necessary to first solve the problem of
 \emph{learning relevant knowledge}, more formally referred to as \emph{knowledge
   acquisition}.  In the case of computers, another problem has to be tackled, namely the
 problem of \emph{representing knowledge} in a way that suitable for a machine to work
 with.
 
-One common approach to represent knowledge is to use different flavors of logics, and
-among these flavors \emph{description logics} are a very popular choice.  Description
-logics are a family of different logic-based formalisms with varying reasoning complexity
-and expressiveness, specifically tailored towards practical decision procedures.
-Moreover, \emph{description logic knowledge bases} allow for a very powerful mechanism to
-represent knowledge, which is used in practical applications like various bio-medical
-ontologies, or in the semantic web.
+One common approach to representing knowledge suitable for computer consumption is to use
+different flavors of logics, and among these \emph{description logics} are a very popular
+choice.  Description logics are a family of different logic-based formalisms with varying
+reasoning complexity and expressiveness, specifically tailored towards practical decision
+procedures.  Moreover, \emph{description logic knowledge bases} (also called
+\emph{ontologies}) allow for a very powerful mechanism to represent knowledge, which is
+used in practical applications like bio-medical ontologies and the semantic web.
 
 The types of knowledge representable by description logic knowledge bases are
 \emph{assertional knowledge} and \emph{terminological knowledge}.  Obtaining assertional
-knowledge, like the fact that Abraham Lincoln was a president of the United States, or
-that John McCarthy was a professor at Stanford University, is comparably easy, and can (to
-a certain extent) even be done automatically.  This is mostly due to the rather local
-nature of assertional knowledge, which just concerns one or two individuals.  On the other
-hand, obtaining terminological knowledge is much more involved, because this knowledge
-relates concepts, and not individuals, to each other: the fact that every human is mortal,
-or that every human has a head are examples for terminological knowledge.  Obtaining such
-knowledge, which may concern a wide and mostly indefinite range of individuals or things,
-is much harder, and hoping to obtain it automatically seems gullible.
+knowledge, like the fact that Abraham Lincoln was a president, or that John McCarthy was a
+professor at Stanford University, is comparably easy, and can (to a certain extent) even
+be done automatically.  This is mostly due to the rather local nature of assertional
+knowledge, which just concerns one or two individuals.  On the other hand, obtaining
+terminological knowledge is much more involved, because this knowledge relates concepts,
+and not individuals, to each other: the fact that every human is mortal, or that every
+human has a head are examples for terminological knowledge.  Obtaining such knowledge,
+which may concern a wide and mostly indefinite range of individuals or things, is much
+harder, and hoping to obtain it in an automatic way seems gullible.
 
-Nevertheless, there have been various approaches to obtain terminological knowledge, at
+Nevertheless, there have been various approaches to obtaining terminological knowledge, at
 least in a preliminary version, from various sources of data, like natural language texts,
 databases, or linked data.  One of these approaches has been developed by Franz Baader and
 Felix Distel, and is based on notions from the mathematical theory of \emph{formal concept
   analysis}.  This approach allows the extraction of general terminological knowledge in
-the form of \emph{general concept inclusions} which are valid in a given finite
-interpretation.  Interpretations are structures which are used in description logics to
+the form of \emph{general concept inclusions} which are valid in a given \emph{finite
+  interpretation}.  Interpretations are structures which are used in description logics to
 defined the semantics of different logics, and can be thought of as directed edge- and
-vertex-labeled graphs.  Therefore, interpretations can be thought of as a variant of
-\emph{linked data}, and the approach by Baader and Distel then allows in principle the
-extraction of terminological knowledge from this form of data, which is ubiquitous in the
-realm of the semantic web.  Thus, one could turn the vast amount of linked data into
-description logic knowledge bases and use them to make computers act more intelligently.
+vertex-labeled graphs.  Because of their graph-like nature, interpretations can be thought
+of as a variant of \emph{linked data}, and then the approach by Baader and Distel allows
+in principle the extraction of terminological knowledge from this form of data, which is
+ubiquitous in the realm of the semantic web.  Thus, one could turn the vast amount of
+linked data into description logic knowledge bases and use them to make computers act more
+intelligently.
 
 However, the approach of Baader and Distel has some drawbacks which make it hard to apply
-to real-world data.  One of these is the fact that every real-world data set contains
-\emph{errors}, and in such a case considering only terminological knowledge that is valid
-in this erroneous data sets seems futile.  In the worst case, terminological knowledge
-that is otherwise valid is not extracted from the data set, because errors invalidate it.
+it to real-world data.  One of these is the fact that every real-world data set contains
+\emph{errors}, and in such a case considering only terminological knowledge that is
+\emph{valid} in this erroneous data seems futile.  In the worst case, valid terminological
+knowledge is not extracted from the data set because a single error invalidates it.
 
-One can assume, however, that when one wants to learn terminological knowledge from an
-interpretation or linked data, that this data set has a sufficiently high \emph{quality},
-meaning that it does not contain too many errors that are relevant for the learning
-process.  Using this assumption, one could imagine that, instead of only considering
-terminological knowledge that is valid in the given input data, it may be fruitful to also
-consider terminological knowledge that is \emph{almost valid} in this data.  In this way,
-knowledge that is erroneously invalidated by few errors is still recovered from the data.
-On the other hand, one has to make sure that rare, but valid counterexamples in this data
-are not accidentally ignored, \ie the knowledge thus obtained needs to be verified by an
-external source of information, like a human expert.
+On the other hand, learning terminological knowledge from an interpretation or linked data
+is only reasonable if this data set is of sufficiently high \emph{quality}, meaning that
+it does not contain too many errors that are relevant for the learning process.  Then one
+could imagine that, instead of only considering terminological knowledge that is valid in
+the given input data, it may be fruitful to also consider terminological knowledge that is
+\emph{almost valid} in this data.  In this way, knowledge that is erroneously invalidated
+by few errors is still recovered from the data.  Of course, one has to make sure that rare
+but valid counterexamples in this data set are not accidentally ignored in this way, \ie
+the knowledge obtained needs to be verified by an external source of information, like a
+human expert.
 
-It is the purpose of this work to present an extension of the results of Baader and Distel
-that incorporates this idea of considering GCIs which are almost valid in the input data.
-To this end, we shall use the notion of \emph{confidence} from data mining, and transfer
-it to general concept inclusions.  We shall then show how we can learn all general concept
-inclusions with \emph{high confidence} in our input data.  For this we again shall use
-ideas from formal concept analysis, more specifically results obtained by Michael
-Luxenburger on \emph{partial implications} in formal contexts.  We shall then apply our
-findings to a small example interpretation extracted from the DBpedia data set, and shall
-assess in how far our approach yields more error-tolerant results.  Finally, we shall show
-how we can obtain a semi-automatic algorithm for the expert-based verification step
-sketched above, based on the algorithm of \emph{attribute exploration} from formal concept
-analysis.
+It is the purpose of this work to present an extension of the results by Baader and Distel
+that incorporates the idea of considering general concept inclusions which are almost
+valid in the input data.  To this end, we shall make use of the notion of
+\emph{confidence} from data mining, and transfer it to general concept inclusions.  We
+shall then show how we can learn all general concept inclusions with \emph{high
+  confidence} in our input data.  For this we use ideas from formal concept analysis, more
+specifically results obtained by Michael Luxenburger on \emph{partial implications} in
+formal contexts.  We shall then apply our findings to a small example interpretation
+extracted from the DBpedia data set, and assess in how far our approach yields more
+error-tolerant results.  Finally, we shall show how we can obtain a semi-automatic
+algorithm for the expert-based verification step mentioned above, based on the algorithm
+of \emph{attribute exploration} from formal concept analysis.
 
-All these extensions are based on the original results of Baader and Distel, and we shall
+All these extensions are based on the original results by Baader and Distel, and we shall
 review these results to the extent needed for our considerations.  This will also include
 an introduction to the main notions of formal concept analysis and description logics, as
-necessary for this work.  The main hope is then that our extension of Baader's and
-Distel's results make the techniques of extracting general concept inclusions from finite
+necessary for this work.  The main hope is that our extension of Baader's and Distel's
+results make the techniques of extracting general concept inclusions from finite
 interpretation more accessible for practical applications.
 
 %%% Local Variables: 
