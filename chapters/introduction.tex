@@ -2,21 +2,21 @@
 \label{cha:introduction}
 
 For a machine to interact in an intelligent manner with its outside world it needs to be
-equipped with knowledge about it.  The very same is true for humans, and acquiring this
+equipped with suitable knowledge.  The very same is true for humans, and acquiring this
 knowledge is a highly complex task which up to today is not completely understood.  To
 help within this process, previously acquired knowledge is \emph{represented} in different
 ways, \eg as books or films, to help others learning it.
 
 However, the way knowledge is represented for human consumption is almost always not
 suitable for machines.  While humans can extract knowledge from natural language, which
-may be full of \emph{ambiguity}, machines require precise formulations of knowledge.  The
+may be full of ambiguity, machines require precise formulations of knowledge.  The
 representation of knowledge in a machine-understandable way is the main focus of the area
 of \emph{knowledge representation}~\cite{KRhandbook}.
 
 One of the most successful approaches to knowledge representations are description
 logics~\cite{DLhandbook}, a family of logic-based knowledge representations formalisms
 with varying expressivity and reasoning complexity.  Description logics allow to represent
-knowledge as \emph{knowledge bases} or \emph{ontologies}.  Essentially, these are just
+knowledge as \emph{knowledge bases}, or \emph{ontologies}.  Essentially, these are
 collections of axioms, which may be either \emph{assertional} or \emph{terminological}.
 For example, to represent the fact (the \emph{assertion}) that an individual \textsf{tom}
 is a cat, one can use the assertional axiom
@@ -31,20 +31,21 @@ can use so-called \emph{general concept inclusions} (GCIs) and write
   \mathsf{Cat} \sqsubseteq \exists \mathsf{hunts}. \mathsf{Mouse}.
 \end{equation}
 As soon as a knowledge base is available, it is possible to \emph{reason} with it, \ie to
-extract knowledge which is implicitly contained in this knowledge base.  For example, from
-the two axioms state above, we can infer that the individual \textsf{tom} hunts mice.
+extract knowledge from it that is implicitly contained.  For example, from the two axioms
+stated above, we can infer that the individual \textsf{tom} hunts mice, although this has
+never been stated explicitly.
 
-Knowledge bases could be used to represent knowledge in a machine-consumable way.
-However, the questions arises how to obtain such knowledge bases.  In one way or the
-other, knowledge which is available to humans has to be translated into the form of a
-description logic knowledge base.  Of course, this could be done by humans, but this
-approach would not only be rather time-consuming but also prone to errors.  An automatic
-translations would thus be highly welcome.  On the other hand, such an automatic
-translation would just mean that machines can consume knowledge in the way humans
-represent it, an assumption which is not reasonable.
+Knowledge bases can be used to represent knowledge in a machine-consumable way.  However,
+the question arises how such knowledge bases can be obtain.  In one way or the other,
+knowledge which is available to humans has to be translated into the form of a description
+logic knowledge base.  Of course, this could be done by humans, but this approach would
+not only be very time-consuming, but also prone to errors.  An automatic translations
+would thus be highly welcome.  On the other hand, a completely automatic translation would
+just mean that machines can consume knowledge in the way humans represent it, an
+assumption which is not reasonable.
 
 However, one can still think about approaches which are \emph{semi-automatic} in the sense
-that the results obtained from such a translation are preliminary and require further
+that the results obtained from such a translation are preliminary, requiring further
 refinement, or that the translation procedure requires additional \emph{assistance} by
 means of human experts.
 
@@ -54,45 +55,41 @@ terminological knowledge of the form as given in \Cref{eq:14} from some given \e
   interpretation} $\mathcal{I}$.  More precisely, the procedures described
 in~\cite{Diss-Felix} would automatically learn all GCIs which are \emph{valid} in the data
 set $\mathcal{I}$.  This approach made use of the mathematical theory of \emph{formal
-  concept analysis}, a subfield of mathematical order theory which has very closed
+  concept analysis}, a subfield of mathematical order theory which has very close
 connections to description logics.
 
 Of course, the GCIs learned this way may not be correct, in the sense that the GCI may
 hold in $\mathcal{I}$, but this data missed to contain some relevant counterexamples.  One
-way to remedy this is to use an algorithm from the field of formal concept analysis which
-is called \emph{attribute exploration}.  Within this algorithm, an expert (possibly human)
-is asked extracted GCIs for there correctness, and if proposed GCIs are not found then the
-expert has to provide \emph{counterexamples} to them.  This way, the problem that the data
-may be \emph{incomplete} in that it lacks crucial counterexamples can be solved.  This has
+way to remedy this is to use an algorithm from formal concept analysis called
+\emph{attribute exploration}.  Within this algorithm, an expert (possibly human) is asked
+extracted GCIs for there correctness, and if such a GCI is not correct, the expert has to
+provide \emph{counterexamples} for it.  This way, the problem that the data may be
+\emph{incomplete}, in the sense it lacks crucial counterexamples, can be solved.  This has
 also been done in~\cite{Diss-Felix}.
 
-However, there are still problems with this approach, especially if it comes to the
-\emph{quality} of the data $\mathcal{I}$ from which GCIs are learned.  The main problem
-here is that the data may contain \emph{errors}.  These errors may either cause otherwise
-valid GCIs not to be found, because these errors act as \emph{false counterexamples}, or
-GCIs are found which are not correct because errors cause positive counterexamples to
-vanish.  While the latter approach can in theory be handled by the attribute exploration
-approach sketched above, the former cannot, because the approach discussed
-in~\cite{Diss-Felix} will not even extract GCIs for which there may be errors in
-$\mathcal{I}$.
+However, there are still problems with the original approach of~\cite{Diss-Felix}, in
+particular if it comes to the \emph{quality} of the data $\mathcal{I}$ from which GCIs are
+learned.  The main problem here is that the data may contain \emph{errors}.  These errors
+may either cause otherwise valid GCIs not to be found, because these errors act as
+\emph{false counterexamples}, or GCIs are found which are not correct because errors cause
+positive counterexamples to vanish.  While the latter approach can in theory be handled by
+the attribute exploration approach sketched above, the former cannot, because the approach
+discussed in~\cite{Diss-Felix} will not even extract GCIs for which there may be false
+counterexamples in $\mathcal{I}$.
 
 In this work, we want to extent the results obtain in~\cite{Diss-Felix} to this new
-setting of where the data from which GCIs are learned may contain errors.  The main
-approach for this is to transfer the notion of
-\emph{confidence}~\cite{arules:agrawal:association-rules} from the area of data-mining to
-GCIs.  Intuitively, this means that GCIs may have \emph{few} errors in the data, as
-opposed to having none in the original approach of~\cite{Diss-Felix}.  The notion of
-``few'' is quantified by means of the confidence of the GCIs in the data.
+setting of where the data $\mathcal{I}$ may contain errors.  The main approach for this is
+to transfer the notion of \emph{confidence}~\cite{arules:agrawal:association-rules} from
+the area of data-mining to GCIs.  Intuitively, this means that GCIs may have \emph{few}
+errors in the data, as opposed to having none in the original approach
+of~\cite{Diss-Felix}.  The notion of ``few'' is quantified by means of the confidence of
+the GCIs in the data.
 
-% In the following we shall give a more in-depth overview of the problem sketched above, by
-% briefly introducing description logics and formal concept analysis in
-% Sections~\ref{sec:repr-knowl-using} and~\ref{sec:learn-impl-using}, respectively.  These
-% introductions will be mostly historical and by means of examples.  Thereafter, we discuss
-% in more detail what it means to learn GCIs from data, and sketch our approach of utilizing
-% the notion of confidence to handle errors in the data.  This will be done in
-% Section~\ref{sec:extr-term-knowl}.  Finally, in Section~\ref{sec:related-work}, we briefly
-% discuss some related work which is important for our approach, and we summarize our
-% contribution in Section~\ref{sec:contributions}.
+In the following, we shall give a more in-depth discussion of what we ant to do in this
+work.  To this end, we shall first introduce description logics and formal concept
+analysis, in a exemplary and historic manner.  Thereafter, we shall discuss the main
+results of~\cite{Diss-Felix} in more detail, and also briefly mention some other related
+work.  Finally, we present the main contributions of this work.
 
 \section{Description Logics}
 \label{sec:repr-knowl-using}
@@ -101,29 +98,16 @@ Description logics~\cite{DLhandbook} are a family of logic-based knowledge repre
 formalisms, with a strong emphasis on well-defined semantics and practical reasoning
 procedures.  The family of description logics contains various flavors of logical
 formalisms, varying in expressiveness and reasoning complexity, allowing users to choose
-the expressiveness they need, or the complexity they can afford, in their respective
+the expressiveness they need, or the complexity they can afford in their respective
 applications.
 
 The development of description logics~\cite{journals/sLogica/BaaderS01} was motivated by
 earlier knowledge representation formalisms like \emph{semantic
   networks}~\cite{SemanticNetworks} or \emph{frame}~\cite{Minsky-Frames}, whose semantics
-was highly ambiguous, and mostly depended on human interpretation or implementation
+were highly ambiguous, and mostly depended on human interpretation or implementation
 details.  The need for well-defined and predictable knowledge representation formalisms
-then lead to the first logic-based systems~\cite{journals/cogsci/BrachmanS85}, which were,
-however, incomplete~\cite{conf/kr/Schmidt-Schauss89}.
-
-The term \enquote{description} in \enquote{description logics} is motivated by the
-intention to use description logics to express knowledge about \emph{concepts
-  descriptions}.  For this, description logics provide a number of constructors, which can
-then be used to build concept descriptions from atomic \emph{concept names} and binary
-\emph{role names}.  Then, two classical \emph{reasoning problems} are \emph{instance
-  checking} and \emph{subsumption}: given an element $a$ and a concept description $C$,
-the instance checking problem is to ask whether $a$ is an \emph{instance} of $C$, \ie
-whether $a$ \emph{satisfies} the concept description $C$.  This can made more precise
-using the notion of \emph{interpretations}, which are used more generally to define the
-semantics of description logics.  Moreover, the subsumption problem is, given two concept
-descriptions $C, D$, to ask whether it is true that $C$ is a \emph{subconcept} of $D$, \ie
-whether every instance of $C$ is also an instance of $D$.
+then lead to the first logic-based systems~\cite{journals/cogsci/BrachmanS85}, which were
+however incomplete~\cite{conf/kr/Schmidt-Schauss89}.
 
 The first description logics considered were relatively small fragments of first order
 logic, but already for them it could be shown that reasoning is
@@ -140,13 +124,13 @@ of description logics continued to investigate highly expressive description log
 expressiveness exceeds that of $\ALC$, but which still behave well in
 practice~\cite{journals/igpl/HorrocksST00}, and for which highly-optimized implementations
 exist~\cite{sirin_pellet:practical_2007,Haarslev:2001,DBLP:conf/cade/TsarkovH06}.  This
-finally lead to the adoption by the W3C of the \emph{Web Ontology Language OWL}, which is
+finally lead to the adoption of the \emph{Web Ontology Language OWL} by the W3C, which is
 based on the highly expressive description logic
 $\mathcal{S}\mathcal{H}\mathcal{O}\mathcal{I}\mathcal{N}$~\cite{horrocks03fromshiqrdftoowl}.
 
 The focus of description logics research departed from the sole focus on expressive
 description logics when it was discovered at the beginning of this millennium that for the
-in inexpressive description logic $\EL$ reasoning is
+inexpressive description logic $\EL$ reasoning is
 tractable~\cite{DBLP:conf/ijcai/Baader03a,DBLP:conf/ecai/Brandt04}, and stays polynomial
 if the expressiveness of $\EL$ is extended
 slightly~\cite{DBLP:conf/ijcai/BaaderBL05,BaaderEtAl-OWLED08DC}.  The practical relevance
@@ -156,26 +140,31 @@ just $\EL$ or a slight extension of it.  Examples for this are the \emph{Systema
   Nomenclature of Medicine--Clinical Terms}, the Gene Ontology~\cite{gene-ontology}, and
 large parts of the GALEN ontology~\cite{Rector199475}.
 
-The main constructors of $\EL$ are conjunction ($\sqcap$) and existential restriction
-($\exists$), and examples of $\EL$ concept descriptions are
+The term \enquote{description} in \enquote{description logics} is motivated by the
+intention to use description logics to express knowledge about \emph{concepts
+  descriptions}.  For this, description logics provide a number of constructors, which can
+then be used to build concept descriptions from atomic \emph{concept names} and binary
+\emph{role names}.  For example, the description logic $\EL$ provides the constructors
+\emph{conjunction} ($\sqcap$) and \emph{existential restriction} ($\exists$), and examples
+of $\EL$ concept descriptions are
 \begin{equation*}
-  \mathsf{Cat},\, \mathsf{Cat} \sqcap \mathsf{Mouse},\, \exists \mathsf{hunts}. \mathsf{Mouse}.
+  \mathsf{Cat},\, \mathsf{Cat} \sqcap \mathsf{Mouse},\, \exists \mathsf{hunts}. \mathsf{Mouse},
 \end{equation*}
-A description logic knowledge base formulated in $\EL$ usually consist, as any description
-logic knowledge base, of two parts, namely an \emph{ABox}, holding assertional knowledge,
-and a \emph{TBox}, containing terminological knowledge.  An example knowledge base would
-then be
+where \textsf{Cat}, \textsf{Mouse} are concept names, and \textsf{hunts} is a role name.
+
+A description logic knowledge base formulated in $\EL$ consist, as most description logic
+knowledge bases, of two parts, namely an \emph{ABox}, holding assertional knowledge, and a
+\emph{TBox}, containing terminological knowledge.  An example knowledge base is
 \begin{equation*}
   \mathcal{K} = (\set{ \mathsf{Cat} \sqsubseteq \exists \mathsf{hunts}. \mathsf{Mouse} },
   \set{ \mathsf{Cat}(\mathsf{tom}) }),
 \end{equation*}
-where the first entry denotes the TBox, and the second one denotes the ABox.
-
-The semantics of knowledge bases is defined using \emph{interpretations} $\mathcal{I}$,
-which can be thought of as directed edge- and vertex-labeled graphs.  The labels of the
+where the first entry denotes the TBox, and the second one denotes the ABox.  The
+semantics of knowledge bases is defined using \emph{interpretations} $\mathcal{I}$, which
+can be thought of as directed edge- and vertex-labeled graphs.  The labels of the
 vertices, which we shall \emph{elements} or \emph{individuals}, are concept names, and the
 labels of the edges are role names.  An interpretation is a model of a knowledge base if
-all elements satisfy the axioms contained in this knowledge base.  For example, the
+all elements \emph{satisfy} the axioms contained in this knowledge base.  For example, the
 interpretation
 \begin{center}
   \begin{tikzpicture}[>=stealth']
@@ -190,6 +179,21 @@ interpretation
 is a model of the knowledge base $\mathcal{K}$, since the element \textsf{tom} is labeled
 with \textsf{Cat}, and every element which is labeled with \textsf{Cat} is connected to
 some element labeled with \textsf{Mouse} via an edge labeled with \textsf{hunts}.
+
+As soon as one has a description logic knowledge base, one can conduct \emph{reasoning}
+with it, \ie one can extract knowledge from the knowledge base which may only be contained
+implicitly in it.  Two classical reasoning problems are \emph{instance checking} and
+\emph{subsumption}: given an \emph{individual name} $a$ and a concept description $C$, the
+instance checking problem is to ask whether $a$ is an \emph{instance} of $C$, \ie whether
+$a$ satisfies the concept description $C$ in every interpretation.  The subsumption
+problem is to ask, given two concept descriptions $C$ and $D$, whether it is true that $C$
+is a \emph{subconcept} of $D$, \ie whether it is true in every interpretation that every
+element that satisfies $C$ also satisfies $D$.  Other reasoning problems are
+\emph{knowledge base consistency} and \emph{concept satisfiability}: a knowledge base is
+consistent if it has a model, and a concept description $C$ is satisfiable with respect to
+a given knowledge base $\mathcal{K}$ if there exists a model of $\mathcal{K}$ containing
+elements that satisfy $C$.  Deciding knowledge base consistency and concept satisfiability
+are mostly relevant to ensure the correctness of the given knowledge base.
 
 \section{Formal Concept Analysis}
 \label{sec:learn-impl-using}
