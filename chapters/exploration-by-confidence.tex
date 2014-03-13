@@ -1146,15 +1146,6 @@ minimal.
 \section{Exploration by Confidence}
 \label{sec:expl-conf}
 
-We now want to use the algorithms we have developed for exploring sets of implications to
-solve our initial problem, namely the exploration of implications with high confidence in
-some given formal context $\con K = (G, M, I)$.  In other words, if $c \in [0,1]$ is
-given, then we want to explore the set $\Th_{c}(\con K)$.  In doing so, we generalize
-attribute exploration such that it not only asks implications which are valid in $\con K$,
-but also presents to the expert implications whose confidence is high enough in the data.
-As described in the introduction of this chapter, this \emph{exploration by confidence} is
-exactly the generalization of attribute exploration we wanted to achieve.
-
 As a first step to achieve an algorithm for exploration by confidence we shall instantiate
 \Cref{alg:explore-implications} for $\mathcal{L} = \Th_{c}(\con K)$.  This will be done in
 \Cref{sec:expl-conf-1}.  While this approach is conceptually trivial, it entails some
@@ -1165,7 +1156,7 @@ technical problems, the most serious of them being able to compute closures of t
 for sets $P \subseteq M$.  We discuss some approaches how to achieve this computation more
 efficiently than by iterating through $\Th_{c}(\con K)$, which are, however, still
 potentially expensive.  Furthermore, in the general case this exploration will only be
-approximative.
+approximative, which may or may not be a problem, depending on the current application.
 
 To remedy these problems, we use our weaker formulation
 \Cref{alg:explore-implications-weaker-version} and derive from it in
@@ -1180,7 +1171,8 @@ do not compute the canonical base anymore.
 
 We obtain our first algorithm for exploration by confidence by instantiating
 \Cref{alg:explore-implications} with $\mathcal{L} = \Th_{c}(\con K)$.  The first problem
-we have to face here is how to implement \Cref{lst:explore-implications-1}, \ie
+we have to face here is how to implement \Cref{lst:explore-implications-1} in the
+algorithm, \ie
 \begin{equation*}
   \mathcal{L}_{i+1} := \set{ (A \to B) \in \mathcal{L}_{i} \mid A \not\subseteq C \text{
       or } B \subseteq C }.
@@ -1199,7 +1191,7 @@ case amounts to
 
 \begin{figure}[tp]
   \centering
-  \begin{Algorithm}[Exploration by Confidence, First Version]
+  \begin{Algorithm}[Exploration by Confidence, Approximative Version]
     \label{alg:exploration-by-confidence-first-version}
     \hspace*{0cm}
 \begin{lstlisting}
@@ -1228,20 +1220,17 @@ end
   \end{Algorithm}
 \end{figure}
 
-The algorithm we thus obtain from \Cref{alg:explore-implications} is shown in
-\Cref{alg:exploration-by-confidence-first-version}.  The following result is thus as
+The algorithm we thus obtain is shown in
+\Cref{alg:exploration-by-confidence-first-version}.  The following result is an immediate
 consequence of the results we have obtained for \Cref{alg:explore-implications}.
 
 \begin{Corollary}
   \label{cor:exploration-by-confidence-first-version}
   Let $\con K = (G, M, I)$ be a finite formal context, $\leq_{M}$ a linear order on $M$,
   $c \in [0,1]$, $p$ a domain expert on $M$ and $\mathcal{K} \subseteq \Th_{c}(\con K)
-  \cap \Th(p)$.  Then the call
-  \begin{equation*}
-    \text{\lstinline{exploration-by-confidence}}(\con K, \leq_{M}, p, c, \mathcal{K})
-  \end{equation*}
-  terminates after finitely many steps.  If $n$ is the number of iterations of this call,
-  and if $\mathcal{K}_{n}$ is the corresponding return value, then
+  \cap \Th(p)$.  Then the call of \Cref{alg:exploration-by-confidence-first-version} with
+  this input terminates after finitely many steps.  If $n$ is the number of iterations of
+  this call, and if $\mathcal{K}_{n}$ is the corresponding return value, then
   \begin{equation*}
     \Th(p) \cap \Cn(\Th_{c}(\con K)) \supseteq \Cn(\mathcal{K}_{n}) \supseteq \Cn(\Th(p)
     \cap \Th_{c}(\con K)).
@@ -1249,12 +1238,12 @@ consequence of the results we have obtained for \Cref{alg:explore-implications}.
   Moreover, $\mathcal{K}_{n} \setminus \mathcal{K}$ is the canonical base of itself.
 \end{Corollary}
 
-Recall that when we motivated exploration by confidence that we mentioned that in such an
-implementation we would need to distinguish between different forms of counterexamples: if
-$(A \to B) \in \Imp(M)$, then the counterexamples for $A \to B$ contained in $\con K$ can
-possibly be ignored if only $\conf_{\con K}(A \to B) \ge c$.  On the other hand, if our
-expert $p$ provides a counterexample for $A \to B$, then this counterexample cannot be
-ignored, even if the confidence of $A \to B$ would still be sufficiently high.
+Recall that when we motivated exploration by confidence we mentioned the need to
+distinguish between different forms of counterexamples: if $(A \to B) \in \Imp(M)$, then
+the counterexamples for $A \to B$ contained in $\con K$ can possibly be ignored if only
+$\conf_{\con K}(A \to B) \ge c$.  On the other hand, if our expert $p$ provides a
+counterexample for $A \to B$, then this counterexample cannot be ignored, even if the
+confidence of $A \to B$ would still be sufficiently high.
 
 Our \Cref{alg:exploration-by-confidence-first-version} solves this problem by just
 considering two formal contexts, namely $\con K$ on the one hand, where we apply the
@@ -1270,22 +1259,25 @@ $\mathcal{L}_{i}$.  As already mentioned, we want to avoid enumerating $\Th_{c}(
 at all costs, as otherwise the algorithm impractical even from a theoretical point of
 view.
 
+It is worth noting that an apparently simpler approach to avoid computing closures under
+$\Th_{c}(\con K)$ does not work.  More precisely, one may be tempted to replace in
+\Cref{alg:exploration-by-confidence-first-version} all implications of the form
+\begin{equation}
+  \label{eq:62}
+  P_{i+1} \to \mathcal{L}_{i}(P_{i+1})
+\end{equation}
+simply by
+\begin{equation}
+  \label{eq:63}
+  P_{i+1} \to \set{ m \in (P_{i+1})_{\con L_{i}}'' \mid \conf_{\con K}(P_{i+1} \to
+    \set{ m }) \ge c }.
+\end{equation}
+However, the resulting algorithm would not be complete, \ie implications with high
+confidence in $\con K$ may not be asked to the expert.  This is illustrated by the
+following example.
+
 \begin{Example}
   \label{expl:simple-exploration-by-confidence-does-not-work}
-  It is worth noting that an apparently simpler approach to avoid computing closures under
-  $\Th_{c}(\con K)$ does not work.  More precisely, one may be tempted to replace in
-  \Cref{alg:exploration-by-confidence-first-version} all implications of the form
-  \begin{equation*}
-    P_{i+1} \to \mathcal{L}_{i}(P_{i+1})
-  \end{equation*}
-  simply by
-  \begin{equation*}
-    P_{i+1} \to \set{ m \in (P_{i+1})_{\con L_{i}}'' \mid \conf_{\con K}(P_{i+1} \to
-      \set{ m }) \ge c }.
-  \end{equation*}
-  However, the resulting algorithm would not be complete, \ie implications with high
-  confidence in $\con K$ may not be asked to the expert.
-
   \begin{figure}[t]
     \centering
     \def\x{\times}
@@ -1311,12 +1303,14 @@ view.
       shows that a simple approach to exploration by confidence does not work}
   \end{figure}
   
-  To see that this indeed can happen, consider the formal context $\con K$ as given in
+  Consider the formal context $\con K$ as given in
   \Cref{fig:simple-exploration-by-confidence-does-not-work}, let $\mathcal{K} = \set{
-    \set{\mathsf{a}} \to \set{\mathsf{b}} }$, and choose $c = \frac 1 2$.  Then since all
-  sets $P_{i+1}$ are closed under $\mathcal{K}$, the implication $\set{ \mathsf{a} } \to
-  \set{ \mathsf{c} }$ is never asked to the expert, because $\set{ \mathsf{a} }$ is not
-  closed under $\mathcal{K}$.  On the other hand,
+    \set{\mathsf{a}} \to \set{\mathsf{b}} }$, and choose $c = \frac 1 2$.  Suppose that we
+  apply exploration by confidence in the simplified version as described before, \ie we
+  ask implications of the form of~(\ref{eq:63}) instead of those in~(\ref{eq:62}).  Then
+  since all sets $P_{i+1}$ are closed under $\mathcal{K}$, the implication $\set{
+    \mathsf{a} } \to \set{ \mathsf{c} }$ is never asked to the expert, because $\set{
+    \mathsf{a} }$ is not closed under $\mathcal{K}$.  On the other hand,
   \begin{equation*}
     \conf_{\con K} ( \set{ \mathsf{a} } \to \set{ \mathsf{c} }) = \frac 4 7 > \frac 1 2,
   \end{equation*}
@@ -1344,10 +1338,10 @@ view.
   Thus, the set $\mathcal{K}_{n}$ is not complete for $\Th_{c}(\con K) \cap \Th(p)$.
 \end{Example}
 
-However, it is indeed possible to use the simple idea presented in the previous example to
-obtain a correct algorithm for exploration by confidence.  However, to ensure
-completeness, extra steps are necessary in the algorithm.  We shall see in
-\Cref{sec:poss-fast-expl} how this can be done.
+On the other hand, it is possible to ask implications as in~(\ref{eq:63}) instead of those
+in~(\ref{eq:62}) and still obtain a correct algorithm for exploration by confidence.
+However, to ensure completeness, extra steps are necessary in the algorithm.  We shall see
+in \Cref{sec:poss-fast-expl} how this can be done.
 
 In the rest of this section we shall discuss an approach which allows to compute closures
 under $\Th_{c}(\con K)$ at least a bit more efficiently.  In what follows we shall
@@ -1369,11 +1363,11 @@ we had defined
 \begin{align*}
   \mathcal{L}^{1}(P) &:= P \cup \bigcup \set{ B \mid (A \to B) \in \mathcal{L}, A
     \subseteq P }, \\
-  \mathcal{L}^{j+1}(P) &:= \mathcal{L}^{1}(\mathcal{L}^{j}(P)) \quad (j \in \NN_{> 0}), \\
+  \mathcal{L}^{j+1}(P) &:= \mathcal{L}^{j}(\mathcal{L}^{1}(P)) \quad (j \in \NN_{> 0}), \\
   \mathcal{L}(P) & := \bigcup_{i \in \NN_{>0}} \mathcal{L}^{i}(P).
 \end{align*}
 Therefore, if we can find a way to compute $\mathcal{L}_{i}^{1}(P)$ for $\mathcal{L}_{i} =
-\Th_{c}(\con K) \cap \Th(\con L_{i})$ then we are in principle also able to compute
+\Th_{c}(\con K) \cap \Th(\con L_{i})$ then we are in principle able to compute
 $\mathcal{L}_{i}(P)$.  Note that we only have to consider $\mathcal{L}_{i}^{j}(P)$ for up
 to at most $j = \abs M$, because $\abs{ \mathcal{L}_{i}(P) } \le \abs M$.
 
@@ -1385,10 +1379,10 @@ we observe that
 \end{equation}
 This is because on the one hand we have $P_{\con K \div \con L_{i}}'' \subseteq P_{\con
   K}''$ and thus the implication $P \to P_{\con K \div \con L_{i}}''$ is valid in $\con
-K$, and in particular $(P \to P_{\con K \div \con L_{i}}'') \in \Th_{c}(\con K)$.
-On other hand, the same argumentation shows that $P_{\con K \div \con L_{i}}'' \subseteq
-P_{\con L_{i}}''$, and thus $(P \to P_{\con K \div \con L_{i}}'') \in \Th(\con L_{i})$.
-Putting these facts together we obtain
+K$, and in particular $(P \to P_{\con K \div \con L_{i}}'') \in \Th_{c}(\con K)$.  The
+same argumentation shows that $P_{\con K \div \con L_{i}}'' \subseteq P_{\con L_{i}}''$,
+and thus $(P \to P_{\con K \div \con L_{i}}'') \in \Th(\con L_{i})$.  Putting these facts
+together we obtain
 \begin{equation*}
   (P \to P_{\con K \div \con L_{i}}'') \in \Th_{c}(\con K) \cap \Th(\con L_{i}) = \mathcal{L}_{i}
 \end{equation*}
@@ -1423,7 +1417,7 @@ Thus, to obtain all elements in $\mathcal{L}_{i}(P) \setminus P_{\con K \div \co
 \begin{equation*}
   1 > \conf_{\con K}(A \to \set{ b }) \ge c.
 \end{equation*}
-Then $y \in \mathcal{L}_{i}(P) \setminus P_{\con K \div \con L_{i}}$ if and only if such a
+Then $y \in \mathcal{L}_{i}(P) \setminus P_{\con K \div \con L_{i}}''$ if and only if such a
 set $A$ exists.
 
 \begin{Proposition}
@@ -1457,8 +1451,8 @@ since $A \subseteq A_{\con K \div \con L_{i}}'' \subseteq A_{\con K}''$ we also 
 To enumerate all intents of $\con K \div \con L_{i}$ which are subsets of $P$ we could use
 the Next Closure algorithm, as discussed in \Cref{sec:bases-implications}.  However, for
 this we would need that $A \mapsto A_{\con K \div \con L_{i}}''$ is indeed a closure
-operator on $P$, \ie we have to guarantee that $P = P_{\con K \div \con L_{i}}''$ is
-true.  While this is not true in general, we can easily remedy by computing
+operator on $P$, \ie we have to guarantee that $P = P_{\con K \div \con L_{i}}''$ is true.
+While this is not true in general, we can easily remedy this issue by computing
 $\mathcal{L}_{i}^{1}(P_{\con K \div \con L_{i}}'')$ instead of $\mathcal{L}_{i}^{1}(P)$.
 
 \begin{Proposition}
@@ -1468,7 +1462,7 @@ $\mathcal{L}_{i}^{1}(P_{\con K \div \con L_{i}}'')$ instead of $\mathcal{L}_{i}^
   \begin{equation*}
     \mathcal{L}_{i} = \Th_{c}(\con K) \cap \Th(\con L_{i}).
   \end{equation*}
-  Define furthermore for $P \subseteq M$
+  Define for $P \subseteq M$
   \begin{align*}
     \mathcal{L}_{i}^{1,\conf}(P) &:= P_{\con K \div \con L_{i}}'' \cup \{\, b \in P_{\con
       L_{i}}'' \mid \exists A \subseteq P_{\con K \div \con L_{i}}'' \st A = A_{\con K
@@ -1496,22 +1490,23 @@ Closure algorithm as described above.
   Let $P \subseteq M$, and let $b \in \mathcal{L}_{i}^{1,\conf}(P) \setminus P_{\con K
     \div \con L_{i}}''$.  Then there exists a set $A \subseteq P_{\con K \div \con
     L_{i}}''$ such that $A = A_{\con K \div \con L_{i}}''$, $b \in A_{\con L_{i}}
-  \setminus P_{\con K \div L_{i}}''$ and $\conf (A \to \set{b}) \ge c$.  Since $(P_{\con K
-    \div \con L_{i}}'')_{\con L_{i}}'' = P_{\con L_{i}}''$, the same set $A$ shows that $b
-  \in \mathcal{L}_{i}^{1}(P_{\con K \div \con L_{i}}'') \setminus P_{\con K \div \con L_{i}}$.
+  \setminus P_{\con K \div \con L_{i}}''$ and $\conf (A \to \set{b}) \ge c$.  Since
+  $(P_{\con K \div \con L_{i}}'')_{\con L_{i}}'' = P_{\con L_{i}}''$, the same set $A$
+  shows that $b \in \mathcal{L}_{i}^{1}(P_{\con K \div \con L_{i}}'') \setminus P_{\con K
+    \div \con L_{i}}''$.
 
   Conversely, let $b \in \mathcal{L}_{i}^{1}(P_{\con K \div \con L_{i}}'') \setminus
   P_{\con K \div \con L_{i}}''$.  Then $b \in (P_{\con K \div \con L_{i}}'')_{\con
-    L_{i}}'' = P_{\con L_{i}}''$.  Furthermore, there exists a set.  Then there exists $A
-  \subseteq P_{\con K \div \con L_{i}}''$ such that $b \in A_{\con L_{i}}'' \setminus
-  P_{\con K \div \con L_{i}}''$ and $\conf_{\con K}(A \to \set{ b }) \ge c$.  Then $\bar A
-  := A_{\con K \div \con L_{i}}''$ satisfies $\bar A = \bar A_{\con K \div \con L_{i}}''$,
-  $b \in \bar A_{\con L_{i}}'' \setminus P_{\con K \div \con L_{i}}''$ and $\conf_{\con
-    K}(\bar A \to \set{b}) \ge c$, thus $b \in \mathcal{L}_{i}^{1,\conf}(P)\setminus
-  P_{\con K \div \con L_{i}}''$.
+    L_{i}}'' = P_{\con L_{i}}''$.  Furthermore, there exists a set $A \subseteq P_{\con K
+    \div \con L_{i}}''$ such that $b \in A_{\con L_{i}}'' \setminus P_{\con K \div \con
+    L_{i}}''$ and $\conf_{\con K}(A \to \set{ b }) \ge c$.  Then $\bar A := A_{\con K \div
+    \con L_{i}}''$ satisfies $\bar A = \bar A_{\con K \div \con L_{i}}''$, $b \in \bar
+  A_{\con L_{i}}'' \setminus P_{\con K \div \con L_{i}}''$ and $\conf_{\con K}(\bar A \to
+  \set{b}) \ge c$, thus $b \in \mathcal{L}_{i}^{1,\conf}(P)\setminus P_{\con K \div \con
+    L_{i}}''$.
 
-  Because of $\mathcal{L}_{i}^{1,\conf}(P) = \mathcal{L}_{i}^{1}(P_{\con K \div \con
-    L_{i}}'')$ we know that
+  Finally, because of $\mathcal{L}_{i}^{1,\conf}(P) = \mathcal{L}_{i}^{1}(P_{\con K \div
+    \con L_{i}}'')$, we know that
   \begin{equation*}
     \mathcal{L}_{i}^{1}(P) \subseteq \mathcal{L}_{i}^{1,\conf}(P) \subseteq \mathcal{L}_{i}(P),
   \end{equation*}
@@ -1534,27 +1529,28 @@ Moreover, the condition $\conf_{\con K}(A \to \set{b}) \ge c$ entails
 \end{equation*}
 We can therefore infer that $\abs{A_{\con K}'} - 1 \geq c \cdot \abs{A_{\con K}'}$, or
 equivalently
-\begin{equation*}
+\begin{equation}
+  \label{eq:64}
   \abs{A_{\con K}'} \geq \frac{1}{1 - c}
-\end{equation*}
-if $c \neq 1$.  Then all sets which are relevant for the computation of
+\end{equation}
+if $c \neq 1$.  Then all sets $A$ which are relevant for the computation of
 $\mathcal{L}_{i}^{1}(P)$ or $\mathcal{L}_{i}^{1,\conf}(P)$ satisfy this cardinality
-constraint.  Note that for computing $\mathcal{L}_{i}^{1,\conf}(P)$ the Next Closure
-algorithm can be modified accordingly, \ie the algorithm can be modified in such a way
-that it enumerates only intents contained in $P_{\con K \div \con L_{i}}''$ which satisfy
-this cardinality constraint.  See \cite[Theorem~51]{fca-book} for more details on this.
+constraint.  Note that for enumerating the sets $A$ that satisfy~\Cref{eq:64}, the Next
+Closure algorithm can be modified accordingly, \ie the algorithm can be modified in such a
+way that it enumerates only intents contained in $P_{\con K \div \con L_{i}}''$ which
+satisfy this cardinality constraint.  See \cite[Theorem~51]{fca-book} for more details on
+this.
 
 \subsection{A Non-Approximative Exploration by Confidence}
 \label{sec:poss-fast-expl}
 
 \Cref{alg:exploration-by-confidence-first-version} has two main flaws: in general, it only
 provides an approximative exploration of $\Th_{c}(\con K)$, and it crucially depends on
-the computation of closures under $\Th_{c}(\con K)$.  The former fact can lead to
-questions asked which do not have enough confidence in $\con K$, and the latter fact may
-render the algorithm practically useless, because computing closures under $\Th_{c}(\con
-K)$ can be quite costly.
+the computation of closures under $\Th_{c}(\con K)$.  The latter fact may render the
+algorithm practically useless, because computing closures under $\Th_{c}(\con K)$ can be
+quite costly.
 
-To achieve an algorithm that indeed implements exploration by confidence and at the same
+To achieve an algorithm that indeed implements exploration by confidence, and at the same
 time avoids the computation of closures under $\Th_{c}(\con K)$, we shall make use of
 \Cref{alg:explore-implications-weaker-version}, our algorithm for exploring sets of
 implications that allows for some freedom in the way implications are asked to the expert.
@@ -1565,11 +1561,10 @@ eventually will constitute the implication $P_{i+1} \to Q$ which is asked to the
 As it turns out, we can define the set $Q$ in such a way that $P_{i+1} \to Q$ will always
 have confidence at least $c$ in $\con K$.
 
-Let us first consider the issue of avoiding the computation of closures under
-$\Th_{c}(\con K)$, and for this, let us start with some wishful thinking.  To decide
-whether $P$ is closed under $\mathcal{L}_{i} = \Th_{c}(\con K) \cap \Th(\con L_{i})$ it
-would be ideal if we could just check whether no element in $P_{\con L_{i}}''$ is entailed
-by $P$ with confidence at least $c$, \ie
+Let us start with some wishful thinking.  To decide whether $P$ is closed under
+$\mathcal{L}_{i} = \Th_{c}(\con K) \cap \Th(\con L_{i})$ it would be ideal if we could
+just check whether no element in $P_{\con L_{i}}''$ is entailed by $P$ with confidence at
+least $c$, \ie
 \begin{equation}
   \label{eq:43}
   P = \mathcal{L}_{i}(P) \iff \forall m \in P_{\con L_{i}}'' \setminus P \holds
@@ -1585,10 +1580,9 @@ right holds.  However, we can identify a special case in which this equivalence 
   \label{prop:easy-checking-confidence-closed}
   Let $\con K = (G, M, I)$ be a finite formal context, and let $c \in [0,1]$.  Let $\con
   L_{i} = (G_{i}, M, I)$ be another finite formal context such that $G_{i}$ and $G$ are
-  disjoint, and define $\mathcal{L}_{i} = \Th_{c}(\con K) \cap \Th(\con L_{i})$.
-
-  Let $A \subseteq M$, and let $\mathcal{K}_{i} \subseteq \Cn(\mathcal{L}_{i})$ be such
-  that for every intent $X \subsetneq A$ of $\con K \div \con L_{i}$ it is true that
+  disjoint, and define $\mathcal{L}_{i} = \Th_{c}(\con K) \cap \Th(\con L_{i})$.  Let $A
+  \subseteq M$ be such that for every intent $X \subsetneq A$ of $\con K \div \con L_{i}$
+  it is true that
   \begin{equation}
     \label{eq:44}
     \forall m \in X_{\con L_{i}}'' \holds \conf_{\con K}(X \to \set{m}) \ge c \implies m
@@ -1618,7 +1612,7 @@ right holds.  However, we can identify a special case in which this equivalence 
   holds in $\con L_{i}$.  Since $A = A_{\con K \div \con L_{i}}''$, $X \subseteq A$
   implies $X_{\con K \div \con L_{i}}'' \subseteq A$.  Assume by contradiction that
   $X_{\con K \div \con L_{i}}'' \subsetneq A$.  Then $\conf_{\con K}(X_{\con K \div \con
-    L_{i}}'' \to \set{m}) = \conf_{\con K}(X \to \set{m}) \ge c$ and \Cref{eq:44} imply
+    L_{i}}'' \to \set{m}) = \conf_{\con K}(X \to \set{m}) \ge c$ and \Cref{eq:44} implies
   \begin{equation*}
     m \in \mathcal{K}_{i}(X_{\con K \div \con L_{i}}'') \subseteq \mathcal{K}_{i}(A) = A,
   \end{equation*}
@@ -1632,14 +1626,14 @@ test a $\mathcal{K}_{i}$-closed set $A \subseteq M$ for being closed under
 $\mathcal{L}_{i}$.  To achieve this, we shall ask additional questions: in addition to
 asking the expert implications $P_{i+1} \to Q$ where $P_{i+1}$ is
 $\mathcal{K}_{i}$-closed, we shall also ask questions $X \to \set{m}$, where $X$ is an
-intent of $\con K \div \con L_{i}$, where $\con L_{i}$ is the formal context constituted
-of the counterexamples given so far, and $m \in X_{\con L_{i}}'' \setminus
-\mathcal{K}_{i}(X)$ satisfies $\conf_{\con K}(X \to \set{m}) \ge c$.
+intent of $\con K \div \con L_{i}$, $\con L_{i}$ is the formal context constituted of the
+counterexamples given so far, and $m \in X_{\con L_{i}}'' \setminus \mathcal{K}_{i}(X)$
+satisfies $\conf_{\con K}(X \to \set{m}) \ge c$.
 
 \addfunctionname{exploration-by-confidence*}
 
 \begin{figure}[tp]
-  \begin{Algorithm}[Exploration by Confidence, Avoiding Closures under $\Th_{c}(\con K)$]
+  \begin{Algorithm}[Exploration by Confidence]
     \label{alg:exploration-by-confidence-without-Th_c(K)-closures}
     \hspace*{0cm}
 \begin{lstlisting}
@@ -1690,11 +1684,10 @@ from \Cref{eq:44} in \Cref{prop:easy-checking-confidence-closed}: if we are in i
 $i$, then all intents $X \subsetneq P_{i}$ of $\con K \div \con L_{i}$ had been considered
 as sets $X = P_{j}^{1}$ for some $j < i$, since $X \subsetneq P_{i}$ implies $X \precneq
 P_{i}$.  Then for all $m \in X_{\con L_{i}}'' \setminus \mathcal{K}_{i}(X)$ satisfying
-$\conf_{\con K}(X \to \set{m}) \ge c$, the implication $X \to \set{m}$ has thus eventually
-been asked to the expert for confirmation.  If confirmed, the implication is contained in
-$\mathcal{K}_{i}$; if rejected, the context $\con L_{i}$ would contain a counterexample,
-and thus $m \notin (P_{i})_{\con L_{i}}''$.  In this way, the condition in \Cref{eq:44} is
-ensured.
+$\conf_{\con K}(X \to \set{m}) \ge c$, the implication $X \to \set{m}$ has been asked to
+the expert.  If confirmed, the implication is contained in $\mathcal{K}_{i}$; if rejected,
+the context $\con L_{i}$ would contain a counterexample, and thus $m \notin (P_{i})_{\con
+  L_{i}}''$.  In this way, the condition in \Cref{eq:44} is ensured.
 
 That this rather informal argumentation indeed holds for
 \Cref{alg:exploration-by-confidence-without-Th_c(K)-closures} is shown in the following
@@ -1702,9 +1695,9 @@ proposition.
 
 \begin{Proposition}
   \label{prop:exploration-by-confidence-crucial-condition-holds}
-  Suppose that we are in iteration $i$ of a run of
-  \lstinline{exploration-by-confidence*}.  Then for all intents $X \precneq P_{i}$ of
-  $\con K \div \con L_{i}$ it is true that
+  Suppose that we are in iteration $i$ of
+  \Cref{alg:exploration-by-confidence-without-Th_c(K)-closures}.  Then for all intents $X
+  \precneq P_{i}$ of $\con K \div \con L_{i}$ it is true that
   \begin{equation}
     \label{eq:42}
     \forall m \in X_{\con L_{i}}'' \holds \conf_{\con K}(X \to \set{m}) \ge c \implies m
@@ -1716,9 +1709,8 @@ proposition.
   true since $P_{0} = \emptyset$.  For the step case assume that \Cref{eq:42} holds for
   iteration $i$, and assume further that iteration $i+1$ exists.  Then to show the claim
   for iteration $i+1$ let $X \precneq P_{i+1}$ be an intent of $\con K \div \con L_{i+1}$
-  and $m \in X_{\con L_{i}}''$ such that $\conf_{\con K}(X \to \set{m}) \ge c$, and we
-  need to show that $m \in \mathcal{K}_{i}(X)$ is true.  For this, we distinguish two
-  cases.
+  and $m \in X_{\con L_{i}}''$ such that $\conf_{\con K}(X \to \set{m}) \ge c$. We need to
+  show that $m \in \mathcal{K}_{i}(X)$ is true.  For this, we distinguish two cases.
 
   \textit{Case $X \precneq P_{i}$}: If $\con L_{i} = \con L_{i+1}$, then $X$ being an
   intent of $\con K \div \con L_{i+1}$ also trivially means that $X$ is an intent of $\con
@@ -1747,35 +1739,32 @@ proposition.
   required.
 \end{Proof}
 
-To show that \lstinline{exploration-by-confidence*} as shown in
-\Cref{alg:explore-implications-weaker-version} indeed yields an algorithm that implements
-exploration by confidence we shall show that it has the form of
-\Cref{alg:explore-implications-weaker-version}.  For this we need to show that in every
+To show that \Cref{alg:exploration-by-confidence-without-Th_c(K)-closures} indeed yields
+an algorithm that implements exploration by confidence we shall show that it has the form
+of \Cref{alg:explore-implications-weaker-version}.  For this we need to show that in every
 iteration $i$, the lectically smallest $\mathcal{K}_{i}$-closed, not
 $\mathcal{L}_{i}$-closed set $P$ lectically greater or equal to $P_{i}$ satisfies
 \begin{equation}
   \label{eq:46}
   P_{i} \preceq P_{i+1} \preceq P.
 \end{equation}
-Recall that $\mathcal{L}_{i} = \Th_{c}(\con K) \cap \Th(\mathcal{L})$.
-
 Additionally, we need to show that $P_{i+1}$ is not $\mathcal{L}_{i}$-closed, and
 $Q_{i+1}$ satisfies
 \begin{equation}
   \label{eq:47}
-  P_{i+1} \subsetneq Q \subseteq \mathcal{L}_{i}(P_{i+1}).
+  P_{i+1} \subsetneq Q \subseteq \mathcal{L}_{i}(P_{i+1}), Q \not\subseteq \mathcal{K}_{i}(P_{i+1}).
 \end{equation}
 This is enough, as the rest of
-\Cref{alg:exploration-by-confidence-without-Th_c(K)-closures} has the same for as
+\Cref{alg:exploration-by-confidence-without-Th_c(K)-closures} has the same structure as
 \Cref{alg:explore-implications-weaker-version}.
 
 We first show that \Cref{eq:46} is true.  The fact that $P_{i} \preceq P_{i+1}$ is clear,
 and $P_{i+1} \preceq P$ is shown in the following proposition.
 \begin{Proposition}
   \label{prop:exploration-by-confidence-first-condition-holds}
-  Suppose that we are in iteration $i$ of a run of \lstinline{exploration-by-confidence*}.
-  Define $\mathcal{L}_{i} = \Th_{c}(\con K) \cap \Th(\mathcal{L})$.  Let $P \subseteq M$
-  be the lectically smallest $\mathcal{K}_{i}$-closed set lectically greater or equal to
+  Suppose that we are in iteration $i$ of
+  \Cref{alg:exploration-by-confidence-without-Th_c(K)-closures}.  Let $P \subseteq M$ be
+  the lectically smallest $\mathcal{K}_{i}$-closed set lectically greater or equal to
   $P_{i}$ which is not $\mathcal{L}_{i}$-closed.  Then $P_{i+1} \preceq P$.
 \end{Proposition}
 \begin{Proof}
@@ -1785,7 +1774,7 @@ and $P_{i+1} \preceq P$ is shown in the following proposition.
     (P_{i+1}^{2})_{\con K \div \con L_{i}}'' \neq P_{i+1}^{2}
   \end{equation*}
   because of $\Th(\con K \div \con L_{i}) \subseteq \mathcal{L}_{i}$.  This implies $P
-  \preceq P_{i+1}^{2}$, and the claim would hold if $P = P_{i+1}^{2}$.
+  \preceq P_{i+1}^{2}$, and the claim holds if $P = P_{i+1}^{2}$.
 
   It remains to consider the case $P \precneq P_{i+1}^{2}$.  In this case, by construction
   of $P_{i+1}^{2}$ and since $P$ is $\mathcal{K}_{i}$-closed, the set $P$ must be an
@@ -1809,29 +1798,27 @@ and $P_{i+1} \preceq P$ is shown in the following proposition.
 
 Furthermore, it is easy to see that $P_{i+1}$ is not $\mathcal{L}_{i}$-closed: if $P_{i+1}
 = P_{i+1}^{1}$, then the element $m$ found during this computation satisfies $m \in
-\mathcal{L}_{i}(P_{i+1}) \setminus P_{i+1}$.  If $P_{i+1} = P_{i+1}^{2}$, then as in the
-previous proof $P_{i+1}^{2} \neq (P_{i+1}^{2})_{\con K \div \con L_{i}}''$ shows that
-$P_{i+1}$ is not $\mathcal{L}_{i}$-closed.
+\mathcal{L}_{i}(P_{i+1}) \setminus P_{i+1}$.  If $P_{i+1} = P_{i+1}^{2}$, then
+$P_{i+1}^{2} \neq (P_{i+1}^{2})_{\con K \div \con L_{i}}''$ shows that $P_{i+1}$ is not
+$\mathcal{L}_{i}$-closed.
 
-It remains to show the claim that $Q_{i+1}$ satisfies \Cref{eq:47}, \ie
+It remains to show that $Q_{i+1}$ satisfies \Cref{eq:47}, \ie
 \begin{equation*}
   P_{i+1} \subsetneq Q_{i+1} \subseteq \mathcal{L}_{i}(P_{i+1}).
 \end{equation*}
 To see this, first suppose that $P_{i+1} = P_{i+1}^{1}$.  Then $Q$ contains an attribute
 $m$ that satisfies $m \notin \mathcal{K}_{i}(P_{i+1}) \supseteq P_{i+1}$.  In this case,
-$\conf_{\con K}(P_{i+1}^{1} \to \set{m}) \ge c$ and $m \in P_{\con L_{i}}''$, so
-\begin{equation*}
-  (P_{i+1} \to \set{m}) \in \mathcal{L}_{i}
-\end{equation*}
-and thus $Q_{i+1} \subseteq \mathcal{L}_{i}(P_{i+1})$.  On the other hand, if $P_{i+1} =
-P_{i+1}^{2}$, then $P_{i+1} \neq (P_{i+1})_{\con K \div \con L_{i}}'' = Q_{i+1}$.  Since
-$\Th(\con K \div \con L_{i}) \subseteq \mathcal{L}_{i}$, also $Q_{i+1} \subseteq
-\mathcal{L}_{i}(P_{i+1})$ is true.
+$\conf_{\con K}(P_{i+1}^{1} \to \set{m}) \ge c$ and $m \in P_{\con L_{i}}''$, thus
+$(P_{i+1} \to \set{m}) \in \mathcal{L}_{i}$ and $Q_{i+1} \subseteq
+\mathcal{L}_{i}(P_{i+1})$.  On the other hand, if $P_{i+1} = P_{i+1}^{2}$, then $P_{i+1}
+\neq (P_{i+1})_{\con K \div \con L_{i}}'' = Q_{i+1}$.  Since $\Th(\con K \div \con L_{i})
+\subseteq \mathcal{L}_{i}$, $Q_{i+1} \subseteq \mathcal{L}_{i}(P_{i+1})$ is true.
+Finally, $Q_{i+1} \not\subseteq \mathcal{K}_{i}(P_{i+1}^{2})$ is clear since
+$\mathcal{K}_{i}(P_{i+1}^{2}) = P_{i+1}^{2}$ and $Q \not\supseteq P_{i+1}^{2}$.
 
-We have thus shown that \Cref{alg:exploration-by-confidence-without-Th_c(K)-closures}
-indeed has the form of \Cref{alg:explore-implications-weaker-version}.  The following
-result is then an immediate consequence of
-\Cref{thm:explore-implications-weaker-version-termination} and
+We have thus shown that \Cref{alg:exploration-by-confidence-without-Th_c(K)-closures} has
+the form of \Cref{alg:explore-implications-weaker-version}.  The following result is then
+an immediate consequence of \Cref{thm:explore-implications-weaker-version-termination} and
 \Cref{thm:explore-implications-weaker-version-all-other-properties}.  Note that our
 algorithm only asks implications which are either valid in $\con K$, or at least have
 confidence at least $c$ in $\con K$.  Thus, $\mathcal{K}_{i} \setminus \mathcal{K}
@@ -1844,15 +1831,11 @@ $\Th(p) \cap \Th_{c}(\con K)$.
   \label{cor:exploration-by-confidence-weaker-version-properties}
   Let $\con K = (G, M, I)$ be a finite formal context, $\leq_{M}$ a linear order on $M$,
   $p$ a domain expert on $M$, $c \in [0,1]$ and $\mathcal{K} \subseteq \Th(p) \cap
-  \Th_{c}(\con K)$.  Then \lstinline{exploration-by-confidence*} applied to this input
-  terminates after finitely many steps.  If
-  \begin{equation*}
-    \mathcal{K}_{n} := \text{\lstinline{exploration-by-confidence*}}(\con K, \leq_{M}, p,
-    c, \mathcal{K}),
-  \end{equation*}
-  then $\mathcal{K}_{n} \setminus \mathcal{K}$ is a confident base of $\Th(p) \cap
-  \Th_{c}(\con K)$ with background knowledge $\mathcal{K}$, \ie $\mathcal{K}_{n} \setminus
-  \mathcal{K} \subseteq \Th_{c}(\con K)$ and
+  \Th_{c}(\con K)$.  Then \Cref{alg:exploration-by-confidence-without-Th_c(K)-closures}
+  applied to this input terminates after finitely many steps.  If $n$ is the number of
+  iterations of this run, then $\mathcal{K}_{n} \setminus \mathcal{K}$ is a confident base
+  of $\Th(p) \cap \Th_{c}(\con K)$ with background knowledge $\mathcal{K}$, \ie
+  $\mathcal{K}_{n} \setminus \mathcal{K} \subseteq \Th_{c}(\con K)$ and
   \begin{equation*}
     \Cn(\mathcal{K}_{n}) = \Cn(\Th(p) \cap \Th_{c}(\con K)).
   \end{equation*}
