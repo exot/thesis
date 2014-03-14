@@ -580,6 +580,23 @@ terminological knowledge) are annotated with \emph{truth values} from an underly
 lattice, and the semantics allows to infer truth values for facts where the truth values
 was previously unknown, or at least bounds thereof.
 
+Finally, a completely different approach to learning terminological knowledge has been
+developed recently~\cite{conf/dlog/KonevLW13}, based on a general framework of \emph{query
+  learning} proposed by~\cite{journals/ml/Angluin87}.  In contrast to the work by Baader
+and Distel, this approach tries to learn TBoxes $\mathcal{T}$ by posing queries to an
+\emph{oracle}.  These queries are either \emph{entailment queries}, in which the oracle
+has to decide whether a proposed GCI is entailed by the TBox $\mathcal{T}$ to be learned,
+or \emph{equivalence queries}, where the oracle has to decide whether a given TBox is
+equivalent to $\mathcal{T}$.  The work~\cite{conf/dlog/KonevLW13} then considers
+the question for which description logic the TBox $\mathcal{T}$ can be learned in
+polynomial time.  In particular, it is shown that if $\mathcal{T}$ is an \emph{acyclic
+  \EL-TBox}, then it cannot be learned in polynomial time.
+
+Note that entailment queries are similar to the questions proposed to an expert during
+attribute exploration.  In fact, it is possible to show that a certain special case of
+query learning~\cite{journals/ml/AngluinFP92} can be used to obtain an alternative
+computation of the canonical base~\cite{journals/ml/AriasB11}.
+
 \section{Contributions}
 \label{sec:contributions}
 
