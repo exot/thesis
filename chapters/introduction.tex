@@ -201,26 +201,21 @@ are mostly relevant to ensure the correctness of the given knowledge base.
 Formal concept analysis~\cite{fca-book} is a subfield of mathematical order theory,
 originally concerned with the study of properties of ordered structures called
 \emph{complete lattices} by representing them in terms of so-called \emph{formal
-  contexts}.  However, since then, this theory has evolved into a rich field, with
-connections to previously unrelated subjects such as
+  contexts}.  Since then, formal concept analysis has considerably broadened its scope,
+with connections to previously unrelated subjects such as
 logics~\cite{books/math/Prediger00,conf/iccs/FerreR00}, data
 mining~\cite{arules:Zaki:1998}, machine learning~\cite{conf/icfca/Kuznetsov04}, and
 artificial intelligence~\cite{phd/de/Rudolph2006,Diss-Felix}.  Because of this, formal
-concept analysis today can also be considered as a part of theoretical computer science,
-and thus provides another link between this compute science and mathematics.
+concept analysis can today be considered as a part of theoretical computer science, and
+thus provides another link between compute science and mathematics.
 
 The origin of formal concept analysis as it is used in this work can clearly be marked by
 the work of Wille~\cite{fca:Wille:1982}, which introduced formal concept analysis as an
-approach to impose meaning on complete lattices as \emph{hierarchies of concepts}.  This
-work was motivated by previous results from Birkhoff~\cite{books/math/Birkhoff67}, but
-also has a strong philosophical background~\cite{books/phil/Hentig72}, see
-also~\cite{Wille:Begriffsdenken}.  Another early work that included some of the ideas of
-formal concept analysis is~\cite{OrdreEtClassification}.
-
-The fundamental idea of formal concept analysis is to represent complete lattices by a
-\emph{object-attribute-relationship}, which is expressed using \emph{formal contexts}.
-These structures can be thought of as tables of crosses, like the one shown in
-\Cref{fig:example-formal-context}.
+approach to impose meaning on complete lattices by considering them as \emph{hierarchies
+  of concepts}.  This work was motivated by previous results from
+Birkhoff~\cite{books/math/Birkhoff67}, but also has a strong philosophical
+background~\cite{books/phil/Hentig72,Wille:Begriffsdenken}.  Another early work that
+included some of the ideas of formal concept analysis is~\cite{OrdreEtClassification}.
 
 \begin{figure}[tp]
   \centering
@@ -246,21 +241,26 @@ These structures can be thought of as tables of crosses, like the one shown in
   \label{fig:example-formal-context}
 \end{figure}
 
-This formal context expresses an object-attribute-relationship between the known planets
-of the solar system (including Pluto) as \emph{objects}, and the \emph{attributes} whether
-a planet is \textsf{small}, \textsf{medium}, or \textsf{large}, whether a planet is an
-\textsf{inner} planet (\ie has an orbit which is closer to the sun than the asteroid
-belt), or is an \textsf{outer} planet, and whether a planet has a \textsf{moon} or not.  A
-cross in this table then means that the object on the corresponding row \emph{has} the
-attribute on the corresponding column.  Thus, for example, \textsf{Mercury} is a
-\textsf{small} planet, and \textsf{Pluto} is an \textsf{outer} planet.  The set of all
-pairs of objects $g$ and attributes $m$ where $g$ has the attribute $m$ is called the
-\emph{incidence relation} of the formal context.
+The fundamental idea of formal concept analysis is to represent complete lattices by a
+\emph{object-attribute-relationship}, which is expressed using \emph{formal contexts}.
+These structures can be thought of as \emph{tables of crosses}.  An example of a formal
+context is depicted in \Cref{fig:example-formal-context}.  This example formal context
+expresses an object-attribute-relationship between the \emph{objects} being the known
+planets of the solar system (including Pluto), and the \emph{attributes} being certain
+properties of these planets, like its size (\textsf{small}, \textsf{medium}, or
+\textsf{large}), its distance from the sun (\textsf{inner} planet (\ie has an orbit which
+is closer to the sun than the asteroid belt), or is an \textsf{outer} planet), and it has
+a \textsf{moon} or not.  A cross in this table then means that the object on the
+corresponding row \emph{has} the attribute on the corresponding column.  Thus, for
+example, \textsf{Mercury} is a \textsf{small} planet, and \textsf{Pluto} is an
+\textsf{outer} planet.  The set of all pairs of objects $g$ and attributes $m$ where $g$
+has the attribute $m$ is called the \emph{incidence relation} of the formal context.
 
-More formally, a \emph{formal context} $\con K$ can be defined as a triple $\con K = (G,
-M, I)$, where $G$ and $M$ are sets and $I \subseteq G \times M$.  The set $G$ is then
-called the set of \emph{objects}, the set $M$ is called the set of \emph{attributes}, and
-an attribute $g \in G$ \emph{has} an attribute $m \in M$ if and only if $(g, m) \in I$.
+Formally, a \emph{formal context} $\con K$ can be defined as a triple $\con K = (G, M,
+I)$, where $G$ and $M$ are sets and $I \subseteq G \times M$.  The set $G$ is then called
+the set of \emph{objects}, the set $M$ is called the set of \emph{attributes}, and the set
+$\mathcal{I}$ is called the \emph{incidence}.  An object $g \in G$ \emph{has} an attribute
+$m \in M$ in $\con K$ if and only if $(g, m) \in I$.
 
 From such a formal context one can then extract \emph{formal concepts}, which can be
 ordered in a natural way to yield the \emph{concept lattice} of the formal context.  In
@@ -272,8 +272,11 @@ our example above, a formal concept which corresponds to the concept of a
     \mathsf{outer} } ),
 \end{equation}
 where the first set is called the \emph{extent}, and the second set is called the
-\emph{intent} of the formal concept.  Formal concept can then be ordered by set-inclusion
-of their extents, and the concept lattice that corresponds to our small example above is
+\emph{intent} of the formal concept.
+
+Formal concepts can then be ordered by set-inclusion of their extents, and it can be shown
+that the thus-obtained ordered set is a complete lattice, the \emph{concept lattice} of
+the formal context.  The concept lattice that corresponds to our small example above is
 shown in \ref{fig:example-concept-lattice}.  This diagram also uses the usual, abridged
 annotation of concept lattices: a node $v$ in the lattice diagram represents the formal
 concept whose extent consists of all objects which can be reached by an \emph{descending
@@ -354,17 +357,17 @@ concept of \Cref{eq:60}.
 \end{figure}
 
 One of the key results of formal concepts analysis is that every complete lattice can be
-represented as a concept lattice of a suitably chosen formal context (the so-called
-\emph{fundamental theorem of formal concept analysis}).  A major direction of formal
-concept analysis research is now to consider properties and operations of lattices, such
-as distributivity, modularity, direct and semi-direct products, and transfer them to
-corresponding properties and operations on the level of formal contexts.
-See~\cite{fca-book} for more details on this.
+represented as a concept lattice of a suitably chosen formal context (this is the
+so-called \emph{fundamental theorem of formal concept analysis}).  A major direction of
+formal concept analysis research is to consider properties and operations of lattices,
+such as \emph{distributivity}, \emph{modularity}, \emph{direct} and \emph{semi-direct
+  products}, and transfer them to corresponding properties and operations on the level of
+formal contexts.  See~\cite{fca-book} for more details on this.
 
-Another very prominent research direction is the study of \emph{implications} in formal
-contexts, which has been discussed as early as~\cite{fca:Wille:1982}.  Observe that in our
-example formal context above, all outer planets have a moon.  We can express this fact as
-saying that the implication
+Another very prominent research direction in formal concept analysis is the study of
+\emph{implications} in formal contexts, which has been discussed as early
+as~\cite{fca:Wille:1982}.  Observe that in our example formal context above, all outer
+planets have a moon.  We can express this fact as saying that the implication
 \begin{equation*}
   \set{ \mathsf{outer} } \to \set{ \mathsf{moon} }
 \end{equation*}
@@ -372,8 +375,8 @@ saying that the implication
   dependencies} from the theory of databases~\cite{DBLP:books/cs/Maier83}, and also play a
 certain role in classical order theory~\cite{Wild1994118}.
 
-One task is then to compute the set of all valid implications of a given formal context.
-Since this set can be quite huge, one usually wants to compute \enquote{small} sets of
+One task is to compute the set of all valid implications of a given formal context.  Since
+this set can be quite large, one usually wants to compute \enquote{small} sets of
 implications which are sufficient, called \emph{bases}.  One very prominent base is the
 so-called \emph{canonical base}~\cite{fca:DuquenneGuigues:1986} (also \emph{stem base},
 \emph{Duquenne-Guigues base}), which is a \emph{minimal} base, \ie a base with minimal
@@ -399,12 +402,12 @@ The expert can the either accept this implication, or decline it by providing a
 \emph{counterexample}.  In this way, the expert enriches the currently known formal
 context by missing objects and their attributes.  As soon as the process finishes, the set
 of confirmed implications represents the whole implicational knowledge represented by the
-expert, and it indeed be shown that this set of confirmed implications is the canonical
-base of the formal context which is constituted by all counterexamples provided by the
-expert.  In this way, attribute exploration can be seen as an semi-automatic knowledge
-acquisition algorithm.
+expert.  Moreover, it can be shown that the set of confirmed implications is the canonical
+base of the formal context which consists of the initially known objects together with all
+counterexamples provided by the expert.  In this way, attribute exploration can be seen as
+an semi-automatic knowledge acquisition algorithm.
 
-Attribute exploration has been a major focus of formal concept analysis, and many
+Attribute exploration has been a major focus of formal concept analysis research, and many
 extensions of this algorithm have been developed and discussed.  Examples for this are the
 inclusion of \emph{background
   knowledge}~\cite{stumme96attribute,DBLP:journals/tcs/Ganter99}, \emph{concept
@@ -418,39 +421,52 @@ inclusion of \emph{background
 \label{sec:extr-term-knowl}
 
 The main purpose of this work is to discuss a way to extract general concept inclusions
-from relational data (interpretations) which are allowed to contain \enquote{few} errors.
-The basis for our considerations are the results obtained by Baader and
+from interpretations which are allowed to contain errors.  The basis for our
+considerations are the results obtained by Baader and
 Distel~\cite{Diss-Felix,BaDi09,BaaderDistel08} on computing \emph{finite bases} of
-\emph{valid} GCIs from finite interpretations.
+\emph{valid} GCIs from finite interpretations.  In the following, we shall briefly
+summarize the main results o this approach.
 
-For this approach we assume that we want to learn terminological knowledge about a certain
-\emph{domain} of interest, and that we can represent this domain as a finite
-interpretation $\mathcal{I}$.  In other words, our domain is representable as relational
-data, where the elements have additional properties.  Then the terminological knowledge we
-are interested in is exactly the set $\Th(\mathcal{I})$ of valid GCIs of $\mathcal{I}$, in
-our case using the description logic $\ELbot$.
+The goal of the work by Baader and Distel is to learn terminological knowledge about a
+certain \emph{domain} of interest.  For this we assume that we can represent this domain
+as a finite interpretation $\mathcal{I}$, \ie our domain is representable as relational
+data.  The terminological knowledge we are then interested in is the set
+$\Th(\mathcal{I})$ of valid GCIs of $\mathcal{I}$, using the description logic $\ELbot$.
 
 A first problem here is that the set $\Th(\mathcal{I})$ is infinite in general: if $C
-\sqsubseteq D$ is valid in $\mathcal{I}$, and if $r$ is a role name, then the GCI
-$\exists r. C \sqsubseteq \exists r. D$ is also valid in $\mathcal{I}$.  To remedy this,
-Baader and Distel want to compute \emph{finite bases} of $\Th(\mathcal{I})$, \ie finite
-subsets of $\Th(\mathcal{I})$ which are already complete for $\mathcal{I}$.  One of the
-main results of their approach is then that such finite bases always exist, and that they
-can be computed effectively.  Such finite bases can then be used as TBoxes of a knowledge
-base which logically represents the initial domain of interest.
+\sqsubseteq D$ is valid in $\mathcal{I}$, and if $r$ is a role name, then the GCI $\exists
+r. C \sqsubseteq \exists r. D$ is also valid in $\mathcal{I}$.  To remedy this, Baader and
+Distel compute \emph{finite bases} of $\Th(\mathcal{I})$, \ie finite subsets $\mathcal{B}$
+of $\Th(\mathcal{I})$ which are already \emph{complete} for $\mathcal{I}$.  In other
+words, finite bases $\mathcal{B}$ are finite sets of valid GCIs of $\mathcal{I}$, such
+that every GCI valid in $\mathcal{I}$ is already entailed by $\mathcal{B}$.  One of the
+main results of their approach is that such finite bases always exist, and that they can
+be computed effectively.
 
 To provide these results, Baader and Distel exploit the tight connection between the
-description logic $\ELbot$ and formal concept analysis which is established by \emph{model
-  based most specific concept descriptions} and \emph{induced formal contexts} of finite
+description logic $\ELbot$ and formal concept analysis, established by \emph{model based
+  most specific concept descriptions} and \emph{induced formal contexts} of finite
 interpretations and sets of concept descriptions.  More precisely, it can be shown that if
 $\con K_{\mathcal{I}}$ denotes the induced formal context of $\mathcal{I}$, that then
-every base of $\con K_{\mathcal{I}}$ gives rise to a finite base of $\mathcal{I}$.
-Moreover, it is possible to transfer the algorithm of attribute exploration applied to the
-context $\con K_{\mathcal{I}}$ to an algorithm for \emph{model exploration} of
-$\mathcal{I}$.  This algorithm then allows to interactively compute bases of
-$\mathcal{I}$, allowing an expert to provide missing facts when required.  The resulting
-algorithms obtain by this approach are all effective, and can be implemented.  This has
-been done in a preliminary version in~\cite{DBLP:conf/icdm/BorchmannD11}.
+every base of $\con K_{\mathcal{I}}$ gives rise to a finite base of $\mathcal{I}$.  A
+technical problem that arises here is that model-based most-specific concept descriptions
+are not necessarily expressible in the description logic \ELbot.  Because, of this, Baader
+and Distel consider the description logic \ELgfpbot, an extension of \ELbot by
+\emph{cyclic concept description} using \emph{greatest fixpoint semantics}.
+
+The resulting algorithms for computing bases of finite interpretations all effective.  A
+preliminary implementation with applications to linked data has been presented
+in~\cite{DBLP:conf/icdm/BorchmannD11}.
+
+An additional issue addressed by Baader and Distel is the fact that the interpretation
+$\mathcal{I}$ may be \emph{incomplete}, \ie certain facts from the domain of interest may
+not be represented in it.  The GCIs which are valid in $\mathcal{I}$ may not be
+necessarily valid in the domain of interest.  This problem is very similar to the problem
+solved by attribute exploration, and it can indeed be shown that attribute exploration
+applied to the context $\con K_{\mathcal{I}}$ can be transferred into an algorithm for
+\emph{model exploration} of $\mathcal{I}$.  This algorithm then allows to interactively
+compute bases of $\mathcal{I}$, allowing an expert to provide missing facts when required.
+In this way, learning GCIs which are invalid in the domain of interest can be avoided.
 
 \section{Other Related Work}
 \label{sec:related-work}
