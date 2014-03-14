@@ -480,10 +480,10 @@ One of the first results in description logics that utilizes formal concept anal
 the work of Baader~\cite{Baader-KRUSE-95}.  In this work, Baader uses the attribute
 exploration algorithm on a special formal context to compute a minimal representation of
 the subsumption hierarchy between all conjunctions of the defined concept names of a given
-acyclic TBox $\mathcal{T}$, formulated in the logic $\ALC$.  To this end, Baader extends
-the classical algorithm~\cite{journals/ai/Schmidt-SchaussS91} for \ALC to decide
-subsumption between \emph{single} defined concept names, and extends it in such a way that
-it provides counterexamples to instances of the subsumption problem.  These
+acyclic TBox $\mathcal{T}$ formulated in the logic $\ALC$.  To this end, Baader extends
+the classical tableau algorithm for \ALC to decide subsumption between \emph{single}
+defined concept names~\cite{journals/ai/Schmidt-SchaussS91}, and extends it in such a way
+that it provides counterexamples to instances of the subsumption problem.  These
 counterexamples are then collected into a suitable formal context, and from this context
 the attribute exploration algorithm eventually computes the canonical base.  These
 implications give rise to a set of GCIs, which can then be used to decide subsumption
@@ -492,71 +492,71 @@ between conjunctions of defined concept names of $\mathcal{T}$.
 The results obtained by Baader have been further generalized by
 Stumme~\cite{stumme96concept} to include also disjunction.  For this, a generalization of
 attribute exploration called \emph{distributive concept
-  exploration}~\cite{conf/ki/Stumme98} is used.
+  exploration}~\cite{conf/ki/Stumme98} has been used.
 
-Another use of ideas from formal concept analysis for description logic applications is in
+Another use from formal concept analysis for description logic applications is in
 \emph{knowledge base completion}~\cite{Sert07,conf/ijcai/BaaderGSS07}, for which again
 attribute exploration was used.  For this, GCIs of the form
 \begin{equation*}
   \bigsqcap U \sqsubseteq \bigsqcap V
 \end{equation*}
 are asked to the expert, where $U, V \subseteq M$ for some previously chosen set $M$ of
-interesting concepts.  The task is then to ensure the given knowledge base is complete
-with respect to all these GCIs, \ie the knowledge base should entail all such GCIs which
-are confirmed by the expert, and should contain counterexamples for all other GCIs of this
-type.  The most significant challenge for transferring attribute exploration to this
-setting is to deal with the \emph{open world semantics} of description logic knowledge
-bases: a fact that is not stated in the knowledge base does not mean that the negated fact
-holds.  For this, attribute exploration is generalized to work on \emph{partial contexts},
-\ie formal context in which certain crosses are unknown.  The resulting algorithm has been
-implemented as a plugin named \emph{OntoComp} for the ontology editor
-\emph{Protégé}~\cite{conf/esws/Sertkaya09}.
+\emph{interesting concepts}.  The goal is then to ensure the given knowledge base is
+complete with respect to all these GCIs, \ie the knowledge base should entail all such
+GCIs which are confirmed by the expert, and should contain counterexamples for all other
+GCIs of this type.  The most significant challenge for transferring attribute exploration
+to this setting is to deal with the \emph{open world semantics} of description logic
+knowledge bases: if a fact is not entailed by the knowledge base, then this does not mean
+that the negated fact holds.  For this, attribute exploration is generalized to work on
+\emph{partial contexts}, \ie formal context in which certain crosses are unknown.  The
+resulting algorithm has been implemented as a plugin named \emph{OntoComp} for the
+ontology editor \emph{Protégé}~\cite{conf/esws/Sertkaya09}.
 
 A third prominent application of ideas of formal concept analysis in description logics is
 the work of Rudolph on \emph{relational
-  exploration}~\cite{phd/de/Rudolph2006,conf/iccs/Rudolph04}.  In this approach, the
-target description logic is \FLE, the extension of \EL by value restriction ($\forall$).
-The domain of interest is not represented as an interpretation, but by means of
-\emph{binary power context families}~\cite{DBLP:conf/iccs/PredigerW99}, which however can
-easily be considered as an interpretation.  Then the exploration process is conducted in
-several phases: in phase $k$, concept descriptions with \emph{role depth} at most $k$ are
+  exploration}~\cite{phd/de/Rudolph2006,conf/iccs/Rudolph04}.  In this approach the target
+description logic is \FLE, the extension of \EL by value restriction ($\forall$).  The
+domain of interest is not represented as an interpretation, but by means of \emph{binary
+  power context families}~\cite{DBLP:conf/iccs/PredigerW99}, which however can easily be
+considered as an interpretation.  Then the exploration process is conducted in several
+phases: in phase $k$, concept descriptions with \emph{role depth} at most $k$ are
 considered as attributes of the current formal context, and on this formal context
 attribute exploration is performed.  Rudolph then shows that this process has only to be
 considered up to a certain maximal role depth, and that the resulting set of implications
-can be used to decide whether an arbitrary GCI $C \sqsubseteq D$ is valid in the original
-domain or not.  However, it is not shown whether and how this set of implications can be
-transferred into a base of the domain.  Indeed, the decision procedure for checking
-whether $C \sqsubseteq D$ holds in the domain or not is rather complicated.  Thus, no GCIs
-are learned from this approach, and thus it cannot be used to obtain terminological
-knowledge from relational data.
+can be used to decide whether an arbitrary GCI $C \sqsubseteq D$ is valid or not in the
+domain represented by the expert.  However, it is not shown whether and how this set of
+implications can be transferred into a base of the domain.  Indeed, the decision procedure
+for checking whether $C \sqsubseteq D$ holds in the domain or not is rather complicated.
+Thus, no GCIs are learned from this approach, and thus it cannot be used to obtain
+terminological knowledge from relational data.
 
-The aforementioned approach of binary power context families is an attempt to add
+The aforementioned approach of \emph{power context families} is an attempt to add
 description logic expressibility to the world of formal concept analysis.  In its easiest
-form, \emph{relational contexts} (also \emph{binary power context families}), a formal
-context is equipped with a family of relations $\mathcal{R}$ on the object set.  Based on
-this notion, \emph{terminological attribute logic}~\cite{books/math/Prediger00} has been
-introduced that allows to define new attributes in terms of old ones, using the relational
-context to extend the incidence relation to the newly defined attributes.  With this
-semantics, terminological attribute logic can be seen as a syntactic variant of the of
-\ALC extended by inverse roles, negated roles and the identity role.  Terminological
-attribute logic can also be defined for \emph{many-valued contexts} to provide a method
-for \emph{logical scaling}~\cite{conf/krdb/PredigerS99}, which transforms many-valued
-contexts into the usual (two-valued) formal contexts in another way as the usual scaling
-approach of formal concept analysis.
+form a formal context is equipped with a family of relations $\mathcal{R}$ on the object
+set to obtain a \emph{relational context}.  Based on this notion, \emph{terminological
+  attribute logic}~\cite{books/math/Prediger00} has been introduced that allows to define
+new attributes in terms of old ones, using the relational context to extend the incidence
+relation to the newly defined attributes.  With this semantics, terminological attribute
+logic can be seen as a syntactic variant of the of \ALC extended by inverse roles, negated
+roles and the identity role.  Terminological attribute logic can also be defined for
+\emph{many-valued contexts} to provide a method for \emph{logical
+  scaling}~\cite{conf/krdb/PredigerS99}, which transforms many-valued contexts into the
+usual (two-valued) formal contexts in another way as the usual scaling approach of formal
+concept analysis.
 
 Another approach to bring a flavor of description logics to formal concept analysis is
 \emph{relational concept analysis}~\cite{conf/icfca/RouaneHNV07,
   journals/amai/HaceneHNV13}.  The basic structure in this approach is a \emph{relational
   context family}, which consists of a family of formal context and a set of relations
 between objects of possibly different contexts of this family.  Using a method called
-\emph{relational scaling} new attributes $r \colon C$ are added to the formal contexts
-which roughly correspond to concept descriptions of the form $\forall r. C$ or $\exists
-r. C$, where however $C$ is now a formal concept of a formal context of the family.  In an
+\emph{relational scaling} new attributes $r : C$ are added to the formal contexts, which
+roughly correspond to concept descriptions of the form $\forall r. C$ or $\exists r. C$,
+where however $C$ is now a formal concept of a formal context of the family.  In an
 iterative process, relational scaling is used to construct lattices from all formal
 contexts of the relational context family.  These lattices can then be used to derive
 assertional and terminological knowledge formulated in the description logic \FLE.
 
-Other work that is related to this work are approaches in formal concept analysis and
+Other research that is related to this work are approaches in formal concept analysis and
 description logics to tackle the problem of \emph{uncertainty} and \emph{vagueness}.  In
 the area of formal concept analysis, the most notable and relevant work is the one by
 Luxenburger~\cite{diss:Luxenburger,Luxenburger91}, who considers implications in formal
@@ -575,10 +575,10 @@ logics~\cite{journals/fss/BobilloS09,journals/ws/LukasiewiczS08} and formal conc
 analysis~\cite{Pollandt97b,conf/cla/BelohlavekV05}, and are either based on Zadeh's
 original approach to fuzzy logics~\cite{journals/iandc/Zadeh65}, or on the approach by
 Hájek~\cite{hajek1998metamathematics}, in which the semantics is defined using
-\emph{t-norms} on lattices.  Then logical facts (implications, assertional knowledge,
-terminological knowledge) are annotated with \emph{truth values} from an underlying
-lattice, and the semantics allows to infer truth values for facts where the truth values
-was previously unknown, or at least bounds thereof.
+\emph{t-norms} on lattices.  In both cases, logical facts (implications, assertional
+knowledge, terminological knowledge) are annotated with \emph{truth values} from an
+underlying lattice, and the semantics then allows to infer truth values for previously
+unknown facts, or at least bounds thereof.
 
 Finally, a completely different approach to learning terminological knowledge has been
 developed recently~\cite{conf/dlog/KonevLW13}, based on a general framework of \emph{query
