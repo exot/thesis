@@ -605,7 +605,7 @@ possibility that the initially given interpretation $\mathcal{I}$ does not corre
 represent the domain of interest, and instead contains \emph{errors}.  The motivation for
 this extension stems from the observation that for practical applications it is almost
 always impossible to obtain data sets which are free of errors.  To still be able to apply
-the results of Baader and Distel thus requires a methodology to handle these errors.
+the results of Baader and Distel, we thus require a methodology to handle these errors.
 
 The main contributions of this thesis are the following.
 
@@ -613,7 +613,7 @@ The main contributions of this thesis are the following.
 \label{sec:exper-with-extr}
 
 All results obtained by Baader and Distel are \emph{effective}, meaning that the resulting
-algorithms can be implemented and applied to arbitrary data.  As a first contribution of
+algorithms can be implemented and applied to relational data.  As a first contribution of
 this work, we shall present an implementation of these algorithms in
 \Cref{sec:computing-bases-from}.  We then apply this implementation to relational data
 from the \emph{DBpedia project}~\cite{DBpedia}, which obtains its data by crawling
@@ -621,7 +621,7 @@ from the \emph{DBpedia project}~\cite{DBpedia}, which obtains its data by crawli
 Distel is indeed able to extract terminological knowledge from this data, and we shall
 discuss the corresponding outcome in detail.
 
-The main observation of these experiments, however, is that the errors in the DBpedia data
+The main observation of these experiments however is that the errors in the DBpedia data
 set inhibit GCIs from being found which would otherwise be relevant for the domain of the
 chosen data.  The main example is that the GCI
 \begin{equation*}
@@ -637,46 +637,47 @@ are comparably rare.
 \subsection{Extracting GCIs with High Confidence from Erroneous Data}
 \label{sec:extracting-gcis-from}
 
-A main results from our experiments is that errors in the input data can inhibit otherwise
-valid GCIs from being extracted.  Based on the assumption that the input data must be of
-sufficient \emph{quality}, \ie must not contain too many errors, we generalize the
-approach by Baader and Distel from computing bases of valid GCIs to computing bases of
-GCIs which are \emph{almost valid} in the input data.  To formalize the notion of being
-\emph{almost valid}, we make use of the notion of \emph{confidence} as it is used in
-data-mining, and transfer it to the setting of GCIs.  Instead of computing bases of valid
-GCIs, we then want to compute bases of GCIs whose confidence is above a certain threshold
-$c$, for some chosen value $c \in [0,1]$.  Those GCIs we shall call GCIs \emph{with high
-  confidence}.  We shall see that we can generalize most of the results of Baader and
-Distel accordingly, using Luxenburger's ideas on his investigation of partial implications
-in formal contexts.  An example for this is the result that bases of the induced context
-of a finite interpretation give rise to a base of the finite interpretation itself.  We
-shall see that we can generalize this result such that bases of implications with high
-confidence in the induced context give rise to bases of GCIs with high confidence in the
-finite interpretation.  Finally, we shall apply our results to the data sets we used for
-our experiments to show that certain errors in the input data can be handled with out
-approach.
+A main result from our experiments is that errors in the input data can inhibit otherwise
+valid GCIs from being extracted.  On the other hand, we can assume that the input data
+must be of sufficient \emph{quality} to reasonably extract terminological knowledge from
+it, \ie must not contain too many errors which are relevant for our computations.  Based
+on this assumption we generalize the approach by Baader and Distel from computing bases of
+valid GCIs to computing bases of GCIs which are \emph{almost valid} in the input data.  To
+formalize the notion of being \emph{almost valid}, we make use of the notion of
+\emph{confidence} as it is used in data-mining, and transfer it to the setting of GCIs.
+Instead of computing bases of valid GCIs, we then want to compute bases of GCIs whose
+confidence is above a certain threshold $c$, for some chosen value $c \in [0,1]$.  Those
+GCIs we shall call GCIs \emph{with high confidence}.  We shall see that we can generalize
+most of the results of Baader and Distel accordingly, using Luxenburger's ideas on his
+investigation of partial implications in formal contexts.  An example for such a result is
+the fact that bases of the induced context of a finite interpretation give rise to a base
+of the finite interpretation itself.  We shall see that we can generalize this result to
+obtain that bases of implications with high confidence in the induced context give rise to
+bases of GCIs with high confidence in the finite interpretation.  Finally, we shall apply
+our results to the data sets we used for our experiments, to show that our approach is
+able to handle certain errors in the input data.
 
 \subsection{Exploration by Confidence}
 \label{sec:expl-conf-2}
 
 The approach of considering GCIs with high confidence is a purely heuristic one: by
 considering GCIs with high confidence, we can ignore rare errors in the input data.
-However, it is not guaranteed that this approach also ignores \emph{rare counterexamples},
-\ie counterexamples which are actually valid, but occur so infrequently that the
-confidence measures ignores them.  In this case, an external source of information is
-needed that can distinguish between errors and rare counterexamples in the data.  An
-example for such an external source of information could be a human expert, which then
-considers all such counterexamples manually, and decides whether they are valid or not.
+However, our approach ignores \emph{rare counterexamples} as well, \ie counterexamples
+which are actually valid, but occur so infrequently that the confidence measures ignores
+them.  In this case, an external source of information is needed that can distinguish
+between errors and rare counterexamples in the data.  An example for such an external
+source of information could be a human expert, which then considers all such
+counterexamples manually, and decides whether they are valid or not.
 
 Expert interaction can also be used to tackle another problem with data, namely its
-\emph{incompleteness}: for certain GCIs relevant counterexample may exist, but may not be
-present in the given data set.  In other words, we still assume that our domain is
-represented by an interpretation, the so-called \emph{background interpretation}, but we
-only have access to some part of it.  In this case, both the original approach by Baader
-and Distel, as well as our extension to GCIs with high confidence would extract those GCIs
-for which relevant counterexamples are missing.  We could use the external expert to avoid
-this issue, by querying this expert for possible counterexamples from the background
-interpretation for all GCIs we would extract.
+\emph{incompleteness}: for certain GCIs relevant counterexample may exist in the domain of
+interest, but may not be present in the given data set.  In other words, we still assume
+that our domain is represented by an interpretation, the so-called \emph{background
+  interpretation}, but we only have access to some part of it.  In this case, both the
+original approach by Baader and Distel, as well as our extension to GCIs with high
+confidence would extract those GCIs for which relevant counterexamples are missing.  We
+could use the external expert to avoid this issue, by querying this expert for possible
+counterexamples from the background interpretation for all GCIs we would extract.
 
 This expert interaction may be expensive, however, and an algorithm that keeps this
 interaction to a minimum would be highly desirable.  In the case of valid implications of
@@ -732,7 +733,7 @@ possibility that certain elements of the interpretation are \emph{trusted}, in t
 that as soon as a trusted element is a counterexample for some GCI, this GCI is not
 considered any further, even if its confidence is high enough.  The motivation for this
 generalization stems from the fact that we consider all counterexamples provided by the
-expert to be trusted.
+expert as valid.
 
 %%% Local Variables: 
 %%% mode: latex
