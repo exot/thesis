@@ -14,7 +14,7 @@ representation of knowledge in a machine-understandable way is the main focus of
 of \emph{knowledge representation}~\cite{KRhandbook}.
 
 One of the most successful approaches to knowledge representations are description
-logics~\cite{DLhandbook}, a family of logic-based knowledge representations formalisms
+logics~\cite{DLhandbook}, a family of logic-based knowledge representation formalisms
 with varying expressivity and reasoning complexity.  Description logics allow to represent
 knowledge as \emph{knowledge bases}, or \emph{ontologies}.  Essentially, these are
 collections of axioms, which may be either \emph{assertional} or \emph{terminological}.
@@ -39,7 +39,7 @@ Knowledge bases can be used to represent knowledge in a machine-consumable way. 
 the question arises how such knowledge bases can be obtain.  In one way or the other,
 knowledge which is available to humans has to be translated into the form of a description
 logic knowledge base.  Of course, this could be done by humans, but this approach would
-not only be very time-consuming, but also prone to errors.  An automatic translations
+not only be very time-consuming, but also prone to errors.  An automatic translation
 would thus be highly welcome.  On the other hand, a completely automatic translation would
 just mean that machines can consume knowledge in the way humans represent it, an
 assumption which is not reasonable.
@@ -50,7 +50,7 @@ refinement, or that the translation procedure requires additional \emph{assistan
 means of human experts.
 
 An approach to achieve such a semi-automatic translation procedure, or \emph{learning
-  procedure}, has been made in~\cite{Diss-Felix}.  There, the focus lied in extracting
+  procedure}, has been made in~\cite{Diss-Felix}.  There, the focus lies in extracting
 terminological knowledge of the form as given in \Cref{eq:14} from some given \emph{finite
   interpretation} $\mathcal{I}$.  More precisely, the procedures described
 in~\cite{Diss-Felix} would automatically learn all GCIs which are \emph{valid} in the data
@@ -62,7 +62,7 @@ Of course, the GCIs learned this way may not be correct, in the sense that the G
 hold in $\mathcal{I}$, but this data missed to contain some relevant counterexamples.  One
 way to remedy this is to use an algorithm from formal concept analysis called
 \emph{attribute exploration}.  Within this algorithm, an expert (possibly human) is asked
-extracted GCIs for there correctness, and if such a GCI is not correct, the expert has to
+extracted GCIs for their correctness, and if such a GCI is not correct, the expert has to
 provide \emph{counterexamples} for it.  This way, the problem that the data may be
 \emph{incomplete}, in the sense it lacks crucial counterexamples, can be solved.  This has
 also been done in~\cite{Diss-Felix}.
@@ -77,7 +77,7 @@ the attribute exploration approach sketched above, the former cannot, because th
 discussed in~\cite{Diss-Felix} will not even extract GCIs for which there may be false
 counterexamples in $\mathcal{I}$.
 
-In this work, we want to extent the results obtain in~\cite{Diss-Felix} to this new
+In this work, we want to extent the results obtained in~\cite{Diss-Felix} to this new
 setting of where the data $\mathcal{I}$ may contain errors.  The main approach for this is
 to transfer the notion of \emph{confidence}~\cite{arules:agrawal:association-rules} from
 the area of data-mining to GCIs.  Intuitively, this means that GCIs may have \emph{few}

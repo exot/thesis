@@ -7,11 +7,11 @@ analysis we are interested in are the methods it provides to extract \emph{impli
   dependencies} from data.  To this end, we shall discuss in detail the notions of
 \emph{implications} in formal contexts, \emph{bases} of valid implications of formal
 contexts, and the computation of the \emph{canonical base} as a particular example of a
-minimal base.  This will be done in Sections~\ref{sec:bases-implications}
-and~\ref{sec:bases-implications}.  We shall also discuss related topic like \emph{Galois
+minimal base.  This will be done in Sections~\ref{sec:implications-sets}
+and~\ref{sec:bases-implications}.  We shall also discuss related topics like \emph{Galois
   connections} and \emph{closure operators} (Section~\ref{sec:galois-connections}) and
-\emph{attribute exploration} (Section~\ref{sec:attr-expl}.  Before we can do so, however,
-we have to introduce some of the fundamental concepts of formal concept analysis such as
+\emph{attribute exploration} (Section~\ref{sec:attr-expl}).  Before we can do so, however,
+we have to introduce some of the fundamental notions of formal concept analysis such as
 \emph{formal contexts} and \emph{contextual derivation}.  This will be done in
 Section~\ref{sec:form-cont-cont}.
 
@@ -32,19 +32,19 @@ complete lattices in terms of \emph{formal concept lattices} using the notion of
 
 Let us briefly repeat the basic notions of order theory which are relevant for our further
 considerations.  Let $P$ be a set and let ${\le} \subseteq P \times P$ be a binary
-relation on $P$.  Then the pair $(P, \le)$ is called an \emph{(partially) ordered set} if
-$\le$ is reflexive, transitive and antisymmetric.  Such structures can be visualize in
+relation on $P$.  Then the pair $(P, \le)$ is called a \emph{(partially) ordered set} if
+$\le$ is reflexive, transitive and antisymmetric.  Such structures can be visualized in
 terms of \emph{order diagrams} (often called \emph{Hasse diagrams}) if they are finite
 (and not too large).  For this way call two elements $x, y \in P$ with $x < y$
 \emph{directly neighbored} in $(P, \le)$ if and only if there does not exist an element $z
-\in P$ such that $x < z < y$.  Then to visualize $(P, \le)$ we mark for every element
-$x \in P$ a node $v_x$ on the plane such that whenever $x < y$ it is true that the
-ordinate (the second coordinate) of $v_x$ is strictly smaller then the one of $v_y$.
-Then, we draw for every two elements $x, y$ with $x < y$ which are directly neighbored in
-$(P, \le)$ an undirected line from $v_x$ to $v_y$.
+\in P$ such that $x < z < y$.  Then to visualize $(P, \le)$ we mark for every element $x
+\in P$ a node $v_x$ on the plane such that whenever $x < y$ it is true that the ordinate
+(the second coordinate) of $v_x$ is strictly smaller then the one of $v_y$.  Then, we draw
+for every two elements $x, y$ with $x < y$ which are directly neighbored in $(P, \le)$ an
+undirected line from $v_x$ to $v_y$.
 
-Observe that this construction is not unique, and are many different possibilities (good
-and bad) to visualize ordered sets in this way.  Also note that the naming $v_x$ of
+Observe that this construction is not unique, and there are many different possibilities
+(good and bad) to visualize ordered sets in this way.  Also note that the naming $v_x$ of
 vertices for elements $x$ is arbitrary and can be chosen as it suits.
 
 \begin{Example}
@@ -100,21 +100,21 @@ diagram (where also paths of length 0 are allowed).
       };
     \end{tikzpicture}
   \end{center}
-  Here we denote subsets of $\set{1,2,3}$ by sequences of 0 and 1, meaning that if the
-  first position is 1 if and only if the number 1 is an element of the corresponding
-  subset, and so on.  Then 101 corresponds to the set $\set{1,3}$.
+  Here we denote subsets of $\set{1,2,3}$ by sequences of 0 and 1, meaning that the first
+  position is 1 if and only if the number 1 is an element of the corresponding subset, and
+  so on.  Then 101 corresponds to the set $\set{1,3}$.
 \end{Example}
 
 An element $x \in P$ is said to be the \emph{smallest element} of $(P, \le)$ if and only
 if $x \le y$ is true for all $y \in P$.  Likewise, $x$ is the \emph{greatest element} of
 $(P, \le)$ if and only if $y \le x$ is true for all $y \in P$.  Note that neither smallest
 nor greatest elements have to exist in $P$.  However, if these elements exist, they are
-unique up to equivalence.
+unique.
 
 Let $Q \subseteq P$.  An element $x \in Q$ is said to be the \emph{smallest element} in
 $Q$ (with respect to $(P, \le)$) if and only if $x \le y$ is true for all $y \in Q$;
-\emph{greatest element} in $Q$ are defined likewise.  Again, neither smallest nor greatest
-elements in $Q$ have to exist.
+\emph{greatest elements} in $Q$ are defined likewise.  Again, neither smallest nor
+greatest elements in $Q$ have to exist.
 
 Let $x \in P$.  The \emph{order-ideal} ${\downarrow}x$ and the \emph{order-filter}
 ${\uparrow} x$ of $x$ in $(P, \le)$ are defined as
@@ -230,11 +230,11 @@ $(g, m) \in I$.
     M := \set{ \mathsf{Human}, \mathsf{Honorable}, \mathsf{Artificial}, \mathsf{Star
         Fleet} }.
   \end{equation*}
-  To illustrate the incidence relation of our examples formal context we make use of a
+  To illustrate the incidence relation of our example formal context we make use of a
   \emph{cross table}, \ie we depict $\con K_{\mathsf{TNG}}$ as a table where the rows are
   labeled with objects and the columns are labeled with attributes.  Then in every cell we
-  write a cross if and only if the objects labeling the corresponding row has the
-  attribute labeling the corresponding column.
+  write a cross if and only if the object labeling the corresponding row has the attribute
+  labeling the corresponding column.
   \begin{equation*}
     \def\x{\times}
     \begin{array}{r|*{4}{c}}
@@ -248,7 +248,8 @@ $(g, m) \in I$.
       \bottomrule
     \end{array}
   \end{equation*}
-  Then \textsf{BorgQueen} has the attribute \textsf{Artificial}, but not \textsf{Honorable}.
+  For example, \textsf{BorgQueen} has the attribute \textsf{Artificial}, but not
+  \textsf{Honorable}.
 \end{Example}
 
 To now expose the connection between formal contexts on the one hand and complete lattices
@@ -289,7 +290,7 @@ $A_{\con K_1}$ denotes the set $A$ considered as a set of attributes in $\con K_
 likewise $A_{\con K_2}$.  While this notation is not useful as it stands, it becomes handy
 if we consider derivations of $A$: $(A_{\con K_1})'$ denotes the derivation of $A$ in the
 formal context $\con K_1$, while $(A_{\con K_2})'$ does the same for the formal context
-$\con K_2$.  Of course, we can drop the parentheses if they do not lead to ambiguity and
+$\con K_2$.  Of course, we can drop the parentheses if that does not lead to ambiguity and
 write $A_{\con K_1}'$ and $A_{\con K_2}'$ instead.  Of course, the same can be done for
 sets of objects.  In particular, instead of writing $(A_{\con K_1}')_{\con K_1}'$ we shall
 often only write $A_{\con K_1}''$.
@@ -328,7 +329,7 @@ $(\subsets{M}, \subseteq)$.
 \end{Lemma}
 %
 In the proof of the lemma we shall only show Equation~\eqref{eq:1}, as the remaining
-claims are a then an immediate consequence of the more general result
+claims then are an immediate consequence of the more general result
 Lemma~\ref{lem:properties-of-galois-connections} on Galois connections.
 %
 \begin{Proof}[\thref{lem:derivation-is-galois-connection}]
@@ -365,7 +366,7 @@ for $A \subseteq M$.  This can easily be generalized into the following statemen
   In particular, for every $\mathcal{A} \subseteq \subsets{M}$ it is true that
   \begin{equation}
     \label{eq:3}
-    \bigcap_{A \in \mathcal{A}} A' = \bigl(\bigcup_{A \in \mathcal{A}} A'\bigr).
+    \bigcap_{A \in \mathcal{A}} A' = \bigl(\bigcup_{A \in \mathcal{A}} A\bigr)'.
   \end{equation}
 \end{Lemma}
 %
@@ -399,7 +400,7 @@ notion of \emph{formal concepts} of a formal context.
   $\Int\con K$.
 \end{Definition}
 
-Note that for each $A \subseteq M$, the pair $(A, A')$ is a formal concept of $\con K$.
+Note that for each $A \subseteq M$, the pair $(A'', A')$ is a formal concept of $\con K$.
 Moreover, a set $A \subseteq M$ is an intent of $\con K$ if and only if $A = A''$: if $A =
 A''$, then $(A'', A')$ is a formal concept of $\con K$, and if $(A, B)$ is a formal
 concept of $\con K$, then $A'' = B' = A$.  The same is of course true for $B \subseteq G$:
@@ -419,7 +420,8 @@ See~\cite{fca-book} for further discussion and references.
   \begin{gather*}
     (\set{\mathsf{Picard}}, \set{\mathsf{Human}, \mathsf{Honorable},
       \mathsf{StarFleet}}),\\
-    (\set{\mathsf{Picard}, \mathsf{Worf}, \mathsf{Data}}, \set{\mathsf{Honorable}}).
+    (\set{\mathsf{Picard}, \mathsf{Worf}, \mathsf{Data}}, \set{\mathsf{Honorable},
+      \mathsf{StarFleet}}).
   \end{gather*}
   The first formal concept could be said to represent the concept of an \emph{honorable
     human}, which in $\con K_{\mathsf{TNG}}$ has \textsf{Picard} as its only instance.
@@ -480,7 +482,7 @@ notion of an \emph{order isomorphism} between two ordered sets.
   \end{equation*}
 \end{Definition}
 
-The statement now is that every for complete lattice is \emph{order-isomorphic} to some
+The statement now is that every complete lattice is \emph{order-isomorphic} to some
 concept lattice.
 
 \begin{Theorem}
@@ -501,9 +503,9 @@ here, as it is not within the scope of this work.
 \begin{Example}
   \label{expl:star-trek-concept-lattice}
   Let us consider the formal context $\con K_{\mathsf{TNG}}$ of
-  Example~\ref{expl:star-trek} a last time, and let us draw the concept lattice of $\con
-  K_{\mathsf{TNG}}$ in form of a line diagram.  There are 6 formal concepts of $\con
-  K_{\mathsf{TNG}}$, and they can depicted as shown in
+  Example~\ref{expl:star-trek} again, and let us draw the concept lattice of $\con
+  K_{\mathsf{TNG}}$ in form of a line diagram.  There are six formal concepts of $\con
+  K_{\mathsf{TNG}}$, and they can be depicted as shown in
   Figure~\ref{fig:star-trek-concept-lattice}.
 
   \begin{figure}[tp]
@@ -547,11 +549,11 @@ here, as it is not within the scope of this work.
   \thref{thm:concept-lattices-are-complete-lattices}.  Then, by the definition of the
   order on formal concepts, every formal concept which can be reached from the one labeled
   with $g$ by an \emph{ascending} path in the line diagram has $g$ in its diagram, and all
-  other formal concepts have $g$ not in their extent.  For example, the formal concept
+  other formal concepts do not have $g$ in their extent.  For example, the formal concept
   labeled with \textsf{Picard} has this object in its intent, as well as the two formal
   concepts above it.  No other formal concept has \textsf{Picard} in its intent.
 
-  Likewise, for we write every attribute $m$ of $\con K_{\mathsf{TNG}}$ only at the
+  Likewise, we write every attribute $m$ of $\con K_{\mathsf{TNG}}$ only at the
   \emph{largest} formal concept that has this attribute in its intent.  Then every formal
   concept that can be reached from the one labeled with $m$ by a \textsf{descending} path
   in the line diagram has $m$ in its intent, and all the others have not.  Therefore, the
@@ -610,8 +612,8 @@ an isotone Galois connection.
 
     On the other hand, if $\phi \colon P \to Q$ is a bijective mapping such that $(\alg P,
     \alg Q, \phi, \phi^{-1})$ is an isotone Galois connection, then clearly $\phi$ is an
-    order isomorphism by \thref{lem:properties-of-galois-connections}.  In this sense are
-    Galois connections a generalization of order isomorphism.
+    order isomorphism by \thref{lem:properties-of-galois-connections}.  In this sense,
+    Galois connections are a generalization of order isomorphism.
   \item If $\con K = (G, M, I)$ is a formal context, then the derivation operators
     $(\cdot)' \colon \subsets{G} \to \subsets{M}$ and $(\cdot)' \colon \subsets{M} \to
     \subsets{G}$ form an antitone Galois connection by
@@ -635,7 +637,7 @@ Instead, we shall review some useful properties of antitone Galois connections.
   hold for all $a_1, a_2 \in P$ and $b_1, b_2 \in Q$:
   \begin{enumerate}[i. ]
   \item\label{item:1} $a_1 \leq_P a_2 \implies \phi(a_2) \leq_Q \phi(a_1)$,
-  \item\label{item:2} $b_1 \leq_Q b_2 \implies \psi(b_2) \leq_P \phi(b_1)$,
+  \item\label{item:2} $b_1 \leq_Q b_2 \implies \psi(b_2) \leq_P \psi(b_1)$,
   \item\label{item:3} $a_1 \leq_P \psi(\phi(a_1))$,
   \item\label{item:4} $b_1 \leq_Q \phi(\psi(b_1))$,
   \item\label{item:5} $\phi(a_1) = \phi(\psi(\phi(a_1)))$,
@@ -647,7 +649,7 @@ Instead, we shall review some useful properties of antitone Galois connections.
   follow similar arguments.
 
   We immediately obtain the truth of~\ref{item:3}, since from $\phi(a_1) \leq_Q \phi(a_1)$
-  we can infer $a_1 \leq_Q \psi(\phi(a_1))$ by definition~\eqref{eq:4} of a Galois
+  we can infer $a_1 \leq_P \psi(\phi(a_1))$ by definition~\eqref{eq:4} of a Galois
   connection.
 
   Then for~\ref{item:1} we assume $a_1 \leq_P a_2$ and now by~\ref{item:3} that then $a_1
@@ -655,9 +657,9 @@ Instead, we shall review some useful properties of antitone Galois connections.
   that $\phi(a_2) \leq_Q \phi(a_1)$.
 
   Finally, for~\ref{item:5} we already know that $\phi(\psi(\phi(a_1))) \leq_Q \phi(a_1)$
-  is true.  On the other hand, $\psi(\phi(a_1)) \leq_Q \psi(\phi(a_1))$, so by the
-  definition of a Galois connection, we obtain $\phi(a_1) \leq_P \phi(\psi(\phi(a_1)))$.
-  Since $\leq_P$ is antisymmetric, equality follows.
+  is true.  On the other hand, $\psi(\phi(a_1)) \leq_P \psi(\phi(a_1))$, so by the
+  definition of a Galois connection, we obtain $\phi(a_1) \leq_Q \phi(\psi(\phi(a_1)))$.
+  Since $\leq_Q$ is antisymmetric, equality follows.
 \end{Proof}
 
 Galois connections are closely related to the notion of \emph{closure operators}.
@@ -765,7 +767,7 @@ which may be \emph{valid} in a formal context.
 \end{Definition}
 
 Note that the condition $A' \subseteq B'$ on the validity of an implication $A \to B$ in
-$\con K$ can be characterized as saying that every objects which has all attributes from
+$\con K$ can be characterized as saying that every object which has all attributes from
 $A$ has all attributes from $B$.  This coincides with our initial example.
 
 Moreover, the condition $A' \subseteq B'$ can equally be rephrased as
@@ -878,7 +880,7 @@ technical results.
     & = (A \cup \bigcup \set{ Y \mid (X \to Y) \in \mathcal{L}, X \subseteq A })'\\
     & = (\mathcal{L}^1(A))'
   \end{align*}
-  by \thref{lem:piecewise-derivation}, and thus $g \in (\mathcal{L}^1(A))$.  Iterating
+  by \thref{lem:piecewise-derivation}, and thus $g \in (\mathcal{L}^1(A))'$.  Iterating
   this argumentation yields $g \in (\mathcal{L}^i(A))'$ for all $i \in \NN_{>0}$, and
   therefore
   \begin{equation*}
@@ -898,7 +900,7 @@ technical results.
 \end{Proposition}
 
 Note that this proposition has the interesting consequence that $\Th(\con K_{\mathcal{L}})
-= \Cn_M(\mathcal{L})$.  In other words, every sets $\mathcal{L}$ of implications which is
+= \Cn_M(\mathcal{L})$.  In other words, every set $\mathcal{L}$ of implications which is
 closed under $\Cn_M$ can be represented as a theory of a suitable chosen formal context,
 namely $\con K_{\mathcal{L}}$.
 
@@ -951,7 +953,7 @@ in terms of induced closure operators.
   \end{equation}
 \end{Lemma}
 \begin{Proof}
-  Suppose that $\mathcal{L} \mid (A \to B)$.  For the formal context $\con
+  Suppose that $\mathcal{L} \models (A \to B)$.  For the formal context $\con
   K_{\mathcal{L}}$ from \thref{prop:context-model-for-implications} we have
   \begin{equation*}
     \mathcal{L}(X) = X''
@@ -1003,8 +1005,8 @@ of all valid implications of a formal context, the \emph{canonical base}.
     \Cn_M(\mathcal{K}) = \Cn_M(\mathcal{L}).
   \end{equation}
   If $\mathcal{L} = \Th(\con K)$, then a set $\mathcal{K}$ which is sound or complete for
-  $\mathcal{L}$ is also called sound and complete for $\con K$, respectively.  Moreover,
-  we shall call bases of $\mathcal{L}$ also bases of $\mathcal{K}$.
+  $\mathcal{L}$ is also called sound or complete for $\con K$, respectively.  Moreover, we
+  shall call bases of $\mathcal{L}$ also bases of $\con{K}$.
 
   A base $\mathcal{K}$ of $\mathcal{L}$ is called \emph{irredundant} if no proper subset
   of $\mathcal{K}$ is a base of $\mathcal{L}$.  $\mathcal{K}$ is called \emph{minimal}, if
@@ -1024,7 +1026,7 @@ B$ holds in $\con K$, then $B \subseteq A''$, and by
 \thref{lem:characterization-of-entailment-in-terms-of-induced-closure-operators}, $A \to
 B$ follows from $\set{ A \to A'' }$, and thus from $\mathcal{K}$.  From this we can also
 infer that\footnote{This notation $\Th(\con K)(A)$ may be a bit misleading.  What is meant
-  here that the induced closure operator of the set $\Th(\con K)$ of implications is
+  here is that the induced closure operator of the set $\Th(\con K)$ of implications is
   applied to $A$, so this expression could also be written as $(\Th(\con K))(A)$.}
 \begin{equation*}
   \Th(\con K)(A) = A''
@@ -1062,7 +1064,7 @@ $\mathcal{L}$ is complete for a formal context, which is at least helpful for pr
   But then $U'' \subseteq \mathcal{L}(U)$, and thus $U \subsetneq \mathcal{L}(U)$, and in
   particular $U \neq \mathcal{L}(U)$ as required.
 
-  Now suppose that Equation~\eqref{eq:9} holds.  Since $\mathcal{L}(U)$ is closed under
+  Now suppose that~\eqref{eq:9} holds.  Since $\mathcal{L}(U)$ is closed under
   $\mathcal{L}$, \ie $\mathcal{L}(\mathcal{L}(U)) = \mathcal{L}(U)$, we obtain
   from~\eqref{eq:9} that
   \begin{equation*}
@@ -1089,12 +1091,12 @@ implications is always also a base of its closure $\Cn_M(\mathcal{L})$, and such
 be represented as theories of formal contexts by virtue of
 \thref{prop:context-model-for-implications}.
 
-The variant of pseudo-intents as introduce here is due to~\cite{stumme96attribute}.
+The variant of pseudo-intents as introduced here is due to~\cite{stumme96attribute}.
 
 \begin{Definition}[Pseudo-Intents]
   \label{def:pseudo-intents}
   Let $M$ be a set, $\con K$ a formal context with attribute set $M$ and let $\mathcal{S}$
-  be sets of implications on $M$.  Then a set $P \subseteq M$ is called a
+  be a set of implications on $M$.  Then a set $P \subseteq M$ is called an
   \emph{$\mathcal{S}$-pseudo-intent} of $\con K$ if and only if
   \begin{enumerate}[i. ]
   \item $P \neq P''$,
@@ -1102,13 +1104,13 @@ The variant of pseudo-intents as introduce here is due to~\cite{stumme96attribut
   \item for each $\mathcal{S}$-pseudo-intent $Q$ of $\con K$ satisfying $Q \subsetneq P$,
     it is true that $Q'' \subseteq P$.
   \end{enumerate}
-  If $\mathcal{S} = \emptyset$, then a $\mathcal{S}$-pseudo-intent is just called a
+  If $\mathcal{S} = \emptyset$, then an $\mathcal{S}$-pseudo-intent is just called a
   \emph{pseudo-intent}.
 \end{Definition}
 
 The definition of $\mathcal{S}$-pseudo-intents is quite inaccessible as it stands, and the
 motivation for it may only become apparent while working with them.  However, the role of
-the set $\mathcal{S}$ can be already be motivated now: this set will be used as
+the set $\mathcal{S}$ can already be motivated now: this set will be used as
 \emph{background knowledge} when computing the canonical base.  Let us make this more
 precise, and recall that we have defined the notion of a base $\mathcal{K}$ of a set of
 implications $\mathcal{L}$ to just mean that $\Cn_M(\mathcal{K}) = \Cn_M(\mathcal{L})$.
@@ -1165,7 +1167,7 @@ The classical result about the canonical base can now be stated as follows.
 This formulation assumes that the background knowledge $\mathcal{S}$ is sound for $\con
 K$.  However, this is not only not necessary, but we shall also later encounter situations
 where our background knowledge is not valid, but where the corresponding canonical base
-has still a meaningful application.  We therefore slight generalize
+has still a meaningful application.  We therefore slightly generalize
 \thref{thm:canonical-base-with-valid-background-knowledge} to yield the following theorem.
 
 \begin{Theorem}
@@ -1191,7 +1193,7 @@ straight-forward adaption of the proof of~\cite[Theorem 3.8]{Diss-Felix}.
     \mathcal{S}$ is complete for $\con K$.
   \end{enumerate}
 
-  For~\ref{item:7} we just note that $\Can(\con K, \mathcal{S})$ consists only of
+  For~\ref{item:7} we just note that $\Can(\con K, \mathcal{S})$ only consists of
   implications which are of the form $P \to P''$, which are of course valid in $\con K$.
 
   For the completeness as claimed in~\ref{item:8} we shall make use of
@@ -1272,14 +1274,14 @@ minimality of the canonical base does not save us from exponentially big bases.
   \label{expl:canonical-base-can-be-exponential}
   The following example is taken from~\cite{DBLP:journals/jucs/Kuznetsov04}.  Let $n \in
   \NN$ and let us consider the formal context $\con K_n$ as shown in
-  Figure~\ref{fig:expl-for-exponentially-many-pseudo-intents}.  The object $G = G_1 \cup
-  G_2$ set of $\con K$ is defined as
+  Figure~\ref{fig:expl-for-exponentially-many-pseudo-intents}.  The object set $G = G_1
+  \cup G_2$ of $\con K$ is defined as
   \begin{align*}
     G_1 &= \set{ g_1, \dots, g_n } \\
     G_2 &= \set{ \bar g_1, \dots, \bar g_{2n} },
   \end{align*}
-  where all $g_i, \bar g_i$ are distinct, and the attribute set $M = M_1 \cup M_2$ is
-  given by
+  where all $g_i, \bar g_i$ are distinct, and the attribute set $M = M_1 \cup M_2 \cup
+  \set{ \bar m_{0} }$ is given by
   \begin{align*}
     M_1 &= \set{ m_1, \dots, m_n }, \\
     M_2 &= \set{ \bar m_1, \dots, \bar m_n },
