@@ -1354,20 +1354,20 @@ minimality of the canonical base does not save us from exponentially big bases.
 \end{Example}
 
 In spite of this rather disappointing result it may still pay off in practical
-applications to compute the canonical base, as its size may still considerably smaller
+applications to compute the canonical base, as its size may still be considerably smaller
 then the size of the base from~\eqref{eq:10}.  In the following, we shall discuss a
 standard algorithm that computes the canonical base of a formal context.
 
 The first, rather technical definition we need to consider is the one of the \emph{lectic
-  order} on the powerset $\subsets{M}$ of an linearly ordered set $(M, \leq_M)$, \ie an
+  order} on the powerset $\subsets{M}$ of a linearly ordered set $(M, \leq_M)$, \ie an
 ordered set $(M, \leq_M)$ where for each two elements $x, y \in M$ it is true that $x
-\leq_M$ or $y \leq_M$.
+\leq_M y$ or $y \leq_M x$.
 
 \begin{Definition}[Lectic Order]
   \label{def:lectic-order}
   Let $(M, \leq_M)$ be a linearly ordered set, and let $i \in M$.  Then for two sets $A, B
   \subseteq M$, $A$ is called \emph{lectically smaller} than $B$ \emph{at position $i$},
-  written $A \prec_i B$ if and only if
+  written $A \prec_i B$, if and only if
   \begin{equation*}
     A \prec_i B \diff i = \min\nolimits_{\leq_M}(A \symdiff B) \text{ and } i \in B,
   \end{equation*}
@@ -1394,7 +1394,7 @@ respect to $\leq_M$) in which $A$ and $B$ differ belongs to $B$.
   \end{equation*}
   Moreover, all subsets of $M$ are ordered by $\preceq$ as follows
   \begin{equation*}
-    \emptyset \preceq \set{0} \prec \set{1} \preceq \set{0, 1} \preceq \set{2} \preceq
+    \emptyset \preceq \set{0} \preceq \set{1} \preceq \set{0, 1} \preceq \set{2} \preceq
     \set{0, 2} \preceq \set{0, 1, 2}.
   \end{equation*}
   If we encode a subset of $M$ as a binary number like we did in Example~\ref{expl:2}, so
@@ -1408,7 +1408,7 @@ respect to $\leq_M$) in which $A$ and $B$ differ belongs to $B$.
 
 It is not hard to see (but technical to prove) that every lectic order is indeed a linear
 order on $\subsets{M}$, \ie the ordered set $(\subsets{M}, \preceq)$ is a linearly ordered
-set.  Moreover the lectic order \emph{extents} the usual subset-order on $\subset{M}$, in
+set.  Moreover the lectic order \emph{extents} the usual subset-order on $\subsets{M}$, in
 the sense that for all $A, B \subseteq M$ it is true that
 \begin{equation*}
   A \subseteq B \implies A \preceq B,
@@ -1416,11 +1416,11 @@ the sense that for all $A, B \subseteq M$ it is true that
 irrespective of the linear order $\leq_M$ used to define $\preceq$.
 
 Let now $c$ be a closure operator on the linearly ordered set $(M, \leq_M)$.  In the
-following we shall the Next-Closure algorithm~\cite{fca-book,DBLP:conf/icfca/Ganter10}
-that allows us to compute all closed sets of $c$ ordered by the lectic order on
-$\subsets{M}$ induced by $\leq_M$.  Moreover, this algorithm has the advantage it is
-usually much faster than just applying the closure operator $c$ to all subsets of $M$ and
-collecting the results.
+following we shall introduce the Next-Closure
+algorithm~\cite{fca-book,DBLP:conf/icfca/Ganter10} that allows us to compute all closed
+sets of $c$ ordered by the lectic order on $\subsets{M}$ induced by $\leq_M$.  Moreover,
+this algorithm has the advantage of usually being much faster than just applying the
+closure operator $c$ to all subsets of $M$ and collecting the results.
 
 However, before we shall discuss the algorithm, let us first introduce an abbreviation.
 For a set $A \subseteq M$ and an element $i \in M$, let us write
@@ -1434,7 +1434,7 @@ Then the following theorem holds, which is~\cite[Theorem 5]{fca-book}.
   Let $(M, \leq_M)$ be a linearly ordered set, and let $\preceq$ be the lectic order on
   $\subsets{M}$ induced by $\leq_M$.  Furthermore, let $c$ be a closure operator on $(M,
   \leq_M)$ and let $A \subseteq M$.  Then, if there exists a set $B$ such that $A \precneq
-  B$ and $B$ is closed under $c$, then the lectically smallest such set is given
+  B$ and $B$ is closed under $c$, then the lectically smallest such set is given by
   \begin{equation*}
     \min\nolimits_{\preceq}\set{ A \precneq B \mid B = c(B) } = A \oplus_c i,
   \end{equation*}
@@ -1451,24 +1451,24 @@ proof of~\cite[Theorem 5]{fca-book}.
 The main advantage of this theorem is now that it immediately gives rise to an effective
 algorithm to compute the lectically next closed set after a given one.
 Algorithm~\ref{alg:next-closure} shows an example implementation, which returns
-\lstinline{nil} if no lectically next closed sets exists.
+\lstinline{nil} if no lectically next closed set exists.
 
 \addfunctionname{next-closure}
 
 \begin{figure}[tp]
-\begin{Algorithm}[Next Closure]~
-  \label{alg:next-closure}
-  \begin{lstlisting}
-  define next-closure($M$, $\leq_M$, $A$, $c$)
-    $C$ := $\set{ i \in M \mid A \prec_i A \oplus_c i }$
-    if $C$ = $\emptyset$
-      return nil
-    else
-      return $A \oplus_c \max\nolimits_{\leq_M}(C)$
-    end if
-  end  
-  \end{lstlisting}
-\end{Algorithm}
+  \begin{Algorithm}[Next-Closure]~
+    \label{alg:next-closure}
+\begin{lstlisting}
+define next-closure($M$, $\leq_M$, $A$, $c$)
+  $C$ := $\set{ i \in M \mid A \prec_i A \oplus_c i }$
+  if $C$ = $\emptyset$
+    return nil
+  else
+    return $A \oplus_c \max\nolimits_{\leq_M}(C)$
+  end if
+end  
+\end{lstlisting}
+  \end{Algorithm}
 \end{figure}
 
 The Next-Closure can in particular be used to compute all intents (and thus all formal
@@ -1483,7 +1483,7 @@ sets which are closed under $(\cdot)''$.  The following example illustrates this
   \begin{equation*}
     \mathsf{Human} < \mathsf{Honorable} < \mathsf{Artificial} < \mathsf{StarFleet}.
   \end{equation*}
-  We now that to compute the lectically next closed set of $(\cdot)''$ after $\emptyset$,
+  We now want to compute the lectically next closed set of $(\cdot)''$ after $\emptyset$,
   \ie the next intent of $\con K_{\mathsf{TNG}}$ after $\emptyset$.  For this, we compute
   \begin{equation*}
     \emptyset \oplus_{(\cdot)''} \mathsf{StarFleet} = \set{\mathsf{StarFleet}}'' = \set{
@@ -1527,19 +1527,19 @@ two auxiliary functions \lstinline{next-closed-non-intent} and
     \hspace*{0cm}
 \begin{lstlisting}
   define next-closed-non-intent ($\con K = (G, M, I), \leq_M, A, c$)
-    ;; compute the lectically next intent of $\con K$ after $A$ that is not closed under $c$
+    ;; compute the lectically next non-intent of $\con K$ after $A$ that is closed under $c$
     $P$ := next-closure($M$, $\leq_M$, $A$, $c$)
     if $P$ = nil then
       return nil
     else if $P \neq P''$ then
       return $P$
     else
-      return next-closed-non-intent($M$, $\leq_M$, $P$, $c$)
-    end let
+      return next-closed-non-intent($\con K$, $\leq_M$, $P$, $c$)
+    end if
   end
 
   define first-closed-non-intent($\con K = (G, M, I)$, $\leq_M$, $c$)
-    ;; compute the lectically first intent of $\con K$ that is not closed under $c$
+    ;; compute the lectically first non-intent of $\con K$ that is closed under $c$
     if $\emptyset \neq \emptyset''$ and $c(\emptyset) = \emptyset$ then
       return $\emptyset$
     else
@@ -1559,7 +1559,7 @@ two auxiliary functions \lstinline{next-closed-non-intent} and
       $\mathcal{L}_{i + 1}$ := $\mathcal{L}_i \cup \set{P_i \to P_i''}$,
       $P_{i + 1}$ := next-closed-non-intent($\con{K}$, $\leq_M$, $P_i$, $\mathcal{L}_{i +
 1} \cup \mathcal{S}$),
-      $i$ := $i + 1$)
+      $i$ := $i + 1$
     end while
 
     return $\mathcal{L}_i$
@@ -1645,12 +1645,12 @@ convey some intuition why the implementation of \lstinline{canonical-base} indee
 the canonical base.
 
 The main line of argumentation of the proof is as follows: using induction, we shall prove
-that in a call of \lstinline{canonical-base($\con K, \leq_M, \mathcal S$)} it is true that
-for each $i$, if there exists an $\mathcal{S}$-pseudo-intent that is not within the list
-$P_0, \dots, P_{i-1}$, that then $P_i \neq \text{\lstinline{nil}}$ and $P_0, \dots, P_i$
-are the lectically first $\mathcal{S}$-pseudo-intents of $\con K$.  Thus, if the algorithm
-finishes in iteration $n$, say, then $\mathcal{L}_n = \Can(\con K, \mathcal{S})$, which is
-the value returned by the function.
+that in a call of \lstinline{canonical-base($\con K, \leq_M, \mathcal S$)} for each $i$
+the following is true: if there exists an $\mathcal{S}$-pseudo-intent that is not within
+the list $P_0, \dots, P_{i-1}$, then $P_i \neq \text{\lstinline{nil}}$ and $P_0, \dots,
+P_i$ are the lectically first $\mathcal{S}$-pseudo-intents of $\con K$.  Thus, if the
+algorithm finishes in iteration $n$, say, then $\mathcal{L}_n = \Can(\con K,
+\mathcal{S})$, which is the value returned by the function.
 
 \begin{Proof}[\thref{thm:canonical-base-computation}]
   Denote again with $\preceq$ the lectic order on $\subsets{M}$ induced by $\leq_M$.  As
@@ -1664,8 +1664,8 @@ the value returned by the function.
 
   Let $i = 0$ and suppose that $\con K$ has $\mathcal{S}$-pseudo-intents.  If $\bar P_0$
   is then the lectically first $\mathcal{S}$-pseudo-intent of $\con K$ it is true that
-  $\bar P_0$ is closed under $\mathcal{S}$ but not an intent of $\bar P_0$.  Therefore,
-  $P_0 \preceq \bar P_0$.
+  $\bar P_0$ is closed under $\mathcal{S}$ but not an intent of $\con K$.  Therefore, $P_0
+  \preceq \bar P_0$.
 
   On the other hand, $P_0$ is already an $\mathcal{S}$-pseudo-intent of $\con K$, because
   $P_0 \neq P_0'', \mathcal{S}(P_0) = P_0$ and if $Q \subsetneq P_0$ such that
@@ -1719,11 +1719,11 @@ Algorithm~\ref{alg:canonical-base} may still take time exponential in the size o
 input context $\con K$ to compute the next $\mathcal{S}$-pseudo-intent.  This is mainly
 because while computing all $\mathcal{S}$-pseudo-intents of $\con K$, we also compute all
 intents of $\con K$ as well.  It is rather easy to see that the number of intents of a
-formal context can be exponential in the number of its pseudo-intents, and therefor our
+formal context can be exponential in the number of its pseudo-intents, and therefore our
 implementation may need an exponential delay between the computation of two successive
 pseudo-intents.
 
-Indeed, it is not known if this exponential delay can be avoided all together.  There is a
+Indeed, it is not known if this exponential delay can be avoided altogether.  There is a
 different approach of computing the canonical base~\cite{DBLP:journals/amai/ObiedkovD07},
 which however also computes all intents of $\con K$ during the run.  There are also some
 complexity results with respect to computing the canonical base: enumerating
@@ -1788,11 +1788,10 @@ this, we shall make the following assumption: we are given an \emph{expert} whic
   Does the implication $A \to B$ hold in the background context?
 \end{quote}
 The expert may then either agree to this questions, or, if not, she\footnote{We assume
-  experts to be feminine unless known otherwise.} has to provide a counterexample, \ie a
-new object $g$ such that $g \in A'$ but $g \notin B'$.  Note that this is much more
-realistic than enumerating all objects of the background context, as we only have to find
-one object that invalidates the given implication, if it does not hold in the background
-context.
+  experts to be female unless known otherwise.} has to provide a counterexample, \ie a new
+object $g$ such that $g \in A'$ but $g \notin B'$.  Note that this is much more realistic
+than enumerating all objects of the background context, as we only have to find one object
+that invalidates the given implication, if it does not hold in the background context.
 
 Within the setting just described, the \emph{attribute exploration} algorithm from formal
 concept analysis can help~\cite{fca-book,DBLP:conf/icfca/Ganter10}.  For this algorithm we
@@ -1823,21 +1822,21 @@ context.  Then, a new implication $A \to B$ is computed which is valid in the wo
 context but does not follow from the known implications.
 
 This algorithm proceeds until no more implications $A \to B$ can be computed.  If this is
-the case, then all implications valid in the working context already follow from the known
+the case, then all valid implications in the working context already follow from the known
 implications.  But this means that that the known implications are a base of the
-background context with background knowledge $\mathcal{S}$: if $X \to Y$ is an implication
-valid in the background knowledge, then $X \to Y$ is also valid in the working context,
-and thus it is entailed by the known implications.
+background context with background knowledge $\mathcal{S}$: if $X \to Y$ is a valid
+implication in the background context, then $X \to Y$ is also valid in the working
+context, and thus it is entailed by the known implications.
 
 Of course, the description of attribute exploration as given above lacks a crucial detail:
-how to we compute the implications $A \to B$?  Indeed, it turns out that this can be done
+how do we compute the implications $A \to B$?  Indeed, it turns out that this can be done
 in a way very similar to how we compute the canonical base of formal context.  We shall
 not discuss this in detail here, as we are going to look into attribute exploration in
 much more detail in Sections~\ref{cha:expl-conf} and~\ref{cha:model-expl-conf}.  Instead,
-we just show an example implementation in Algorithm~\ref{alg:attribute-exploration} gives
-an example implementation of attribute exploration.  In this listing we use the notation
-$\con K + (g,g')$ to denote the formal context which arises from $\con K = (G, M, I)$ by
-adding the object $g$ with attributes $g'$, assuming that $g \notin G$.  In other words,
+we just show an example implementation of attribute exploration in
+Algorithm~\ref{alg:attribute-exploration}.  There we use the notation $\con K + (g,g')$ to
+denote the formal context which arises from $\con K = (G, M, I)$ by adding the object $g$
+with attributes $g'$, assuming that $g \notin G$.  In other words,
 \begin{equation*}
   \con K + (g,g') := (G \cup \set{g}, M, I \cup \set{ (g, m) \mid m \in g' }).
 \end{equation*}
@@ -1910,8 +1909,8 @@ Moreover, we shall discuss in Section~\ref{cha:expl-conf} generalizations of thi
 and their proofs then of course also apply to this theorem.
 
 Note that \lstinline{explore-attributes} is a generalization of
-\lstinline{canonical-base}, and as such has inherits all disadvantageous properties of it.
-In particular, because enumerating pseudo-intents in lectic order cannot be done in
+\lstinline{canonical-base}, and as such inherits all disadvantageous properties of it.  In
+particular, because enumerating pseudo-intents in lectic order cannot be done in
 polynomial time unless P = NP, it may happen that the time between two questions to the
 expert may grow exponentially.
 
