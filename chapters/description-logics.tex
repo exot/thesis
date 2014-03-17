@@ -20,8 +20,8 @@ this chapter.  This will be done in Section~\ref{sec:descr-logics-elbot}.
 
 We start our introduction to description logics by defining the syntax of the description
 logic \ELbot, one of the simplest and least-expressive description logics under
-consideration.  To this end, we fix two disjoint sets $N_C$ and $N_R$, called the sets of
-\emph{concept names} and \emph{role names}, respectively.  Based upon this choice we
+consideration.  To this end, we choose two disjoint sets $N_C$ and $N_R$, called the sets
+of \emph{concept names} and \emph{role names}, respectively.  Based upon this choice we
 introduce \emph{\ELbot concept descriptions} over $N_C$ and $N_R$ as follows.
 \begin{Definition}[\ELbot Concept Description]
   \label{def:ELbot-concept-descriptions}
@@ -30,7 +30,7 @@ introduce \emph{\ELbot concept descriptions} over $N_C$ and $N_R$ as follows.
   \begin{itemize}
   \item $C = A$ for some $A \in N_C$, or
   \item $C = C_1 \sqcap C_2$ for $C_1, C_2$ two \EL concept descriptions, or
-  \item $C = \exists r. D$ for a \EL concept description $D$ and $r \in N_R$, or
+  \item $C = \exists r. D$ for an \EL concept description $D$ and $r \in N_R$, or
   \item $C = \top$.
   \end{itemize}
   The constructors are called \emph{conjunction} ($\sqcap$), \emph{existential
@@ -41,20 +41,19 @@ introduce \emph{\ELbot concept descriptions} over $N_C$ and $N_R$ as follows.
 \end{Definition}
 
 We shall occasionally denote the set of all \EL concept descriptions over $N_C$ and $N_R$
-by $\EL(N_C, N_R)$, and likewise the set of all \ELbot concept descriptions over $N_C$ and
-$N_R$ by $\ELbot(N_C, N_R)$.  The same is true for other descriptions logics which we
-shall introduce at a later point.  We shall also often talk just about ``concept
-descriptions'' without explicitly mentioning the description logic we are using.  If this
-is the case, than any description logic introduced in this work can be used there.
+by $\EL(N_C, N_R)$, and the set of all \ELbot concept descriptions over $N_C$ and $N_R$ by
+$\ELbot(N_C, N_R)$.  The same is true for other description logics which we shall
+introduce at a later point.  We shall also often talk just about ``concept descriptions''
+without explicitly mentioning the description logic we are using.  If this is the case,
+then any description logic introduced in this work can be used there.
 
 The sets $N_C$ and $N_R$ of concept and role names are also called the \emph{signature} of
 the logic.  In the following we shall always assume that those sets are finite.  Sometimes
-this signature is extended by another set $N_I$ called the sets of \emph{individual
-  names}.  Such individual names allow a logic to directly refer to individual elements of
-a domain.  However, this expressiveness is not available in the description logics \EL and
-\ELbot, but we shall nevertheless include them in our further discussion as they are
-needed to define the semantics of assertional axioms.  See also
-Section~\ref{sec:knowledge-bases}.
+this signature is extended by another set $N_I$ called the set of \emph{individual names}.
+Such individual names allow a logic to directly refer to individual elements of a domain.
+However, this expressiveness is not available in the description logics \EL and \ELbot,
+but we shall nevertheless include them in our further discussion as they are needed to
+define the semantics of assertional axioms.  See also Section~\ref{sec:knowledge-bases}.
 
 \begin{Example}
   \label{expl:tom-and-jerry-1}
@@ -67,9 +66,9 @@ Section~\ref{sec:knowledge-bases}.
   (we shall make this much more precise shortly).  For example, the concept description
   $\mathsf{Cat}$ describes everything which is a cat.  The concept description
   $\mathsf{\exists hunts. Mouse}$ describes everything which hunts a mouse (alternatively:
-  a things that hunts something which is a mouse).  The concept description $\mathsf{Cat
+  a thing that hunts something which is a mouse).  The concept description $\mathsf{Cat
     \sqcap Mouse}$ describes things which are both a cat and a mouse.  Finally, the
-  concept description just describes nothing.
+  concept description $\bot$ just describes nothing.
 \end{Example}
 
 The intuition of a concept description to ``describe things'' conveyed in the previous
@@ -149,7 +148,7 @@ set of \EL and \ELbot concept descriptions.
 
 The notion of an extension of an \ELbot concept description in an interpretation now
 formalizes our previous intuitive understanding that concept descriptions ``describe
-things:'' an element $x \in \Delta^{\mathcal{I}}$ is described by a \ELbot concept
+things:'' an element $x \in \Delta^{\mathcal{I}}$ is described by an \ELbot concept
 description $C$ in $\mathcal{I}$ if and only if $x \in C^{\mathcal{I}}$.
 
 \begin{Example}
@@ -174,7 +173,7 @@ description $C$ in $\mathcal{I}$ if and only if $x \in C^{\mathcal{I}}$.
 For some \ELbot concept descriptions $C, D$ it may be the case that \emph{for all}
 interpretations $\mathcal{I}$ it is true that
 \begin{equation*}
-  C^{\mathcal{I}} \sqsubseteq D^{\mathcal{I}}.
+  C^{\mathcal{I}} \subseteq D^{\mathcal{I}}.
 \end{equation*}
 In this case, we say that $C$ is \emph{subsumed by} $D$, and write $C \sqsubseteq D$.  If
 $C$ is subsumed by $D$ and, in addition, $D$ is subsumed by $C$, then for all
@@ -187,7 +186,7 @@ description logic that provides for conjunction, disjunction, negation, $\top$, 
 well as existential and value restrictions.  The definition of the syntax of \ALC is
 analogous to the one for \EL.  The semantics of \ALC is again based on interpretations,
 and the corresponding extension of the interpretation function to all \ALC concept
-description is given in Table~\ref{tab:ALC-syntax}.
+descriptions is given in Table~\ref{tab:ALC-syntax}.
 
 \begin{table}[tp]
   \centering
@@ -227,7 +226,7 @@ variant of the multimodal logic $\mathsf{K}_{(\mathsf{m})}$.
 \section{Knowledge Bases and Reasoning}
 \label{sec:knowledge-bases}
 
-Having defined a description logic one can use it to state \emph{axioms}.  These axioms
+Having defined a description logic, one can use it to state \emph{axioms}.  These axioms
 can be of different nature: they can either state facts about individuals, or they can
 state facts about concept descriptions in general.  In the former case, axioms are called
 \emph{assertional axioms}, in the latter case they are called \emph{terminological
@@ -240,7 +239,7 @@ If then one has given such a knowledge base $\mathcal{K}$ one can conduct \emph{
 with it.  Essentially, reasoning is the extraction of knowledge which is \emph{entailed}
 by the knowledge base $\mathcal{K}$.  Of course, for this to make sense we need to define
 a semantics for the knowledge base $\mathcal{K}$.  Standard reasoning tasks are then
-n\emph{subsumption}, \emph{instance checking}, \emph{consistency checking} and
+\emph{subsumption}, \emph{instance checking}, \emph{consistency checking} and
 \emph{satisfiability}.
 
 Let us start by formally introducing the notions of \emph{assertional axioms} and
@@ -287,7 +286,7 @@ Let us start by formally introducing the notions of \emph{assertional axioms} an
 
 Complementary to assertional axioms are \emph{terminological axioms}, which state
 connections between concept descriptions.  As already stated, they are collected into
-\emph{TBoxes}.  However, in contrast to ABoxes, they are a lot of different flavors of
+\emph{TBoxes}.  However, in contrast to ABoxes, there are a lot of different kinds of
 TBoxes.  We shall restrict our attention to two of these, namely \emph{cyclic} TBoxes and
 \emph{general} TBoxes.  For the latter, we shall also introduce the notion of
 \emph{general concept inclusions}, which is crucial for our further considerations.
@@ -375,11 +374,11 @@ Knowledge bases are now just pairs consisting of an ABox and a TBox.
 \end{Definition}
 
 Knowledge bases are the core method of description logics to represent knowledge.  In the
-following, we shall consider some of the standard reasoning task which can be conducted as
-soon as a knowledge base is available.  As already mentioned, \emph{reasoning} can be seen
-as the process to extract knowledge from a knowledge base which may be represented only
-implicitly.  The following definitions shall make clear what implicitly represented
-knowledge should mean.
+following, we shall consider some of the standard reasoning tasks which can be conducted
+as soon as a knowledge base is available.  As already mentioned, \emph{reasoning} can be
+seen as the process to extract knowledge from a knowledge base which may be represented
+only implicitly.  The following definitions shall make clear what we mean when we talk
+about implicitly represented knowledge.
 
 \begin{Definition}[Consistency Checking]
   \label{def:concistency-checking}
@@ -418,21 +417,21 @@ represented explicitly.  A related reasoning task is \emph{classification}.
   \sqsubseteq_{\mathcal{K}} D$, where both $C$ and $D$ are concept descriptions.
 \end{Definition}
 
-Classification and subsumption checking treat only the TBox of the knowledge base.  A
-reasoning task which also involves the ABox is \emph{instance checking}, which may me
+Classification and subsumption checking only treat the TBox of the knowledge base.  A
+reasoning task which also involves the ABox is \emph{instance checking}, which may be
 utilized to find errors in the knowledge base which are related to individuals.
 
 \begin{Definition}[Instance Checking]
   \label{def:instance-checking}
-  Let $\mathcal{K}$ be a knowledge base, let $C$ be an concept description and let $a$ be
+  Let $\mathcal{K}$ be a knowledge base, let $C$ be a concept description and let $a$ be
   an individual name.  Then the \emph{instance checking problem} for $\mathcal{K}, C, a$
-  is to decide $a$ is an instance of $C$ with respect to $\mathcal{K}$, \ie whether in all
-  models $\mathcal{I}$ of $\mathcal{K}$ it is true that $a^{\mathcal{I}} \in
+  is to decide if $a$ is an instance of $C$ with respect to $\mathcal{K}$, \ie whether in
+  all models $\mathcal{I}$ of $\mathcal{K}$ it is true that $a^{\mathcal{I}} \in
   C^{\mathcal{I}}$.
 \end{Definition}
 
 The complexity of deciding the above decision problems of consistency, satisfiability,
-subsumption and instance checking are usually used to measure the \emph{reasoning
+subsumption and instance checking is usually used to measure the \emph{reasoning
   complexity} of a description logic.  For expressive description logics it is easy to see
 that all problems can be reduced to \emph{instance checking}.  To this end, let
 $\mathcal{K} = (\mathcal{T}, \mathcal{A})$ be a knowledge base.  Then
@@ -446,7 +445,7 @@ $\mathcal{K} = (\mathcal{T}, \mathcal{A})$ be a knowledge base.  Then
   D$ is not satisfiable with respect to $\mathcal{K}$.
 \end{enumerate}
 For logics like \ALC it is therefore sufficient to know the complexity of the instance
-checking problem do know the complexity of the other problem.  The instance problem is
+checking problem to know the complexity of the other problems.  The instance problem is
 ExpTime-complete for \ALC~\cite{DLhandbook}, and if the TBox of the knowledge base is
 empty, the complexity of instance checking is PSpace-hard.
 
@@ -484,9 +483,10 @@ considerations is the computation of \emph{least common
   \item for every concept description $E$ such that $C_i \sqsubseteq E$ is true for all $i
     = 1, \dots, n$, it is also true that $D \sqsubseteq E$.
   \end{enumerate}
+  Then $D$ is called the \emph{least common subsumer} of $C_{1}, \dots, C_{n}$.
 \end{Definition}
 
-If least common subsumers exists they are unique up to equivalence: if $D_1$ and $D_2$ are
+If least common subsumers exist they are unique up to equivalence: if $D_1$ and $D_2$ are
 least common subsumers of $C_1, \dots, C_n$, then by the second condition of the
 Definition~\ref{def:least-common-subsumer} it is true that $D_1 \sqsubseteq D_2$ and $D_2
 \sqsubseteq D_1$, \ie $D_1 \equiv D_2$.  We shall denote the least common subsumer of
@@ -565,7 +565,7 @@ auxiliary definitions first.
   \emph{primitive interpretation} for $\mathcal{T}$ if it is an interpretation over $N_C$
   and $N_R$, \ie $\cdot^{\mathcal{I}}$ assigns values to the concept names from $N_C$ but
   not to the defined concept names in $N_D$.  Another interpretation $\mathcal{J} =
-  (\Delta^{\mathcal{J}}, \cdot^{\mathcal{I}})$ over $N_C \cup N_D$ and $N_R$ is said to
+  (\Delta^{\mathcal{J}}, \cdot^{\mathcal{J}})$ over $N_C \cup N_D$ and $N_R$ is said to
   \emph{extend} $\mathcal{I}$ if and only if $\mathcal{I}$ and $\mathcal{J}$ have the same
   set of elements and coincide on $N_C$ and $N_R$, \ie
   \begin{enumerate}[i. ]
@@ -575,7 +575,7 @@ auxiliary definitions first.
   \end{enumerate}
 \end{Definition}
 
-Based on this definition we can now given a characterization of models of cyclic TBoxes in
+Based on this definition we can now give a characterization of models of cyclic TBoxes in
 terms of fixpoints of certain functions.
 
 Let $\mathcal{T}$ be a cyclic TBox over $N_C$, $N_R$ and $N_D$, and let $\mathcal{I}$ be a
@@ -646,7 +646,7 @@ need to invoke the fixpoint theorem by Tarski~\cite{Tarski-Fixpoint-Theorem}.
 \end{Definition}
 
 We continue our introduction of \ELgfpbot by discussing its semantics.  For this we
-introduce the notion of a \emph{normalized} cyclic TBox
+introduce the notion of a \emph{normalized} cyclic TBox.
 
 \begin{Definition}[Normalized Cyclic TBox]
   \label{def:normalized-cyclic-TBox}
@@ -715,7 +715,7 @@ like in \Cref{expl:mmscs-may-not-exist-in-ELbot}.
 \end{Example}
 
 It may not be apparent in how far the logic \ELgfp is an extension of \EL.  To see this,
-let us define for a \EL concept description $C$ the \ELgfp concept description
+let us define for an \EL concept description $C$ the \ELgfp concept description
 \begin{equation*}
   C_{\ELgfp} := (A_C, \set{ A_C \equiv C }).
 \end{equation*}
@@ -749,19 +749,19 @@ $C_1, \dots, C_n$ are \ELgfpbot concept descriptions, then there exists an \ELgf
 concept description $\lcs(C_1, \dots, C_n)$ that is the least common subsumer of $C_1,
 \dots, C_n$ in \ELgfpbot.  As in the case of \ELbot, the existence of $\lcs(C_1, \dots,
 C_n)$ can be shown in a constructive way, giving rise to an effective method to compute
-the least common subsumer.  The construction involves \emph{\EL descriptions graphs} and
+the least common subsumer.  The construction involves \emph{\EL description graphs} and
 \emph{products} of these graphs.  We shall not go into details here, and refer the
 interested reader to the literature.
 
 \section{Unravelling \ELgfpbot Concept Descriptions}
 \label{sec:unrav-elgfpb-conc}
 
-\ELgfpbot has a disadvantage over \ELbot which inhibits its practical use: due to the
+\ELgfpbot has a disadvantage over \ELbot which impairs its practical use: due to the
 cyclic nature of \ELgfpbot concept descriptions their meaning is often hard to grasp, and
 especially for non-experts in logics, \ELgfpbot concept descriptions are mostly
 incomprehensible.  On the other side, we need to consider \ELgfpbot concept descriptions
 to guarantee the existence of model-based most-specific concept descriptions.  Therefore,
-we cannot dispense with \ELgfpbot as a whole.
+we cannot dispense with \ELgfpbot completely.
 
 Instead, we discuss a method which allows us to transform \ELgfpbot concept descriptions
 into \ELbot concept descriptions in a way suitable for our considerations.  This
@@ -777,7 +777,7 @@ descriptions with a certain quantifier depth.  Of course, $\bot$ is already an \
 concept description, so it suffices to discuss unravelling of \ELgfp concept descriptions
 only.
 
-Let us consider an example before we shall introduce the method in detail.
+Let us consider an example before we introduce the method in detail.
 
 \begin{Example}
   \label{expl:unravelling}
@@ -792,7 +792,7 @@ Let us consider an example before we shall introduce the method in detail.
   \end{equation*}
   Let $d \in \NN$.  Then an unravelling of $C$ up to depth $d$ would yield a concept
   description $C_d$ that stems from $C$ by ``cutting'' the infinite chain of quantifiers
-  after the $d$ steps, \ie
+  after $d$ steps, \ie
   \begin{equation*}
     C_d = \underbrace{\exists r. \exists r. \dots \exists r.}_{d \text{ times}} \top.
   \end{equation*}
@@ -803,7 +803,7 @@ Let us consider an example before we shall introduce the method in detail.
 Let us make the previous argumentation formally precise.  To this end, we shall start by
 introducing the notion of \emph{role depth} of \ELbot concept descriptions.
 
-\begin{Definition}[Role Depth of \ELbot concept descriptions]
+\begin{Definition}[Role Depth of \ELbot Concept Descriptions]
   \label{def:role-depth}
   Let $N_C$ and $N_R$ be two disjoint sets.  Then the \emph{role-depth} $d(C)$ of a
   concept description $C \in \ELbot(N_C, N_R)$ is inductively defined as follows.
@@ -854,7 +854,7 @@ $C_d$, the unravelling of $C$ up to depth $d$.
 
 It is easy to see that every \EL description graph can be converted into a corresponding
 concept description by just reverting the process described in the above definition.
-Moreover, if a concept description is converted into an \EL description graph, and than
+Moreover, if a concept description is converted into an \EL description graph, and then
 back into a concept description, then the resulting concept description is equivalent to
 the original one.
 
@@ -867,14 +867,14 @@ directed path $w$ \emph{starts} at $A_1$ and \emph{ends} at $A_{n+1}$, and shall
 write $\delta(w) := A_{n+1}$ and call $\delta(w)$ the \emph{destination} of $w$.  The
 \emph{length} $\operatorname{len}(w)$ of $w$ is defined to be $n$.
 
-\begin{Definition}[Unravelling of \EL description graphs]
+\begin{Definition}[Unravelling of \EL Description Graphs]
   \label{def:unravelling-of-EL-description-graphs}
   Let $N_C$ and $N_R$ be two disjoint sets, let $C \in \ELgfp(N_C, N_R)$ and let $G_C =
   (V, E, L)$ the \EL description graph of $C$.  Then the \emph{unravelling} of $G_C$ is
   defined to be the graph $G_\infty = (V_\infty, E_\infty, L_\infty)$ where
   \begin{enumerate}[i. ]
-  \item $V_\infty$ is the set of all directed path in $G_C$,
-  \item $E_\infty := \set{ (w, r, wrB) \mid w, wrB \in V_\infty }$,
+  \item $V_\infty$ is the set of all directed paths in $G_C$,
+  \item $E_\infty := \set{ (w, r, wrB) \mid w, wrB \in V_\infty}$,
   \item $L_\infty(w) := L(\delta(w))$ for $w \in V_\infty$.
   \end{enumerate}
   Let $d \in \NN_0$.  Then the \emph{unravelling} of $G_C$ \emph{up to depth $d$} is
