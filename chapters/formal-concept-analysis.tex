@@ -1631,8 +1631,8 @@ in Algorithm~\ref{alg:canonical-base} and show that they yield what their names 
     \min\nolimits_{\preceq}\set{ B \subseteq M \mid B = c(B), B \neq B'' }
     &= \min\nolimits_{\preceq}\set{ B \subseteq M, \emptyset \precneq B, B = c(B), B \neq
       B''}\\
-    &= \text{\lstinline{next-closed-non-intent}}(\con K, \leq_M, \emptyset, c)\\
-    &= \text{\lstinline{first-closed-non-intent}}(\con K, \leq_M, c)
+    &= \mathtt{next-closed-non-intent}(\con K, \leq_M, \emptyset, c)\\
+    &= \mathtt{first-closed-non-intent}(\con K, \leq_M, c)
   \end{align*}
   as required.
 \end{Proof}
