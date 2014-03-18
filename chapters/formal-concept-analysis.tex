@@ -188,14 +188,14 @@ from~\ref{expl:3}.  More generally, if $P$ is a set, then $(\subsets{P}, \subset
 always a complete lattice.
 
 The study of lattices as mathematical structures has received much interest over the last
-decades and thus constitutes a major branch of order
+decades, and thus constitutes a major branch of order
 theory~\cite{Gratzer,books/math/Davey02,books/math/Birkhoff67}.  Additionally, (complete)
 lattices also allow for a quite natural interpretation as a hierarchy of
 \emph{generalizations} and \emph{specializations}: an element $x$ is below an element $y$
 if and only if $x$ is more \emph{special} than $y$, or alternatively, if $y$ is more
 \emph{general} than $x$.  Then for a set $Q$ of elements its supremum $\sup Q$ can be
 thought of as a \emph{most-specific generalization} of all elements in $Q$, and $\inf Q$
-can be seen likewise as the most \emph{general specialization} of all elements in $Q$.
+can be seen likewise as the \emph{most general specialization} of all elements in $Q$.
 
 Formal concept analysis now provides an approach to understand complete lattice in terms
 of this interpretation, by representing these lattices in terms of \emph{objects} and
@@ -248,7 +248,7 @@ $(g, m) \in I$.
       \bottomrule
     \end{array}
   \end{equation*}
-  For example, \textsf{BorgQueen} has the attribute \textsf{Artificial}, but not
+  Then, for example, \textsf{BorgQueen} has the attribute \textsf{Artificial}, but not
   \textsf{Honorable}.
 \end{Example}
 
@@ -290,10 +290,10 @@ $A_{\con K_1}$ denotes the set $A$ considered as a set of attributes in $\con K_
 likewise $A_{\con K_2}$.  While this notation is not useful as it stands, it becomes handy
 if we consider derivations of $A$: $(A_{\con K_1})'$ denotes the derivation of $A$ in the
 formal context $\con K_1$, while $(A_{\con K_2})'$ does the same for the formal context
-$\con K_2$.  Of course, we can drop the parentheses if that does not lead to ambiguity and
-write $A_{\con K_1}'$ and $A_{\con K_2}'$ instead.  Of course, the same can be done for
-sets of objects.  In particular, instead of writing $(A_{\con K_1}')_{\con K_1}'$ we shall
-often only write $A_{\con K_1}''$.
+$\con K_2$.  Of course, we can drop the parentheses if that does not lead to ambiguity,
+and write $A_{\con K_1}'$ and $A_{\con K_2}'$ instead.  Of course, the same can be done
+for sets of objects.  In particular, instead of writing $(A_{\con K_1}')_{\con K_1}'$ we
+shall often only write $A_{\con K_1}''$.
 
 \begin{Example}
   \label{expl:4}
@@ -303,8 +303,8 @@ often only write $A_{\con K_1}''$.
     \mathsf{Picard} } = A'$.
 \end{Example}
 
-The case that $A''' = A'$ is true in the previous example is not a coincidence, but rather
-an instance of a more general result: the derivation operators of a formal context form a
+The case that $A''' = A'$ is true in the previous example is not a coincidence, but an
+instance of a more general result: the derivation operators of a formal context form a
 \emph{Galois connection} between the ordered sets $(\subsets{G}, \subseteq)$ and
 $(\subsets{M}, \subseteq)$.
 
@@ -395,16 +395,14 @@ notion of \emph{formal concepts} of a formal context.
   is a pair $(A, B)$ such that $A \subseteq G, B \subseteq M$, and $A' = B, B' = A$ holds.
   The first entry of a formal concept is called its \emph{extent}, and the second one
   called its \emph{intent}.  The set of all formal concepts of $\con K$ is denoted by
-  $\BV(\con K)$, the set of all extents of (formal concepts of) $\con K$ is denoted by
-  $\Ext\con K$, and the set of all intents of (formal concepts of) $\con K$ is denoted by
-  $\Int\con K$.
+  $\BV(\con K)$.
 \end{Definition}
 
 Note that for each $A \subseteq M$, the pair $(A'', A')$ is a formal concept of $\con K$.
 Moreover, a set $A \subseteq M$ is an intent of $\con K$ if and only if $A = A''$: if $A =
-A''$, then $(A'', A')$ is a formal concept of $\con K$, and if $(A, B)$ is a formal
-concept of $\con K$, then $A'' = B' = A$.  The same is of course true for $B \subseteq G$:
-$B$ is an extent of $\con K$ if and only if $B = B''$.
+A''$, then $(A, A')$ is a formal concept of $\con K$, and if $(A, B)$ is a formal concept
+of $\con K$, then $A'' = B' = A$.  The same is of course true for $B \subseteq G$: $B$ is
+an extent of $\con K$ if and only if $B = B''$.
 
 Formal concepts have a strong philosophical motivation, as they are an attempt to
 formalize the rather vague notion of a \emph{concept}.  This formalization is based on the
@@ -548,18 +546,18 @@ here, as it is not within the scope of this work.
   formal concept that has $g$ in its extent.  This formal concept always exists by
   \thref{thm:concept-lattices-are-complete-lattices}.  Then, by the definition of the
   order on formal concepts, every formal concept which can be reached from the one labeled
-  with $g$ by an \emph{ascending} path in the line diagram has $g$ in its diagram, and all
-  other formal concepts do not have $g$ in their extent.  For example, the formal concept
-  labeled with \textsf{Picard} has this object in its intent, as well as the two formal
-  concepts above it.  No other formal concept has \textsf{Picard} in its intent.
+  with $g$ by an \emph{ascending} path in the line diagram has $g$ in its extent, and all
+  other formal concepts do not.  For example, the formal concept labeled with
+  \textsf{Picard} has this object in its extent, as well as the two formal concepts above
+  it.  No other formal concept has \textsf{Picard} in its extent.
 
   Likewise, we write every attribute $m$ of $\con K_{\mathsf{TNG}}$ only at the
   \emph{largest} formal concept that has this attribute in its intent.  Then every formal
-  concept that can be reached from the one labeled with $m$ by a \textsf{descending} path
-  in the line diagram has $m$ in its intent, and all the others have not.  Therefore, the
-  node labeled with \textsf{Artificial} has this attribute in its intent, as has the
-  formal concept labeled with \textsf{Data} and the bottom concept.  No other formal
-  concept has \textsf{Artificial} in its intent.
+  concept that can be reached from the one labeled with $m$ by a \emph{descending} path in
+  the line diagram has $m$ in its intent, and all the others do not.  Therefore, the node
+  labeled with \textsf{Artificial} has this attribute in its intent, as has the formal
+  concept labeled with \textsf{Data} and the bottom concept.  No other formal concept has
+  \textsf{Artificial} in its intent.
 \end{Example}
 
 \section{Galois Connections and Closure Operators}
@@ -613,7 +611,7 @@ an isotone Galois connection.
     On the other hand, if $\phi \colon P \to Q$ is a bijective mapping such that $(\alg P,
     \alg Q, \phi, \phi^{-1})$ is an isotone Galois connection, then clearly $\phi$ is an
     order isomorphism by \thref{lem:properties-of-galois-connections}.  In this sense,
-    Galois connections are a generalization of order isomorphism.
+    Galois connections are a generalization of order isomorphisms.
   \item If $\con K = (G, M, I)$ is a formal context, then the derivation operators
     $(\cdot)' \colon \subsets{G} \to \subsets{M}$ and $(\cdot)' \colon \subsets{M} \to
     \subsets{G}$ form an antitone Galois connection by
@@ -645,21 +643,21 @@ Instead, we shall review some useful properties of antitone Galois connections.
   \end{enumerate}
 \end{Lemma}
 \begin{Proof}
-  We only show statements~\ref{item:1}, \ref{item:3} and~\ref{item:5}, as the others
-  follow similar arguments.
+  We only show statements~(\ref{item:1}), (\ref{item:3}) and~(\ref{item:5}), as the others
+  follow from similar arguments.
 
-  We immediately obtain the truth of~\ref{item:3}, since from $\phi(a_1) \leq_Q \phi(a_1)$
-  we can infer $a_1 \leq_P \psi(\phi(a_1))$ by definition~\eqref{eq:4} of a Galois
+  We immediately obtain the truth of~(\ref{item:3}), since from $\phi(a_1) \leq_Q
+  \phi(a_1)$ we can infer $a_1 \leq_P \psi(\phi(a_1))$ by \Cref{eq:4} of a Galois
   connection.
 
-  Then for~\ref{item:1} we assume $a_1 \leq_P a_2$ and now by~\ref{item:3} that then $a_1
-  \leq_P \psi(\phi(a_2))$.  Using again the definition of a Galois connection we obtain
-  that $\phi(a_2) \leq_Q \phi(a_1)$.
+  Then for~(\ref{item:1}) we assume $a_1 \leq_P a_2$ and obtain from~(\ref{item:3}) that
+  then $a_1 \leq_P \psi(\phi(a_2))$.  Using again the definition of a Galois connection we
+  obtain that $\phi(a_2) \leq_Q \phi(a_1)$.
 
-  Finally, for~\ref{item:5} we already know that $\phi(\psi(\phi(a_1))) \leq_Q \phi(a_1)$
-  is true.  On the other hand, $\psi(\phi(a_1)) \leq_P \psi(\phi(a_1))$, so by the
-  definition of a Galois connection, we obtain $\phi(a_1) \leq_Q \phi(\psi(\phi(a_1)))$.
-  Since $\leq_Q$ is antisymmetric, equality follows.
+  Finally, for~(\ref{item:5}) we already know that $\phi(\psi(\phi(a_1))) \leq_Q
+  \phi(a_1)$ is true.  On the other hand, $\psi(\phi(a_1)) \leq_P \psi(\phi(a_1))$, so by
+  the definition of a Galois connection, we obtain $\phi(a_1) \leq_Q
+  \phi(\psi(\phi(a_1)))$.  Since $\leq_Q$ is antisymmetric, equality follows.
 \end{Proof}
 
 Galois connections are closely related to the notion of \emph{closure operators}.
@@ -691,34 +689,31 @@ Showing that $\phi \circ \psi$ is a closure operator as well can be done similar
 
 Conversely, if $c$ is a closure operator on the ordered set $\alg P$, then there always
 exists a Galois connection $(\alg P, \alg Q, \phi, \psi)$ such that $c = \psi \circ \phi$.
-However, we shall not go into details here, as this is not necessary for our work.
 See~\cite{fca-book} for more details on this.
 
 There are two interesting properties of closure operators which are also relevant for our
-purpose here, and which we shall therefore discuss here.  The first observation is that if
-$c$ is a closure operator on the ordered set $\alg P$, that then the infimum $c(x) \wedge
-c(y)$ is again closed for all $x, y \in P$.  This is because on the one hand we have
+purpose.  The first observation is that if $c$ is a closure operator on the ordered set
+$\alg P$, that then the infimum $c(x) \wedge c(y)$ is again closed for all $x, y \in P$.
+This is because on the one hand we have
 \begin{align*}
   c(c(x) \wedge c(y)) &\leq_P c(c(x)) = c(x),\\
   c(c(x) \wedge c(y)) &\leq_P c(c(y)) = c(y),
 \end{align*}
 by monotonicity and idempotency of $c$.  Therefore $c(c(x) \wedge c(y)) \leq_P c(x) \wedge
 c(y)$.  On the other hand, $c(x) \wedge c(y) \leq_P c(c(x) \wedge c(y))$ because $c$ is
-extensive, and therefore
+extensive, and thus
 \begin{equation}
   \label{eq:13}
   c(c(x) \wedge c(y)) = c(x) \wedge c(y),
 \end{equation}
-and therefore $c(x) \wedge c(y)$ is closed.  It is also not hard to see that this
-argumentation can be lifted to arbitrary infima, \ie for all $Q \subseteq P$, the element
+\ie $c(x) \wedge c(y)$ is closed.  It is also not hard to see that this argumentation can
+be lifted to arbitrary infima, \ie for all $Q \subseteq P$, the element
 \begin{equation*}
   \bigwedge_{x \in Q} c(x)
 \end{equation*}
 is closed under $c$.  In other words, the closed sets of $c$ always form a complete
-sublattice of $\alg P$.
-
-In particular, for all $x \in P$ there always exists a smallest element $z \in P$ above
-$x$ which is closed under $c$, namely
+sublattice of $\alg P$.  In particular, for all $x \in P$ there always exists a smallest
+element $z \in P$ above $x$ which is closed under $c$, namely
 \begin{equation*}
   z = \bigwedge_{y \in P, x \leq_P c(y)} c(y) = c(x).
 \end{equation*}
@@ -726,8 +721,8 @@ $x$ which is closed under $c$, namely
 \section{Implications}
 \label{sec:implications-sets}
 
-Let us recall Example~\ref{expl:star-trek}, were we had considered the formal context
-$\con K_{\mathsf{TNG}}$ with
+Let us recall \Cref{expl:star-trek}, were we had considered the formal context $\con
+K_{\mathsf{TNG}}$ with
 \begin{equation*}
   \def\x{\times}
   \begin{array}{r|*{4}{c}}
@@ -750,7 +745,7 @@ helpful, for example for reducing databases by transferring them into suitable n
 forms or, as in our case, for learning knowledge from data.
 
 We will model such implicational dependencies by means of \emph{implications} on sets,
-which may be \emph{valid} in a formal context.
+which will be \emph{valid} in a formal context.
 
 \begin{Definition}[Implications, Validity in Formal Contexts]
   Let $M$ be a set.  Then an implication $A \to B$ on $M$ is constituted of two sets $A, B
@@ -762,8 +757,8 @@ which may be \emph{valid} in a formal context.
   said to be \emph{valid} in $\con K$ (or: \emph{holds} in $\con K$) if and only if $A'
   \subseteq B'$.  We shall write $\con K \models (A \to B)$ in this case, and $\con K
   \models \mathcal{L}$, where $\mathcal{L} \subseteq \Imp(M)$ is a set of valid
-  implications of $\con K$.  The set of all implications valid of $\con K$ is called the
-  \emph{(implicational) theory} of $\con K$ and is denoted by $\Th(\con K)$.
+  implications of $\con K$.  The set of all valid implications of $\con K$ is called the
+  \emph{(implicational) theory} of $\con K$, and is denoted by $\Th(\con K)$.
 \end{Definition}
 
 Note that the condition $A' \subseteq B'$ on the validity of an implication $A \to B$ in
@@ -919,7 +914,7 @@ namely $\con K_{\mathcal{L}}$.
     X'' \subseteq (\mathcal{L}(X))'' = \mathcal{L}(X).
   \end{equation*}
 
-  We now compute
+  We compute
   \begin{equation*}
     (\mathcal{L}(X))' = \set{ \mathcal{L}(A) \mid A \subseteq M, \mathcal{L}(A) \supseteq
       \mathcal{L}(X) },
@@ -927,7 +922,7 @@ namely $\con K_{\mathcal{L}}$.
   and obtain in particular that $\mathcal{L}(X) \in (\mathcal{L}(X))'$.  On the other
   hand, for a subset $\mathcal{A}$ of objects of $\con K_{\mathcal{L}}$ we have
   \begin{equation*}
-    \mathcal{A}' = \bigcap_{A \in \mathcal{A}} A',
+    \mathcal{A}' = \bigcap_{A \in \mathcal{A}} A,
   \end{equation*}
   since the incidence relation of $\con K_{\mathcal{L}}$ is just $\ni$.  Therefore,
   \begin{align*}
@@ -959,7 +954,7 @@ in terms of induced closure operators.
     \mathcal{L}(X) = X''
   \end{equation*}
   for all $X \subseteq M$.  Since $\con K_{\mathcal{L}} \models (A \to B)$, $A' \subseteq
-  B'$ is true for $\con K_{\mathcal{L}}$.  But then
+  B'$ is true in $\con K_{\mathcal{L}}$.  But then
   \begin{equation*}
     B \subseteq A'' = \mathcal{L}(A)
   \end{equation*}
@@ -978,7 +973,7 @@ quadratic in $\abs{\mathcal{L}}$, assuming the size of the underlying set $M$ is
 However, one can improve this by using the ``LinClosure'' algorithm from the theory of
 relational databases~\cite{DBLP:books/cs/Maier83}, which achieves the same goal with time
 linear in $\abs{\mathcal{L}}$.  Finally, one can also exploit the tight connection to
-Horn-formulas as mentioned above and use the algorithm by Dowling and Gallier to decide
+Horn-formulas as mentioned above, and use the algorithm by Dowling and Gallier to decide
 satisfiability of Horn formulas in linear time~\cite{DBLP:journals/jlp/DowlingG84}.
 
 \section{Bases of Implications}
@@ -986,7 +981,7 @@ satisfiability of Horn formulas in linear time~\cite{DBLP:journals/jlp/DowlingG8
 
 When studying the valid implications of a formal context, it may be helpful to not
 consider the whole set, but a smaller but still equivalent set of implications.  The
-advantage with this approach may be that this smaller set may be much easier to handle,
+advantage with this approach is that this smaller set may be much easier to handle,
 especially from a computational point of view.  We therefore introduce in this section the
 notion of a \emph{base} of a set of implications, and introduce a well known minimal base
 of all valid implications of a formal context, the \emph{canonical base}.
@@ -1013,7 +1008,7 @@ of all valid implications of a formal context, the \emph{canonical base}.
   there does not exist a base of $\mathcal{L}$ of smaller cardinality.
 \end{Definition}
 
-Note that any base of a set $\mathcal{L}$ is also a base of $\Cn_M(\mathcal{L})$ and vice
+Note that any base of a set $\mathcal{L}$ is also a base of $\Cn_M(\mathcal{L})$, and vice
 versa.
 
 A simple example of a base of a formal context $\con K = (G, M, I)$ is the set
@@ -1039,9 +1034,9 @@ To see the latter equality we first observe that $\mathcal{K}(A) \supseteq A''$,
 $(A \to A'') \in \mathcal{K}$.  On the other hand, $A''$ is closed under $\mathcal{K}$ and
 is a superset of $A$, thus $\mathcal{K}(A) \subseteq A''$, and so equality holds.
 
-Checking soundness of a set of implications $\mathcal{K} \subseteq \Imp(M)$ for a set
-$\mathcal{L} \subseteq \Imp(M)$ is rather trivial, but checking completeness of
-$\mathcal{K}$ for $\mathcal{L}$ is not so easy (indeed, it is coNP-complete~\cite[Theorem
+Checking soundness of a set of implications $\mathcal{L} \subseteq \Imp(M)$ for a formal
+context $\con K$ is rather trivial, but checking completeness of $\mathcal{L}$ for $\con
+K$ is not so easy (indeed, it is coNP-complete~\cite[Theorem
 12]{DBLP:journals/jair/Khardon95}).  There is a simple characterization, however, if
 $\mathcal{L}$ is complete for a formal context, which is at least helpful for proofs.
 
@@ -1064,9 +1059,9 @@ $\mathcal{L}$ is complete for a formal context, which is at least helpful for pr
   But then $U'' \subseteq \mathcal{L}(U)$, and thus $U \subsetneq \mathcal{L}(U)$, and in
   particular $U \neq \mathcal{L}(U)$ as required.
 
-  Now suppose that~\eqref{eq:9} holds.  Since $\mathcal{L}(U)$ is closed under
-  $\mathcal{L}$, \ie $\mathcal{L}(\mathcal{L}(U)) = \mathcal{L}(U)$, we obtain
-  from~\eqref{eq:9} that
+  Now suppose that~\eqref{eq:9} holds, and let $U \subseteq M$.  Since $\mathcal{L}(U)$ is
+  closed under $\mathcal{L}$, \ie $\mathcal{L}(\mathcal{L}(U)) = \mathcal{L}(U)$, we
+  obtain from~\eqref{eq:9} that
   \begin{equation*}
     \mathcal{L}(U) = (\mathcal{L}(U))''
   \end{equation*}
@@ -1175,7 +1170,7 @@ has still a meaningful application.  We therefore slightly generalize
   Let $\con K = (G, M, I)$ be a formal context and let $\mathcal{S} \subseteq \Imp(M)$.
   Then $\Can(\con K, \mathcal{S})$ is a set of valid implications of $\con K$ such that
   $\Can(\con K, \mathcal{S}) \cup \mathcal{S}$ is complete for $\con K$.  Moreover,
-  $\Can(\con K, \mathcal{S})$ has minimal cardinality among all sets of implications
+  $\Can(\con K, \mathcal{S})$ has minimal cardinality among all sets of valid implications
   satisfying this property.
 \end{Theorem}
 
@@ -1265,7 +1260,7 @@ straight-forward adaption of the proof of~\cite[Theorem 3.8]{Diss-Felix}.
 \thref{thm:canonical-base-with-valid-background-knowledge} is now an immediate consequence
 of \thref{thm:canonical-base-with-arbitrary-background-knowledge}.
 
-The minimality properties of the canonical base make it particularly interesting for
+The minimality properties of the canonical base makes it particularly interesting for
 practical applications.  Indeed, besides these minimality properties discussed above, the
 canonical base also allows for a comparably simple computation.  On the other hand, the
 minimality of the canonical base does not save us from exponentially big bases.
@@ -1309,7 +1304,7 @@ minimality of the canonical base does not save us from exponentially big bases.
     \label{fig:expl-for-exponentially-many-pseudo-intents}
   \end{figure}
 
-  The relations $I_1, I_2, I_3$ are essentially $\neq$, or more precisely
+  The relations $I_1, I_2, I_3$ are essentially $\neq$, more precisely
   \begin{align*}
     (g_i, m_j) \in I_1           &\diff i \neq j\\
     (g_i, \bar m_j) \in I_2      &\diff i \neq j\\
@@ -1445,8 +1440,7 @@ Then the following theorem holds, which is~\cite[Theorem 5]{fca-book}.
   \end{equation*}
 \end{Theorem}
 
-The proof of this theorem is rather technical, and we shall not repeat it here.  See the
-proof of~\cite[Theorem 5]{fca-book}.
+The proof of this theorem is rather technical, and we shall not repeat it here.
 
 The main advantage of this theorem is now that it immediately gives rise to an effective
 algorithm to compute the lectically next closed set after a given one.
@@ -1471,9 +1465,10 @@ end
   \end{Algorithm}
 \end{figure}
 
-The Next-Closure can in particular be used to compute all intents (and thus all formal
-concepts) of a formal context, because intents are just those subsets of the attribute
-sets which are closed under $(\cdot)''$.  The following example illustrates this.
+The Next-Closure algorithm can in particular be used to compute all intents (and thus all
+formal concepts) of a formal context, because intents are just those subsets of the
+attribute sets which are closed under $(\cdot)''$.  The following example illustrates
+this.
 
 \begin{Example}
   \label{expl:9}
@@ -1509,17 +1504,15 @@ sets which are closed under $(\cdot)''$.  The following example illustrates this
   as shown in Example~\ref{expl:star-trek-concept-lattice}.
 \end{Example}
 
-Based on the Next-Closure algorithm we can now discuss an algorithm that allows us to
-compute the canonical base of a formal context $\con K$ with arbitrary background
-knowledge.
-
 \addfunctionname{next-closed-non-intent, first-closed-non-intent, canonical-base}
 
-Without much further ado, we give the implementation of the algorithm in
-Algorithm~\ref{alg:canonical-base}.  We shall discuss the details of this algorithm when
-proving its correctness.  Note that Algorithm~\ref{alg:canonical-base} also contains the
-two auxiliary functions \lstinline{next-closed-non-intent} and
-\lstinline{first-closed-non-intent}, which are discussed below.
+Based on the Next-Closure algorithm we can now discuss an algorithm that allows us to
+compute the canonical base of a formal context $\con K$ with arbitrary background
+knowledge. Algorithm~\ref{alg:canonical-base} gives an implementation of such an
+algorithm.  We shall discuss the details of this algorithm when proving its correctness.
+Note that Algorithm~\ref{alg:canonical-base} also contains the two auxiliary functions
+\lstinline{next-closed-non-intent} and \lstinline{first-closed-non-intent}, which are
+discussed below.
 
 \begin{figure}[tp]
   \begin{Algorithm}[Computing the Canonical Base with Background Knowledge]
@@ -1582,7 +1575,7 @@ The correctness of \lstinline{canonical-base} can now be stated as follows.
 \end{Theorem}
 
 Before we are proving this theorem, we first consider the auxiliary functions also shown
-in Algorithm~\ref{alg:canonical-base} and show that they yield what their names suggest.
+in Algorithm~\ref{alg:canonical-base}, and show that they yield what their names suggest.
 
 \begin{Proposition}
   \label{prop:auxiliary-functions-canonical-base}
@@ -1633,8 +1626,8 @@ in Algorithm~\ref{alg:canonical-base} and show that they yield what their names 
     \min\nolimits_{\preceq}\set{ B \subseteq M \mid B = c(B), B \neq B'' }
     &= \min\nolimits_{\preceq}\set{ B \subseteq M, \emptyset \precneq B, B = c(B), B \neq
       B''}\\
-    &= \mathtt{next-closed-non-intent}(\con K, \leq_M, \emptyset, c)\\
-    &= \mathtt{first-closed-non-intent}(\con K, \leq_M, c)
+    &= \text{\texttt{next-closed-non-intent}}(\con K, \leq_M, \emptyset, c)\\
+    &= \text{\texttt{first-closed-non-intent}}(\con K, \leq_M, c)
   \end{align*}
   as required.
 \end{Proof}
@@ -1682,7 +1675,7 @@ algorithm finishes in iteration $n$, say, then $\mathcal{L}_n = \Can(\con K,
   \end{equation*}
   consists of the lectically first $i$ $\mathcal{S}$-pseudo-intents.  Let $P$ be the
   lectically next $\mathcal{S}$-pseudo-intent after $P_{i-1}$.  Then $P$ is closed under
-  $\mathcal{S}$ and not an intent of $\con K$.  In particular, $P_i \preceq P$ and $P_i
+  $\mathcal{S}$ and not an intent of $\con K$.  In particular, $P_i \preceq P$, and $P_i
   \neq \text{\lstinline{nil}}$.
 
   Furthermore, $P_i$ is an $\mathcal{S}$-pseudo-intent of $\con K$.  To see this we first
@@ -1740,7 +1733,7 @@ discussed in~\cite{DBLP:conf/icfca/Rudolph07}, which transforms every base into 
 corresponding canonical base.  The result of this minimization agrees with the original
 base if and only if the original base is its corresponding canonical base.  As this
 reduction can be done in quadratic time in the size of the original base, this yields a
-polynomial method to test if a base is the canonical base.
+polynomial time method to test if a base is the canonical base.
 
 All in all, it is not clear yet whether computing the canonical base is difficult or not,
 and it remains an open research problem.
@@ -1828,12 +1821,12 @@ background context with background knowledge $\mathcal{S}$: if $X \to Y$ is a va
 implication in the background context, then $X \to Y$ is also valid in the working
 context, and thus it is entailed by the known implications.
 
-Of course, the description of attribute exploration as given above lacks a crucial detail:
-how do we compute the implications $A \to B$?  Indeed, it turns out that this can be done
-in a way very similar to how we compute the canonical base of formal context.  We shall
-not discuss this in detail here, as we are going to look into attribute exploration in
-much more detail in Sections~\ref{cha:expl-conf} and~\ref{cha:model-expl-conf}.  Instead,
-we just show an example implementation of attribute exploration in
+Of course, the description of attribute exploration as given above lacks a crucial detail,
+namely how to compute the implications $A \to B$.  Indeed, it turns out that this can be
+done in a way very similar to how we compute the canonical base of formal context.  We
+shall not discuss this in detail here, as we are going to look into attribute exploration
+in much more detail in Sections~\ref{cha:expl-conf} and~\ref{cha:model-expl-conf}.
+Instead, we just show an example implementation of attribute exploration in
 Algorithm~\ref{alg:attribute-exploration}.  There we use the notation $\con K + (g,g')$ to
 denote the formal context which arises from $\con K = (G, M, I)$ by adding the object $g$
 with attributes $g'$, assuming that $g \notin G$.  In other words,
@@ -1906,7 +1899,7 @@ Thus, the number of implications \emph{confirmed} by the expert is as small as p
 We shall not prove this theorem here, but instead refer the reader to standard literature
 for a proof~\cite{fca-book,Diss-Felix,stumme96attribute,DBLP:journals/tcs/Ganter99}.
 Moreover, we shall discuss in Section~\ref{cha:expl-conf} generalizations of this result,
-and their proofs then of course also apply to this theorem.
+and their proofs then also apply to this theorem.
 
 Note that \lstinline{explore-attributes} is a generalization of
 \lstinline{canonical-base}, and as such inherits all disadvantageous properties of it.  In
