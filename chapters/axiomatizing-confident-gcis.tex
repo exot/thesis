@@ -877,7 +877,7 @@ It is also possible to establish the analog to \Cref{lem:chain-rule-for-confiden
     \conf_{\mathcal{I}}(X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}) = \prod_{i = 0}^{n-1}
     \conf_{\mathcal{I}}(Z_i^{\mathcal{I}} \sqsubseteq Z_{i+1}^{\mathcal{I}}).
   \end{equation*}
-  Since the confidence is always an element of $[0,1]$ we obtain from this equality that
+  Since the confidence is always an element of $[0,1]$, we obtain from this equality that
   \begin{equation*}
     \conf_{\mathcal{I}}(Z_i^{\mathcal{I}} \sqsubseteq Z_{i+1}^{\mathcal{I}}) \ge
     \conf_{\mathcal{I}}(X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}) \ge c
@@ -912,9 +912,9 @@ $X^{\mathcal{I}}, Y^{\mathcal{I}}$, $Y \subseteq X \subseteq \Delta^{\mathcal{I}
 However, we can transfer the computation of these sets into a computation which can solely
 be done in the induced formal context $\con K_{\mathcal{I}}$.  This may be desirable
 because the computations in $\con K_{\mathcal{I}}$ may be easier to conduct, since we only
-have to work with subsets of $M_{\mathcal{I}}$ and not with complex concept descriptions.
+have to work with subsets of $M_{\mathcal{I}}$, and not with complex concept descriptions.
 
-The mentioned transformation is actually quite simple: it is true that
+The actual transformation is actually quite simple: it is true that
 \begin{equation}
   \label{eq:31}
   \begin{aligned}
@@ -1010,7 +1010,7 @@ To show the second equation of \Cref{eq:31} we proceed with another technical re
   interpretation, and let $X, Y \subseteq \Delta^{\mathcal{I}}$.  Then
   \begin{enumerate}[i. ]
   \item $X^{\mathcal{I}} \sqsubsetneq Y^{\mathcal{I}}$ implies
-    $\pr_{M_{\mathcal{I}}}(X^{\mathcal{I}} \supsetneq
+    $\pr_{M_{\mathcal{I}}}(X^{\mathcal{I}}) \supsetneq
     \pr_{M_{\mathcal{I}}}(Y^{\mathcal{I}})$, and
   \item $X' \supsetneq Y'$ implies $\bigsqcap X' \sqsubsetneq \bigsqcap Y'$
   \end{enumerate}
@@ -1062,7 +1062,7 @@ To show the second equation of \Cref{eq:31} we proceed with another technical re
   then yields $Y' \supsetneq Z' \supsetneq X'$ as required.
 
   Conversely, suppose $Y' \supsetneq Z' \supsetneq X'$.  Then using
-  \Cref{prop:non-equivalence-implies-non-equality-and-vv} again we obtain $\bigsqcap Y'
+  \Cref{prop:non-equivalence-implies-non-equality-and-vv} we obtain $\bigsqcap Y'
   \sqsubsetneq \bigsqcap Z' \sqsubsetneq \bigsqcap X'$, \ie $Y^{\mathcal{I}} \sqsubsetneq
   Z^{\mathcal{I}} \sqsubsetneq X^{\mathcal{I}}$ by \Cref{prop:connection-I-prime-2}.
 \end{Proof}
@@ -1073,57 +1073,36 @@ To show the second equation of \Cref{eq:31} we proceed with another technical re
 In the previous section we have obtained some first finite confident bases of
 $\Th_c(\mathcal{I})$ by mimicking the argumentation of Luxenburger's results in the
 setting of description logics.  In this section we want to take another approach to obtain
-finite bases and finite confident bases, by directly transferring such bases for
-implications with high confidence to corresponding bases of GCIs with high confidence.  In
-other words, given a finite interpretation $\mathcal{I}$ and $c \in [0,1]$, we transfer
-$\mathcal{I}$ into a suitable formal context $\con K$, compute a base of $\Th_c(\con K)$
-and transfer this base into a base for $\Th_c(\con K)$.
+finite bases and finite confident bases, by directly transferring such bases of
+implications with high confidence to corresponding bases of GCIs with high confidence.
+More precisely, given a finite interpretation $\mathcal{I}$ and $c \in [0,1]$, we consider
+the induced formal context $\con K_{\mathcal{I}}$ of $\mathcal{I}$, compute a base
+$\mathcal{L}$ of $\Th_c(\con K_{\mathcal{I}})$ and transfer this base into a base for
+$\Th_c(\con K)$ by defining
+\begin{equation*}
+  \bigsqcap \mathcal{L} := \set{ \bigsqcap X \sqsubseteq \bigsqcap Y \mid (X \to Y) \in
+    \mathcal{L} }.
+\end{equation*}
 
 This approach has a particular advantage over computing finite bases of
 $\Th_c(\mathcal{I})$ the way we described it in the previous section.  This advantage lies
-in the fact that there are very close connection between formal concept analysis and
-data-mining, which extend to the level that formal concept analysis can be used as a
-framework for the logical foundations of the theory of \emph{association
-  rules}~\cite{arules:Zaki:1998}.  Although we have not introduced association rules
-formally here, they can be thought of as a generalization of implications with high
-confidence.  Association rules are a well investigated topic in data-mining, and there is
-an extensive literature on algorithms that mine association rules from data,
-see~\cite{arules:Hipp:2000} for an overview over some of them.  Because of the close
-connection of formal concept analysis to data-mining, these algorithms can be adapted
-quite easily to the problem of finding bases of implications with high confidence.
+in the very close connection between formal concept analysis and data-mining, which extend
+to the level that formal concept analysis can be used as a framework for the logical
+foundations of the theory of \emph{association rules}~\cite{arules:Zaki:1998}.  Although
+we have not introduced association rules formally here, they can be thought of as a
+generalization of implications with high confidence.  Association rules are a well
+investigated topic in data-mining, and there is an extensive literature on algorithms that
+mine association rules from data, see~\cite{arules:Hipp:2000} for an overview over some of
+them.  Because of the close connection of formal concept analysis to data-mining, these
+algorithms can be adapted quite easily to the problem of finding bases of implications
+with high confidence.
 
-If we now establish another link between bases for implications with high confidence on
-the one hand, and bases for GCIs with high confidence on the other, then we can exploit
-the algorithms from data-mining for extracting association rules from data to find bases
-for GCIs with high confidence in finite interpretations.  This link may be of particular
-interest since these algorithms are usually optimized and tailored towards practical
-applications.
-
-We shall not follow this line of thought here, as it would require an extensive
-introduction into the theory of data-mining.  However, if the results presented in this
-thesis turn out to be interesting for practical applications, then exploiting the link to
-data-mining which is offered by formal concept analysis should be investigated in more
-detail.  See also \Cref{cha:conclusions}.
-
-We have already briefly sketched the main result of this section, and indeed we can even
-give some more details before we shall discuss the whole approach.  Let $\mathcal{I}$ be a
-finite interpretation over $N_C$ and $N_R$, and let $c \in [0,1]$.  Recall the set
-$M_{\mathcal{I}}$ from \Cref{sec:base-all-valid} which was used to obtain finite bases of
-$\mathcal{I}$, namely
-\begin{equation*}
-  M_{\mathcal{I}} = N_C \cup \set{ \bot } \cup \set{ \exists r. X^{\mathcal{I}} \mid r \in
-    N_R, X \subseteq \Delta^{\mathcal{I}}, X \neq \emptyset }.
-\end{equation*}
-The main idea is now that confident bases of implications with high confidence in the
-induced context $\con K_{\mathcal{I}} := \con K_{\mathcal{I}, M_{\mathcal{I}}}$ give rise
-to confident bases of GCIs with high confidence in $\mathcal{I}$.  More precisely, if
-$\mathcal{L}$ is a (confident) base of $\Th_c(\con K_{\mathcal{I}})$, then
-\begin{equation*}
-  \bigsqcap \mathcal{L} := \set{ \bigsqcap X \sqsubseteq \bigsqcap Y \mid (X \to Y) \in
-    \mathcal{L} }
-\end{equation*}
-is a (confident) base of $\Th_c(\mathcal{I})$.  To prove this result is the purpose of
-this section.
+If we now establish another link between bases of implications with high confidence on the
+one hand, and bases of GCIs with high confidence on the other, then we can exploit the
+algorithms from data-mining for extracting association rules from data to find bases for
+GCIs with high confidence in finite interpretations.  This link may be of particular
+interest since these algorithms are usually tailored towards practical applications.  We
+shall not go into details here, see \Cref{cha:conclusions}.
 
 The results presented in this section have been published before in
 \cite{Borchmann-LTCS-12-06}.
@@ -1135,7 +1114,7 @@ between GCIs.
   \label{lem:implicational-entailment-implies-gci-entailment}
   Let $M$ be a set of concept descriptions over $N_C$ and $N_R$, and let $\mathcal{L}
   \subseteq \Imp(M)$.  Then for all $(X \to Y) \in \Imp(M)$ it is true that if
-  $\mathcal{L} \models (X \to Y)$, that then $\bigsqcap \mathcal{L} \models (\bigsqcap X
+  $\mathcal{L} \models (X \to Y)$, then $\bigsqcap \mathcal{L} \models (\bigsqcap X
   \sqsubseteq \bigsqcap Y)$.
 \end{Lemma}
 \begin{Proof}
@@ -1146,18 +1125,18 @@ between GCIs.
   We shall first show that $\con K_{\mathcal{J}, M} \models \mathcal{L}$.  To this end,
   let $(E \to F) \in \mathcal{L}$.  Then $(\bigsqcap E)^{\mathcal{J}} \sqsubseteq
   (\bigsqcap F)^{\mathcal{J}}$, because $\mathcal{J} \models \bigsqcap \mathcal{L}$.  By
-  \Cref{prop:connection-I-prime-2} we obtain $(\bigsqcap E)^{\mathcal{J}} = E'$ and
-  $(\bigsqcap F)^{\mathcal{J}} = F'$, where the derivations are done in $\con
-  K_{\mathcal{J}, M}$.  Thus $E' \subseteq F'$, and $\con K_{\mathcal{J}, M} \models (E
-  \to F)$.  Hence, $\con K_{\mathcal{J}, M} \models \mathcal{L}$.
+  \Cref{prop:connection-I-prime-2}, $(\bigsqcap E)^{\mathcal{J}} = E'$ and $(\bigsqcap
+  F)^{\mathcal{J}} = F'$, where the derivations are done in $\con K_{\mathcal{J}, M}$.
+  Thus $E' \subseteq F'$, and $\con K_{\mathcal{J}, M} \models (E \to F)$.  Hence, $\con
+  K_{\mathcal{J}, M} \models \mathcal{L}$.
 
-  Since $\mathcal{L} \models (X \to Y)$ we obtain $\con K_{\mathcal{J}, M} \models (X \to
-  Y)$, \ie $X' \subseteq Y'$.  By the same argument as before we obtain $(\bigsqcap
+  Since $\mathcal{L} \models (X \to Y)$, $\con K_{\mathcal{J}, M} \models (X \to Y)$, \ie
+  $X' \subseteq Y'$.  By the same argument as before we obtain $(\bigsqcap
   X)^{\mathcal{J}} \subseteq (\bigsqcap Y)^{\mathcal{J}}$, and therefore $\mathcal{J}
   \models (\bigsqcap X \sqsubseteq \bigsqcap Y)$.
 
-  Since $\mathcal{J}$ was chosen arbitrarily, we obtain that $\bigsqcap \mathcal{L}
-  \models (\bigsqcap X \sqsubseteq \bigsqcap Y)$ as required.
+  Since $\mathcal{J}$ was chosen arbitrarily, we obtain $\bigsqcap \mathcal{L} \models
+  (\bigsqcap X \sqsubseteq \bigsqcap Y)$ as required.
 \end{Proof}
 
 Note that we cannot expect the converse direction to hold in general as well.  The reason
@@ -1251,14 +1230,14 @@ The main result of this section is now the following theorem.
     \set{ \bigsqcap U \sqsubseteq (\bigsqcap U)^{\mathcal{I}\mathcal{I}} \mid U \subseteq
       M_{\mathcal{I}} }
   \end{equation*}
-  which by \Cref{thm:Felix-base-B2} is a base of $\mathcal{I}$.  Showing \Cref{item:16}
-  entails that $\bigsqcap \mathcal{L}$ is complete for $\Th(\mathcal{I})$.  \Cref{item:17}
-  states that $\bigsqcap \mathcal{L}$ is complete for $\Conf(\mathcal{I}, c)$.  Using
-  \Cref{cor:weakened-luxenburger-base-for-gcis} and the fact that $\bigsqcap \mathcal{L}$
-  is sound for $\Th_c(\mathcal{I})$ then establishes completeness of $\bigsqcap
-  \mathcal{L}$ for $\Th_c(\mathcal{I})$.
+  which by \Cref{thm:Felix-base-B2} is a base of $\mathcal{I}$.  Showing (\ref{item:16})
+  entails that $\bigsqcap \mathcal{L}$ is complete for $\Th(\mathcal{I})$.  The claim
+  (\ref{item:17}) states that $\bigsqcap \mathcal{L}$ is complete for $\Conf(\mathcal{I},
+  c)$.  Using \Cref{cor:weakened-luxenburger-base-for-gcis} and the fact that $\bigsqcap
+  \mathcal{L}$ is sound for $\Th_c(\mathcal{I})$ then shows that $\bigsqcap \mathcal{L}$
+  of $\Th_c(\mathcal{I})$.
 
-  We show \Cref{item:16}.  Let $U \subseteq M_{\mathcal{I}}$.  Since $\mathcal{L}$ is a
+  We show (\ref{item:16}).  Let $U \subseteq M_{\mathcal{I}}$.  Since $\mathcal{L}$ is a
   confident base for $\Th_c(\con K_{\mathcal{I}})$ it is complete for $\con
   K_{\mathcal{I}}$.  Thus
   \begin{equation*}
@@ -1274,7 +1253,7 @@ The main result of this section is now the following theorem.
   \end{equation*}
   as required.
 
-  For \Cref{item:17} let $(X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}) \in
+  For (\ref{item:17}) let $(X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}) \in
   \Conf(\mathcal{I}, c)$.  Then $X, Y \subseteq \Delta^{\mathcal{I}}$ and $1 >
   \conf_{\mathcal{I}}(X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}) \ge c$.  Since
   $X^{\mathcal{I}}$ and $Y^{\mathcal{I}}$ are expressible in terms of $M_{\mathcal{I}}$ by
@@ -1291,9 +1270,8 @@ The main result of this section is now the following theorem.
     \conf_{\con K_{\mathcal{I}}}(X' \to Y') = \conf_{\mathcal{I}}(\bigsqcap X' \sqsubseteq
     \bigsqcap Y') \ge c.
   \end{equation*}
-  Since $\mathcal{L}$ is a base for $\Th_c(\con K_{\mathcal{I}})$ we obtain $\bigsqcap
-  \mathcal{L} \models (X' \to Y')$, thus by
-  \Cref{lem:implicational-entailment-implies-gci-entailment}
+  Since $\mathcal{L}$ is a base of $\Th_c(\con K_{\mathcal{I}})$ we obtain $\mathcal{L}
+  \models (X' \to Y')$, thus by \Cref{lem:implicational-entailment-implies-gci-entailment}
   \begin{equation*}
     \bigsqcap \mathcal{L} \models (\bigsqcap X' \sqsubseteq \bigsqcap Y')
   \end{equation*}
@@ -1308,8 +1286,8 @@ $\Th_c(\mathcal{I})$.
 that $\bigsqcap \mathcal{L}$ still contains trivial knowledge in the sense that whenever
 $C, D \in M_{\mathcal{I}}$ are such that $C \sqsubseteq D$, then $\mathcal{L}$ has to
 entail $\set{ C } \to \set{ D }$, although the corresponding GCI $C \sqsubseteq D$ is
-trivially true.  We can remedy this redundancy by again considering an appropriate
-background knowledge.  Recall that we defined in \Cref{eq:28} the set
+trivially true.  We can remedy this redundancy by considering an appropriate background
+knowledge.  Recall that we defined in \Cref{eq:28} the set
 \begin{equation*}
   \mathcal{S}_{\mathcal{I}} := \set{ \set{ C } \to \set{ D } \mid C, D \in
     M_{\mathcal{I}}, C \sqsubseteq D }.
@@ -1458,7 +1436,7 @@ may contain redundancies, as the following example shows.
     \set{\mathsf A}    &\to \set{\mathsf B},\\
     \set{\mathsf{\exists r.A}} &\to \set{\mathsf{\exists r.(A \sqcap B)}},\\
     \set{\mathsf{\exists r.B}} &\to \set{\mathsf{\exists r.(A \sqcap B)}},\\
-    \set{\mathsf{\exists r.\top}} &\to \set{\exists r.(A \sqcap B)},\\
+    \set{\mathsf{\exists r.\top}} &\to \set{\mathsf{\exists r.(A \sqcap B)}},\\
     \set{\mathsf{A, B, \exists r.(A \sqcap B)}} &\to \set{\bot},\\
     \set{\mathsf{\exists r.\exists r.(A \sqcap B)}} &\to \set{\bot},\\
     \set{\mathsf{\exists r.(B \sqcap \exists r.(A \sqcap B))}} &\to \set{\bot},\\
@@ -1514,8 +1492,8 @@ base of $\Th_c(\mathcal{I})$, as the following argumentation shows.
 
 The approach of considering the canonical base of $\Th_c(\con K)$ has the potential
 drawback, however, that we cannot guarantee anymore that the base itself is a confident
-base, \ie it could happen that $\bigsqcap \Can(\Th_c(\con K)) \subseteq
-\Th_c(\mathcal{I})$ does not hold.
+base, \ie it can happen that $\bigsqcap \Can(\Th_c(\con K)) \subseteq \Th_c(\mathcal{I})$
+does not hold.
 
 \subsection{Completing Sets of GCIs}
 \label{sec:completing-sets-of-gcis}
@@ -1525,8 +1503,10 @@ two parts, namely a complete subset $\mathcal{B}$ of $\Lux(\mathcal{I}, c)$ and 
 $\mathcal{L}$ of valid GCIs such that $\mathcal{L} \cup \mathcal{B}$ is complete for
 $\mathcal{I}$.  In this section we are going to show that we can, given the set
 $\mathcal{B}$, compute the set $\mathcal{L}$ in such a way that $\mathcal{L} \cup
-\mathcal{B}$ is complete for $\Th(\mathcal{I})$.  The results of this section have
-previously been published in~\cite{Borchmann:confident-GCIs}.
+\mathcal{B}$ is complete for $\Th(\mathcal{I})$.
+
+The results of this section have previously been published
+in~\cite{Borchmann:confident-GCIs}.
 
 The idea we want to exploit for this is borrowed from formal concept analysis: if
 $\mathcal{B}$ is a set of implications, then we can find a set $\mathcal{L}$ of
@@ -1540,7 +1520,7 @@ we want to do in this section is to lift this result to the level of general con
 inclusions.
 
 To this end, we need to transform sets of general concept inclusions into sets of
-implications.  For this, we make use of \emph{projections} $\pr_M$ as introduced in
+implications.  For this, we make use of projections $\pr_M$ as introduced in
 \Cref{sec:induced-contexts}.  More precisely, if $M$ is a set of concept descriptions and
 $\mathcal{B}$ is a set of GCIs, then we define
 \begin{equation*}
@@ -1548,7 +1528,7 @@ $\mathcal{B}$ is a set of GCIs, then we define
 \end{equation*}
 For $M = M_{\mathcal{I}}$, we can take the set $\pr_{M_{\mathcal{I}}}(\mathcal{B})$ and
 compute $\Can(\con K_{\mathcal{I}}, \pr_{M_{\mathcal{I}}}(\mathcal{B}))$.  It is then true
-that the set
+that
 \begin{equation*}
   \mathcal{B} \cup \set{ \bigsqcap U \sqsubseteq (\bigsqcap U)^{\mathcal{I}\mathcal{I}} \mid (U \to U'')
     \in \Can(\con K_{\mathcal{I}}, \pr_{M_{\mathcal{I}}}(\mathcal{B})) }
@@ -1631,7 +1611,7 @@ one of \cite[Theorem~5.12]{Diss-Felix}.
   \begin{equation*}
     (\bigsqcap U)^{\mathcal{J}} \subseteq ((\bigsqcap U)^{\mathcal{I}\mathcal{I}})^{\mathcal{J}},
   \end{equation*}
-  and \Cref{eq:29} and (\Cref{eq:30}) yield
+  and \Cref{eq:29} and \Cref{eq:30} yield
   \begin{equation*}
     U^{\prime_{\mathcal{J}}} \subseteq U^{\prime_{\mathcal{I}}\prime_{\mathcal{I}}\prime_{\mathcal{J}}},
   \end{equation*}
@@ -1691,10 +1671,10 @@ By \Cref{cor:weakened-luxenburger-base-for-gcis} the set $\bigsqcap \mathcal{L} 
 Of course, we can also include the implications in $\mathcal{S}_{\mathcal{I}}$ as
 background knowledge when computing $\mathcal{L}$.  To see this we observe that the proof
 of \Cref{thm:gci-completion-simple-version} still works if we include
-$\mathcal{S}_{\mathcal{I}}$ in the computation of $\mathcal{L}$.  Then \cref{item:20} of
+$\mathcal{S}_{\mathcal{I}}$ in the computation of $\mathcal{L}$.  Then (\ref{item:20}) of
 the proof would be extended to also claim that $\con K_{\mathcal{J}, M_{\mathcal{I}}}
-\models \mathcal{S}_{\mathcal{I}}$, which is, however, true for all induced contexts with
-attribute set $M_{\mathcal{I}}$.
+\models \mathcal{S}_{\mathcal{I}}$, which is true for all induced contexts with attribute
+set $M_{\mathcal{I}}$.
 
 \begin{Corollary}
   \label{cor:gci-completion-with-S_I}
@@ -1741,7 +1721,7 @@ shows that this is not the case.
   \mathsf{A}$.  If $5 \notin X$ but $1 \in X$ or $4 \in X$, then $X^{\mathcal{I}} =
   \mathsf{A} \sqcap \mathsf{B}$.  Otherwise, $X^{\mathcal{I}} = \mathsf{A \sqcap B \sqcap
     \exists r. A \sqcap B}$.  Thus the set of model-based most-specific concept
-  descriptions of $\mathcal{I}$ up to equivalence is
+  descriptions of $\mathcal{I}$ is (up to equivalence)
   \begin{equation*}
     \set{ \bot, \mathsf{A}, \mathsf{A \sqcap B}, \mathsf{A \sqcap B \sqcap \exists
         r.(A \sqcap B)} }
@@ -1826,7 +1806,7 @@ implications, as they are not allowed to consider the structure of the attribute
 formal context.
 
 It is possible to find a special case where entailment behind the quantifier cannot
-happen: if $\mathcal{B}$ is a set of \emph{valid} GCIs of $\mathcal{I}$ and if $C =
+happen: if $\mathcal{B}$ is a set of \emph{valid} GCIs of $\mathcal{I}$, and if $C =
 \bigsqcap U$ for $U \subseteq M_{\mathcal{I}}$ and $U \neq \emptyset$.  In this case, $C$
 can be written as
 \begin{equation*}
@@ -1847,13 +1827,13 @@ Lemma~5.16 and the proof of Theorem~5.18 in~\cite{Diss-Felix}.
 \subsection{Unravelling \ELgfpbot Bases into \ELbot Bases}
 \label{sec:unrav-elgfpb-bases}
 
-So far we have only considered finite bases of $\Th_c(\mathcal{I})$ which consist of
-\ELgfpbot concept descriptions.  As we had argued before, those concept descriptions may
-actually be hard to read, over for those trained in logic.  Therefore, it would be
-desirable to obtain bases which contain \ELbot concept descriptions only, as these are
-potentially much easier to read.  To show that this is indeed possible is the purpose of
-this section.  The argumentation we want to employ is again similar to the one used by
-Distel; see \Cref{sec:base-all-valid}.
+So far we have only considered finite bases of $\Th_c(\mathcal{I})$ which may contain
+proper \ELgfpbot concept descriptions.  As we had argued before, those concept
+descriptions may actually be hard to read, even for those trained in logic.  Therefore, it
+would be desirable to obtain bases which contain \ELbot concept descriptions only, as
+these are potentially much easier to understand.  To show that this is indeed possible is
+the purpose of this section.  The argumentation we want to employ is again similar to the
+one used by~\cite{Diss-Felix}; see \Cref{sec:base-all-valid}.
 
 As a first step, as already discussed in \Cref{sec:base-all-valid}, we define an auxiliary
 set $\mathcal{X}_{\mathcal{I}}$ that only contains \ELbot concept descriptions but
@@ -1864,8 +1844,14 @@ set $\mathcal{X}_{\mathcal{I}}$ that only contains \ELbot concept descriptions b
   C^{\mathcal{I}} = (C_d)^{\mathcal{I}},
 \end{equation*}
 where $d = \abs{ \Delta^{\mathcal{I}} } \cdot \abs{ N_D(\mathcal{T}) } + 1$.  Note that
-the constant $d$ depends on the concept description $C$.  The set
-$\mathcal{X}_{\mathcal{I}}$ is now defined as
+the constant $d$ depends on the concept description $C$.  To remove this dependency on the
+particular concept description we define
+\begin{equation}
+  \label{eq:35}
+  d := \max_{Y \subseteq \Delta^{\mathcal{I}}, Y^{\mathcal{I}} = (A, \mathcal{T})} ( \abs{
+    \Delta^{\mathcal{I}} } \cdot \abs{ N_{D}(\mathcal{T}) } + 1 ).
+\end{equation}
+The set $\mathcal{X}_{\mathcal{I}}$ is then defined as
 \begin{equation*}
   \mathcal{X}_{\mathcal{I}} := \set{ (X^{\mathcal{I}})_d \sqsubseteq
     (X^{\mathcal{I}})_{d+1} \mid X \subseteq \Delta^{\mathcal{I}}, X \neq \emptyset }.
@@ -1880,8 +1866,8 @@ As already sketched in \Cref{sec:base-all-valid} the following claims hold.
 
 \begin{Lemma}
   \label{lem:X_I-properties}
-  Let $\mathcal{I}$ be a finite interpretation, let $Y \subseteq \Delta^{\mathcal{I}}$ and
-  let $d \in \NN_0$ for $Y^{\mathcal{I}}$ as in \Cref{lem:Felix-lemma-5.5}.  Then
+  Let $\mathcal{I}$ be a finite interpretation, let let $d \in \NN_0$ as in
+  (\Cref{eq:35}).  Then for each $Y \subseteq \Delta^{\mathcal{I}}$
   \begin{enumerate}[i. ]
   \item $\mathcal{X}_{\mathcal{I}} \models ((Y^{\mathcal{I}})_k \sqsubseteq
     (Y^{\mathcal{I}})_{k+1})$ is true for all $k \geq d$, and
@@ -1943,18 +1929,18 @@ As already sketched in \Cref{sec:base-all-valid} the following claims hold.
 
 Now let $\mathcal{D}$ be a confident base of $\Th_c(\mathcal{I})$.  We then can partition
 $\mathcal{D} = \mathcal{B} \cup \mathcal{C}$ such that $\mathcal{B} \subseteq
-\Th(\mathcal{I})$ and $\mathcal{C} \cap \Th(\mathcal{I})$, \ie $\mathcal{B}$ contains all
-valid GCIs of $\mathcal{D}$, and $\mathcal{C}$ contains everything else.  Without loss of
-generality we can assume that $\mathcal{B}$ contains only GCIs of the form $E \sqsubseteq
-E^{\mathcal{I}\mathcal{I}}$.  To construct an \ELbot base out of $\mathcal{D}$ we can now
-proceed as described in the following theorem.
+\Th(\mathcal{I})$ and $\mathcal{C} \cap \Th(\mathcal{I}) = \emptyset$, \ie $\mathcal{B}$
+contains all valid GCIs of $\mathcal{D}$, and $\mathcal{C}$ contains everything else.
+Without loss of generality we can assume that $\mathcal{B}$ contains only GCIs of the form
+$E \sqsubseteq E^{\mathcal{I}\mathcal{I}}$.  To construct an \ELbot base out of
+$\mathcal{D}$ we can now proceed as described in the following theorem.
 
 \begin{Theorem}
   \label{thm:unravelling-confident-bases}
   Let $\mathcal{I}$ be a finite interpretation, let $c \in [0,1]$ and let $\mathcal{D} =
   \mathcal{B} \cup \mathcal{C}$ be a finite confident base of $\Th_c(\mathcal{I})$, such
   that $\mathcal{B} \subseteq \Th(\mathcal{I})$, $\mathcal{C} \cap \Th(\mathcal{I}) \neq
-  \emptyset$ and $\mathcal{B}$ contains only GCIs of the form $E \sqsubseteq
+  \emptyset$, and $\mathcal{B}$ contains only GCIs of the form $E \sqsubseteq
   E^{\mathcal{I}\mathcal{I}}$. Define
   \begin{align*}
     \mathcal{B}' &:= \set{ E_d \sqsubseteq (E^{\mathcal{I}\mathcal{I}})_d \mid (E
@@ -2043,28 +2029,28 @@ author whether this blowup is intrinsic to the task of transferring \ELgfpbot ba
 \section{GCIs with High Confidence from DBpedia}
 \label{sec:exper-with-conf}
 
-We have started this chapter by evaluating Distel's results in a practical scenario.
-During this evaluation we have found out that the presence of errors in the data can
-inhibit the usefulness of the results obtained by Distel's approach, and from this we have
-motivated our study of GCIs with high confidence.  In this section, we want to apply our
-findings about finite confident bases of $\Th_c(\mathcal{I})$ to the interpretation
-$\Idbpedia$ we used before, and we want to see in how far the problem of errors in
-$\Idbpedia$ can be alleviated by using GCIs with high confidence.
+We have started this chapter by evaluating the results by Baader and Distel in a practical
+scenario.  During this evaluation we have found that the presence of errors in the data
+can impair the usefulness of this approach, and from this we have motivated our study of
+GCIs with high confidence.  In this section, we want to apply our findings about finite
+confident bases of $\Th_c(\mathcal{I})$ to the interpretation $\Idbpedia$ we used before,
+and we want to see in how far the problem of errors in $\Idbpedia$ can be alleviated by
+using GCIs with high confidence.
 
 Let us assume that an ontology engineer wants to use the approach of considering GCIs with
 high confidence to extract GCIs from some finite interpretation $\mathcal{I}$.  Then what
 she has to do is that she needs to consider GCIs in $\Lux(\mathcal{I}, c)$ for a suitable
-choice of $c$ and has to decide whether these GCIs should be added to the knowledge base.
-To make this a practical approach, the set $\Lux(\mathcal{I}, c)$ should not be too large,
-and the GCIs contained in there should not be incomprehensible.
+choice of $c$ and has to decide whether these GCIs should be added to the knowledge base
+or not.  To make this a practical approach, the set $\Lux(\mathcal{I}, c)$ should not be
+too large, and the GCIs contained in there should not be incomprehensible.
 
 We want to examine how this approach behaves for our data set $\Idbpedia$.  To this end,
 we want to conduct several experiments, namely
 \begin{enumerate}[i. ]
 \item We want to examine the set $\Lux(\Idbpedia, 0.95)$ in detail, \ie we want to show
-  how large these sets are and which GCIs are contained in them.  Moreover, we shall
-  discuss how the ontology engineer proceeds in deciding whether the GCIs contained in
-  these sets are true or not.
+  how large this set is and which GCIs are contained in it.  Moreover, we shall discuss
+  how the ontology engineer proceeds in deciding whether the GCIs contained in this set
+  are true or not.
 \item We want to compare the sizes of the sets $\Conf(\Idbpedia, c)$ and $\Lux(\Idbpedia,
   c)$ to see in how far we can remove redundancies from $\Conf(\Idbpedia, c)$ by using
   $\Lux(\Idbpedia, c)$ instead.  To this end, we shall compute for all $c \in \set{ 0.0,
@@ -2074,7 +2060,7 @@ we want to conduct several experiments, namely
   K_\Idbpedia)$ for $c \in \set{ 0.0, 0.01, \dots, 0.99 }$ to see how large this set can
   be.  Recall that $\bigsqcap \Can(\Th_c(\con K_\Idbpedia))$ is a finite base of
   $\Th_c(\mathcal{I})$, and the number of GCIs in this base can be considered as a
-  ``small'' upper limit how many GCIs are needed to represent $\Th_c(\mathcal{I})$.
+  ``small'' upper limit of how many GCIs are needed to represent $\Th_c(\mathcal{I})$.
   Intuitively, if we decrease the value for $c$, we would expect that the number of GCIs
   contained in the canonical base decreases as well.  We shall see how far this is true
   for $\Idbpedia$.
@@ -2088,8 +2074,8 @@ The experimental results presented in this section have been published previousl
 
 Recall that we had constructed $\Idbpedia$ from the DBpedia data set by extracting all
 individuals that are in a \textsf{child}-relationship in DBpedia, either as parent or as
-child.  Since Wikipedia (from which DBpedia extracts its data) only contains articles
-about (more or less) famous persons, we can thus consider $\Idbpedia$ as an interpretation
+child.  Recall that since Wikipedia (from which DBpedia extracts its data) only contains
+articles about \enquote{famous} persons, we can consider $\Idbpedia$ as an interpretation
 that contains all properties about the child-relations between \emph{famous} persons.  In
 particular, if an element of $\Idbpedia$ does not have a \textsf{child}-successor in
 $\Idbpedia$ (and this is not an error), then this does not necessarily mean that the
@@ -2098,12 +2084,9 @@ not famous enough to deserve their own Wikipedia articles.
 
 In the following we want to examine which GCIs we have to consider in addition to the base
 $\mathcal{B}_{\Idbpedia}$ of $\Idbpedia$ we had computed in
-\Cref{sec:computing-bases-from} if we want to consider also GCIs which have a high
-confidence in $\Idbpedia$.  To this end, we shall compute the set $\Conf(\Idbpedia, c)$
-for $c = 0.95$.  For this set we shall argue whether the GCIs contained in them can be
-seen as being true in the domain which is represented by $\Idbpedia$.
-
-Let $c = 0.95$.  We then can compute $\Conf(\Idbpedia, c)$ to be
+\Cref{sec:computing-bases-from} if we want to consider also GCIs which have a confidence
+in $\Idbpedia$ of at least 0.95.  Thus, let $c = 0.95$.  We then can compute
+$\Conf(\Idbpedia, c)$ to be
 \begin{align*}
   \{\,
   & \mathsf{\exists child. \top} \sqsubseteq \mathsf{Person}, \\
@@ -2154,10 +2137,9 @@ sons, namely Victor Marie du Pont and Eleuthère Irénée du Pont.  The former b
 french diplomat and is therefore listed as \textsf{OfficeHolder} in $\Idbpedia$.  Although
 he had four children, none of them were famous enough to receive their own Wikipedia
 articles.  On the other hand, Eleuthère Irénée du Pont became a famous american industrial
-(founder of the \emph{DuPont} company) and had several famous children which are all
-listed in $\Idbpedia$.  Thus, given our understanding of the \textsf{child}-relation in
-$\Idbpedia$ we can accept this counterexample as being valid, and we therefore reject this
-GCI.
+(founder of the \emph{DuPont} company) and had several famous children which are listed in
+$\Idbpedia$.  Thus, given our understanding of the \textsf{child}-relation in $\Idbpedia$
+we can accept this counterexample as being valid, and we therefore reject this GCI.
 
 We have accepted the GCIs
 \begin{equation*}
@@ -2182,10 +2164,10 @@ then we obtain by \Cref{thm:gci-completion-simple-version} that $\bigsqcap \math
   \Th(\Idbpedia) \cup \set{ \mathsf{\exists child. \top \sqsubseteq Person },
     \mathsf{Place \sqsubseteq PopulatedPlace} },
 \end{equation*}
-and thus a base of it.  The set $\mathcal{L}$ now contains 1245 GCIs, and thus $\bigsqcap
-\mathcal{L} \cup \mathcal{B}$ contains 1247 GCIs.  Comparing this to the 1252 GCIs we can
-see that some of the GCIs in $\mathcal{B}_\Idbpedia$ indeed became dispensable, although
-it were not that many.
+and is thus a base of it.  The set $\mathcal{L}$ now contains 1245 GCIs, and thus
+$\bigsqcap \mathcal{L} \cup \mathcal{B}$ contains 1247 GCIs.  Comparing this to the 1252
+GCIs we can see that some of the GCIs in $\mathcal{B}_\Idbpedia$ indeed became
+dispensable, although it were not that many.
 
 \subsection{Sizes of Finite Bases of $\Th_c(\Idbpedia)$}
 \label{sec:sizes-finite-bases}
@@ -2211,9 +2193,9 @@ We computed $\abs{ \Conf(\Idbpedia, c) }$ and $\abs{ \Lux(\Idbpedia, c) }$ for a
   \abs{ \Conf(\Idbpedia, c) } &= \abs{ \Conf(\con K_\Idbpedia, c) }, \\
   \abs{ \Lux(\Idbpedia, c) } &= \abs{ \Lux(\con K_\Idbpedia, c) }.
 \end{align*}
-and therefore we conduct the computations in $\con K_\Idbpedia$.  The results of these
-computations are shown in \Cref{fig:conf-size-behavior}.  Note that the y-axis is scaled
-logarithmically.
+and can thus conduct the computations directly in $\con K_\Idbpedia$.  The results of
+these computations are shown in \Cref{fig:conf-size-behavior}.  Note that the y-axis is
+scaled logarithmically.
 
 \begin{figure}[tp]
   \centering
@@ -2464,7 +2446,7 @@ $\Conf(\Idbpedia, c)$.  Some of these redundancies could already exist on the le
 implications, and those could be removed if one computes bases of $\Th_c(\con
 K_{\mathcal{I}})$.
 
-In particular, if we compute the canonical base of $\Th_c(\con K_{\mathcal{I}})$ then all
+In particular, if we compute the canonical base of $\Th_c(\con K_{\mathcal{I}})$, then all
 those redundancies are removed.  Of course, other dependencies may remain, but the size of
 the canonical base of $\Th_c(\con K_{\mathcal{I}})$ may serve as an upper bound on the
 number of GCIs one needs to represent $\Th_c(\con K_{\mathcal{I}})$.  On the other hand,
@@ -2600,7 +2582,7 @@ Clearly, the more $c$ is away from 1, the more the set $\Th_c(\Idbpedia)$ depart
 $\Th(\Idbpedia)$.  There are three values for $c$ where this becomes especially apparent:
 for $c \in \set{ 0.18, 0.54, 0.66 }$ the curve depicted in
 \Cref{fig:can-Th_c-size-behavior} shows a rather steep decline.  Indeed, these values of
-$c$ are not arbitrary, since we associate with them some special observations:
+$c$ are not arbitrary, since we can associate some special observations with them:
 \begin{enumerate}[i. ]
 \item For $c \leq 0.18$ the implication $\emptyset \to M_{\Idbpedia}$ is entailed by
   $\Th_c(\con K_{\Idbpedia})$, resulting in a singleton canonical base.
@@ -2651,7 +2633,7 @@ Therefore, the way the size of $\Can(\Th_c(\con K_{\mathcal{I}}))$ behaves can i
 which kind of GCIs have been accepted with the current confidence threshold $c$.  This can
 especially be interesting when looking for general patterns in the interpretation
 $\mathcal{I}$, or when it is not yet clear which value for the confidence threshold to
-choose.  On the other hand it is also quite obvious that the preceding argumentation is
+choose.  On the other hand, it is also quite obvious that the preceding argumentation is
 not formal, and that this approach should be seen as a heuristics.
 
 %%% Local Variables: 
