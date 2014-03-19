@@ -1,29 +1,28 @@
 \chapter{Axiomatizing General Concept Inclusions with High Confidence}
 \label{cha:axiom-conf-el}
 
-The results obtained by Distel about computing finite bases of finite interpretations are
-not only interesting from a theoretical point of view.  Although we have skipped most of
-the details, all the relevant results are \emph{effective} in the sense that the obtained
-bases can in principle be computed by computers.  Thus, these results may also be
-interesting for practical applications.
+The results obtained by Baader and Distel about computing finite bases of finite
+interpretations are not only interesting from a theoretical point of view.  Although we
+have skipped most of the details, all the relevant results are \emph{effective} in the
+sense that the obtained bases can in principle be computed by computers.  Thus, these
+results may also be interesting for practical applications.
 
-A possible application of Distel's results is to compute bases from \emph{Linked Open
-  Data}~\cite{Linked-Data}, a format for representing data as used by the semantic
-web~\cite{journal/sciam/BernersLeeHL01,DBLP:conf/dagstuhl/2003sweb,FOST}.  This data
-format is mainly constituted of RDF triples and can be thought of as an edge-labeled
-graph.  As such, it is very similar to interpretations, and thus Distel's results are
-applicable here.
+A possible application of the results of Baader and Distel is to compute bases from
+\emph{Linked Open Data}~\cite{Linked-Data}, a format for representing data as used by the
+semantic web~\cite{journal/sciam/BernersLeeHL01,DBLP:conf/dagstuhl/2003sweb,FOST}.  This
+data format consists of RDF triples, and can thus be thought of as an edge-labeled graph.
+As such, it is very similar to interpretations, and thus we can use the results by Baader
+and Distel results here.
 
-As a first contribution of this thesis we have implemented the major results obtained by
-Distel on computing finite bases as described previously, and applied them to a particular
-data set of the \emph{Linked Open Data Cloud}, namely to a subset of the DBpedia data
-set~\cite{DBpedia}.  In \Cref{sec:computing-bases-from} we describe this experiment in
-detail and show what Distel's results yield when applied to this data set.  This
-experiment has also been discussed previously
-in~\cite{Borchmann:confident-GCIs,DBLP:conf/icdm/BorchmannD11}.
+As a first contribution of this thesis we have implemented the major results on computing
+finite bases as described previously, and applied them to a particular data set of the
+\emph{Linked Open Data Cloud}, namely to a subset of the DBpedia data set~\cite{DBpedia}.
+In \Cref{sec:computing-bases-from} we describe this experiment in detail and show what
+Distel's results yield when applied to this data set.  This experiment has also been
+discussed previously~\cite{Borchmann:confident-GCIs,DBLP:conf/icdm/BorchmannD11}.
 
-One conclusion from this experiment is that Distel's results are very sensitive to
-\emph{errors} in the data.  This is actually not surprising: bases of finite
+One conclusion from this experiment is that the results by Baader and Distel are very
+sensitive to \emph{errors} in the data.  This is actually not surprising: bases of finite
 interpretations only contain general concept inclusion which are valid in the data, and if
 there is only one single counterexample to a general concept inclusions, it will not be
 contained in any base.
@@ -32,12 +31,12 @@ If those counterexamples are erroneous, however, then this can cause problems.  
 that otherwise valid general concept inclusions are not obtained by Distel's approach
 anymore.  Sporadic erroneous counterexamples may also cause GCIs found during the
 computation of bases to be rather complicated, because those GCIs have to avoid those
-erroneous counterexamples.
+erroneous counterexamples using complicated concept descriptions.
 
-To remedy, or at least to alleviate this effect of erroneous counterexample to computing
-finite bases we shall consider an extension of Distel's results which tries to find bases
-of GCIs which are not necessarily valid in the given interpretation, but instead enjoy a
-\emph{high confidence} in it.  The notion of \emph{confidence} is borrowed from
+To remedy or at least to alleviate this effect of erroneous counterexample we shall
+consider an extension of Baader and Distel's results which tries to find bases of GCIs
+which are not necessarily valid in the given interpretation, but instead enjoy a
+\emph{high confidence} therein.  The notion of \emph{confidence} is borrowed from
 data-mining~\cite{arules:agrawal:association-rules}, more precisely from the theory of
 \emph{association rules}, and allows to measure how much an association rule is allowed to
 ignore counterexamples.  We shall transfer the notion of confidence to general concept
@@ -51,13 +50,14 @@ We shall discuss in \Cref{Luxen-base} how these results allow us to obtain bases
 implications which have \emph{high confidence} in some given formal context.
 
 In \Cref{sec:first-base} we then show how these ideas can be simulated in \ELgfpbot to
-find bases for GCIs with high confidence.  Moreover, we shall also show in
+find bases for GCIs with high confidence.  Moreover, we shall show in
 \Cref{sec:bases-confident-gcis} how bases of implications with high confidence yield bases
-of GCIs with high confidence.  Finally, we shall also discuss a way to \emph{complete}
-sets of GCIs, \ie how to obtain a set of valid GCIs that makes a given set of GCIs
-complete.  This result is quite similar to \Cref{thm:Felix-base-B3}, and we shall do this
-in \Cref{sec:completing-sets-of-gcis}.  Finally, we shall see how to obtain \ELbot bases
-from \ELgfpbot bases for GCIs with high confidence.
+of GCIs with high confidence.  We shall also discuss a way to \emph{complete} sets of
+GCIs, \ie how to obtain a set of valid GCIs that makes a given set of GCIs complete.  This
+result is quite similar to \Cref{thm:Felix-base-B3}, and we shall do this in
+\Cref{sec:completing-sets-of-gcis}.  Finally, we shall see how to obtain \ELbot bases from
+\ELgfpbot bases for GCIs with high confidence, using the technique of unravelling
+\ELgfpbot concept descriptions as discussed in \Cref{sec:unrav-elgfpb-conc}.
 
 The results thus obtained are again all effective, and we shall discuss some experiments
 in \Cref{sec:exper-with-conf} which use the same data-set as the one used in
@@ -71,11 +71,12 @@ attribute exploration algorithm.  These will be discussed in \Cref{cha:expl-conf
 \section{Computing Bases from DBpedia}
 \label{sec:computing-bases-from}
 
-We want to evaluate the practicability of Distel's results by applying them to linked data
-extracted from the Linked Open Data Cloud.  In other words, given some linked data, we
-want to extract a complete set of general concept inclusions that is valid within this
-data set.  The goal of this experiment is to see in how far Distel's approach is practical
-in learning terminological knowledge about some domain which is represented by linked data.
+We want to evaluate the practicability of the results of Baader and Distel by applying
+them to linked data extracted from the Linked Open Data Cloud.  In other words, given some
+linked data, we want to extract a complete set of general concept inclusions that is valid
+within this data set.  The goal of this experiment is to see in how far Baader and
+Distel's approach is practical in learning terminological knowledge about some domain
+which is represented by linked data.
 
 Of course, before we can do so we first have to discuss how we can obtain an
 interpretation from a given linked data set, and one which sufficiently reflects the
@@ -126,16 +127,16 @@ which expresses that a subject is an instance of a certain
 class.\footnote{\url{http://www.w3.org/1999/02/22-rdf-syntax-ns}} If we consider triples
 with this predicates not as edges in the linked graph, but instead as the information that
 the subject is an instance of the object, then we indeed consider linked data as a vertex-
-and edge-labeled graph with vertex labels $N_C$ and edge-labels $N_R$, where $N_C$ is not
-empty in general.
+and edge-labeled graph with vertex labels $N_C$ and edge-labels $N_R$, where $N_C$ is in
+general not empty.
 
 This view on linked data now allows us to consider it as an interpretation over some sets
-$N_C$ and $N_R$, and to apply Distel's result to such data sets.  For our experiments, we
-have chosen a subset of the DBpedia data set as of March 2010 (Version
+$N_C$ and $N_R$, and to apply Baader and Distel's result to such data sets.  For our
+experiments, we have chosen a subset of the DBpedia data set as of March 2010 (Version
 3.5)\footnote{\url{http://wiki.dbpedia.org/Downloads35?v=pb8}}.  The linked data contained
-within the DBpedia data-set has been extracted automatically from \emph{Wikipedia
-  Infoboxes}, which are a means to represent facts about the topic of the current page in
-a compact way.
+in the DBpedia data set has been extracted automatically from \emph{Wikipedia Infoboxes},
+which are a means to represent facts about the topic of the current page in a compact way.
+An example of such an Infobox is shown in \Cref{fig:infobox-screenshot}.
 
 \begin{figure}[tp]
   \centering
@@ -144,19 +145,19 @@ a compact way.
   \label{fig:infobox-screenshot}
 \end{figure}
 
-The subset of the DBpedia data-set we used for our experiments arises by restricting our
+The subset of the DBpedia data set we used for our experiments arises by restricting our
 attention to the relation
 \begin{equation*}
   \verb|http://dbpedia.org/ontology/child|.
 \end{equation*}
 From this subset, we constructed an interpretation $\Idbpedia = (\Delta^{\Idbpedia},
-\cdot^{\Idbpedia})$.  To make the following considerations easier to read we shall drop
-the prefix and just write \textsf{child} instead of
-\texttt{http://dbpedia.org/ontology/child}, for example.
+\cdot^{\Idbpedia})$.  To make the our considerations easier to read, we shall drop the
+prefix \verb|http://dbpedia.org/ontology| in the following, and just write \textsf{child}
+instead of \texttt{http://dbpedia.org/ontology/child}, for example.
 
-To construct $\Idbpedia$ we first computed all triples $T_{\mathsf{child}}$ from the
-DBpedia data set whose predicate is \textsf{child}.  The subjects of these triples where
-collected into $\Delta^{\Idbpedia}$.  We defined
+To construct $\Idbpedia$ we first compute all triples $T_{\mathsf{child}}$ from the
+DBpedia data set whose predicate is \textsf{child}.  The subjects and objects of these
+triples are collected into $\Delta^{\Idbpedia}$.  We then define
 \begin{equation*}
   \mathsf{child}^{\Idbpedia} := \set{ (s, o) \in \Delta^\Idbpedia \times \Delta^\Idbpedia
     \mid (s, \mathsf{child}, o) \in T_{\mathsf{child}} }.
@@ -200,25 +201,25 @@ and therefore
   \mathsf{Abraham\_Lincoln} &\in \mathsf{OfficeHolder}^{\Idbpedia}.
 \end{align*}
 
-The interpretation $\Idbpedia$ then 5624 elements and contained 60 concept names, \ie
-$\abs{ N_C } = 60$.  By construction, that there is only one role name in $\Idbpedia$,
-namely \textsf{child}.  To now compute bases of $\Idbpedia$ means to extract all knowledge
-about the child-relation present in DBpedia and expressible in \ELbot.  Note that elements
-from DBpedia are only present in $\Idbpedia$ if they have children, or are children of
-someone else.  Moreover, as DBpedia extracts its information from Wikipedia, all elements
-in $\Idbpedia$ correspond to articles in Wikipedia; in particular, if such elements
+The interpretation $\Idbpedia$ then contains 5624 elements and 60 concept names, \ie
+$\abs{ N_C } = 60$.  By construction, there is only one role name in $\Idbpedia$, namely
+\textsf{child}.  To now compute bases of $\Idbpedia$ means to extract all knowledge about
+the child-relation present in DBpedia and expressible in \ELbot.  Note that elements from
+DBpedia are only present in $\Idbpedia$ if they have children, or are children of someone
+else.  Moreover, as DBpedia extracts its information from Wikipedia, all elements in
+$\Idbpedia$ correspond to articles in Wikipedia; in particular, if such elements
 correspond to persons, then those persons have to be ``sufficiently famous'' in the sense
 that they deserve a Wikipedia article.  Therefore, $\Idbpedia$ represent DBpedia's
 knowledge about famous persons and their famous children.
 
-We have to note, however, that the \emph{child}-relation in DBpedia contains some false
+We have to note, however, that the \textsf{child}-relation in DBpedia contains some false
 information, mostly due to the way this information is extracted from Wikipedia Infoboxes.
 More precisely, our interpretation $\Idbpedia$ not only contains elements which correspond
 to humans, but also contains elements which are instances of \textsf{Work},
 \textsf{Organisation} or \textsf{PopulatedPlace}, among others.  However, those artifacts
 are comparably rare, and it is still reasonable to use $\Idbpedia$ for our experiments.
 
-We have implemented the algorithms devised by Distel to compute bases of finite
+We have implemented the algorithms devised by Baader and Distel to compute bases of finite
 interpretations\footnote{\url{http://github.com/exot/EL-exploration}} on top of
 \texttt{conexp-clj}\footnote{\url{http://github.com/exot/conexp-clj}}, a general purpose
 tool for formal concept analysis.  When computing a minimal base of $\Idbpedia$ as
@@ -236,15 +237,16 @@ the relationships among the concept names occurring in $\Idbpedia$ only, for exa
   \mathsf{Criminal \sqcap Politician} &\sqsubseteq \bot
 \end{align*}
 This knowledge can indeed be useful to learn the hierarchy of concept names
-(\emph{taxonomy}) of $\Idbpedia$.  On the other side, this knowledge does not yet show
-whether Distel's results are useful, as this knowledge could have easily been obtained my
-methods from formal concept analysis alone.
+(\emph{taxonomy}) of $\Idbpedia$.  On the other hand, this does not yet show whether
+computing bases of $\Idbpedia$ is useful, as the GCIs shown above could have easily been
+obtained my methods from formal concept analysis alone.
 
 The last GCI states that there are no elements in $\Idbpedia$ that are both criminal and
 politicians.  GCIs of this form are called \emph{disjointness constraints}, and they can
 be useful in applications.  The disjointness constraint shown above only contain concept
-names.  However, Distel's approach let's us find more disjointness constraints than just
-between concept names.  For example, $\mathcal{B}_{\Idbpedia}$ contains the GCI
+names.  However, the approach by Baader and Distel lets us find more disjointness
+constraints than just those between concept names.  For example, $\mathcal{B}_{\Idbpedia}$
+contains the GCI
 \begin{equation*}
    \mathsf{Philosopher} \sqcap \exists \mathsf{child}. \top \sqsubseteq \bot
 \end{equation*}
@@ -261,14 +263,14 @@ argue that they can be useful are
   \mathsf{FictionalCharacter \sqcap \exists child. Person} &\sqsubseteq \mathsf{\exists
     child. FictionalCharacter}
 \end{align*}
-where the second GCI can be seen as some kind of \ELbot approximation of the fact that
-fictional characters can only have fictional characters as their children.  These GCIs can
-indeed be seen as useful terminological knowledge for the domain represented by
+where the second GCI can be seen as a certain kind of \ELbot approximation of the fact
+that fictional characters can only have fictional characters as their children.  These
+GCIs can indeed be seen as useful terminological knowledge for the domain represented by
 $\Idbpedia$.
 
-Those GCIs, \ie where one could argue that they represent meaningful knowledge, are quite
-rare in $\mathcal{B}_\Idbpedia$.  On the other hand, $\mathcal{B}_\Idbpedia$ contains many
-GCIs whose usefulness is highly doubtful, either because they combine otherwise unrelated
+Those GCIs where one could argue that they represent meaningful knowledge are quite rare
+in $\mathcal{B}_\Idbpedia$.  On the other hand, $\mathcal{B}_\Idbpedia$ contains many GCIs
+whose usefulness is highly doubtful, either because they combine otherwise unrelated
 concepts, or they are too specific.
 
 An example for the first case is
@@ -285,8 +287,8 @@ information, but are not helpful as knowledge itself.  Similar examples are
   \mathsf{\exists child. Settlement \sqcap Politician} &\sqsubseteq \mathsf{Congressman}.
 \end{align*}
 
-GCIs which could be too specific can be considered to most common case among all GCIs in
-$\mathcal{B}_{\Idbpedia}$, examples of them being
+GCIs which can be considered as being too specific are to most common case among all GCIs
+in $\mathcal{B}_{\Idbpedia}$, examples of them being
 \begin{gather*}
   \mathsf{\exists child. Ambassador \sqcap OfficeHolder} \\
   \sqsubseteq \mathsf{\exists child. (Ambassador \sqcap \exists child. Person) \sqcap {}}\\
@@ -294,17 +296,16 @@ $\mathcal{B}_{\Idbpedia}$, examples of them being
   Congressman \sqcap \exists child. Actor \sqcap \exists child OfficeHolder)}.
 \end{gather*}
 Indeed, this GCI only applies to the individual \texttt{Joseph\_P.\_Kennedy\%2C\_Sr.}, and
-thus it states information only about this very individual and its children.  To cope with
-such situations, Distel extended his results about computing bases of finite
-interpretations to \emph{model exploration} which also allows for \emph{expert
-  interaction}, in a way similar to attribute exploration in formal concept analysis.  If
-the expert would encounter such a GCI she would reject it as being too specific, and would
-provide more examples to make it more general.  We shall discuss this algorithm in more
-detail in \Cref{cha:model-expl-conf}.
+thus it states information only about this very individual and its children.  We can
+handle such situations in principle by using \emph{model exploration}, which allows for
+expert interaction in a similar way as attribute exploration does: if during model
+exploration the expert would encounter such a GCI as shown above, she would reject it as
+being too specific, and would provide counterexamples for it.  We shall discuss this
+algorithm in more detail in \Cref{cha:model-expl-conf}.
 
 Another approach to eliminating those over-specific GCIs may be to require for the
-extracted GCIs that they apply to at least a certain number of different individuals.
-However, this approach leads to some unintuitive behavior, see \Cref{cha:conclusions}.
+extracted GCIs that they apply to at least a certain number of different individuals, see
+\Cref{cha:conclusions}.
 
 Finally, among the GCIs contained in $\mathcal{B}_\Idbpedia$ there exist some which convey
 the impression of being redundant, like
@@ -332,10 +333,10 @@ are\footnote{Coincidentally, all these are artists from Hong Kong}
 \end{equation*}
 However, these elements clearly represent human beings, so they \emph{should} actually be
 instances of \textsf{Person}.  In other words, these counterexamples are all
-\emph{erroneous} counterexamples, but since they are present in $\Idbpedia$ the approach
-developed by Distel will not ignore them.  This not only inhibits finding the GCI
-$\mathsf{\exists child. \top \sqsubseteq Person}$, but also causes incomprehensible GCIs
-to be found which are special cases of this GCI but somehow try to ``circumvent'' the
+\emph{erroneous} counterexamples, but since they are present in $\Idbpedia$, the approach
+developed by Baader and Distel will not ignore them.  This not only inhibits finding the
+GCI $\mathsf{\exists child. \top \sqsubseteq Person}$, but also causes incomprehensible
+GCIs to be found which are special cases of this GCI but somehow try to ``circumvent'' the
 erroneous counterexamples. An example for this is
 \begin{gather*}
   \mathsf{Person \sqcap \exists child. (Person \sqcap \exists child. (Person \sqcap \exists child.
@@ -351,13 +352,14 @@ erroneous counterexamples. An example for this is
 \section{GCIs with High Confidence in Finite Interpretations}
 \label{sec:confident-gcis}
 
-It would certainly increase the applicability of Distel's approach if we could ignore
-erroneous counterexamples in our data, as then we could expect simpler and more general
-GCIs to be extracted.  However, we cannot expect to have an automatic procedure which
-achieves this goal, \ie we cannot expect an algorithm that automatically ignores erroneous
-counterexamples, since the algorithm would need to know what errors are in the current
-domain of interest, and for this the algorithm would need to posses knowledge about this
-domain, which however we are just about to learn.
+It would certainly increase the applicability of Baader and Distel's approach if we could
+ignore erroneous counterexamples in our data, as then we could extract simpler and more
+general GCIs from this data.  However, we cannot expect to have an automatic procedure
+which achieves this goal, \ie we cannot expect an algorithm that automatically ignores
+erroneous counterexamples.  The reason for that is that the algorithm would need to know
+how to distinguish errors in the current domain of interest, and for this the algorithm
+would need to posses knowledge about this domain, which however we are just about to
+learn.
 
 On the other hand, what we can assume is that our initially given interpretation
 $\mathcal{I}$ contains only \emph{few} errors, as otherwise learning GCIs from it would be
@@ -373,30 +375,30 @@ if the number of positive examples is much higher than the number of negative on
 approach to ignore erroneous counterexamples would then be to consider these ``almost
 valid'' GCIs in addition to the valid ones, and try to find finite bases for both of them.
 
-This actually works quite well for our example interpretation $\Idbpedia$, as the GCI
+This actually works quite well for our example interpretation $\Idbpedia$, as
 $\mathsf{\exists child. \top \sqsubseteq Person}$ has much more positive than negative
 examples: there are 2551 elements $x \in \Delta^{\Idbpedia}$ to which $\mathsf{\exists
   child. \top \sqsubseteq Person}$ applies, \ie which satisfy $x \in (\mathsf{\exists
-  child. \top})$, but only 4 of those (the ones mentioned above) fail to also satisfy $x
-\in \mathsf{Person}^{\Idbpedia}$.  Therefore, $\mathsf{\exists child. \top \sqsubseteq
-  Person}$ has 2547 positive examples, but only 4 negative ones.  By our approach, we can
-consider these negative examples as errors and ignore them.  Thus, $\mathsf{\exists
-  child. \top \sqsubseteq Person}$ would be extracted from $\Idbpedia$.
+  child. \top})^{\Idbpedia}$, but only 4 of those (the ones mentioned above) fail to also
+satisfy $x \in \mathsf{Person}^{\Idbpedia}$.  Therefore, $\mathsf{\exists child. \top
+  \sqsubseteq Person}$ has 2547 positive examples, but only 4 negative ones.  By our
+approach, we can consider these negative examples as errors and ignore them.  Thus,
+$\mathsf{\exists child. \top \sqsubseteq Person}$ would be extracted from $\Idbpedia$.
 
-Of course, this approach is highly heuristic in general: if valid counterexamples for a
-GCI $C \sqsubseteq D$ are just \emph{rare} in $\mathcal{I}$, then the above sketched
-approach would treat them as errors, which is incorrect.  On the other hand, it may be
-much more desirable to extract GCIs which are \emph{wrong} in some application domain,
-than to miss GCIs which are \emph{correct}, as long as not too many wrong GCIs are being
-extracted.  This is because identifying wrong GCIs can be considered much easier than
-finding correct GCIs that are just invalidated by errors in the data.
+Of course, this approach is highly heuristic: if valid counterexamples for a GCI $C
+\sqsubseteq D$ are just \emph{rare} in $\mathcal{I}$, then the above sketched approach
+would treat them as errors, which is incorrect.  On the other hand, it may be much more
+desirable to extract GCIs which are \emph{wrong} in some application domain, than to miss
+GCIs which are \emph{correct}, as long as not too many wrong GCIs are being extracted.
+This is because identifying wrong GCIs can be considered much easier than finding correct
+GCIs that are just invalidated by errors in the data.
 
 It is the purpose of this section to give a formalization of the notion of a GCI to be
 ``almost valid'' in some finite interpretation.  We shall base this formalization on the
 notion of \emph{confidence} as it is used in
-data-mining~\cite{arules:agrawal:association-rules}.  This will be done in
-\Cref{sec:conf-gcis-conf}.  Our goal is then to find \emph{finite bases} of all GCIs which
-enjoy a \emph{high confidence} in the initially given interpretation.
+data-mining~\cite{arules:agrawal:association-rules}.  Our goal is then to find
+\emph{finite bases} of all GCIs which enjoy a \emph{high confidence} in the initially
+given interpretation.
 
 \subsection{Confidence of GCIs and Confident Bases}
 \label{sec:conf-gcis-conf}
@@ -404,7 +406,7 @@ enjoy a \emph{high confidence} in the initially given interpretation.
 We want to formalize the notion of a GCI $C \sqsubseteq D$ to be ``almost valid'' in some
 given interpretation $\mathcal{I}$.  For this we argued intuitively that the number of
 positive examples should be ``much higher'' then the number of negative examples.  For
-this, we define the \emph{confidence} of $C \sqsubseteq D$ in $\mathcal{I}$.
+this, we define the \emph{confidence} of $C \sqsubseteq D$ in $\mathcal{I}$ as follows.
 
 \begin{Definition}[Confidence of GCIs]
   \label{def:gci-confidence}
@@ -433,7 +435,8 @@ number of positive examples is higher than the number of negative ones.
   Recall that $\mathsf{\exists child. \top \sqsubseteq Person}$ has 2547 positive and 4
   negative examples in $\Idbpedia$, thus
   \begin{equation*}
-    \conf_\Idbpedia( {\mathsf{\exists child. \top \sqsubseteq Person} } ) = \frac{ 2547 }{ 2551 }.
+    \conf_\Idbpedia( {\mathsf{\exists child. \top \sqsubseteq Person} } ) = \frac{ 2547 }{
+      2551 } \approx 0.998.
   \end{equation*}
 \end{Example}
 
@@ -444,8 +447,8 @@ number of positive examples is ``much higher'' then the number of negative ones.
 \begin{Definition}[Confidence-Based Theory of Finite Interpretations]
   \label{def:confident-theory-of-interpretations}
   Let $\mathcal{I}$ be a finite interpretation over $N_C$ and $N_R$, and let $c \in [0,
-  1]$.  Then the \emph{confidence-based theory} of $\mathcal{I}$ \emph{with threshold $c$}
-  is defined to be the set
+  1]$.  Then the \emph{confidence-based theory} $\Th_{c}(\mathcal{I})$ of $\mathcal{I}$
+  \emph{with threshold $c$} is defined as
   \begin{equation*}
     \Th_c(\mathcal{I}) := \set{ C \sqsubseteq D \mid C, D \in \ELgfpbot(N_C, N_R),
       \conf_{\mathcal{I}}( C \sqsubseteq D ) \ge c }.
@@ -455,8 +458,7 @@ number of positive examples is ``much higher'' then the number of negative ones.
   \emph{confident GCIs}.
 \end{Definition}
 
-Note that in general the set $\Th_c(\mathcal{I})$ is not closed under entailment; we shall
-see examples for this later on.
+Note that in general the set $\Th_c(\mathcal{I})$ is not closed under entailment.
 
 Note that if $C \sqsubseteq D$ has confidence 1 in $\mathcal{I}$ if and only if $C
 \sqsubseteq D$ holds in $\mathcal{I}$.  Therefore, $\Th(\mathcal{I}) \subseteq
@@ -468,7 +470,7 @@ $\Th_c(\mathcal{I})$, \ie if all GCIs in $\mathcal{B}$ are entailed by
 $\Th_c(\mathcal{I})$ and vice versa.
 
 Notice, however, that since $\Th_c(\mathcal{I})$ is not closed under entailment it may
-happen that $\mathcal{B} \not\subseteq \Th_c(\mathcal{I})$.  On the other hand it may be
+happen that $\mathcal{B} \not\subseteq \Th_c(\mathcal{I})$.  On the other hand, it may be
 desirable to have bases $\mathcal{B}$ of $\Th_c(\mathcal{I})$ where the GCIs contained in
 this base have high confidence as well, \ie which satisfy $\mathcal{B} \subseteq
 \Th_c(\mathcal{I})$.  We shall call such bases \emph{confident bases} of
@@ -477,13 +479,13 @@ $\Th_c(\mathcal{I})$.
 \subsection{Luxenburger's Base}
 \label{Luxen-base}
 
-Before we consider finite bases and finite confident bases of $\Th_c(\mathcal{I})$ let us
+Before we consider finite bases and finite confident bases of $\Th_c(\mathcal{I})$, let us
 first consider the analogous problem in formal concept analysis, which is to find small
 bases of \emph{implications with high confidence} in a given formal context.  The results
-which are relevant for this discussion mainly go back to research done by Luxenburger on
-\emph{partial implications}~\cite{diss:Luxenburger,Luxenburger91}.  We shall first discuss
-these results, however not in their original form, but instead in way suitable for our
-considerations.
+which are relevant for this discussion mainly go back to results by Luxenburger on
+\emph{partial implications}~\cite{diss:Luxenburger,Luxenburger91}, and extensions
+thereof~\cite{DBLP:conf/ki/StummeTBPL01}.  We shall first discuss these results, however
+not in their original form, but instead in way suitable for our considerations.
 
 We have already defined the notion of confidence of a GCI in some given finite
 interpretation.  The analogous notion in formal concept analysis is the confidence of an
@@ -523,16 +525,17 @@ but recall that the main purpose of this discussion is to have obtain a finite b
 $\Th_c(\con K)$ which, when transferred to the side of description logics, stays finite.
 The main idea in that direction is that, if an interpretation $\mathcal{I}$ is finite,
 then it only has finitely many model-based most-specific concept descriptions (up to
-equivalence), thus finding a base of $\Th_c(\con K)$ which only contains intents of $\con
-K$ would be suitable for our purposes.
+equivalence).  Since model-based most-specific concept descriptions are in a one-to-one
+correspondence to the intents of the induced context $\con K_{\mathcal{I}}$ of
+$\mathcal{I}$, finding a base of $\Th_c(\con K)$ which only contains intents of $\con K$
+is likely suitable for our purposes.
 
 To compute such a base of $\Th_c(\con K)$ we first observe that, as in the case of GCIs,
 an implication $(A \to B)$ holds in $\con K$ if and only if its confidence in $\con K$ is
 1.  Therefore, $\Th(\con K) \subseteq \Th_c(\con K)$ is true for all $c \in [0,1]$.
 Furthermore, we already know how to compute bases of $\Th(\con K)$.  Thus, if
 $\mathcal{L}$ is a base of $\Th(\con K)$, to find a base of $\Th_c(\con K)$ it is enough
-to compute bases of $\Th_c(\con K)$ with background knowledge $\mathcal{L}$, or
-equivalently, to compute a base for $\Th_c(\con K) \setminus \Th(\con K)$.
+to compute bases of $\Th_c(\con K)$ with background knowledge $\mathcal{L}$.
 
 The first crucial observation is now the well-known fact that
 \begin{equation*}
@@ -546,7 +549,7 @@ is always true for $(A \to B) \in \Imp(M)$, because $A''' = A'$ and
 \end{align*}
 But then $\set{ A'' \to B'' } \models (A \to B)$, so it is enough to consider only
 implications where both premise and conclusion are intents of $\con K$.  The following
-lemma makes use of this observation
+lemma makes use of this observation.
 
 \begin{Lemma}
   \label{lem:confident-base-of-formal-context}
@@ -622,8 +625,8 @@ c)$ and since
 \begin{equation*}
   \set{ A'' \to B'', B'' \to C'' } \models (A'' \to C'')
 \end{equation*}
-the implication $A'' \to C''$ is dispensable in $\Conf(\con K, c)$ and can be removed
-without any harm.
+the implication $A'' \to C''$ is dispensable in $\Conf(\con K, c)$, and can thus be
+removed without any harm.
 
 \begin{Theorem}
   \label{thm:luxenburger-base}
@@ -652,12 +655,12 @@ from~\cite{DBLP:conf/ki/StummeTBPL01}.
     B_0 = A'' \subsetneq B_1 \subsetneq B_2 \subsetneq \dots \subsetneq B_{n-1} \subsetneq B_n = C''
   \end{equation*}
   such that there are no intents $D$ such that $B_i \subsetneq D \subsetneq B_{i+1}$ for
-  all $i \in \set{ 0, \dots, n-1 }$.  Then by induction
+  all $i \in \set{ 0, \dots, n-1 }$.  Then by induction,
   \Cref{lem:chain-rule-for-confidence} yields
   \begin{equation*}
     \conf_{\con K}(A'' \to C'') = \prod_{i = 0}^{n-1} \conf_{\con K}(B_i \to B_{i+1}).
   \end{equation*}
-  Since $\conf_{\con K}(B_i \to B_{i+1}) \in [0,1]$ this immediately yields that
+  Since $\conf_{\con K}(B_i \to B_{i+1}) \in [0,1]$, this yields
   \begin{equation*}
     \conf_{\con K}(B_i \to B_{i+1}) \ge \conf_{\con K}(A'' \to C'') \ge c
   \end{equation*}
@@ -668,11 +671,12 @@ from~\cite{DBLP:conf/ki/StummeTBPL01}.
   as required.
 \end{Proof}
 
-Clearly we can weaken the prerequisites of this theorem a bit: instead of considering the
-whole set $\Lux(\con K, c)$ a subset $\mathcal{B} \subseteq \Lux(\con K, c)$ that is
+Clearly we can weaken the prerequisites of this theorem as follows: instead of considering
+the whole set $\Lux(\con K, c)$ a subset $\mathcal{B} \subseteq \Lux(\con K, c)$ that is
 complete for $\Lux(\con K, c)$ is just sufficient.  Moreover, it is not necessary to
-consider just bases of $\con K$.  Instead, it is sufficient to take a set $\mathcal{L}
-\subseteq \Th(\con K)$ such that $\mathcal{L} \cup \mathcal{B}$ is complete for $\con K$.
+consider only bases $\mathcal{L}$ of $\con K$.  Instead, it is sufficient to take a set
+$\mathcal{L} \subseteq \Th(\con K)$ such that $\mathcal{L} \cup \mathcal{B}$ is complete
+for $\con K$.
 
 \begin{Corollary}
   \label{cor:weakened-luxenburger-base}
@@ -683,7 +687,7 @@ consider just bases of $\con K$.  Instead, it is sufficient to take a set $\math
   with background knowledge $\mathcal{L}$.
 \end{Corollary}
 
-\subsection{A Luxenburger-Style Base of all Confident GCIs}
+\subsection{A Luxenburger-Style Base of all GCIs with High Confidence}
 \label{sec:first-base}
 
 We can now use the results about confident bases of implications with high confidence to
@@ -744,10 +748,11 @@ From this fact we can now derive the analog of \Cref{lem:chain-rule-for-confiden
 \end{Theorem}
 
 In the definition of $\Conf(\mathcal{I}, c)$ we of course consider all GCIs only up to
-equivalence: if $(X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}), (\bar X^{\mathcal{I}}
-\sqsubseteq Y^{\mathcal{I}}) \in \Conf(\mathcal{I}, c)$ are such that $X^{\mathcal{I}}
-\equiv \bar X^{\mathcal{I}}, Y^{\mathcal{I}} \equiv \bar Y^{\mathcal{I}}$, we only keep
-one of these GCIs in $\Conf(\mathcal{I}, c)$ and discard the other.
+equivalence: if $(X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}), (\overline X^{\mathcal{I}}
+\sqsubseteq \overline Y^{\mathcal{I}}) \in \Conf(\mathcal{I}, c)$ are such that
+$X^{\mathcal{I}} \equiv \overline X^{\mathcal{I}}, Y^{\mathcal{I}} \equiv \overline
+Y^{\mathcal{I}}$, we only keep one of these GCIs in $\Conf(\mathcal{I}, c)$, and discard
+the other.
 
 \begin{Proof}
   Clearly $\Conf(\mathcal{I}, c) \cup \mathcal{B} \subseteq \Th_c(\mathcal{I})$.
@@ -759,15 +764,15 @@ one of these GCIs in $\Conf(\mathcal{I}, c)$ and discard the other.
   $\mathcal{I}$, then it is entailed by $\mathcal{B}$, and nothing remains to be shown.
 
   Therefore, let $C \sqsubseteq D$ be not valid in $\mathcal{I}$.  Then observe that $C
-  \sqsubseteq D$ is entailed by $C \sqsubseteq C \sqcap D$.  Then $\mathcal{B}$ entails $C
-  \sqsubseteq C^{\mathcal{I}\mathcal{I}}$.  Furthermore,
+  \sqsubseteq D$ is entailed by $C \sqsubseteq C \sqcap D$.  Furthermore, $\mathcal{B}$
+  entails $C \sqsubseteq C^{\mathcal{I}\mathcal{I}}$, and thus
   \begin{equation*}
     \conf_{\mathcal{I}}( C \sqsubseteq D ) = \conf_{\mathcal{I}}( C \sqsubseteq C \sqcap D
     ) = \conf_{\mathcal{I}}( C^{\mathcal{I}\mathcal{I}} \sqsubseteq (C \sqcap
     D)^{\mathcal{I}\mathcal{I}} )
   \end{equation*}
   by \Cref{lem:confidence-stays-under-mmsc}, and since $(C \sqsubseteq D) \in
-  \Th_c(\mathcal{I})$ we obtain that
+  \Th_c(\mathcal{I})$ we obtain
   \begin{equation*}
     (C^{\mathcal{I}\mathcal{I}} \sqsubseteq (C \sqcap D)^{\mathcal{I}\mathcal{I}}) \in
     \Conf(\mathcal{I}, c)
