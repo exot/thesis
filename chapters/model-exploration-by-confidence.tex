@@ -111,9 +111,10 @@ thus obtaining the model exploration algorithm.
 We want to find an algorithm that allows us to compute bases of formal contexts where the
 attribute set is allowed to grow during the computation.  We can think of this situation
 as follows: we want to compute a base of a formal context, which however we cannot access
-completely, in the sense that some of the attributes are \enquote{hidden}.  However, we
-can uncover hidden attributes during the run of the computation.  The goal is then to find
-an algorithm which allows us to compute bases in such a setting.
+completely, in the sense that some of the attributes in this formal context are
+\enquote{hidden}.  However, during the computation of the base, hidden attributes are
+uncovered incrementally.  The goal is then to find an algorithm which allows us to compute
+bases in such a setting.
 
 Obtaining such an algorithm is actually not that difficult.  For this let us consider how
 \Cref{alg:canonical-base} computes the canonical base.  There, we use the Next-Closure
