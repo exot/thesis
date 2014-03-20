@@ -1,65 +1,62 @@
 \chapter[Model Exploration by Confidence]{Model Exploration by Confidence with Completely Specified Counterexamples}
 \label{cha:model-expl-conf}
 
-We have seen how we can extend our understanding of attribute exploration to include the
-possibility to explore implications which enjoy a high confidence in some given formal
-context.  In this chapter we want to extend this generalization of attribute exploration
-even further to be able to explore GCIs with high confidence in finite interpretations.
-The basis for this extension will be Distel's \emph{model exploration}
-algorithm~\cite{Diss-Felix}, an extension of attribute exploration to explore valid GCIs
-of finite interpretations.
+We have seen how we can extend attribute exploration to explore implications which enjoy a
+high confidence in some given formal context.  In this chapter we want to extend this
+generalization of attribute exploration even further to be able to explore GCIs with high
+confidence in finite interpretations.  The basis for this extension will be the
+\emph{model exploration} algorithm from~\cite{Diss-Felix}, an extension of attribute
+exploration to explore valid GCIs of finite interpretations.
 
 Model exploration, similarly to attribute exploration, assumes that a certain domain of
 interest is representable by a finite interpretation $\mathcal{I}_{\mathsf{back}}$, which
 we shall call the \emph{background interpretation} of the exploration process.  However,
 we assume that this interpretation is not directly accessible, but instead we have given
 an expert that allows us to decide whether certain GCIs are valid in
-$\mathcal{I}_{\mathsf{back}}$ or not.  In addition, if a given GCI $C \sqsubseteq D$ is
-not valid in $\mathcal{I}_{\mathsf{back}}$, then the expert provides a counterexample for
-$C \sqsubseteq D$ in a suitable way.
+$\mathcal{I}_{\mathsf{back}}$.  In addition, if a given GCI $C \sqsubseteq D$ is not valid
+in $\mathcal{I}_{\mathsf{back}}$, then the expert can provide counterexamples for $C
+\sqsubseteq D$ in a suitable way.
 
-The principal way how model exploration now works is again very akin to attribute
-exploration.  Given a finite \emph{connected subinterpretation} $\mathcal{I}$ of
+The principal way how model exploration works is again very akin to attribute exploration.
+Given a finite \emph{connected subinterpretation} $\mathcal{I}$ of
 $\mathcal{I}_{\mathsf{back}}$ and a set $\mathcal{B}$ of valid GCIs of
 $\mathcal{I}_{\mathsf{back}}$, the algorithm successively generates valid GCIs $C
-\sqsubseteq D$ of $\mathcal{I}$ which do not follow from $\mathcal{B}$ and presents them
+\sqsubseteq D$ of $\mathcal{I}$ which do not follow from $\mathcal{B}$, and presents them
 to some expert.  If the expert confirms $C \sqsubseteq D$, then it is added to
 $\mathcal{B}$.  If the expert rejects $C \sqsubseteq D$, then she provides a
 counterexample to it in the form of a connected subinterpretation of
 $\mathcal{I}_{\mathsf{back}}$, which is added to $\mathcal{I}$.  Since $\mathcal{I}$ and
-$\mathcal{B}$ thus play the same role as the working context and the set of known
-implications during attribute exploration, we shall refer to them as the \emph{working
-  interpretation} and the \emph{set of known GCIs}, respectively.  If no more GCIs can be
-generated to be asked to the expert the algorithm stops.  It can be shown that at this
-point, the set $\mathcal{B}$ is a finite base of $\mathcal{I}_{\mathsf{back}}$.
+$\mathcal{B}$ play the same role as the working context and the set of known implications
+during attribute exploration, we shall refer to them as the \emph{working interpretation}
+and the \emph{set of known GCIs}, respectively.  If no more GCIs can be generated to be
+asked to the expert, the algorithm stops.  It can be shown that at this point, the set
+$\mathcal{B}$ is a finite base of $\mathcal{I}_{\mathsf{back}}$.
 
 The foregone description already suggests that there are some difficulties in transferring
 attribute exploration to the setting of GCIs and finite interpretations.  The most
 apparent is that the set of GCIs we potentially have to cover is infinite, as the set of
 valid GCIs of $\mathcal{I}_{\mathsf{back}}$ is infinite.
 
-The other problem is that validity of GCIs in interpretations deploy a \emph{closed-world}
+Another problem is that validity of GCIs in interpretations deploy a \emph{closed-world}
 semantics: if an element $x \in \Delta^{\mathcal{I}}$ of a (finite) interpretation
 $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ does not have an $r$-successor
-in $\mathcal{I}$, for some $r \in N_{R}$, then it is assumed that $x$ \emph{does not have}
-$r$-successors, instead of just assuming that these $r$-successors are not specified, but
-still could exist.  Therefore, if we add an element $x$ of $\mathcal{I}_{\mathsf{back}}$
-as a counterexample for a GCI to our working interpretation $\mathcal{I}$, then we also
-have to include \emph{all} its role successors (and their role successors, and so on),
-even so they may not be needed as part the counterexample.  This is because otherwise
-elements in $\mathcal{I}$ may serve as counterexamples to GCIs which are valid in
-$\mathcal{I}_{\mathsf{back}}$, because missing information is considered as false
-information.  The approach followed by Distel to account for this problem is to let the
-expert provide \emph{connected subinterpretations} of $\mathcal{I}_{\mathsf{back}}$ as
-counterexamples for GCIs.
+in $\mathcal{I}$, for some $r \in N_{R}$, then it is assumed that $x$ does not have
+$r$-successors $\mathcal{I}_{\mathsf{back}}$.  Therefore, if we add an element $x$ of
+$\mathcal{I}_{\mathsf{back}}$ as a counterexample for a GCI to our working interpretation
+$\mathcal{I}$, then we also have to include \emph{all} its role successors (and their role
+successors, and so on) in $\mathcal{I}_{\mathsf{back}}$, even so they may not be necessary
+as part of the counterexample; otherwise, elements in $\mathcal{I}$ may serve as
+counterexamples to GCIs which are valid in $\mathcal{I}_{\mathsf{back}}$, because missing
+information is considered as false information.  The approach followed by Baader and
+Distel to account for this problem is to let the expert provide \emph{connected
+  subinterpretations} of $\mathcal{I}_{\mathsf{back}}$ as counterexamples for GCIs.
 
-Distel was now able to extend his algorithm for computing finite bases of $\mathcal{I}$
-into an model exploration algorithm, and we shall introduce this algorithm with all
-necessary details in \Cref{sec:model-expl-with}.  Based on this discussion, we shall
-develop a model exploration algorithm that also includes GCIs with high confidence among
-those proposed to the expert.  This algorithm, which we shall call \emph{model exploration
-by confidence}, will be introduced in \Cref{sec:model-expl-with-1}, and its construction
-will mimic the argumentation used by Distel for his model exploration algorithm.
+We shall discuss the details of model exploration in \Cref{sec:model-expl-with}.  Based on
+this discussion, we shall develop a model exploration algorithm that also includes GCIs
+with high confidence among those proposed to the expert.  This algorithm, which we shall
+call \emph{model exploration by confidence}, will be introduced in
+\Cref{sec:model-expl-with-1}, and its construction will mimic the argumentation used by
+Baader and Distel for his model exploration algorithm.
 
 The results presented in this section have been published previously in
 \cite{Borc-LTCS-13-11}.
@@ -67,10 +64,10 @@ The results presented in this section have been published previously in
 \section{Model Exploration with Valid GCIs}
 \label{sec:model-expl-with}
 
-In this section we shall introduce the model exploration algorithm devised by Distel to
-allow to explore valid GCIs of finite interpretations~\cite[Chapter~6]{Diss-Felix}.  In
-the next section, we shall then use the argumentation presented here and shall generalize
-it to the setting of GCIs with high confidence in finite interpretations.
+In this section we shall review the argumentation used to develop model exploration, as
+given in~\cite[Chapter~6]{Diss-Felix}.  In the next section, we shall then use this
+argumentation presented here and generalize it to the setting of GCIs with high confidence
+in finite interpretations.
 
 Model exploration is based on the result that bases of finite interpretations
 $\mathcal{I}$ can be obtained from bases of their corresponding induced formal context
@@ -80,26 +77,23 @@ from the computation of the canonical base by adding suitable expert interaction
 adding suitable expert interaction during the computation of bases of $\con
 K_{\mathcal{I}}$.  It shall turn out that this is indeed correct.
 
-There is a technical problem, however, which does not arise in attribute exploration:
-during attribute exploration, the set of attributes is fixed.  On the other hand, when we
-add counterexamples to our current working interpretation $\mathcal{I}$ during model
+There is a technical problem, however, which does not arise in attribute exploration: when
+we add counterexamples to our current working interpretation $\mathcal{I}$ during model
 exploration, then the attribute set $M_{\mathcal{I}}$ of the corresponding induced context
-$\con K_{\mathcal{I}}$ may change, since it depends on the elements of $\mathcal{I}$:
-recall that $M_{\mathcal{I}}$ was defined as
+$\con K_{\mathcal{I}}$ may change, since it depends on the elements of $\mathcal{I}$.
+Recall that $M_{\mathcal{I}}$ was defined as
 \begin{equation*}
   M_{\mathcal{I}} = N_{C} \cup \set{ \bot } \cup \set{ \exists r. X^{\mathcal{I}} \mid r
-    \in N_{R}, X \subseteq \Delta^{\mathcal{I}}, X \neq \emptyset },
+    \in N_{R}, X \subseteq \Delta^{\mathcal{I}}, X \neq \emptyset }.
 \end{equation*}
-where $X^{\mathcal{I}}$ denotes the model-based most-specific concept description of $X$
-in $\mathcal{I}$.
 
 Thus, to allow to use attribute exploration as a basis for model exploration we need to
 fix the attribute set, and the best way for this would be to use
 $M_{\mathcal{I}_{\mathsf{back}}}$.  However, since we cannot access the background
 interpretation $\mathcal{I}_{\mathsf{back}}$ directly, we cannot compute this set
-completely.  However, it can be shown that we can compute the set
-$M_{\mathcal{I}_{\mathsf{back}}}$ \emph{incrementally} during the computation, using the
-fact that the expert confirms a certain type GCIs, and then use the parts of
+completely.  On the other hand, it can be shown that we can compute the set
+$M_{\mathcal{I}_{\mathsf{back}}}$ \emph{incrementally}, using the fact that the expert
+confirms certain types of GCIs, and then use the parts of
 $M_{\mathcal{I}_{\mathsf{back}}}$ we already know for the exploration process.
 
 To explain how this can be done, we shall first discuss in \Cref{sec:grow-sets-attr} how
@@ -109,19 +103,20 @@ can transfer this algorithm to the setting of computing finite bases of finite
 interpretations $\mathcal{I}$, thus allowing the set $M_{\mathcal{I}}$ to be computed
 successively during the computation.  Finally, we shall see in \Cref{sec:an-algor-expl}
 how we can add expert interaction to avoid direct access to the underlying interpretation,
-thus obtaining an algorithm that implements model exploration.
+thus obtaining the model exploration algorithm.
 
 \subsection{Growing Sets of Attributes}
 \label{sec:grow-sets-attr}
 
 We want to find an algorithm that allows us to compute bases of formal contexts where the
 attribute set is allowed to grow during the computation.  We can think of this situation
-as not knowing the attributes of a formal context completely when we start the
-computation, but instead more and more attributes are uncovered during the run of the
-algorithm.
+as follows: we want to compute a base of a formal context, which however we cannot access
+completely, in the sense that some of the attributes are \enquote{hidden}.  However, we
+can uncover hidden attributes during the run of the computation.  The goal is then to find
+an algorithm which allows us to compute bases in such a setting.
 
 Obtaining such an algorithm is actually not that difficult.  For this let us consider how
-\Cref{alg:canonical-base} computes the canonical base.  There, we use the Next Closure
+\Cref{alg:canonical-base} computes the canonical base.  There, we use the Next-Closure
 algorithm to enumerate the premises of the canonical base of a given formal context $\con
 K = (G, M, I)$, using some linear order $\leq_{M}$ on $M$.  If $M = \set{ m_{1}, \dots,
   m_{n} }$ and
@@ -130,8 +125,9 @@ K = (G, M, I)$, using some linear order $\leq_{M}$ on $M$.  If $M = \set{ m_{1},
 \end{equation*}
 then the Next Closure algorithm firstly enumerates all premises which are subsets of
 $\emptyset$, then those which are subsets of $\set{ m_{1} }$, then those of $\set{ m_{1},
-  m_{2} }$ and so on.  In particular, it will not consider an element $m_{k} \in M$ before
-it has enumerated all premises which are subsets of $\set{ m_{1}, \dots, m_{k-1} }$.
+  m_{2} }$, and so on.  In particular, it will not consider an element $m_{k} \in M$
+before it has enumerated all premises which are subsets of $\set{ m_{1}, \dots, m_{k-1}
+}$.
 
 We can exploit this idea for our purpose of computing bases with growing sets of
 attributes: if the attribute set in iteration $i$ is $M_{i}$, ordered by $\leq_{M_{i}}$,
@@ -151,7 +147,7 @@ and requiring in addition that
   m_{j} \leq_{M_{i+1}} x
 \end{equation}
 is true for all $j \in \set{ 1, \dots, n }$ and $x \in M_{i}$.  In other words, we just
-put the new elements \emph{before} the old elements.  In that way, the Next Closure
+put the new elements \emph{before} the old elements.  In that way, the Next-Closure
 behaves as if the elements would have been there from the start, and computes the base as
 desired.
 
@@ -193,7 +189,7 @@ end
 \end{figure}
 
 An implementation of this idea is shown in \Cref{alg:base/growing-set-of-attributes}.
-Here we start with some initial formal context $\con K_{0} = \con K = (G, M, I)$ and some
+There we start with some initial formal context $\con K_{0} = \con K = (G, M, I)$ and some
 background knowledge $\mathcal{S}_{0} = \mathcal{S} \subseteq \Th(\con K)$.  Then, in
 every iteration we allow to extend the current context $\con K_{i} = (G, M_{i}, I_{i})$ by
 providing a new set $M_{i+1} \supseteq M_{i}$ of attributes and a new incidence relation
@@ -201,9 +197,8 @@ $I_{i+1} \subseteq M_{i+1} \times M_{i+1}$ which satisfies
 \begin{equation*}
   I_{i} = I_{i+1} \cap M_{i} \times M_{i}.
 \end{equation*}
-This corresponds to our perception that we do not now the actual formal context of which
-we want to compute a base of at the beginning, but instead uncover more and more parts
-during the computation.
+This corresponds to our perception that at the beginning, some of the attributes are
+hidden, and are uncovered during the run of the algorithm.
 
 For this algorithm to make sense, we of course need to require that at a certain point all
 of the formal context has been uncovered, \ie that for some $\ell \in \NN_{\geq 0}$ it is
@@ -217,8 +212,8 @@ computing the canonical base of a given formal context.
   and $\mathcal{S} \subseteq \Th(\con K)$.  Then in a run of
   \Cref{alg:base/growing-set-of-attributes}, let $\ell \in \NN_{\ge 0}$ be such that
   $M_{\ell} = M_{i}$ for all $i \geq \ell$.  Then this run terminates.  If $n$ is the last
-  iteration of this run, then $\mathcal{K}_{n}$ of $\con K_{n}$ with background knowledge
-  $\mathcal{S}_{n}$.
+  iteration of this run, then $\mathcal{K}_{n}$ is a base of $\con K_{n}$ with background
+  knowledge $\mathcal{S}_{n}$.
 \end{Theorem}
 
 A difference to the classical computation of the canonical base as shown in
@@ -226,8 +221,8 @@ A difference to the classical computation of the canonical base as shown in
 implications which are closed under the currently known implications, but are not intents
 of the given formal context.  In contrast to this,
 \Cref{alg:base/growing-set-of-attributes} considers all sets $P_{i}$ which are closed
-under the currently known implications, no matter whether they are intents of $\con K_{i}$
-or not.  The reason for this that even if $P_{i}$ is an intent of $\con K_{i}$, it could
+under the currently known implications, no matter whether they are intents of $\con
+K_{i}$.  The reason for this that even if $P_{i}$ is an intent of $\con K_{i}$, it could
 very well be that $P_{i}$ is not an intent of $\con K_{n}$ (where $n$ is the number of
 iterations of the algorithm) because of attributes which have been introduced in $\con
 K_{n}$, but were not present in $\con K_{i}$.  Since we cannot know whether $P_{i}$ will
@@ -246,7 +241,7 @@ in~\cite{Diss-Felix} by the following example.
     \begin{equation*}
       \con K_0 = \con K_1 =
       \begin{array}{c | c}
-        ~ & \text{A} \\
+        ~ & \mathsf{A} \\
         \midrule
         1 & \times \\
         2 & 
@@ -254,7 +249,7 @@ in~\cite{Diss-Felix} by the following example.
       \qquad
       \con K_2 = \con K_3 =
       \begin{array}{c|cc}
-        ~ & \text{A} & \text{B} \\
+        ~ & \mathsf{A} & \mathsf{B} \\
         \midrule
         1 & \times & \\
         2 &        & \times
@@ -262,7 +257,7 @@ in~\cite{Diss-Felix} by the following example.
       \qquad
       \con K_3 = \con K_4 = \con K_5 =
       \begin{array}{c|ccc}
-        ~ & \text{A} & \text{B} & \text{C}\\
+        ~ & \mathsf{A} & \mathsf{B} & \mathsf{C}\\
         \midrule
         1 & \times & & \times \\
         2 & & \times &
@@ -280,35 +275,35 @@ in~\cite{Diss-Felix} by the following example.
       k & M_{k+1} \setminus M_k & \mathcal{L}_k & P_k \\
       \midrule
       0 & \emptyset      & \emptyset & \emptyset         \\
-      1 & \emptyset      & \emptyset & \set{\text{A}}    \\
-      2 & \set{\text{B}} & \emptyset & \set{\text{B}}    \\
-      3 & \emptyset      & \emptyset & \set{\text{A}, \text{B}} \\
-      4 & \set{\text{C}} & \set{\set{\text{A}} \to \set{\text{A},\text{C}},
-        \set{\text{A},\text{B}} \to \set{\text{A}, \text{B}, \text{C}}} & \set{\text{C}}\\
-      5 & \emptyset      & \set{\set{\text{A}} \to \set{\text{A},\text{C}},
-        \set{\text{A},\text{B}} \to \set{\text{A}, \text{B}, \text{C}}, \set{\text{C}} \to
-        \set{\text{A},\text{C}}} & \set{\text{A}, \text{B}, \text{C}}\\
-      6 & \emptyset & \set{\set{\text{A}} \to \set{\text{A},\text{C}},
-        \set{\text{A},\text{B}} \to \set{\text{A}, \text{B}, \text{C}}, \set{\text{C}} \to
-        \set{\text{A},\text{C}}} & \text{\textbf{nil}}
+      1 & \emptyset      & \emptyset & \set{\mathsf{A}}    \\
+      2 & \set{\mathsf{B}} & \emptyset & \set{\mathsf{B}}    \\
+      3 & \emptyset      & \emptyset & \set{\mathsf{A}, \mathsf{B}} \\
+      4 & \set{\mathsf{C}} & \set{\set{\mathsf{A}} \to \set{\mathsf{A},\mathsf{C}},
+        \set{\mathsf{A},\mathsf{B}} \to \set{\mathsf{A}, \mathsf{B}, \mathsf{C}}} & \set{\mathsf{C}}\\
+      5 & \emptyset      & \set{\set{\mathsf{A}} \to \set{\mathsf{A},\mathsf{C}},
+        \set{\mathsf{A},\mathsf{B}} \to \set{\mathsf{A}, \mathsf{B}, \mathsf{C}}, \set{\mathsf{C}} \to
+        \set{\mathsf{A},\mathsf{C}}} & \set{\mathsf{A}, \mathsf{B}, \mathsf{C}}\\
+      6 & \emptyset & \set{\set{\mathsf{A}} \to \set{\mathsf{A},\mathsf{C}},
+        \set{\mathsf{A},\mathsf{B}} \to \set{\mathsf{A}, \mathsf{B}, \mathsf{C}}, \set{\mathsf{C}} \to
+        \set{\mathsf{A},\mathsf{C}}} & \text{\textbf{nil}}
     \end{array}
   \end{equation*}
   In iterations 2 and 4, the new attributes B and C are added, as shown in
   Figure~\ref{fig:example-context-1}.  The algorithm terminates in iteration 6 with output
-  $\mathcal{L}_6$, which is clearly non-redundant: the implication $\set{\text{A},
-    \text{B}} \to \set{\text{A}, \text{B}, \text{C}}$ is entailed by $\set{\text{A}} \to
-  \set{\text{A}, \text{C}}$.
+  $\mathcal{L}_6$, which is clearly non-redundant: the implication $\set{\mathsf{A},
+    \mathsf{B}} \to \set{\mathsf{A}, \mathsf{B}, \mathsf{C}}$ is entailed by
+  $\set{\mathsf{A}} \to \set{\mathsf{A}, \mathsf{C}}$.
 \end{Example}
 
 \subsection{Computing Bases of Given Finite Interpretations}
 \label{sec:comp-bases-given}
 
 We now want to use \Cref{alg:base/growing-set-of-attributes} to devise an algorithm that
-allows us to compute bases of finite interpretations $\mathcal{I}$ without computing the
-set $M_{\mathcal{I}}$ first.  Instead, we want that the elements of the set
-$M_{\mathcal{I}}$ are computed successively during the run of the algorithm.  In this way,
-we can immediately start with computing valid GCIs of $\mathcal{I}$, and do not have to
-wait for $M_{\mathcal{I}}$ to be computed completely.
+allows us to compute bases of finite interpretations $\mathcal{I}$ without computing
+$M_{\mathcal{I}}$ first.  Instead, we want that the elements of the set $M_{\mathcal{I}}$
+are computed successively during the run of the algorithm.  In this way, we can
+immediately start with computing valid GCIs of $\mathcal{I}$, and do not have to wait for
+$M_{\mathcal{I}}$ to be computed completely.
 
 The successive computation of the elements of $M_{\mathcal{I}}$ is achieved in
 \Cref{alg:base/growing-set-of-attributes} by defining the sets $M_{i}$ as follows.  For $i
@@ -325,7 +320,7 @@ r. X^{\mathcal{I}}$ for $r \in N_{R}$ and $X \subseteq \Delta^{\mathcal{I}}, X \
     \in N_{R} },
 \end{equation*}
 where the union is only up to equivalence, \ie if for some $C:= \exists r. (\bigsqcap
-P_{i})^{\mathcal{I}\mathcal{I}}$, there already exists $D \in M_{i}$ such that $C \equiv
+P_{i})^{\mathcal{I}\mathcal{I}}$ there already exists $D \in M_{i}$ such that $C \equiv
 D$, then we do not add $C$ in the definition of $M_{i+1}$.
 
 We also need to specify how we define the formal contexts $\con K_{i}$ and the sets
@@ -406,8 +401,8 @@ using \Cref{prop:connection-I-prime-2}.  Then
   \exists r. X^{\mathcal{I}} \equiv \exists r. (X^{\mathcal{I}})^{\mathcal{I}\mathcal{I}}
   \equiv \exists r.(\bigsqcap U_{\con K_{n}}'')^{\mathcal{I}\mathcal{I}}.
 \end{equation*}
-Thus, it suffices to consider only intents of the final context $\con K_{n}$.  A result by
-Distel shows that these intents are among the sets $P_{i}$
+Thus, it suffices to consider only intents of the final context $\con K_{n}$.  The
+following result shows that these intents are among the sets $P_{i}$.
 
 \begin{Lemma}[Partly Lemma~6.3 from~\cite{Diss-Felix}]
   \label{lem:Felix-6.3}
@@ -440,8 +435,9 @@ interest can be represented by a finite interpretation $\mathcal{I}_{\mathsf{bac
 background interpretation of the exploration.  If we could access
 $\mathcal{I}_{\mathsf{back}}$ directly, then to explore $\mathcal{I}_{\mathsf{back}}$
 would just mean to compute a base of it, which we could achieve by using
-\Cref{alg:base-of-interpretation}.  However, as already discussed, we assume that we
-cannot accessed directly, but instead is represented by an expert.
+\Cref{alg:base-of-interpretation}.  However, as already discussed, we assume that
+$\mathcal{I}_{\mathsf{back}}$ cannot be accessed directly, but instead is represented by
+an expert.
 
 To turn \Cref{alg:base-of-interpretation} into an algorithm that allows us to compute a
 base of $\mathcal{I}_{\mathsf{back}}$ using only the expert as a means to access this
@@ -458,21 +454,22 @@ given interpretation:
   \Cref{alg:base-of-interpretation}).
 \end{enumerate}
 The computation of $\con K_{i}$ we can fix easily by instead of computing the induced
-context of $M_{i}$ and $\mathcal{I}_{\mathsf{back}}$, we just the induced context $M_{i}$
-and the current working interpretation of the exploration process.  For computing $\exists
-r. (\bigsqcap P_{i})^{\mathcal{I}_{\mathsf{back}}}$, however, we need to use the expert.
+context of $M_{i}$ and $\mathcal{I}_{\mathsf{back}}$, we just compute the induced context
+$M_{i}$ and the current working interpretation of the exploration process.  For computing
+$\exists r. (\bigsqcap P_{i})^{\mathcal{I}_{\mathsf{back}}}$, however, we need to use the
+expert.
 
-Before we shall discuss this in more detail, we need to consider another issue first,
-which we have already talked about in the introduction, namely the way the experts
-specifies counterexamples during the exploration.  We had argued that if the expert gives
-an element $x \in \Delta^{\mathcal{I}_{\mathsf{back}}}$ from the background interpretation
-as a counterexample, then she also has to include all corresponding concept names and role
+For this, we need to consider another issue first, which we have already talked about in
+the introduction, namely the way the experts specifies counterexamples during the
+exploration.  We had argued that if the expert gives an element $x \in
+\Delta^{\mathcal{I}_{\mathsf{back}}}$ from the background interpretation as a
+counterexample, then she also has to include all corresponding concept names and role
 successors $x$ has in $\mathcal{I}_{\mathsf{back}}$.  Otherwise, there may exist the
-danger that the counterexamples thus provided invalidate GCIs which are actually valid in
-the background interpretation $\mathcal{I}_{\mathsf{back}}$.
+danger that the provided counterexamples invalidate GCIs which are actually valid in the
+background interpretation $\mathcal{I}_{\mathsf{back}}$.
 
 To makes this more formal, Distel introduced the notion of a \emph{connected
-  subinterpretation}, which we shall introduce now.
+  subinterpretation}.
 
 \begin{Definition}[Connected Subinterpretations; Definition~6.1 from~\cite{Diss-Felix}]
   \label{def:connected-subinterpretations}
@@ -485,10 +482,9 @@ To makes this more formal, Distel introduced the notion of a \emph{connected
     \succop_{\mathcal{I}}(x, r) &:= \set{ y \in \Delta^{\mathcal{I}} \mid (x, y) \in
       r^{\mathcal{I}} },
   \end{align*}
-  for $x \in \Delta^{\mathcal{I}}$ and $r \in N_{R}$.
-
-  An interpretation $\mathcal{J} = (\Delta^{\mathcal{J}}, \cdot^{\mathcal{J}})$ over
-  $N_{C}$ and $N_{R}$ is called a \emph{subinterpretation} of $\mathcal{I}$ if and only if
+  for $x \in \Delta^{\mathcal{I}}$ and $r \in N_{R}$.  An interpretation $\mathcal{J} =
+  (\Delta^{\mathcal{J}}, \cdot^{\mathcal{J}})$ over $N_{C}$ and $N_{R}$ is called a
+  \emph{subinterpretation} of $\mathcal{I}$ if and only if
   \begin{enumerate}[i. ]
   \item $\Delta^{\mathcal{J}} \subseteq \Delta^{\mathcal{I}}$,
   \item $\nameop_{\mathcal{I}}(x) = \nameop_{\mathcal{J}}(x)$ for all $x \in
@@ -542,17 +538,14 @@ our current working interpretation.
 \end{Proof}
 
 Now that we know how the expert should provide counterexamples to proposed GCIs, let us
-turn back our attention to the question how to compute concept descriptions of the form
-$\exists r. (\bigsqcap P_{i})^{\mathcal{I}_{\mathsf{back}}\mathcal{I}_{\mathsf{back}}}$.
-The problem that in our hypothetical model exploration algorithm, in the iteration when we
-computed $P_{i}$, we do not have access to $\mathcal{I}_{\mathsf{back}}$.  Instead, we
-only have access to the current working interpretation $\mathcal{I}_{\ell}$, so the only
-concept description we can compute is $\exists r. (\bigsqcap
-P_{i})^{\mathcal{I}_{\ell}\mathcal{I}_{\ell}}$.  The good thing is that the expert can
-ensure that $\exists r. (\bigsqcap
-P_{i})^{\mathcal{I}_{\mathsf{back}}\mathcal{I}_{\mathsf{back}}}$ and $\exists
-r. (\bigsqcap P_{i})^{\mathcal{I}_{\ell}\mathcal{I}_{\ell}}$ are equivalent.  The reason
-for this is the following result.
+reconsider the question of how to compute concept descriptions of the form $\exists
+r. (\bigsqcap P_{i})^{\mathcal{I}_{\mathsf{back}}\mathcal{I}_{\mathsf{back}}}$.  Recall
+that since we cannot $\mathcal{I}_{\mathsf{back}}$, we cannot compute this concept
+description directly.  What we can compute is the concept description $\exists
+r. (\bigsqcap P_{i})^{\mathcal{I}_{\ell}\mathcal{I}_{\ell}}$, where $\mathcal{I}_{\ell}$
+is the currently known interpretation.  The good thing is that the expert can ensure that
+$\exists r. (\bigsqcap P_{i})^{\mathcal{I}_{\mathsf{back}}\mathcal{I}_{\mathsf{back}}}$
+and $\exists r. (\bigsqcap P_{i})^{\mathcal{I}_{\ell}\mathcal{I}_{\ell}}$ are equivalent.
 
 \begin{Lemma}[Lemma~6.14 from~\cite{Diss-Felix}]
   \label{lem:Felix-6.14}
@@ -645,8 +638,8 @@ following result.
   \label{thm:Felix-6.16}
   Let $\mathcal{I}_{\mathsf{back}}$ be a finite interpretation, and let $\mathcal{I}$ be a
   connected subinterpretation of $\mathcal{I}_{\mathsf{back}}$.  Then
-  \Cref{alg:model-exploration} applied to $\mathcal{I}$ and using
-  $\mathcal{I}_{\mathsf{back}}$ as background interpretation terminates after finitely
+  \Cref{alg:model-exploration} applied to $\mathcal{I}$, using
+  $\mathcal{I}_{\mathsf{back}}$ as background interpretation, terminates after finitely
   many steps.  If $n$ is the number of iterations in this run, and if $\mathcal{I}_{\ell}$
   is the final working interpretation, then the set
   \begin{equation*}
