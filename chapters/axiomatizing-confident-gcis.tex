@@ -1844,34 +1844,37 @@ set $\mathcal{X}_{\mathcal{I}}$ that only contains \ELbot concept descriptions b
   C^{\mathcal{I}} = (C_d)^{\mathcal{I}},
 \end{equation*}
 where $d = \abs{ \Delta^{\mathcal{I}} } \cdot \abs{ N_D(\mathcal{T}) } + 1$.  Note that
-the constant $d$ depends on the concept description $C$.  To remove this dependency on the
-particular concept description we define
-\begin{equation}
-  \label{eq:35}
-  d := \max_{Y \subseteq \Delta^{\mathcal{I}}, Y^{\mathcal{I}} = (A, \mathcal{T})} ( \abs{
-    \Delta^{\mathcal{I}} } \cdot \abs{ N_{D}(\mathcal{T}) } + 1 ).
-\end{equation}
-The set $\mathcal{X}_{\mathcal{I}}$ is then defined as
+the constant $d$ depends on the concept description $C$.  To emphasize this dependency, we
+shall write $d_{C}$ instead of just $d$.
+
+The set $\mathcal{X}_{\mathcal{I}}$ is now defined as
 \begin{equation*}
-  \mathcal{X}_{\mathcal{I}} := \set{ (X^{\mathcal{I}})_d \sqsubseteq
-    (X^{\mathcal{I}})_{d+1} \mid X \subseteq \Delta^{\mathcal{I}}, X \neq \emptyset }.
+  \mathcal{X}_{\mathcal{I}} := \set{ (X^{\mathcal{I}})_{d_{\mathcal{I}}} \sqsubseteq
+    (X^{\mathcal{I}})_{d_{\mathcal{I}}+1} \mid X \subseteq \Delta^{\mathcal{I}}, X \neq
+    \emptyset },  
 \end{equation*}
-Note that $\mathcal{X}_{\mathcal{I}}$ is a set of valid GCIs of $\mathcal{I}$, and that
+where
+\begin{equation*}
+  d_{\mathcal{I}} := \max_{Y \subseteq \Delta^{\mathcal{I}}} d_{Y^{\mathcal{I}}}.
+\end{equation*}
+Note that $\mathcal{X}_{\mathcal{I}}$ is a set of valid GCIs of $\mathcal{I}$, because
 for each $X \subseteq \Delta^{\mathcal{I}}, X \neq \emptyset$ it is true that
 \begin{equation*}
-  ((X^{\mathcal{I}})_d)^{\mathcal{I}} = X^{\mathcal{I}\mathcal{I}} = ((X^{\mathcal{I}})_{d+1})^{\mathcal{I}}.
+  ((X^{\mathcal{I}})_{d_{\mathcal{I}}})^{\mathcal{I}} = X^{\mathcal{I}\mathcal{I}} =
+  ((X^{\mathcal{I}})_{d_{\mathcal{I}}+1})^{\mathcal{I}}.
 \end{equation*}
 
 As already sketched in \Cref{sec:base-all-valid} the following claims hold.
 
 \begin{Lemma}
   \label{lem:X_I-properties}
-  Let $\mathcal{I}$ be a finite interpretation, let let $d \in \NN_0$ as in
-  (\Cref{eq:35}).  Then for each $Y \subseteq \Delta^{\mathcal{I}}$
+  Let $\mathcal{I}$ be a finite interpretation.  Then for each $Y \subseteq
+  \Delta^{\mathcal{I}}$
   \begin{enumerate}[i. ]
   \item $\mathcal{X}_{\mathcal{I}} \models ((Y^{\mathcal{I}})_k \sqsubseteq
-    (Y^{\mathcal{I}})_{k+1})$ is true for all $k \geq d$, and
-  \item $\mathcal{X}_{\mathcal{I}} \models ((Y^{\mathcal{I}})_d \sqsubseteq Y^{\mathcal{I}})$.
+    (Y^{\mathcal{I}})_{k+1})$ is true for all $k \geq d_{\mathcal{I}}$, and
+  \item $\mathcal{X}_{\mathcal{I}} \models ((Y^{\mathcal{I}})_{k} \sqsubseteq
+    Y^{\mathcal{I}})$ for all $k \geq d_{\mathcal{I}}$.
   \end{enumerate}
 \end{Lemma}
 \begin{Proof}
@@ -1879,8 +1882,9 @@ As already sketched in \Cref{sec:base-all-valid} the following claims hold.
   \bot$ and nothing remains to be shown.  Therefore, let $Y \neq \emptyset$.  We shall
   show the claim by induction over $k$.
 
-  For $k = d$ the claim is trivial, as $((Y^{\mathcal{I}})_d \sqsubseteq
-  (Y^{\mathcal{I}})_{d+1}) \in \mathcal{X}_{\mathcal{I}}$.  For the step-case assume that
+  For $k = d_{\mathcal{I}}$ the claim is trivial, as $((Y^{\mathcal{I}})_{d_{\mathcal{I}}}
+  \sqsubseteq (Y^{\mathcal{I}})_{d_{\mathcal{I}}+1}) \in \mathcal{X}_{\mathcal{I}}$.  For
+  the step-case $k > d_{\mathcal{I}}$ assume that
   \begin{equation}
     \label{eq:34}
     \mathcal{X}_{\mathcal{I}} \models ((Z^{\mathcal{I}})_{k-1} \sqsubseteq (Z^{\mathcal{I}})_k)
@@ -1895,7 +1899,7 @@ As already sketched in \Cref{sec:base-all-valid} the following claims hold.
   \begin{equation*}
     (Y^{\mathcal{I}})_k \equiv \bigsqcap U \sqcap \bigsqcap_{(r, Z) \in \Pi} \exists r.(Z^{\mathcal{I}})_{k-1}.
   \end{equation*}
-  By the induction hypothesis \Cref{eq:34} we obtain that
+  By the induction hypothesis~(\ref{eq:34}) we obtain
   \begin{align*}
     (Y^{\mathcal{I}})_k
     &\sqsubseteq \bigsqcap U \sqcap \bigsqcap_{(r, Z) \in \Pi} \exists
@@ -1904,28 +1908,40 @@ As already sketched in \Cref{sec:base-all-valid} the following claims hold.
     r. Z^{\mathcal{I}})_{k+1} \\
     &\equiv (Y^{\mathcal{I}})_{k+1}
   \end{align*}
-  again using \Cref{lem:unravelling-is-homomorphism}.  This complete the induction step
+  again using \Cref{lem:unravelling-is-homomorphism}.  This completes the induction step
   and the first claim is shown.
 
-  We now show the second claim, namely
+  Let $k \geq d_{\mathcal{I}}$.  We now show the second claim, namely
   \begin{equation*}
-    \mathcal{X}_{\mathcal{I}} \models ((Y^{\mathcal{I}})_d \sqsubseteq Y^{\mathcal{I}})
+    \mathcal{X}_{\mathcal{I}} \models ((Y^{\mathcal{I}})_{k} \sqsubseteq Y^{\mathcal{I}})
   \end{equation*}
   for $Y \subseteq \Delta^{\mathcal{I}}$.  The case $Y = \emptyset$ is again trivial, so
   let $Y \neq \emptyset$.  Let $\mathcal{J}$ be a finite interpretation such that
   $\mathcal{J} \models \mathcal{X}_{\mathcal{I}}$.  Then the first claim yields
-  \begin{equation*}
-    ((Y^{\mathcal{I}})_d)^{\mathcal{J}} \subseteq ((Y^{\mathcal{I}})_{d+1})^{\mathcal{J}}
-    \subseteq ((Y^{\mathcal{I}})_{d+2})^{\mathcal{J}} \subseteq \dots
-  \end{equation*}
+  \begin{equation}
+    \label{eq:65}
+    ((Y^{\mathcal{I}})_{k})^{\mathcal{J}} \subseteq
+    ((Y^{\mathcal{I}})_{k+1})^{\mathcal{J}} \subseteq
+    ((Y^{\mathcal{I}})_{k+2})^{\mathcal{J}} \subseteq \dots
+  \end{equation}
   From \Cref{lem:Felix-lemma-5.5} we obtain the existence of some $\ell \in \NN_0$ such
   that $((Y^{\mathcal{I}})_\ell)^{\mathcal{J}} = (Y^{\mathcal{I}})^{\mathcal{J}}$ is true.
-  Therefore, $((Y^{\mathcal{I}})_d)^{\mathcal{J}} \subseteq
-  (Y^{\mathcal{I}})^{\mathcal{J}}$ and thus $\mathcal{J} \models ((Y^{\mathcal{I}})_d
-  \sqsubseteq Y^{\mathcal{I}})$.  Since \ELbot has the finite-model property, we obtain
-  $\mathcal{X}_{\mathcal{I}} \models ((Y^{\mathcal{I}})_d \sqsubseteq Y^{\mathcal{I}})$ as
-  required.
+  In particular, $((Y^{\mathcal{I}})_{k + \ell})^{\mathcal{J}} =
+  (Y^{\mathcal{I}})^{\mathcal{J}}$, therefore $((Y^{\mathcal{I}})_{k})^{\mathcal{J}}
+  \subseteq (Y^{\mathcal{I}})^{\mathcal{J}}$, and thus $\mathcal{J} \models
+  ((Y^{\mathcal{I}})_{k} \sqsubseteq Y^{\mathcal{I}})$.  Since \ELbot has the finite-model
+  property, we obtain $\mathcal{X}_{\mathcal{I}} \models ((Y^{\mathcal{I}})_{k}
+  \sqsubseteq Y^{\mathcal{I}})$ as required.
 \end{Proof}
+
+Note that \Cref{eq:65} can be sated more precisely as
+\begin{equation*}
+  ((Y^{\mathcal{I}})_{k})^{\mathcal{J}} =
+  ((Y^{\mathcal{I}})_{k+1})^{\mathcal{J}} =
+  ((Y^{\mathcal{I}})_{k+2})^{\mathcal{J}} = \dots
+\end{equation*}
+because $(Y^{\mathcal{I}})_{k+i+1} \sqsubseteq (Y^{\mathcal{I}})_{k+i}$ for all $i \in
+\NN_{>0}$.
 
 Now let $\mathcal{D}$ be a confident base of $\Th_c(\mathcal{I})$.  We then can partition
 $\mathcal{D} = \mathcal{B} \cup \mathcal{C}$ such that $\mathcal{B} \subseteq
@@ -1942,17 +1958,23 @@ $\mathcal{D}$ we can now proceed as described in the following theorem.
   that $\mathcal{B} \subseteq \Th(\mathcal{I})$, $\mathcal{C} \cap \Th(\mathcal{I}) \neq
   \emptyset$, and $\mathcal{B}$ contains only GCIs of the form $E \sqsubseteq
   E^{\mathcal{I}\mathcal{I}}$. Define
+  \begin{equation*}
+    d := \max\set{ d_{\mathcal{I}}, \max \set{ d_{E} \mid (E \sqsubseteq F) \in
+        \mathcal{D} } },
+  \end{equation*}
+  and
   \begin{align*}
-    \mathcal{B}' &:= \set{ E_d \sqsubseteq (E^{\mathcal{I}\mathcal{I}})_d \mid (E
-      \sqsubseteq E^{\mathcal{I}\mathcal{I}}) \in \mathcal{B} } \cup \set{ C_d \sqsubseteq
-      (C^{\mathcal{I}\mathcal{I}})_d \mid (C \sqsubseteq D) \in \mathcal{C} },\\
-    \mathcal{C}' &:= \set{ (C^{\mathcal{I}\mathcal{I}})_d \sqsubseteq
-      (D^{\mathcal{I}\mathcal{I}})_d \mid (C \sqsubseteq D) \in \mathcal{C} }.
+    \mathcal{B}' &:= \set{ E_{d} \sqsubseteq (E^{\mathcal{I}\mathcal{I}})_{d} \mid (E
+      \sqsubseteq E^{\mathcal{I}\mathcal{I}}) \in \mathcal{B} } \cup \set{ C_{d}
+      \sqsubseteq (C^{\mathcal{I}\mathcal{I}})_{d}\mid (C \sqsubseteq D) \in \mathcal{C} },\\
+    \mathcal{C}' &:= \set{ (C^{\mathcal{I}\mathcal{I}})_{d} \sqsubseteq
+      (D^{\mathcal{I}\mathcal{I}})_{d} \mid (C \sqsubseteq D) \in \mathcal{C} }.
   \end{align*}
   Then the following statements hold:
   \begin{enumerate}[i. ]
-  \item $\mathcal{C}' \subseteq \Th_c(\mathcal{I})$ and $\mathcal{B}' \cup \mathcal{C}'
-    \cup \mathcal{X}_{\mathcal{I}} \models \mathcal{C}$.
+  \item $\mathcal{B}' \cup \mathcal{X}_{\mathcal{I}} \subseteq \Th(\mathcal{I})$,
+    $\mathcal{C}' \subseteq \Th_c(\mathcal{I})$ and $\mathcal{B}' \cup \mathcal{C}' \cup
+    \mathcal{X}_{\mathcal{I}} \models \mathcal{C}$.
   \item $\mathcal{B}' \cup \mathcal{C}' \cup \mathcal{X}_{\mathcal{I}} \models
     \mathcal{B}$.
   \end{enumerate}
@@ -1960,30 +1982,26 @@ $\mathcal{D}$ we can now proceed as described in the following theorem.
   finite confident \ELbot base of $\Th_c(\mathcal{I})$.
 \end{Theorem}
 
-Note that $\mathcal{B}' \cup \mathcal{C}' \cup \mathcal{X}_{\mathcal{I}}$ only contains
-\ELbot concept descriptions, and that all GCIs in $\mathcal{B}' \cup
-\mathcal{X}_{\mathcal{I}}$ are valid in $\mathcal{I}$.
-
 \begin{Proof}
-  To see $\mathcal{C}' \subseteq \Th_c(\mathcal{I})$ recall that $(C_d)^{\mathcal{I}} =
-  C^{\mathcal{I}}$ is true for each \ELgfpbot concept description $C$.  Thus, for $(C
-  \sqsubseteq D) \in \mathcal{C}$ with $\abs{ C^{\mathcal{I}} } \neq \emptyset$ we obtain
+  Clearly, $\mathcal{B}' \cup \mathcal{X}_{\mathcal{I}}$ is a set of valid GCIs.  To see
+  that $\mathcal{C}'$ only contains GCIs with high confidence, let $(C \sqsubseteq D) \in
+  \mathcal{C}$ with $\abs{ C^{\mathcal{I}} } \neq \emptyset$.  Then
   \begin{align*}
     \conf_{\mathcal{I}}( C \sqsubseteq D )
     &= \conf_{\mathcal{I}}( C^{\mathcal{I}\mathcal{I}} \sqsubseteq D^{\mathcal{I}\mathcal{I}} )\\
     &= \frac{ | ( C^{\mathcal{I}\mathcal{I}} \sqcap D^{\mathcal{I}\mathcal{I}}
       )^{\mathcal{I}} | }{ | C^{\mathcal{I}\mathcal{I}\mathcal{I}} | }\\
-    &= \frac{ | (( C^{\mathcal{I}\mathcal{I}} \sqcap D^{\mathcal{I}\mathcal{I}}
-      )_d)^{\mathcal{I}} | }{ | ((C^{\mathcal{I}\mathcal{I}})_d)^{\mathcal{I}} | }\\
-    &= \frac{ | ( (C^{\mathcal{I}\mathcal{I}})_d \sqcap (D^{\mathcal{I}\mathcal{I}})_d
-      )^{\mathcal{I}} | }{ | ((C^{\mathcal{I}\mathcal{I}})_d)^{\mathcal{I}} | }\\
-    &= \conf_{\mathcal{I}}( (C^{\mathcal{I}\mathcal{I}})_d \sqsubseteq (D^{\mathcal{I}\mathcal{I}})_d )
+    &= \frac{ | ( (C^{\mathcal{I}\mathcal{I}})_d \sqcap (D^{\mathcal{I}\mathcal{I}})_{d}
+      )^{\mathcal{I}} | }{ | ((C^{\mathcal{I}\mathcal{I}})_{d})^{\mathcal{I}} | }\\
+    &= \conf_{\mathcal{I}}( (C^{\mathcal{I}\mathcal{I}})_{d} \sqsubseteq
+    (D^{\mathcal{I}\mathcal{I}})_{d} ).
   \end{align*}
-  using \Cref{lem:unravelling-is-homomorphism}.  Clearly, if $C^{\mathcal{I}} =
-  \emptyset$, then $(C_d)^{\mathcal{I}} = \emptyset$ and thus
+  Clearly, if $C^{\mathcal{I}} = \emptyset$, then
+  $((C^{\mathcal{I}\mathcal{I}})_{d})^{\mathcal{I}} = \emptyset$ and thus
   \begin{equation*}
     \conf_{\mathcal{I}}( C \sqsubseteq D ) = 1 = \conf_{\mathcal{I}}(
-    (C^{\mathcal{I}\mathcal{I}})_d \sqsubseteq (D^{\mathcal{I}\mathcal{I}})_d ).
+    (C^{\mathcal{I}\mathcal{I}})_{d} \sqsubseteq
+    (D^{\mathcal{I}\mathcal{I}})_{d} ).
   \end{equation*}
   Since $\mathcal{C} \subseteq \Th_c(\mathcal{I})$, we therefore obtain $\mathcal{C}'
   \subseteq \Th_c(\mathcal{I})$ as required.
@@ -1991,11 +2009,11 @@ Note that $\mathcal{B}' \cup \mathcal{C}' \cup \mathcal{X}_{\mathcal{I}}$ only c
   We now show that $\mathcal{B}' \cup \mathcal{C}' \cup \mathcal{X}_{\mathcal{I}} \models
   \mathcal{C}$.  For this let $(C \sqsubseteq D) \in \mathcal{C}$.  Then we have
   \begin{align*}
-    \emptyset &\models (C \sqsubseteq C_d)\\
-    \mathcal{B}' &\models (C_d \sqsubseteq (C^{\mathcal{I}\mathcal{I}})_d)\\
-    \mathcal{C}' &\models ((C^{\mathcal{I}\mathcal{I}})_d \sqsubseteq
-    (D^{\mathcal{I}\mathcal{I}})_d)\\
-    \mathcal{X}_{\mathcal{I}} &\models ((D^{\mathcal{I}\mathcal{I}})_d \sqsubseteq
+    \emptyset &\models (C \sqsubseteq C_{d})\\
+    \mathcal{B}' &\models (C_{d} \sqsubseteq (C^{\mathcal{I}\mathcal{I}})_{d})\\
+    \mathcal{C}' &\models ((C^{\mathcal{I}\mathcal{I}})_{d} \sqsubseteq
+    (D^{\mathcal{I}\mathcal{I}})_{d})\\
+    \mathcal{X}_{\mathcal{I}} &\models ((D^{\mathcal{I}\mathcal{I}})_{d} \sqsubseteq
     D^{\mathcal{I}\mathcal{I}})\\
     \emptyset &\models (D^{\mathcal{I}\mathcal{I}} \sqsubseteq D)
   \end{align*}
@@ -2007,9 +2025,10 @@ Note that $\mathcal{B}' \cup \mathcal{C}' \cup \mathcal{X}_{\mathcal{I}}$ only c
   \mathcal{X}_{\mathcal{I}} \models \mathcal{B}$.  To this end, let $(E \sqsubseteq
   E^{\mathcal{I}\mathcal{I}}) \in \mathcal{B}$.  Then
   \begin{align*}
-    \emptyset &\models (E \sqsubseteq E_d)\\
-    \mathcal{B}' &\models (E_d \sqsubseteq (E^{\mathcal{I}\mathcal{I}})_d)\\
-    \mathcal{X}_{\mathcal{I}} &\models ((E^{\mathcal{I}\mathcal{I}})_d \sqsubseteq E^{\mathcal{I}\mathcal{I}})
+    \emptyset &\models (E \sqsubseteq E_{d})\\
+    \mathcal{B}' &\models (E_{d} \sqsubseteq (E^{\mathcal{I}\mathcal{I}})_{d})\\
+    \mathcal{X}_{\mathcal{I}} &\models ((E^{\mathcal{I}\mathcal{I}})_{d}
+    \sqsubseteq E^{\mathcal{I}\mathcal{I}})
   \end{align*}
   using \Cref{lem:X_I-properties} for the last statement.  Therefore,
   \begin{equation*}
