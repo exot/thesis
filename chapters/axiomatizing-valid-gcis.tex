@@ -3,9 +3,10 @@
 \label{cha:axiom-valid-el}
 
 Our considerations about extracting general concept inclusions from erroneous data will be
-based on previous results obtained by \textcite{Diss-Felix} on extracting all \emph{valid}
-general concept from finite interpretations.  We shall therefore review in this section
-all necessary notions from this work that are needed for our own.
+based on previous results obtained by Baader and Distel~\cite{Diss-Felix} on extracting
+all \emph{valid} general concept inclusions from a given finite interpretation.  In this
+section, we shall therefore review the notions and results from this work that are
+necessary for our own.
 
 The problem of extracting all valid general concept inclusions from a finite
 interpretation can be made more precise as follows.  Let $\mathcal{I} =
@@ -14,15 +15,16 @@ $N_R$, \ie $\Delta^{\mathcal{I}}$ is a finite set.  The task is then to find the
 all general concept inclusions $C \sqsubseteq D$ with $C, D \in \ELbot(N_C, N_R)$ which
 are valid in $\mathcal{I}$.
 
-Of course, this set is infinite of valid general concept inclusions in general.  This is
-because if $C \sqsubseteq D$ holds in $\mathcal{I}$, and $r \in N_R$, then $\exists r. C
-\sqsubseteq \exists r. D$ holds in $\mathcal{I}$ as well.  Such an infinite set is hardly
-usable to represent knowledge suitable for machine consumption.  Therefore, the
+Of course, the set of all valid general concept inclusions is infinite in general.  This
+is because if $C \sqsubseteq D$ holds in $\mathcal{I}$, and $r \in N_R$, then $\exists
+r. C \sqsubseteq \exists r. D$ holds in $\mathcal{I}$ as well.  Such an infinite set is
+hardly usable to represent knowledge suitable for machine consumption.  Therefore, the
 considerations in~\cite{Diss-Felix} concentrate on finding \emph{finite bases} of
-$\mathcal{I}$, \ie set of valid general concept inclusions of $\mathcal{I}$ which are also
-\emph{complete}.  We shall introduce these notions briefly in \Cref{sec:bases-gener-conc}.
+$\mathcal{I}$, \ie sets of valid general concept inclusions of $\mathcal{I}$ which are
+also \emph{complete}.  We shall introduce these notions briefly in
+\Cref{sec:bases-gener-conc}.
 
-One of the main results of~\cite{Diss-Felix} is then that finite bases for finite
+One of the main results of~\cite{Diss-Felix} then is that finite bases for finite
 interpretations $\mathcal{I}$ always exist, and we shall discuss them in
 \Cref{sec:base-all-valid}.  These results have been obtained by exploiting a close
 connection between description logics and formal concept analysis.  It is therefore
@@ -30,17 +32,13 @@ crucial that we introduce this connection first, and we shall do so
 in~\Cref{sec:motivation}.  In particular, we shall talk about \emph{induced contexts} and
 \emph{model-based most-specific concept descriptions}.
 
-In what follows, we shall fix the two disjoint sets $N_C$ and $N_R$ and shall not mention
-them explicitly anymore.  This means, for example, that whenever we are talking about
-interpretations or concept descriptions, we are actually talking about interpretations
-over $N_C$ and $N_R$, and about concept descriptions over $N_C$ and $N_R$.
-
 \section{Bases of General Concept Inclusions}
 \label{sec:bases-gener-conc}
 
-General concept inclusions have a \emph{model-based semantics}, their semantics is defined
-in terms of being valid in some interpretation.  We can therefore introduce a notion of
-\emph{entailment} and \emph{completeness}, much like as we did for implications.
+General concept inclusions have a \emph{model-based semantics}, \ie their semantics is
+defined in terms of being valid in some interpretation.  We can therefore introduce the
+notions of \emph{entailment} and \emph{completeness} as follows.  Also notice the
+similarity of this definition to \Cref{def:sound-complete-base}.
 
 \begin{Definition}
   \label{def:entailment-of-gcis}
@@ -58,8 +56,6 @@ in terms of being valid in some interpretation.  We can therefore introduce a no
   is said to be a base for $\mathcal{L}$ if and only if $\mathcal{K}$ is sound and
   complete for $\mathcal{L}$.
 \end{Definition}
-
-Notice the similarity of this definition to \Cref{def:sound-complete-base}.
 
 Let $\mathcal{I}$ be a finite interpretation over $N_C$ and $N_R$, and let us denote with
 $\Th(\mathcal{I})$ the set of all \ELgfpbot general concept inclusions over $N_C$ and
@@ -97,24 +93,24 @@ the attributes in $A$.  We can view this fact from another perspective: if $A = 
 the proposition $m$.  Then $g \in A'$ means that $g$ \emph{satisfies} the conjunction of
 all propositions in $A$.
 
-Let us reformulate this using description logics, and let us define $N_C := M$ and $N_R =
-\emptyset$.  Then we can think of $\con K$ as an interpretation $\mathcal{I}_{\con K} =
-(G, \cdot^{\mathcal{I}_{\con K}})$ where
+Let us reformulate this using description logics.  To this end, let us define $N_C := M$
+and $N_R = \emptyset$.  Then we can think of $\con K$ as an interpretation
+$\mathcal{I}_{\con K} = (G, \cdot^{\mathcal{I}_{\con K}})$ where
 \begin{equation}
   \label{eq:17}
   m^{\mathcal{I}_{\con K}} := \set{ g \in G \mid (g, m) \in I } = \set{ m }'.
 \end{equation}
-Then indeed we have that $A' = (m_1 \sqcap \dots \sqcap m_n)^{\mathcal{I}_{\con K}}$ for
-all finite $A = \set{ m_1, \dots, m_n } \subseteq M$.  Indeed, if we would consider a
-description logic that only allows for conjunction $\sqcap$, then we can view finite
-formal contexts, derivation of sets of attributes and even implications as special cases
-of finite interpretations, extensions of concept descriptions and general concept
-inclusions.  Thus the derivation operator $(\cdot)' \colon \subsets{M} \to \subsets{G}$
-corresponds naturally to computing the extension of concept descriptions in
-interpretations.  However, the other derivation operator $(\cdot)' \colon \subsets{G} \to
-\subsets{M}$ does not have such a correspondence in description logics.  This gap shall be
-filled by considering \emph{model-based most-specific concept descriptions}, which we
-introduce in \Cref{sec:defin-and-basic}.
+Then we have $A' = (m_1 \sqcap \dots \sqcap m_n)^{\mathcal{I}_{\con K}}$ for all finite $A
+= \set{ m_1, \dots, m_n } \subseteq M$.  Indeed, if we would consider a description logic
+that only allows for conjunction $\sqcap$, then we can view finite formal contexts,
+derivation of sets of attributes and even implications as special cases of finite
+interpretations, extensions of concept descriptions and general concept inclusions.  Thus
+the derivation operator $(\cdot)' \colon \subsets{M} \to \subsets{G}$ naturally
+corresponds to computing the extension of concept descriptions in interpretations.
+However, the other derivation operator $(\cdot)' \colon \subsets{G} \to \subsets{M}$ does
+not have such a correspondence in description logics.  This gap shall be filled by
+considering \emph{model-based most-specific concept descriptions}, which we introduce in
+\Cref{sec:defin-and-basic}.
 
 The connection between description logics and formal concept analysis expressed in
 \eqref{eq:17} only works in one direction: it allows to represent basic notions of formal
@@ -125,14 +121,14 @@ represent an interpretation by means of notions from formal concept analysis.
 To approach this issue, we shall introduce \emph{induced contexts} in
 \Cref{sec:induced-contexts}.  Such contexts allow to express tight connections between the
 notions of formal concept analysis and description logics, and, since induced contexts are
-just formal contexts, still allows the application of standard methods from formal concept
+just formal contexts, still allow the application of standard methods from formal concept
 analysis, such as the extraction of bases.  This fact will be exploited when we discuss
-the computation of finite bases of in \Cref{sec:base-all-valid}.
+the computation of finite bases in \Cref{sec:base-all-valid}.
 
 \subsection{Model-Based Most-Specific Concept Descriptions}
 \label{sec:defin-and-basic}
 
-Let $\con K = (G, M, I)$ and Let us try to motivate how to find a natural correspondence
+Let $\con K = (G, M, I)$, and let us try to motivate how to find a natural correspondence
 of the derivation operator $(\cdot)' \colon \subsets{G} \to \subsets{M}$ within
 description logics.  Let $B \subseteq G$ be a set of objects of $\con K$.  Then the set $A
 := B'$ can be thought of as the \emph{most-specific} set of attributes that
@@ -149,8 +145,8 @@ that the description of $A$ as a most-specific description of $B$ is also a
 characterization, \ie if $A$ is the most-specific description of $B$ in the above sense,
 then $A = B'$.
 
-To mimic this \emph{most-specific description} in description logics, Distel introduces
-the notion of \emph{most-specific concept descriptions}.
+To mimic this \emph{most-specific description} in description logics, Baader and Distel
+introduce the notion of \emph{most-specific concept descriptions}.
 
 \begin{Definition}[Most-Specific Concept Description]
   \label{def:most-specific-concept-description}
@@ -168,9 +164,9 @@ If a model-based most-specific concept description $C$ for $X$ in $\mathcal{I}$ 
 is unique up to equivalence: if $D$ is another such model-based most-specific concept
 description, than $C \sqsubseteq D$ and $D \sqsubseteq C$, by the last condition of the
 definition.  Therefore, $C \equiv D$.  Because of this, we can talk about \emph{the}
-model-based most-specific of $X$ in $\mathcal{I}$, and shall denoted it with
-$X^{\mathcal{I}}$, to stress the similarity to the derivation operator from formal concept
-analysis.  We shall also write $X^{\mathcal{I}\mathcal{I}}$ instead of
+model-based most-specific concept description of $X$ in $\mathcal{I}$, and shall denote it
+with $X^{\mathcal{I}}$, to stress the similarity to the derivation operator from formal
+concept analysis.  We shall also write $X^{\mathcal{I}\mathcal{I}}$ instead of
 $(X^{\mathcal{I}})^{\mathcal{I}}$ and $C^{\mathcal{I}\mathcal{I}}$ instead of
 $(C^{\mathcal{I}})^{\mathcal{I}}$ for syntactic convenience.
 
@@ -185,9 +181,9 @@ can be guaranteed.
 
 \begin{Theorem}[Theorem 4.7 of~\cite{Diss-Felix}]
   \label{thm:existence-of-mmscs-in-ELgfpbot}
-  Model-based most-specific concept descriptions exist in \ELgfp and \ELgfpbot for all
-  interpretations $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ and sets $X
-  \subseteq \Delta^{\mathcal{I}}$, and they can be computed effectively.
+  Model-based most-specific concept descriptions exist in \ELgfp\ and \ELgfpbot for all
+  finite interpretations $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ and
+  sets $X \subseteq \Delta^{\mathcal{I}}$, and they can be computed effectively.
 \end{Theorem}
 
 The computation of model-based most-specific concept descriptions can be achieved using
@@ -196,19 +192,18 @@ The computation of model-based most-specific concept descriptions can be achieve
 4.1.2]{Diss-Felix} for details on this.
 
 We have motivated model-based most-specific concept descriptions by most-specific
-descriptions in formal contexts, and for this we have made use of the fact the derivation
-operators form a Galois connection.  It is therefore only natural to expect that
-model-based most-specific concept descriptions are also part of a Galois connection.
+descriptions in formal contexts, and for this we have made use of the fact that the
+derivation operators form a Galois connection.  It is therefore only natural to expect
+that model-based most-specific concept descriptions are also part of a Galois connection.
 However, we have to notice that we cannot expect to obtain a Galois connection in the
 sense of \Cref{sec:galois-connections}, simply because the relation $\sqsubseteq$ is not
 antisymmetric, and thus not an order relation: it may be the case that $C \sqsubseteq D$
 and $C \sqsubseteq D$, but $C \neq D$.  We can remedy this fact by considering concept
-descriptions only \emph{up to equivalence}: instead of considering only a single concept
-description $C$, we always consider the set $[C]$ of all concept descriptions which are
-equivalent to $C$.  Then $[C] \sqsubseteq [D]$ is well-defined for all concept
-descriptions $C$ and $D$, and $\sqsubseteq$ indeed yields an order relation this way.
-This is only a technical detail, however, and we shall not make it explicit in our
-following considerations.
+descriptions only \emph{up to equivalence}: instead of a single concept description $C$,
+we always consider the set $[C]$ of all concept descriptions which are equivalent to $C$.
+Then $[C] \sqsubseteq [D]$ is well-defined for all concept descriptions $C$ and $D$, and
+$\sqsubseteq$ indeed yields an order relation this way.  This is only a technical detail,
+however, and we shall not make it explicit in our following considerations.
 
 \begin{Lemma}[Lemma 4.1 of~\cite{Diss-Felix}]
   \label{lem:mmsc-and-extension-are-galois-connection}
@@ -233,13 +228,13 @@ following considerations.
 \begin{Proof}
   We only show \eqref{eq:19}, the other claims follow from
   \Cref{lem:properties-of-galois-connections} and the above-made considerations.  If $X
-  \subseteq C^{\mathcal{I}}$, then $X^{\mathcal{I}} \subseteq C$ because $X^{\mathcal{I}}$
-  is by definition the most-specific concept description that contains $X$ in its
-  extension.  Conversely, if $X^{\mathcal{I}} \sqsubseteq C$, then by definition
-  $X^{\mathcal{I}\mathcal{I}} \subseteq C^{\mathcal{I}}$.  But since $X^{\mathcal{I}}$ is
-  the model-based most-specific concept description of $X$ in $\mathcal{I}$, it contains
-  $X$ in its extension, \ie $X \subseteq X^{\mathcal{I}\mathcal{I}}$.  Therefore, $X
-  \subseteq C^{\mathcal{I}}$.
+  \subseteq C^{\mathcal{I}}$, then $X^{\mathcal{I}} \sqsubseteq C$ because
+  $X^{\mathcal{I}}$ is by definition the most-specific concept description that contains
+  $X$ in its extension.  Conversely, if $X^{\mathcal{I}} \sqsubseteq C$, then by
+  definition $X^{\mathcal{I}\mathcal{I}} \subseteq C^{\mathcal{I}}$.  But since
+  $X^{\mathcal{I}}$ is the model-based most-specific concept description of $X$ in
+  $\mathcal{I}$, it contains $X$ in its extension, \ie $X \subseteq
+  X^{\mathcal{I}\mathcal{I}}$.  Therefore, $X \subseteq C^{\mathcal{I}}$.
 \end{Proof}
 
 Another useful property is the following, rather technical proposition.
@@ -278,12 +273,11 @@ Another useful property is the following, rather technical proposition.
 \subsection{Induced Contexts}
 \label{sec:induced-contexts}
 
-We have already seen how formal contexts can be represented as interpretations.  In this
-section we shall introduce the approach of \textcite{Diss-Felix} of \emph{induced
-  contexts}, which somehow provides the inverse direction, \ie to represent
-interpretations as formal contexts.  The notion of induced contexts was also implicitly
-used by works of \textcite{books/math/Prediger00} in her study on \emph{terminological
-  attribute logic}.
+We already have seen how formal contexts can be represented as interpretations.  In this
+section we shall introduce the approach of Baader and Distel of \emph{induced contexts},
+which somehow provides the inverse direction, \ie to represent interpretations as formal
+contexts.  The notion of induced contexts also was implicitly used by works of
+\textcite{books/math/Prediger00} in her study on \emph{terminological attribute logic}.
 
 \begin{Definition}[Induced Context]
   \label{def:induced-context}
@@ -299,8 +293,8 @@ used by works of \textcite{books/math/Prediger00} in her study on \emph{terminol
 
 Induced formal contexts do not necessarily represent all of the interpretation
 $\mathcal{I}$; indeed, what is represented of $\mathcal{I}$ heavily depends on the choice
-of the set $M$ of concept descriptions.  We shall see later that we can choose this $M$ to
-obtain a close connection between bases of $\con K_{\mathcal{I}, M}$ and bases of
+of the set $M$ of concept descriptions.  We later shall see that we can choose this set
+$M$ to obtain a close connection between bases of $\con K_{\mathcal{I}, M}$ and bases of
 $\mathcal{I}$.
 
 We start our considerations about induced contexts by introducing some auxiliary notions
@@ -309,7 +303,7 @@ first.  For a finite set $U \subseteq M$ we define the set
   \bigsqcap U :=
   \begin{cases}
     \top & \text{ if } U = \emptyset, \\
-    \bigsqcap_{V \in U} V & otherwise.
+    \bigsqcap_{V \in U} V & \text{otherwise}.
   \end{cases}
 \end{equation*}
 We call $\bigsqcap U$ the \emph{concept description defined by} $U$.  Furthermore, for a
@@ -353,8 +347,8 @@ U$ and $C \mapsto \pr_M(C)$ satisfy the main condition of an antitone Galois con
   \begin{equation*}
     U \subseteq \pr_M(\bigsqcap U) \subseteq \pr_M(C).
   \end{equation*}
-  For the converse direction assume that $U \subseteq \pr_M(C)$.  Then $\bigsqcap \pr_M(C)
-  \sqsubseteq \bigsqcap U$.  Since for each $D \in \pr_M(C)$ it is true that $C
+  For the converse direction, assume that $U \subseteq \pr_M(C)$.  Then $\bigsqcap
+  \pr_M(C) \sqsubseteq \bigsqcap U$.  Since for each $D \in \pr_M(C)$ it is true that $C
   \sqsubseteq D$, we also have $C \sqsubseteq \bigsqcap \pr_M(C)$.  In sum, we obtain
   \begin{equation*}
     C \sqsubseteq \bigsqcap \pr_M(C) \sqsubseteq \bigsqcap U.
@@ -364,7 +358,7 @@ U$ and $C \mapsto \pr_M(C)$ satisfy the main condition of an antitone Galois con
 For certain concept descriptions $C$, the upper approximation provided by $\bigsqcap
 \pr_M(C)$ coincides with $C$.  Those concept descriptions are exactly those which are
 \emph{expressible in terms of} $M$, \ie there exists a subset $N \subseteq M$ such that $C
-\equiv \bigsqcap N$, as the following small result shows.
+\equiv \bigsqcap N$.
 
 \begin{Lemma}[\cite{Diss-Felix}]
   \label{lem:characterizing-expressible-in-terms-of}
@@ -375,7 +369,7 @@ For certain concept descriptions $C$, the upper approximation provided by $\bigs
   \end{equation*}
 \end{Lemma}
 \begin{Proof}
-  Clearly, if $C \equiv \bigsqcap \pr_M(C)$, then $C$ is expressible in term of $M$.
+  Clearly, if $C \equiv \bigsqcap \pr_M(C)$, then $C$ is expressible in terms of $M$.
   Conversely, if $C$ is expressible in terms of $M$, then $C \equiv \bigsqcap N$ for some
   $N \subseteq M$.  Then $C \sqsubseteq D$ for all $D \in N$, and therefore $N \subseteq
   \pr_M(C)$.  By \Cref{lem:pr-bigsqcap-forms-Galois-connection}, it is thus true that
@@ -389,7 +383,7 @@ We can now state some connections between the derivation operators of an induced
 on one side, and computing the extension of a concept description as well as model-based
 most-specific concept descriptions on the other.  These results are rather technical but
 necessary for our further considerations.  We include the proofs of these statements here,
-as they are rather simple and may help to better understand to corresponding claims.
+as they are rather simple and may help to better understand the corresponding claims.
 
 \begin{Proposition}[Lemma~4.11 and~4.12 of~\cite{Diss-Felix}]
   \label{prop:connection-I-prime-1}
@@ -466,19 +460,19 @@ as they are rather simple and may help to better understand to corresponding cla
 \begin{Proposition}
   \label{prop:connection-I-prime-3}
   Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be a finite
-  interpretation and let $M$ be a set of concept descriptions.  Let $X \subseteq
-  \Delta^{\mathcal{I}}$ such that $X^{\mathcal{I}}$ is expressible in terms of $M$.  Then
-  $X^{\mathcal{I}\mathcal{I}} = X''$, where the derivations are conducted in $\con
+  interpretation and let $M$ be a set of concept descriptions.  Let $A \subseteq
+  \Delta^{\mathcal{I}}$ such that $A^{\mathcal{I}}$ is expressible in terms of $M$.  Then
+  $A^{\mathcal{I}\mathcal{I}} = A''$, where the derivations are conducted in $\con
   K_{\mathcal{I}, M}$.
 \end{Proposition}
 \begin{Proof}
-  Again, by \Cref{lem:characterizing-expressible-in-terms-of} we have $X^{\mathcal{I}}
-  \equiv \bigsqcap \pr_M(X^{\mathcal{I}})$ and thus
+  Again, by \Cref{lem:characterizing-expressible-in-terms-of} we have $A^{\mathcal{I}}
+  \equiv \bigsqcap \pr_M(A^{\mathcal{I}})$ and thus
   \begin{align*}
-    X^{\mathcal{I}\mathcal{I}}
-    &= \bigl(\bigsqcap \pr_M(X^{\mathcal{I}})\bigr)^{\mathcal{I}} \\
-    &= \pr_M(X^{\mathcal{I}})' \\
-    &= X''
+    A^{\mathcal{I}\mathcal{I}}
+    &= \bigl(\bigsqcap \pr_M(A^{\mathcal{I}})\bigr)^{\mathcal{I}} \\
+    &= \pr_M(A^{\mathcal{I}})' \\
+    &= A''
   \end{align*}
   by \Cref{prop:connection-I-prime-1} and \Cref{prop:connection-I-prime-2}.
 \end{Proof}
@@ -486,15 +480,15 @@ as they are rather simple and may help to better understand to corresponding cla
 We can rephrase some of the above results as follows.  Let $\mathcal{I}$ be a finite
 interpretation and let us call a concept description $C$ a \emph{model-based most-specific
   concept description} of $\mathcal{I}$ if it is the model-based most-specific concept
-description of some set $X \subseteq \Delta^{\mathcal{I}}$.  Note that $C$ is a
-model-based most-specific concept description of $\mathcal{I}$ if and only if $C \equiv
+description of some subset of $\Delta^{\mathcal{I}}$.  Note that $C$ is a model-based
+most-specific concept description of $\mathcal{I}$ if and only if $C \equiv
 C^{\mathcal{I}\mathcal{I}}$.
 
 Let $M$ be a set of concept descriptions such that all model-based most-specific concept
 descriptions are expressible in terms of $M$.  If we then identify equivalent model-based
 most-specific concept descriptions and order them by $\sqsubseteq$, then the resulting
 ordered set is dually isomorphic to the lattice of intents of $\con K_{\mathcal{I}, M}$.
-Recall that with $\Int(\con K_{\mathcal{I}, M})$ we denote the set of intents of $\con
+Note that with $\Int(\con K_{\mathcal{I}, M})$ we denote the set of intents of $\con
 K_{\mathcal{I}, M}$.
 
 \begin{Corollary}[contains Corollary~4.13 of~\cite{Diss-Felix}]
@@ -537,18 +531,18 @@ K_{\mathcal{I}, M}$.
   $M$, and where the derivations are done in $\con K_{\mathcal{I}, M}$.
 \end{Corollary}
 \begin{Proof}
-  Claims~\ref{item:12} and~\ref{item:13} are already contained in
-  \Cref{lem:pr-bigsqcap-forms-Galois-connection}, and \cref{item:15} is just
+  Claims~(\ref{item:12}) and~(\ref{item:13}) are already contained in
+  \Cref{lem:pr-bigsqcap-forms-Galois-connection}, and (\ref{item:15}) is just
   \Cref{lem:characterizing-expressible-in-terms-of} again.  We show the other claims step
   by step.
 
-  For~\cref{item:10} let $U \in \Int(\con K_{\mathcal{I}, M})$.  Then $U = U''$, and thus
+  For~(\ref{item:10}) let $U \in \Int(\con K_{\mathcal{I}, M})$.  Then $U = U''$, and thus
   \begin{equation*}
     \bigsqcap U = \bigsqcap U'' \equiv (U')^{\mathcal{I}} = (\bigsqcap U)^{\mathcal{I}\mathcal{I}}
   \end{equation*}
   by \Cref{prop:connection-I-prime-2}.  Thus $U \in \mathcal{M}$ up to equivalence.
 
-  For~\cref{item:11} let $C \in \mathcal{M}$.  Then $C \equiv C^{\mathcal{I}\mathcal{I}}$
+  For~(\ref{item:11}) let $C \in \mathcal{M}$.  Then $C \equiv C^{\mathcal{I}\mathcal{I}}$
   and $C$ is expressible in terms of $M$.  From \Cref{prop:connection-I-prime-1} it
   follows
   \begin{align*}
@@ -559,7 +553,7 @@ K_{\mathcal{I}, M}$.
   \end{align*}
   and thus $\pr_M(C) \in \Int(\con K_{\mathcal{I}, M})$.
 
-  For~\cref{item:14} let again $U \in \Int(\con K_{\mathcal{I}, M})$.  We first observe
+  For~(\ref{item:14}) let again $U \in \Int(\con K_{\mathcal{I}, M})$.  We first observe
   that because of \Cref{lem:pr-bigsqcap-forms-Galois-connection} it is true that $U
   \subseteq \pr_M(\bigsqcap U)$.  Furthermore, for each concept description $D$ it is true
   that
@@ -623,26 +617,26 @@ A useful consequence of \Cref{cor:mmsc-lattice} is the following result.
 
 \begin{Lemma}
   \label{lem:double-II-gets-double-prime}
-  Let $\mathcal{I}$ be a finite interpretation, and let $A \subseteq M_{\mathcal{I}}$.  Then
+  Let $\mathcal{I}$ be a finite interpretation, and let $U \subseteq M_{\mathcal{I}}$.  Then
   \begin{equation*}
-    (\bigsqcap A)^{\mathcal{I}\mathcal{I}} = \bigsqcap A'',
+    (\bigsqcap U)^{\mathcal{I}\mathcal{I}} = \bigsqcap U'',
   \end{equation*}
   where the derivations are done in $\con K_{\mathcal{I}}$.
 \end{Lemma}
 \begin{Proof}
-  Clearly $\bigsqcap A$ is expressible in terms of $M_{\mathcal{I}}$.  Thus
+  Clearly $\bigsqcap U$ is expressible in terms of $M_{\mathcal{I}}$.  Thus
   \Cref{cor:mmsc-lattice} yields
   \begin{equation*}
-    (\bigsqcap A)^{\mathcal{I}\mathcal{I}} = \bigsqcap(\pr_{M_{\mathcal{I}}}(\bigsqcap A))''.
+    (\bigsqcap U)^{\mathcal{I}\mathcal{I}} = \bigsqcap(\pr_{M_{\mathcal{I}}}(\bigsqcap U))''.
   \end{equation*}
-  By \Cref{prop:connection-I-prime-1} it is true that $\pr_{M_{\mathcal{I}}}(\bigsqcap A)'
-  = (\bigsqcap A)^{\mathcal{I}}$, thus
+  By \Cref{prop:connection-I-prime-1} it is true that $\pr_{M_{\mathcal{I}}}(\bigsqcap U)'
+  = (\bigsqcap U)^{\mathcal{I}}$, thus
   \begin{align*}
-    (\bigsqcap A)^{\mathcal{I}\mathcal{I}}
-    &= \bigsqcap ((\bigsqcap A)^{\mathcal{I}})'\\
-    &= \bigsqcap A''
+    (\bigsqcap U)^{\mathcal{I}\mathcal{I}}
+    &= \bigsqcap ((\bigsqcap U)^{\mathcal{I}})'\\
+    &= \bigsqcap U''
   \end{align*}
-  where $(\bigsqcap A)^{\mathcal{I}} = A'$ is true due to
+  where $(\bigsqcap U)^{\mathcal{I}} = U'$ is true due to
   \Cref{prop:connection-I-prime-2}.
 \end{Proof}
 
@@ -650,13 +644,12 @@ A useful consequence of \Cref{cor:mmsc-lattice} is the following result.
 \section{Computing Bases of Valid GCIs of a Finite Interpretation}
 \label{sec:base-all-valid}
 
-
 Using the notions of model-based most-specific concept descriptions and induced contexts,
-we are finally prepared to introduce some of the main results of \textcite{Diss-Felix} on
-computing bases of finite interpretations.  The main ideas behind these results are to use
-ideas and methods from formal concept analysis, either by simulating them in the
-description logic setting or by transforming the initially given interpretation into
-formal contexts and applying standard methods to it.
+we are finally prepared to introduce some of the main results of~\cite{Diss-Felix} on
+computing bases of finite interpretations.  The main idea behind these results is to use
+ideas and methods from formal concept analysis, either by simulating them in a description
+logic setting, or by transforming the initially given interpretation into formal contexts
+and applying standard formal concept analysis methods to it.
 
 Recall that for a (finite) formal context $\con K = (G, M, I)$ the set
 \begin{equation*}
@@ -665,15 +658,15 @@ Recall that for a (finite) formal context $\con K = (G, M, I)$ the set
 is always a base of $\con K$.  This is because every valid implication $(A \to B) \in
 \Th(\con K)$ already follows from $A \to A''$, because if $\con K \models (A \to B)$, then
 $A' \subseteq B'$, \ie $B \subseteq A''$ and thus $\set{ A \to A ''} \models (A \to B)$.
-
 Having introduced model-based most-specific concept descriptions, we are able to simulate
-this results in terms of description logics as follows.
+this result in terms of description logics as follows.
+
 \begin{Lemma}[Lemma 4.3 of~\cite{Diss-Felix}]
   \label{lem:simple-entailment-with-mmsc}
   Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be an interpretation,
   and let $C \sqsubseteq D$ be a general concept inclusion that is valid in $\mathcal{I}$.
-  Then $C \sqsubseteq C^{\mathcal{I}\mathcal{I}}$ is valid in $\mathcal{I}$ as well and $C
-  \sqsubseteq D$ follows from $C \sqsubseteq C^{\mathcal{I}\mathcal{I}}$.
+  Then $C \sqsubseteq C^{\mathcal{I}\mathcal{I}}$ is valid in $\mathcal{I}$ as well, and
+  $C \sqsubseteq D$ follows from $C \sqsubseteq C^{\mathcal{I}\mathcal{I}}$.
 \end{Lemma}
 
 The following statement is then a simple corollary.
@@ -691,10 +684,11 @@ The following statement is then a simple corollary.
 \end{Corollary}
 
 Of course, this base is not finite in general, \ie if $N_R \neq \emptyset$.  However,
-based in this result, Distel investigates subsets of $\mathcal{B}_0$ and finally arrives
-at a finite base.  The first step into this direction is to show that \ELbot concept
-descriptions are actually enough in the following sense.  The main advantage of this
-result is that we can now use induction over the premises of general concept inclusions.
+based on this result, Baader and Distel investigate subsets of $\mathcal{B}_0$ and finally
+arrives at a finite base.  The first step into this direction is to show that considering
+only \ELbot concept descriptions is enough, in the sense as described in the next theorem.
+The main advantage of this result is that we can now use induction over the premises of
+general concept inclusions.
 
 \begin{Theorem}[Theorem~5.7 of~\cite{Diss-Felix}]
   \label{thm:Felix-base-B1}
@@ -708,20 +702,16 @@ result is that we can now use induction over the premises of general concept inc
   is a base of $\mathcal{I}$.
 \end{Theorem}
 
-The proof of this theorem is quite involved, and again involves \EL description graphs and
-simulations between them.  We shall not go into details here, and refer the reader
-to~\cite[Section 5.1.1]{Diss-Felix}.
+The proof of this theorem is quite involved, and again uses the notions \EL description
+graphs and simulations between them.  We shall not go into details here, and refer the
+reader to~\cite[Section 5.1.1]{Diss-Felix}.
 
-The base $\mathcal{B}_1$ is still not finite in general.  To achieve this, we consider a
-particular finite set $M_{\mathcal{I}}$ of concept descriptions which turns out to be
-enough in the sense that we only need to consider general concept inclusions $C
+The base $\mathcal{B}_1$ still is not finite in general.  To achieve finiteness, we
+consider a particular finite set $M_{\mathcal{I}}$ of concept descriptions which turns out
+to be enough, in the sense that we only need to consider general concept inclusions $C
 \sqsubseteq C^{\mathcal{I}\mathcal{I}}$ where $C = \bigsqcap U$ for some $U \subseteq
-M_{\mathcal{I}}$.  Since $M_{\mathcal{I}}$ is finite, the so resulting set of general
-concept inclusions is finite and is therefore a finite base of $\mathcal{I}$.
-
-The definition of $M_{\mathcal{I}}$ seems to be incomprehensible at first.  However, since
-this set will play a major role for our further considerations, we shall give some
-intuition why it is suitable for our purposes the way it is defined.
+M_{\mathcal{I}}$.  Since $M_{\mathcal{I}}$ is finite, the resulting set of general concept
+inclusions is finite and therefore yields a finite base of $\mathcal{I}$.
 
 \begin{Definition}[$M_{\mathcal{I}}$]
   \label{def:M_I}
@@ -732,6 +722,10 @@ intuition why it is suitable for our purposes the way it is defined.
       r \in N_R, X \subseteq \Delta^{\mathcal{I}}, X \neq \emptyset }.
   \end{equation*}
 \end{Definition}
+
+The definition of $M_{\mathcal{I}}$ seems to be incomprehensible at first.  However, since
+this set will play a major role for our further considerations, we shall give some
+intuition why it is suitable for our purposes the way it is defined.
 
 Note that $M_{\mathcal{I}}$ is finite since $\mathcal{I}$ is finite, and thus there are
 only finitely many subsets of $\Delta^{\mathcal{I}}$.  Furthermore notice that
@@ -759,15 +753,15 @@ Let us define
     \mid U \subseteq M_{\mathcal{I}} }.
 \end{equation}
 Then clearly $\mathcal{B}_2 \models (C \sqsubseteq C^{\mathcal{I}\mathcal{I}})$ for $C \in
-N_C$ or $C = \bot$.  For $C = D \sqcap E$ and assuming by induction that $\mathcal{B}_2
+N_C$ or $C = \bot$.  For $C = D \sqcap E$, and assuming by induction that $\mathcal{B}_2
 \models (D \sqsubseteq D^{\mathcal{I}\mathcal{I}})$ and $\mathcal{B}_2 \models (E
-\sqsubseteq E^{\mathcal{I}\mathcal{I}})$ we can find that
+\sqsubseteq E^{\mathcal{I}\mathcal{I}})$, we can find that
 \begin{equation*}
   \mathcal{B}_2 \models (D \sqcap E \sqsubseteq D^{\mathcal{I}\mathcal{I}} \sqcap E^{\mathcal{I}\mathcal{I}}).
 \end{equation*}
 But then $D^{\mathcal{I}\mathcal{I}} \sqcap E^{\mathcal{I}\mathcal{I}}$ is expressible in
 terms of $M_{\mathcal{I}}$ (as a conjunction of model-based most-specific concept
-descriptions using \Cref{lem:mmsc-are-expressible-in-terms-of-M_I}), so
+descriptions, using \Cref{lem:mmsc-are-expressible-in-terms-of-M_I}), so
 \begin{equation*}
   \mathcal{B}_2 \models ((D^{\mathcal{I}\mathcal{I}} \sqcap E^{\mathcal{I}\mathcal{I}})
   \sqsubseteq (D^{\mathcal{I}\mathcal{I}} \sqcap E^{\mathcal{I}\mathcal{I}})^{\mathcal{I}\mathcal{I}}).
@@ -804,7 +798,7 @@ Notice that the crucial property in that argumentation is that $M_{\mathcal{I}}$
 concept descriptions of the form $\exists r. C^{\mathcal{I}\mathcal{I}}$, and that
 \Cref{prop:double-II-under-I} has been used again.
 
-The preceding argument now shows the following claim.
+The preceding argument then shows the following claim.
 
 \begin{Theorem}[Theorem~5.10 of~\cite{Diss-Felix}]
   \label{thm:Felix-base-B2}
@@ -813,14 +807,14 @@ The preceding argument now shows the following claim.
 \end{Theorem}
 
 A practical disadvantage of the finite base $\mathcal{B}_2$ is its size, which may be
-exponential in the size of $M_{\mathcal{I}}$, which itself may be exponential in the size
-of $\Delta^{\mathcal{I}}$.  To remedy this, we use methods from formal concept analysis to
+exponential in $\abs{ M_{\mathcal{I}} }$, which itself may be exponential in the size of
+$\Delta^{\mathcal{I}}$.  To remedy this, we use methods from formal concept analysis to
 extract bases from formal contexts.  In particular, recall that the canonical base of a
 formal context is minimal in size among all bases of a formal context, and that it can be
 computed effectively.  Having this in mind, we further observe that if we consider the
 induced formal context $\con K_{\mathcal{I}} := \con K_{\mathcal{I}, M_{\mathcal{I}}}$,
-that then the set $\mathcal{L} := \set{ A \to A'' \mid A \subseteq M_{\mathcal{I}} }$ is a
-  base of $\con K_{\mathcal{I}}$, and that
+then the set $\mathcal{L} := \set{ A \to A'' \mid A \subseteq M_{\mathcal{I}} }$ is a base
+of $\con K_{\mathcal{I}}$, and that
 \begin{equation*}
   \mathcal{B}_2 = \bigsqcap \mathcal{L} := \set{ \bigsqcap A \sqsubseteq \bigsqcap A''
     \mid (A \to A'') \in \mathcal{L} }.
@@ -844,7 +838,7 @@ However, there is a redundancy in $\mathcal{L}$ which cannot be removed this way
 \set{ D }$ will always be true in $\con K_{\mathcal{I}}$.  But this means that this
 implication has to be contained implicitly or explicitly in any base of $\con
 K_{\mathcal{I}}$.  On the other hand, the resulting GCI $C \sqsubseteq D$ is trivial, and
-could be avoided.
+thus dispensable.
 
 We can alleviate this situation by making use of bases with background knowledge.  The
 background knowledge we are interested in would be
@@ -855,7 +849,7 @@ background knowledge we are interested in would be
 \end{equation}
 A base of $\con K_{\mathcal{I}}$ with background knowledge $\mathcal{S}_{\mathcal{I}}$ now
 does not have to contain the information about the implications in
-$\mathcal{S}_{\mathcal{I}}$ anymore, and may thus may be smaller than bases without this
+$\mathcal{S}_{\mathcal{I}}$ anymore, and may thus may be smaller than a base without this
 background knowledge.
 
 \begin{Theorem}[Theorem~5.12 of~\cite{Diss-Felix}]
@@ -892,10 +886,9 @@ inspected by domain experts for their validity, and those experts may not necess
 experts in logic as well.
 
 On the other hand, \ELbot concept descriptions are much easier to read, and thus obtaining
-\ELbot bases instead of \ELgfpbot bases may be much more desirable.  For this, Distel
-discusses a way to obtain such \ELbot bases from \ELgfpbot bases by \emph{unravelling}
-those bases.  As we shall generalize this approach to unravelling \ELgfpbot bases with
-confident GCIs, we shall present the main results here.
+\ELbot bases instead of \ELgfpbot bases may be much more desirable.  For this, Baader and
+Distel discuss a way to obtain such \ELbot bases from arbitrary \ELgfpbot bases by
+\emph{unravelling}.
 
 The crucial observation towards obtaining \ELbot bases from \ELgfpbot bases is that given
 a finite interpretation $\mathcal{I}$ and a concept description $C$ it is true that for $d
@@ -922,12 +915,12 @@ concept descriptions, as formulated in the following lemma.
   \end{enumerate}
 \end{Lemma}
 
-To now unravel an \ELgfpbot base $\mathcal{B}$ of $\mathcal{I}$ the idea is now to just
+To now unravel an \ELgfpbot base $\mathcal{B}$ of $\mathcal{I}$ the idea is to just
 unravel every GCI $(C \sqsubseteq D) \in \mathcal{B}$ ``deep enough'', \ie replacing these
 GCIs by $C_d \sqsubseteq D_d$, where $d$ is chosen as in \Cref{lem:Felix-lemma-5.5}.
 This, however, may not be enough, as we may not be able anymore to entail GCIs of the form
 $(X^{\mathcal{I}})_d \sqsubseteq X^{\mathcal{I}}$ for $X \subseteq \Delta^{\mathcal{I}}$
-from the thus obtained base anymore.  To remedy this, Distel adds some extra GCIs.
+from the base thus obtained.  To remedy this, some extra GCIs need to be added.
 
 \begin{Theorem}[Theorem~5.21 of~\cite{Diss-Felix}]
   \label{thm:unravelling-ELgfpbot-bases}
@@ -991,4 +984,4 @@ $\mathcal{I}$ as well.
 %%% TeX-master: "../main"
 %%% End: 
 
-%  LocalWords:  Prediger
+%  LocalWords:  Prediger gener conc
