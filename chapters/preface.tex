@@ -13,10 +13,10 @@ Knowledge is necessary to solve problems and to act intelligently in almost all 
 and computers to act intelligently, it is necessary to first solve the problem of
 \emph{learning relevant knowledge}, more formally referred to as \emph{knowledge
   acquisition}.  In the case of computers, another problem has to be tackled, namely the
-problem of \emph{representing knowledge} in a way that is suitable for a machine to work
-with.
+problem of \emph{representing knowledge} in a way that is suitable for a machine
+consumption.
 
-One common approach to representing knowledge suitable for computer consumption is to use
+A common approach to representing knowledge suitable for computer consumption is to use
 different kinds of logics, and among these \emph{description logics} are a very popular
 choice.  Description logics are a family of logic-based formalisms with varying reasoning
 complexity and expressiveness, specifically tailored towards practical decision
@@ -41,9 +41,9 @@ least in a preliminary version, from various sources of data, like natural langu
 databases, or linked data.  One of these approaches has been developed by Franz Baader and
 Felix Distel, and is based on notions from the mathematical theory of \emph{formal concept
   analysis}.  This approach allows the extraction of general terminological knowledge in
-the form of \emph{general concept inclusions} which are valid in a given \emph{finite
-  interpretation}.  Interpretations are structures which are used in description logics to
-define the semantics of different logics, and can be thought of as directed edge- and
+the form of \emph{general concept inclusions} that are valid in a given \emph{finite
+  interpretation}.  Interpretations are structures, which are used in description logics
+to define the semantics of different logics, and can be thought of as directed edge- and
 vertex-labeled graphs.  Because of their graph-like nature, interpretations can be thought
 of as a variant of \emph{linked data}, and then the approach by Baader and Distel in
 principle allows the extraction of terminological knowledge from this form of data, which
@@ -53,15 +53,14 @@ intelligently.
 
 However, the approach of Baader and Distel has some drawbacks which make it hard to apply
 it to real-world data.  One of these is the fact that every real-world data set contains
-\emph{errors}, and in such a case considering only terminological knowledge that is
+\emph{errors}, and in such cases considering only terminological knowledge that is
 \emph{valid} in this erroneous data seems futile.  In the worst case, valid terminological
 knowledge is not extracted from the data set because a single error invalidates it.
 
 On the other hand, learning terminological knowledge from an interpretation or linked data
 is only reasonable if this data set is of sufficiently high \emph{quality}, meaning that
 it does not contain too many errors that are relevant for the learning process.  Then one
-could imagine that, instead of only considering terminological knowledge that is valid in
-the given input data, it may be fruitful to also consider terminological knowledge that is
+could imagine that it may be fruitful to also consider terminological knowledge that is
 \emph{almost valid} in this data.  In this way, knowledge that is erroneously invalidated
 by few errors is still recovered from the data.  Of course, one has to make sure that rare
 but valid counterexamples in this data set are not accidentally ignored in this way, \ie
@@ -75,7 +74,7 @@ valid in the input data.  To this end, we shall make use of the notion of
 then shall show how we can learn all general concept inclusions with \emph{high
   confidence} in our input data.  For this we use ideas from formal concept analysis, more
 specifically results obtained by Michael Luxenburger on \emph{partial implications} in
-formal contexts.  We shall then apply our findings to a small example interpretation
+formal contexts.  We then shall apply our findings to a small example interpretation
 extracted from the DBpedia data set, and assess in how far our approach yields more
 error-tolerant results.  Finally, we shall show how we can obtain a semi-automatic
 algorithm for the expert-based verification step mentioned above, based on the algorithm
@@ -84,8 +83,8 @@ of \emph{attribute exploration} from formal concept analysis.
 All these extensions are based on the original results by Baader and Distel, and we shall
 review these results to the extent needed for our considerations.  This will also include
 an introduction to the main notions of formal concept analysis and description logics, as
-necessary for this work.  The main hope is that this extension of Baader's and Distel's
-results make the techniques of extracting general concept inclusions from finite
+necessary for this work.  It is the aspiration that this extension of Baader's and
+Distel's results make the techniques of extracting general concept inclusions from finite
 interpretations more accessible for practical applications.
 
 \bigskip\noindent%

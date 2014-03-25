@@ -1,7 +1,7 @@
 \chapter{Introduction}
 \label{cha:introduction}
 
-For a machine to interact in an intelligent manner with its outside world it needs to be
+For a machine to interact in an intelligent manner with its outside world, it needs to be
 equipped with suitable knowledge.  The very same is true for humans, and acquiring this
 knowledge is a highly complex task which up to today is not completely understood.  To
 help within this process, previously acquired knowledge is \emph{represented} in different
@@ -36,13 +36,13 @@ stated above, we can infer that the individual \textsf{tom} hunts mice, although
 never been stated explicitly.
 
 Knowledge bases can be used to represent knowledge in a machine-consumable way.  However,
-the question arises how such knowledge bases can be obtained.  In one way or the other,
+the question arises how such knowledge bases can be obtained.  One way or the other,
 knowledge which is available to humans has to be translated into the form of a description
 logic knowledge base.  Of course, this could be done by humans, but this approach would
-not only be very time-consuming, but also prone to errors.  An automatic translation
-would thus be highly welcome.  On the other hand, a completely automatic translation would
-just mean that machines can consume knowledge in the way humans represent it, an
-assumption which is not reasonable.
+not only be very time-consuming, but also prone to errors.  An automatic translation would
+thus be highly welcomed.  On the other hand, a completely automatic translation would just
+mean that machines can consume knowledge in the way humans represent it, an assumption
+which is not reasonable.
 
 However, one can still think about approaches which are \emph{semi-automatic} in the sense
 that the results obtained from such a translation are preliminary, requiring further
@@ -54,28 +54,29 @@ An approach to achieve such a semi-automatic translation procedure, or \emph{lea
 terminological knowledge of the form as shown in \Cref{eq:15} from some given \emph{finite
   interpretation} $\mathcal{I}$.  More precisely, the procedures described
 in~\cite{Diss-Felix} would automatically learn all GCIs which are \emph{valid} in the data
-set $\mathcal{I}$.  This approach made use of the mathematical theory of \emph{formal
-  concept analysis}, a subfield of mathematical order theory which has very close
+set $\mathcal{I}$.  This approach makes use of the mathematical theory of \emph{formal
+  concept analysis}, a subfield of mathematical order theory, which has very close
 connections to description logics.
 
 Of course, the GCIs learned this way may not be correct, in the sense that the GCI may
-hold in $\mathcal{I}$, but this data missed to contain some relevant counterexamples.  One
-way to remedy this is to use an algorithm from formal concept analysis called
-\emph{attribute exploration}.  Within this algorithm, an expert (possibly human) is asked
-for the correctness of extracted GCIs, and if such a GCI is not correct, the expert has to
-provide \emph{counterexamples} for it.  This way, the problem that the data may be
-\emph{incomplete}, in the sense it lacks crucial counterexamples, can be solved.  This
-also has been done in~\cite{Diss-Felix}.
+hold in $\mathcal{I}$, but this data missed to contain some relevant counterexamples.  In
+this case, we say that $\mathcal{I}$ is \emph{incomplete}.  One way to remedy this is to
+use an algorithm from formal concept analysis called \emph{attribute exploration}, and
+generalize it to the setting of GCIs.  Such a generalization, called \emph{model
+  exploration}, has been discussed in~\cite{Diss-Felix}.  Within this algorithm, an expert
+(possibly human) is asked for the correctness of extracted GCIs, and if such a GCI is not
+correct, the expert has to provide \emph{counterexamples} for it.  This way, the problem
+of $\mathcal{I}$ being incomplete can be solved.
 
 However, there are still problems with the original approach of~\cite{Diss-Felix}, in
-particular if it comes to the \emph{quality} of the data $\mathcal{I}$ from which GCIs are
+particular concerning the \emph{quality} of the data $\mathcal{I}$ from which GCIs are
 learned.  The main problem here is that the data may contain \emph{errors}.  These errors
 may either cause otherwise valid GCIs not to be found, because these errors act as
-\emph{false counterexamples}, or GCIs are found which are not correct because errors cause
-positive counterexamples to vanish.  While the latter approach can in theory be handled by
-the attribute exploration approach sketched above, the former cannot, because the approach
-discussed in~\cite{Diss-Felix} will not even extract GCIs for which there may be false
-counterexamples in $\mathcal{I}$.
+\emph{false counterexamples}, or GCIs to be found which are not correct, because errors
+cause positive counterexamples to vanish.  While the latter approach can in theory be
+handled by the attribute exploration approach sketched above, the former cannot, because
+the approach discussed in~\cite{Diss-Felix} will not even extract GCIs for which there may
+be false counterexamples in $\mathcal{I}$.
 
 In this work, we want to extent the results obtained in~\cite{Diss-Felix} to this new
 setting of where the data $\mathcal{I}$ may contain errors.  The main approach for this is
@@ -110,13 +111,13 @@ then led to the first logic-based systems~\cite{journals/cogsci/BrachmanS85}, wh
 however were incomplete~\cite{conf/kr/Schmidt-Schauss89}.
 
 The first description logics considered were relatively small fragments of first order
-logic, but already for them it could be shown that reasoning is
+logic, and already for them it could be shown that reasoning is
 intractable~\cite{conf/aaai/BrachmanL84,journals/ai/Nebel88}.  One approach to remedy this
 was to investigate highly optimized reasoning algorithms, which behave well in practice.
-The most prominent class of such algorithms are \emph{tableau algorithms}, first invented
-for the description logic
+The most prominent class of such algorithms are \emph{tableau algorithms}.  These
+algorithms were first invented for the description logic
 $\ALC$~\cite{journals/ai/Schmidt-SchaussS91,conf/ecai/HollunderNS90} for the subsumption
-problem, and thereafter extended to other, even more expressive logics.  After a
+problem, and were thereafter extended to other, even more expressive logics.  After a
 connection of $\ALC$ to multimodal logic $\mathsf{K}_{(\mathsf{m})}$ was
 discovered~\cite{DBLP:conf/ijcai/Schild91}, it was seen that this tableau algorithm is
 actually a re-invention of the tableau algorithms used in modal logics.  The development
@@ -129,14 +130,14 @@ based on the highly expressive description logic
 $\mathcal{S}\mathcal{H}\mathcal{O}\mathcal{I}\mathcal{N}$~\cite{horrocks03fromshiqrdftoowl}.
 
 The focus of description logics research departed from the sole focus on expressive
-description logics when at the beginning of this millennium it was discovered that for the
-inexpressive description logic $\EL$ reasoning is
-tractable~\cite{DBLP:conf/ijcai/Baader03a,DBLP:conf/ecai/Brandt04}, and stays polynomial
-if the expressiveness of $\EL$ is extended
-slightly~\cite{DBLP:conf/ijcai/BaaderBL05,BaaderEtAl-OWLED08DC}.  The practical relevance
-of these results is given by the fact that large biomedical ontologies can be reformulated
-as \emph{description logic knowledge bases} (or \emph{description logic ontologies}) using
-just $\EL$ or a slight extension of it.  Examples for this are the \emph{Systematized
+description logics when, at the beginning of this millennium, it was discovered that for
+the inexpressive description logic $\EL$ reasoning is
+tractable~\cite{DBLP:conf/ijcai/Baader03a,DBLP:conf/ecai/Brandt04}, and stays so when the
+expressiveness of $\EL$ is extended
+slightly~\cite{DBLP:conf/ijcai/BaaderBL05,BaaderEtAl-OWLED08DC}.  A practical relevance of
+these results is given by the fact that large biomedical ontologies can be reformulated as
+\emph{description logic knowledge bases} (or \emph{description logic ontologies}) using
+$\EL$ or such slight extensions of it.  Examples for this are the \emph{Systematized
   Nomenclature of Medicine--Clinical Terms}, the Gene Ontology~\cite{gene-ontology}, and
 large parts of the GALEN ontology~\cite{Rector199475}.
 
@@ -145,27 +146,27 @@ intention to use description logics to express knowledge about \emph{concept
   descriptions}.  For this, description logics provide a number of constructors, which can
 then be used to build concept descriptions from atomic \emph{concept names} and binary
 \emph{role names}.  For example, the description logic $\EL$ provides the constructors
-\emph{conjunction} ($\sqcap$) and \emph{existential restriction} ($\exists$), and examples
-of $\EL$ concept descriptions are
+\emph{conjunction} ($\sqcap$) and \emph{existential restriction} ($\exists$).  Examples of
+$\EL$ concept descriptions are
 \begin{equation*}
   \mathsf{Cat},\, \mathsf{Cat} \sqcap \mathsf{Mouse},\, \exists \mathsf{hunts}. \mathsf{Mouse},
 \end{equation*}
 where \textsf{Cat}, \textsf{Mouse} are concept names, and \textsf{hunts} is a role name.
 
-A description logic knowledge base formulated in $\EL$ consists, as most description logic
-knowledge bases, of two parts, namely an \emph{ABox}, holding assertional knowledge, and a
-\emph{TBox}, containing terminological knowledge.  An example knowledge base is
+A description logic knowledge base formulated in $\EL$ consists, like most description
+logic knowledge bases, of two parts, namely an \emph{ABox}, holding assertional knowledge,
+and a \emph{TBox}, containing terminological knowledge.  An example knowledge base is
 \begin{equation*}
   \mathcal{K} = (\set{ \mathsf{Cat} \sqsubseteq \exists \mathsf{hunts}. \mathsf{Mouse} },
   \set{ \mathsf{Cat}(\mathsf{tom}) }),
 \end{equation*}
-where the first entry denotes the TBox, and the second one denotes the ABox.  The
-semantics of knowledge bases is defined using \emph{interpretations} $\mathcal{I}$, which
-can be thought of as directed edge- and vertex-labeled graphs.  The labels of the
-vertices, which we shall call \emph{elements} or \emph{individuals}, are concept names,
-and the labels of the edges are role names.  An interpretation is a model of a knowledge
-base if all elements \emph{satisfy} the axioms contained in this knowledge base.  For
-example, the interpretation
+where the first entry denotes the TBox, and the second denotes the ABox.  The semantics of
+knowledge bases is defined using \emph{interpretations} $\mathcal{I}$, which can be
+thought of as directed edge- and vertex-labeled graphs.  The labels of the vertices, which
+we shall call \emph{elements} or \emph{individuals}, are concept names, and the labels of
+the edges are role names.  An interpretation is a model of a knowledge base if all
+elements \emph{satisfy} the axioms contained in this knowledge base.  For example, the
+interpretation
 \begin{center}
   \begin{tikzpicture}[>=stealth']
     \begin{scope}[
@@ -181,11 +182,11 @@ example, the interpretation
   \end{tikzpicture}
 \end{center}
 is a model of the knowledge base $\mathcal{K}$, since the element \textsf{tom} is labeled
-with \textsf{Cat}, and every element which is labeled with \textsf{Cat} is connected to
-some element labeled with \textsf{Mouse} via an edge labeled with \textsf{hunts}.
+\textsf{Cat}, and every element which is labeled with \textsf{Cat} is connected to some
+element labeled \textsf{Mouse} via an edge labeled with \textsf{hunts}.
 
 As soon as one has a description logic knowledge base, one can conduct \emph{reasoning}
-with it, \ie one can extract knowledge from the knowledge base which may only be contained
+with it, \ie one can extract knowledge from the knowledge base that may be only contained
 in it implicitly.  Two classical reasoning problems are \emph{instance checking} and
 \emph{subsumption}: given an \emph{individual name} $a$ and a concept description $C$, the
 instance checking problem is to ask whether $a$ is an \emph{instance} of $C$, \ie whether
@@ -197,7 +198,7 @@ element that satisfies $C$ also satisfies $D$.  Other reasoning problems are
 consistent if it has a model, and a concept description $C$ is satisfiable with respect to
 a given knowledge base $\mathcal{K}$ if there exists a model of $\mathcal{K}$ containing
 elements that satisfy $C$.  Deciding knowledge base consistency and concept satisfiability
-are mostly relevant to ensure the correctness of the given knowledge base.
+can help to ensure the correctness of the given knowledge base.
 
 \section{Formal Concept Analysis}
 \label{sec:learn-impl-using}
@@ -211,7 +212,7 @@ logics~\cite{books/math/Prediger00,conf/iccs/FerreR00}, data
 mining~\cite{arules:Zaki:1998}, machine learning~\cite{conf/icfca/Kuznetsov04}, and
 artificial intelligence~\cite{phd/de/Rudolph2006,Diss-Felix}.  Because of this, formal
 concept analysis today can be considered as a part of theoretical computer science, and
-thus provides another link between computer science and mathematics.
+thus it provides another link between computer science and mathematics.
 
 The origin of formal concept analysis as it is used in this work can clearly be marked by
 the work of Wille~\cite{fca:Wille:1982}, which introduced formal concept analysis as an
@@ -281,7 +282,7 @@ where the first set is called the \emph{extent}, and the second set is called th
 Formal concepts can then be ordered by set-inclusion of their extents, and it can be shown
 that the thus-obtained ordered set is a complete lattice, the \emph{concept lattice} of
 the formal context.  The concept lattice that corresponds to our small example above is
-shown in \ref{fig:example-concept-lattice}.  This diagram also uses the usual, abridged
+shown in \Cref{fig:example-concept-lattice}.  This diagram also uses the usual, abridged
 annotation of concept lattices: a node $v$ in the lattice diagram represents the formal
 concept whose extent consists of all objects which can be reached by an \emph{descending
   path} in the diagram, starting from $v$.  Likewise, the intent of $v$ is the set of all
@@ -394,7 +395,7 @@ investigated, whose computation is algorithmically easier.  An example is the ba
 \emph{proper premises}~\cite{fca-book}, for which fast algorithms
 exist~\cite{RyDiBo-AMAI13}.
 
-An algorithm which is related to the study of valid implications of formal contexts is
+An algorithm that is related to the study of valid implications of formal contexts is
 \emph{attribute exploration}~\cite{fca-book,GORS-book}, which is an interactive process
 which extracts valid implications from \emph{incomplete} data utilizing \emph{expert
   interaction} to obtain missing facts.  Within this process, an external expert is asked
@@ -402,7 +403,7 @@ questions of the form
 \begin{equation*}
   \text{Is the implication } A \to B \text{ valid?}
 \end{equation*}
-The expert can then either accept this implication, or decline it by providing a
+The expert then can either accept this implication, or decline it by providing a
 \emph{counterexample}.  In this way, the expert enriches the currently known formal
 context by missing objects and their attributes.  As soon as the process finishes, the set
 of confirmed implications represents the whole implicational knowledge represented by the
@@ -451,12 +452,12 @@ To provide these results, Baader and Distel exploit the tight connection between
 description logic $\ELbot$ and formal concept analysis, established by \emph{model based
   most specific concept descriptions} and \emph{induced formal contexts} of finite
 interpretations and sets of concept descriptions.  More precisely, it can be shown that if
-$\con K_{\mathcal{I}}$ denotes the induced formal context of $\mathcal{I}$, that then
-every base of $\con K_{\mathcal{I}}$ gives rise to a finite base of $\mathcal{I}$.  A
-technical problem that arises here is that model-based most-specific concept descriptions
-are not necessarily expressible in the description logic \ELbot.  Because of this, Baader
-and Distel consider the description logic \ELgfpbot, an extension of \ELbot by
-\emph{cyclic concept descriptions} using \emph{greatest fixpoint semantics}.
+$\con K_{\mathcal{I}}$ denotes the induced formal context of $\mathcal{I}$, then every
+base of $\con K_{\mathcal{I}}$ gives rise to a finite base of $\mathcal{I}$.  A technical
+problem that arises here is that model-based most-specific concept descriptions are not
+necessarily expressible in the description logic \ELbot.  Because of this, Baader and
+Distel consider the description logic \ELgfpbot, an extension of \ELbot by \emph{cyclic
+  concept descriptions} using \emph{greatest fixpoint semantics}.
 
 The resulting algorithms for computing bases of finite interpretations are all effective.
 A preliminary implementation with applications to linked data has been presented
@@ -466,7 +467,7 @@ An additional issue addressed by Baader and Distel is the fact that the interpre
 $\mathcal{I}$ may be \emph{incomplete}, \ie certain facts from the domain of interest may
 not be represented in it.  The GCIs which are valid in $\mathcal{I}$ may not necessarily
 be valid in the domain of interest.  This problem is very similar to the problem solved by
-attribute exploration, and it can indeed be shown that attribute exploration applied to
+attribute exploration, and indeed it can be shown that attribute exploration applied to
 the context $\con K_{\mathcal{I}}$ can be transferred into an algorithm for \emph{model
   exploration} of $\mathcal{I}$.  This algorithm then allows to interactively compute
 bases of $\mathcal{I}$, allowing an expert to provide missing facts when required.  In
@@ -604,13 +605,6 @@ computation of the canonical base~\cite{journals/ml/AriasB11}.
 \section{Contributions}
 \label{sec:contributions}
 
-The goal of this work is to extend the work by Baader and Distel to include the
-possibility that the initially given interpretation $\mathcal{I}$ does not correctly
-represent the domain of interest, and instead contains \emph{errors}.  The motivation for
-this extension stems from the observation that for practical applications it is almost
-always impossible to obtain data sets which are free of errors.  To still be able to apply
-the results of Baader and Distel, we thus require a methodology to handle these errors.
-
 The main contributions of this thesis are the following.
 
 \subsection{Experiments with Extracting Valid GCIs}
@@ -690,18 +684,17 @@ asks the expert a minimal number of different questions.  Therefore, we want to 
 attribute exploration to the setting of GCIs with high confidence to obtain an algorithm
 that allows the use of an expert to distinguish between errors and rare counterexamples.
 
-To this end, we shall consider as a first step the easier problem where we consider
-\emph{implications with high confidence} instead of GCIs.  In this step, we shall
-generalize attribute exploration to \emph{exploration by confidence}, where the algorithm
-not only asks the expert after implications which are valid in the current context, but
-also after those which only have high confidence.  For this, we first investigate
-generalizations of attribute exploration which allow us to explore \emph{sets of
-  implications}.  In these generalizations, a set $\mathcal{L}$ of implications can be
-specified for which the expert should decide which elements of $\mathcal{L}$ are valid.
-In attribute exploration, the set $\mathcal{L}$ is just the set of all valid implications
-of a given formal context.  For the case of implications with high confidence, the set
-$\mathcal{L}$ is then just the set of all implications whose confidence is above a certain
-threshold $c$.
+As a first step, we shall consider the easier problem of exploring \emph{implications with
+  high confidence} instead of GCIs.  In this step, we shall generalize attribute
+exploration to \emph{exploration by confidence}, where the algorithm not only asks the
+expert after implications which are valid in the current context, but also after those
+which only have high confidence.  For this, we first investigate generalizations of
+attribute exploration which allow us to explore \emph{sets of implications}.  In these
+generalizations, a set $\mathcal{L}$ of implications can be specified for which the expert
+should decide which elements of $\mathcal{L}$ are valid.  In attribute exploration, the
+set $\mathcal{L}$ is just the set of all valid implications of a given formal context.
+For the case of implications with high confidence, the set $\mathcal{L}$ is then just the
+set of all implications whose confidence is above a certain threshold $c$.
 
 \subsection{Model-Exploration by Confidence}
 \label{sec:model-expl-conf}

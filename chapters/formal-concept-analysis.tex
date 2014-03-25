@@ -2,7 +2,7 @@
 \label{cha:form-conc-analys}
 
 In this section we shall introduce almost all notions from the area of formal concept
-analysis which are relevant for this work.  One of the main aspects of formal concept
+analysis that are relevant for this work.  One of the main aspects of formal concept
 analysis we are interested in are the methods it provides to extract \emph{implicational
   dependencies} from data.  To this end, we shall discuss in detail the notions of
 \emph{implications} in formal contexts, \emph{bases} of valid implications of formal
@@ -35,7 +35,7 @@ considerations.  Let $P$ be a set and let ${\le} \subseteq P \times P$ be a bina
 relation on $P$.  Then the pair $(P, \le)$ is called a \emph{(partially) ordered set} if
 $\le$ is reflexive, transitive and antisymmetric.  Such structures can be visualized in
 terms of \emph{order diagrams} (often called \emph{Hasse diagrams}) if they are finite
-(and not too large).  For this way call two elements $x, y \in P$ with $x < y$
+(and not too large).  For this we call two elements $x, y \in P$ with $x < y$
 \emph{directly neighbored} in $(P, \le)$ if and only if there does not exist an element $z
 \in P$ such that $x < z < y$.  Then to visualize $(P, \le)$ we mark for every element $x
 \in P$ a node $v_x$ on the plane such that whenever $x < y$ it is true that the ordinate
@@ -283,17 +283,17 @@ then we shall locally introduce separate names for both of them.
 What occurs more often, for example in Chapters~\ref{cha:expl-conf}
 and~\ref{cha:model-expl-conf}, is the derivation of sets in \emph{different contexts}.
 For example we may have given two formal contexts $\con K_1 = (G_1, M_1, I_1)$ and $\con
-K_2 = (G_2, M_2, I_2)$ and a set $A \subseteq M_1 \cap M_2$.  Then when writing $A'$ it is
-not clear in which context we do the derivation.  To remedy this, we shall add a subscript
-to the set $A$ to make clear of which context we consider it as a set of attributes:
-$A_{\con K_1}$ denotes the set $A$ considered as a set of attributes in $\con K_1$, and
-likewise $A_{\con K_2}$.  While this notation is not useful as it stands, it becomes handy
-if we consider derivations of $A$: $(A_{\con K_1})'$ denotes the derivation of $A$ in the
-formal context $\con K_1$, while $(A_{\con K_2})'$ does the same for the formal context
-$\con K_2$.  Of course, we can drop the parentheses if that does not lead to ambiguity,
-and write $A_{\con K_1}'$ and $A_{\con K_2}'$ instead.  Of course, the same can be done
-for sets of objects.  In particular, instead of writing $(A_{\con K_1}')_{\con K_1}'$ we
-shall often only write $A_{\con K_1}''$.
+K_2 = (G_2, M_2, I_2)$ and a set $A \subseteq M_1 \cap M_2$.  When writing $A'$, it is not
+clear in which context we do the derivation.  To remedy this, we shall add a subscript to
+the set $A$ to make clear of which context we consider it as a set of attributes: $A_{\con
+  K_1}$ denotes the set $A$ considered as a set of attributes in $\con K_1$, and likewise
+$A_{\con K_2}$.  While this notation is not useful as it stands, it becomes handy if we
+consider derivations of $A$: $(A_{\con K_1})'$ denotes the derivation of $A$ in the formal
+context $\con K_1$, while $(A_{\con K_2})'$ does the same for the formal context $\con
+K_2$.  Of course, we can drop the parentheses if that does not lead to ambiguity, and
+write $A_{\con K_1}'$ and $A_{\con K_2}'$ instead.  Of course, the same can be done for
+sets of objects.  In particular, instead of writing $(A_{\con K_1}')_{\con K_1}'$ we shall
+often only write $A_{\con K_1}''$.
 
 \begin{Example}
   \label{expl:4}
@@ -398,11 +398,11 @@ notion of \emph{formal concepts} of a formal context.
   $\BV(\con K)$.
 \end{Definition}
 
-Note that for each $A \subseteq M$, the pair $(A'', A')$ is a formal concept of $\con K$.
-Moreover, a set $A \subseteq M$ is an intent of $\con K$ if and only if $A = A''$: if $A =
-A''$, then $(A, A')$ is a formal concept of $\con K$, and if $(A, B)$ is a formal concept
-of $\con K$, then $A'' = B' = A$.  The same is of course true for $B \subseteq G$: $B$ is
-an extent of $\con K$ if and only if $B = B''$.
+Note that for each $B \subseteq M$, the pair $(B', B)$ is a formal concept of $\con K$.
+Moreover, a set $B \subseteq M$ is an intent of $\con K$ if and only if $B = B''$: if $B =
+B''$, then $(B', B)$ is a formal concept of $\con K$, and if $(A, B)$ is a formal concept
+of $\con K$, then $B'' = A' = B$.  The same is of course true for $A \subseteq G$: $A$ is
+an extent of $\con K$ if and only if $A = A''$.
 
 Formal concepts have a strong philosophical motivation, as they are an attempt to
 formalize the rather vague notion of a \emph{concept}.  This formalization is based on the
@@ -597,6 +597,7 @@ Of course, both notions are closely related: if we denote with $\alg Q^d = (Q,
 an isotone Galois connection.
 
 \begin{Example}
+  Two examples of Galois connections are the following.
   \begin{enumerate}[i. ]
   \item If $\phi$ is an order isomorphism from $\alg P = (P, \leq_P)$ to $\alg Q = (Q,
     \leq_Q)$, then $(\alg P, \alg Q, \phi, \phi^{-1})$ is an isotone Galois connection,
@@ -672,12 +673,12 @@ Galois connections are closely related to the notion of \emph{closure operators}
     \emph{monotone}), and
   \item $c(a) = c(c(a))$ for all $a \in P$ ($c$ is \emph{idempotent}).
   \end{enumerate}
-  A set of the form $c(a)$ for $a \in P$ is called the  \emph{closure} of $a$ under $c$.
-  An element $a \in P$ is called \emph{closed} under $c$ if and only if $a = c(a)$.
+  The element $c(a)$ for $a \in P$ is called the \emph{closure} of $a$ under $c$.  An
+  element $a \in P$ is called \emph{closed} under $c$ if and only if $a = c(a)$.
 \end{Definition}
 
 Closure operators arise naturally in many situations, and we shall encounter them in the
-next section when we introduce implication.  Moreover, closure operators and Galois
+next section when we introduce implications.  Moreover, closure operators and Galois
 connections always appear together: If $(\alg P, \alg Q, \phi, \psi)$ is a Galois
 connection, then the mapping $\psi \circ \phi$ is a closure operator on $\alg P$, and the
 mapping $\phi \circ \psi$ is a closure operator on $\alg Q$.  This is true because we know
@@ -693,8 +694,8 @@ See~\cite{fca-book} for more details on this.
 
 There are two interesting properties of closure operators which are also relevant for our
 purpose.  The first observation is that if $c$ is a closure operator on the ordered set
-$\alg P$, that then the infimum $c(x) \wedge c(y)$ is again closed for all $x, y \in P$.
-This is because on the one hand we have
+$\alg P$ then the infimum $c(x) \wedge c(y)$ is again closed under $c$ for all $x, y \in
+P$.  This is because on the one hand we have
 \begin{align*}
   c(c(x) \wedge c(y)) &\leq_P c(c(x)) = c(x),\\
   c(c(x) \wedge c(y)) &\leq_P c(c(y)) = c(y),
@@ -979,12 +980,12 @@ satisfiability of Horn formulas in linear time~\cite{DBLP:journals/jlp/DowlingG8
 \section{Bases of Implications}
 \label{sec:bases-implications}
 
-When studying the valid implications of a formal context, it may be helpful to not
-consider the whole set, but a smaller but still equivalent set of implications.  The
-advantage with this approach is that this smaller set may be much easier to handle,
-especially from a computational point of view.  We therefore introduce in this section the
-notion of a \emph{base} of a set of implications, and introduce a well known minimal base
-of all valid implications of a formal context, the \emph{canonical base}.
+When studying the valid implications of a formal context, it may be helpful not to
+consider the whole set, but a smaller still equivalent set of implications.  The advantage
+of this approach is that this smaller set may be much easier to handle, especially from a
+computational point of view.  We therefore introduce in this section the notion of a
+\emph{base} of a set of implications, and introduce a well known minimal base of all valid
+implications of a formal context, the \emph{canonical base}.
 
 \begin{Definition}[Sound and Complete Sets of Implications, Bases]
   \label{def:sound-complete-base}
@@ -992,9 +993,8 @@ of all valid implications of a formal context, the \emph{canonical base}.
   $\mathcal{K} \subseteq \Imp(M)$ of implications on $M$ is called \emph{sound} for
   $\mathcal{L}$ if $\Cn_M(\mathcal{K}) \subseteq \Cn_M(\mathcal{L})$.  The set
   $\mathcal{K}$ is called \emph{complete} for $\mathcal{L}$ if $\Cn_M(\mathcal{K})
-  \supseteq \Cn_M(\mathcal{L})$.  Finally, the set $\mathcal{K}$ is called a
-  \emph{base} of $\mathcal{L}$ if $\mathcal{K}$ is sound and complete for $\mathcal{L}$,
-  \ie if
+  \supseteq \Cn_M(\mathcal{L})$.  Finally, the set $\mathcal{K}$ is called a \emph{base}
+  of $\mathcal{L}$ if $\mathcal{K}$ is sound and complete for $\mathcal{L}$, \ie if
   \begin{equation}
     \label{eq:8}
     \Cn_M(\mathcal{K}) = \Cn_M(\mathcal{L}).
@@ -1103,9 +1103,9 @@ The variant of pseudo-intents as introduced here is due to~\cite{stumme96attribu
   \emph{pseudo-intent}.
 \end{Definition}
 
-The definition of $\mathcal{S}$-pseudo-intents is quite inaccessible as it stands, and the
-motivation for it may only become apparent while working with them.  However, the role of
-the set $\mathcal{S}$ can already be motivated now: this set will be used as
+As it is given, the definition of $\mathcal{S}$-pseudo-intents is quite inaccessible, and
+the motivation for it may only become apparent while working with them.  However, the role
+of the set $\mathcal{S}$ can already be motivated now: this set will be used as
 \emph{background knowledge} when computing the canonical base.  Let us make this more
 precise, and recall that we have defined the notion of a base $\mathcal{K}$ of a set of
 implications $\mathcal{L}$ to just mean that $\Cn_M(\mathcal{K}) = \Cn_M(\mathcal{L})$.
@@ -1128,12 +1128,12 @@ represents the ``difference'' between $\mathcal{L}$ and $\mathcal{S}$.
   an \emph{irredundant} base of $\mathcal{L}$ with background knowledge $\mathcal{S}$ if
   and only if no proper subset of $\mathcal{K}$ is a base of $\mathcal{L}$ with background
   knowledge $\mathcal{S}$.  $\mathcal{K}$ is a \emph{minimal} base of $\mathcal{L}$ with
-  background knowledge $\mathcal{S}$ if and only $\mathcal{K}$ has minimal cardinality
+  background knowledge $\mathcal{S}$ if and only if $\mathcal{K}$ has minimal cardinality
   among all bases of $\mathcal{L}$ with background knowledge $\mathcal{S}$.
 \end{Definition}
 
 The canonical base, which we shall introduce shortly, can be defined such that it also
-allows for background knowledge.  This background knowledge will then play the role of the
+allows for background knowledge.  This background knowledge then will play the role of the
 set $\mathcal{S}$ in the definition of an $\mathcal{S}$-pseudo-intent.  Moreover, it can
 be shown that the canonical base is a minimal base with the given background knowledge.
 
@@ -1355,7 +1355,7 @@ standard algorithm that computes the canonical base of a formal context.
 
 The first, rather technical definition we need to consider is the one of the \emph{lectic
   order} on the powerset $\subsets{M}$ of a linearly ordered set $(M, \leq_M)$, \ie an
-ordered set $(M, \leq_M)$ where for each two elements $x, y \in M$ it is true that $x
+ordered set $(M, \leq_M)$ where for any two elements $x, y \in M$ it is true that $x
 \leq_M y$ or $y \leq_M x$.
 
 \begin{Definition}[Lectic Order]
@@ -1379,8 +1379,8 @@ ordered set $(M, \leq_M)$ where for each two elements $x, y \in M$ it is true th
   \end{equation*}
 \end{Definition}
 
-The fact that $A \prec_i B$ can be seen as the statement that the smallest element (with
-respect to $\leq_M$) in which $A$ and $B$ differ belongs to $B$.
+The fact that $A \prec_i B$ can be understood as the statement that the smallest element
+(with respect to $\leq_M$) in which $A$ and $B$ differ belongs to $B$.
 
 \begin{Example}
   Let $M = \set{ 0, 1, 2 }$ and let $\leq_M$ be given by $2 \leq_M 1 \leq_M 0$.  Then
@@ -1429,7 +1429,7 @@ Then the following theorem holds, which is~\cite[Theorem 5]{fca-book}.
   Let $(M, \leq_M)$ be a linearly ordered set, and let $\preceq$ be the lectic order on
   $\subsets{M}$ induced by $\leq_M$.  Furthermore, let $c$ be a closure operator on $(M,
   \leq_M)$ and let $A \subseteq M$.  Then, if there exists a set $B$ such that $A \precneq
-  B$ and $B$ is closed under $c$, then the lectically smallest such set is given by
+  B$ and $B$ is closed under $c$, then
   \begin{equation*}
     \min\nolimits_{\preceq}\set{ A \precneq B \mid B = c(B) } = A \oplus_c i,
   \end{equation*}
@@ -1646,9 +1646,9 @@ algorithm finishes in iteration $n$, say, then $\mathcal{L}_n = \Can(\con K,
 \mathcal{S})$, which is the value returned by the function.
 
 \begin{Proof}[\thref{thm:canonical-base-computation}]
-  Denote again with $\preceq$ the lectic order on $\subsets{M}$ induced by $\leq_M$.  As
-  already mentioned, we shall prove by induction over the number $i$ of iterations that if
-  $\con K$ has more than $i$ $\mathcal{S}$-pseudo-intents, that then $P_i \neq
+  As before, denote with $\preceq$ the lectic order on $\subsets{M}$ induced by $\leq_M$.
+  As already mentioned, we shall prove by induction over the number $i$ of iterations that
+  if $\con K$ has more than $i$ $\mathcal{S}$-pseudo-intents, that then $P_i \neq
   \text{\lstinline{nil}}$ and the sets
   \begin{equation*}
     P_0, \dots, P_i
@@ -1656,7 +1656,7 @@ algorithm finishes in iteration $n$, say, then $\mathcal{L}_n = \Can(\con K,
   are the first $i+1$ $\mathcal{S}$-pseudo-intents of $\con K$ with respect to $\preceq$.
 
   Let $i = 0$ and suppose that $\con K$ has $\mathcal{S}$-pseudo-intents.  If $\bar P_0$
-  is then the lectically first $\mathcal{S}$-pseudo-intent of $\con K$ it is true that
+  is then the lectically first $\mathcal{S}$-pseudo-intent of $\con K$, it is true that
   $\bar P_0$ is closed under $\mathcal{S}$ but not an intent of $\con K$.  Therefore, $P_0
   \preceq \bar P_0$.
 
@@ -1723,8 +1723,8 @@ complexity results with respect to computing the canonical base: enumerating
 pseudo-intents in lectic order is coNP-hard~\cite{DBLP:conf/icfca/Distel10}, so an
 algorithm that computes the canonical base in some sort of lectic order cannot avoid
 exponential delays, unless P = NP.  See also~\cite{DBLP:conf/icdm/BorchmannD11} for a
-practical scenario where, in a certain sense, this phenomenon can be observed.  Finally we
-note that already recognizing pseudo-intents of a formal context is
+practical scenario where, in a certain sense, this phenomenon can be observed.  Finally,
+we note that already recognizing pseudo-intents of a formal context is
 coNP-hard~\cite{DBLP:journals/dam/BabinK13}.
 
 On the other hand, it is possible in polynomial time to decide if a base of a formal
@@ -1754,9 +1754,10 @@ relevant counterexamples, and certainly one would find such a counterexample for
 implication in the Star Trek series.
 
 To remedy this incompleteness of $\con K_{\mathsf{TNG}}$ one could go and add all
-characters which have ever occurred in Star Trek to $\con K_{\mathsf{TNG}}$.  While this
-doable, it is certainly not practical, especially since it may not be necessary to include
-\emph{all} characters into $\con K_{\mathsf{TNG}}$ to invalidate certain implications.
+characters which have ever occurred in Star Trek \emph{The Next Generation} to $\con
+K_{\mathsf{TNG}}$.  While this is doable, it is certainly not practical, especially since
+it may not be necessary to include \emph{all} characters into $\con K_{\mathsf{TNG}}$ to
+invalidate certain implications.
 
 The illustrated problem may very well occur in practical situations, where one is
 interested in the valid implications of a certain \emph{domain} which is represented by a
@@ -1768,8 +1769,9 @@ However, one can search for single individuals with certain properties.
 Let us make this more clear: we assume that our domain is representable by a formal
 context, which we shall call the \emph{background context} $\con K_{\mathsf{back}} =
 (G_{\mathsf{back}}, M, I_{\mathsf{back}})$.  The objects of this formal context are the
-individuals of our domain of interest, and the attributes in the background context are
-the attributes of the individuals we are interested to find valid implications for.  The
+individuals of our domain of interest.  The attributes in the background context are the
+attributes of the individuals we are \emph{interested in}, in the sense that we want to
+find implications between those attributes which are valid in the domain. Finally, the
 incidence of the background context encodes if an individual has a certain attribute in
 our domain or not.
 
@@ -1809,17 +1811,17 @@ the other hand, $A \to B$ also cannot be inferred from the implications we alrea
 \ie from $\mathcal{S}$.
 
 Therefore, we have to ask the expert about the implication $A \to B$.  If she decides to
-accept this implication, it is added to our set of known implications.  If she decides to
-reject the implication, and to provide a counterexample for it, we add it to the formal
-context.  Then, a new implication $A \to B$ is computed which is valid in the working
-context but does not follow from the known implications.
+accept this implication, $A \to B$ is added to our set of known implications.  If she
+decides to reject the implication, and to provide a counterexample for it, we add it to
+the formal context.  Then, a new implication $A \to B$ is computed which is valid in the
+working context but does not follow from the known implications.
 
 This algorithm proceeds until no more implications $A \to B$ can be computed.  If this is
 the case, then all valid implications in the working context already follow from the known
-implications.  But this means that that the known implications are a base of the
-background context with background knowledge $\mathcal{S}$: if $X \to Y$ is a valid
-implication in the background context, then $X \to Y$ is also valid in the working
-context, and thus it is entailed by the known implications.
+implications.  But this means that the known implications are a base of the background
+context with background knowledge $\mathcal{S}$: if $X \to Y$ is a valid implication in
+the background context, then $X \to Y$ is also valid in the working context, and thus it
+is entailed by the known implications.
 
 Of course, the description of attribute exploration as given above lacks a crucial detail,
 namely how to compute the implications $A \to B$.  Indeed, it turns out that this can be
