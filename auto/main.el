@@ -12,6 +12,7 @@
      "scrbook"
      "bibtotocnumbered"
      "english"
+     "german"
      "fleqn"
      "preamble"
      "chapters/title-page"
@@ -23,7 +24,8 @@
      "chapters/axiomatizing-confident-gcis"
      "chapters/exploration-by-confidence"
      "chapters/model-exploration-by-confidence"
-     "chapters/conclusions")))
+     "chapters/conclusions"
+     "chapters/affirmation")))
 
 (TeX-add-style-hook "main"
  (lambda ()
