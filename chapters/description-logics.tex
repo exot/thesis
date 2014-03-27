@@ -67,8 +67,8 @@ define the semantics of assertional axioms.  See also Section~\ref{sec:knowledge
   $\mathsf{Cat}$ describes everything which is a cat.  The concept description
   $\mathsf{\exists hunts. Mouse}$ describes everything which hunts a mouse (alternatively:
   a thing that hunts something which is a mouse).  The concept description $\mathsf{Cat
-    \sqcap Mouse}$ describes things which are both a cat and a mouse.  Finally, the
-  concept description $\bot$ just describes nothing.
+    \sqcap Mouse}$ describes things that are both a cat and a mouse.  Finally, the concept
+  description $\bot$ just describes nothing.
 \end{Example}
 
 The intuition of a concept description to ``describe things'' conveyed in the previous
@@ -77,10 +77,11 @@ example is very vague, and we shall make it more precise by introducing the noti
 
 \begin{Definition}[Interpretation]
   \label{def:interpretation}
-  Let $N_C$, $N_R$ and $N_I$ be three pairwise disjoint sets.  An \emph{interpretation}
-  $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ (over $N_C$, $N_R$ and
-  $N_I$) consists of a nonempty set $\Delta^{\mathcal{I}}$ of \emph{elements}, and an
-  \emph{interpretation function} $\cdot^{\mathcal{I}}$ such that
+  Let $N_C$ and $N_R$ be two disjoint sets.  Let $N_I$ be another set, disjoint to both
+  $N_{C}$ and $N_{R}$, called the set of \emph{individual names}.  An
+  \emph{interpretation} $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ (over
+  $N_C$, $N_R$ and $N_I$) consists of a nonempty set $\Delta^{\mathcal{I}}$ of
+  \emph{elements}, and an \emph{interpretation function} $\cdot^{\mathcal{I}}$ such that
   \begin{enumerate}[i. ]
   \item $A^{\mathcal{I}} \subseteq \Delta^{\mathcal{I}}$ for all $A \in N_C$,
   \item $r^{\mathcal{I}} \subseteq \Delta^{\mathcal{I}} \times \Delta^{\mathcal{I}}$ for
@@ -130,8 +131,7 @@ over $N_C$ and $N_R$.
 The interpretation function of a given interpretation can now be naturally extended to the
 set of \EL and \ELbot concept descriptions.
 
-\begin{Definition}[Extensions of Interpretation Functions, Extensions of \ELbot Concept
-  Descriptions]
+\begin{Definition}[Extensions]
   \label{def:extending-the-interpretation-function}
   Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be an interpretation.
   Then the \emph{extension} of $\cdot^{\mathcal{I}}$ to all \ELbot concept descriptions is
@@ -238,7 +238,7 @@ state facts about concept descriptions in general.  In the former case, axioms a
 into an \emph{ABox} $\mathcal{A}$, and where the terminological axioms are collected into
 a \emph{TBox} $\mathcal{T}$.
 
-If then one has given such a knowledge base $\mathcal{K}$ one can conduct \emph{reasoning}
+If then one has given such a knowledge base $\mathcal{K}$, one can conduct \emph{reasoning}
 with it.  Essentially, reasoning is the extraction of knowledge which is \emph{entailed}
 by the knowledge base $\mathcal{K}$.  Of course, for this to make sense we need to define
 a semantics for the knowledge base $\mathcal{K}$.  Standard reasoning tasks are then
@@ -421,7 +421,7 @@ represented explicitly.  A related reasoning task is \emph{classification}.
 
 Classification and subsumption checking only treat the TBox of the knowledge base.  A
 reasoning task which also involves the ABox is \emph{instance checking}, which may be
-utilized to find errors in the knowledge base which are related to individuals.
+utilized to find errors in the knowledge base that are related to individuals.
 
 \begin{Definition}[Instance Checking]
   \label{def:instance-checking}
