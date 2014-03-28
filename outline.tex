@@ -1,0 +1,67 @@
+\documentclass[english]{scrartcl}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{babel}
+
+\include{preamble}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\medskip
+\begin{center}
+  \normalsize Abstract of the thesis\\
+  \LARGE\textbf{Learning Terminological Knowledge\\ with High Confidence from Erroneous
+    Data}\\
+  \bigskip%
+  \large Dipl.-Math.\ Daniel Borchmann
+\end{center}
+\bigskip
+\bigskip
+
+\noindent
+Knowledge is a necessary requirement for intelligent behavior.  For computers, in
+particular, it is therefore indispensable to first obtain relevant knowledge before they
+can act intelligently in certain situations.  The problem of obtaining this knowledge,
+commonly referred to as the problem of \emph{knowledge acquisition} or just
+\emph{learning}, is hard to approach, because computers, in contrast to human beings, are
+not able to learn autonomously.  Moreover, for computers it is relevant that the knowledge
+they obtain is represented in a way that is suitable for them to work with.  Thus, the
+problem of \emph{knowledge representation} has also to be tackled to enable intelligent
+behavior of machines.
+
+A popular choice to represent knowledge for computers is to use logic-based formalisms,
+because they yield predictable and reliable behavior.  In the area of logic-based
+knowledge representation formalism, \emph{description logics} are one of the most
+successful approaches.  Using \emph{description logic knowledge bases}, it is possible to
+represent \emph{assertional} and \emph{terminological} knowledge.  Assertional knowledge
+express facts about one or two individuals the domain for which knowledge has to be
+learned.  Examples for this kind of knowledge are \enquote{Abraham Lincoln was a
+  president}, or \enquote{John McCarthy was a professor at Stanford University}.  In other
+words, assertional knowledge expresses \emph{assertions} about certain individuals.
+Terminological knowledge represents common knowledge about all individuals of the domain
+of interest.  Examples for this kind of knowledge are \enquote{all humans are mortal} or
+\enquote{every human has a head}.  Thus, terminological knowledge represents dependencies
+between different \emph{terms}, called \emph{concept descriptions} in the realm of
+description logics.
+
+If one chooses to represent knowledge using description logics, one is left with the
+problem to obtain all relevant assertional and terminological knowledge about the domain
+one is interested in.  Obtaining assertional knowledge is relatively easy to obtain:
+assuming that one knows all individuals of the domain, one can gather all facts that are
+known about these.  The difficulty here lies mostly in the problem automating this
+process, in particular if one tries to gather facts from unstructured data, like text,
+that is hard to process for computers.  On the other hand, obtaining terminological
+knowledge cannot be achieved this way, since one is looking for general knowledge that
+affects \emph{all} individuals of the domain.  Moreover, it is not at all easy to find the
+concept descriptions which appear in this kind of knowledge.
+
+\printbibliography{}
+
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
