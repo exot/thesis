@@ -26,7 +26,7 @@ Knowledge is a necessary requirement for intelligent behavior.  For computers, i
 particular, it is therefore indispensable to first obtain relevant knowledge before they
 can act intelligently in certain situations.  The problem of obtaining this knowledge,
 commonly referred to as the problem of \emph{knowledge acquisition} or just
-\emph{learning}, is hard to approach, because computers, in contrast to human beings, are
+\emph{learning}, is hard to address, because computers, in contrast to human beings, are
 not able to learn autonomously.  Moreover, for computers it is relevant that the knowledge
 they obtain is represented in a way that is suitable for them to work with.  Thus, the
 problem of \emph{knowledge representation} has also to be tackled to enable intelligent
@@ -35,39 +35,39 @@ behavior of machines.
 A popular choice to represent knowledge for computers is to use logic-based formalisms,
 because they yield predictable and reliable behavior.  In the area of logic-based
 knowledge representation formalism, \emph{description logics}~\cite{DLhandbook} are one of
-the most successful approaches.  Using \emph{description logic knowledge bases}, it is
+the most successful approaches.  Using \emph{description logic knowledge bases} it is
 possible to represent \emph{assertional} and \emph{terminological} knowledge.  Assertional
 knowledge express facts about one or two individuals the domain for which knowledge has to
 be learned.  Examples for this kind of knowledge are \enquote{Abraham Lincoln was a
   president}, or \enquote{John McCarthy was a professor at Stanford University}.  In other
-words, assertional knowledge expresses \emph{assertions} about certain individuals.
-Terminological knowledge represents common knowledge about all individuals of the domain
-of interest.  Examples for this kind of knowledge are \enquote{all humans are mortal} or
-\enquote{every human has a head}.  Thus, terminological knowledge represents dependencies
-between different \emph{terms}, called \emph{concept descriptions}.
+words, assertional knowledge expresses \emph{assertions} (\emph{facts}) about certain
+individuals.  Terminological knowledge represents common knowledge about all individuals
+of the domain of interest.  Examples for this kind of knowledge are \enquote{all humans
+  are mortal} or \enquote{every human has a head}.  Thus, terminological knowledge
+represents dependencies between different \emph{terms}, called \emph{concept
+  descriptions}.
 
 If one chooses to represent knowledge using description logics, one is left with the
 problem to obtain all relevant assertional and terminological knowledge about the domain
-one is interested in.  Obtaining assertional knowledge is relatively easy to obtain:
-assuming that one knows all individuals of the domain, one can gather all facts that are
-known about these.  The difficulty here lies mostly in the problem automating this
-process, in particular if one tries to gather facts from unstructured data, like text,
-that is hard to process for computers.  On the other hand, obtaining terminological
-knowledge cannot be achieved this way, since one is looking for general knowledge that
-affects \emph{all} individuals of the domain.  Moreover, it is not at all easy to find the
-concept descriptions that appear in this kind of knowledge.
+one is interested in.  Obtaining assertional knowledge is relatively easy: assuming that
+one knows all individuals of the domain, one can gather all facts that are known about
+them.  The difficulty here lies mostly in the problem of automating this process, in
+particular if one tries to gather facts from unstructured data, like text, that is hard to
+process for computers.  On the other hand, obtaining terminological knowledge cannot be
+achieved this way, since one is looking for general knowledge that affects \emph{all}
+individuals of the domain.  Moreover, it is not at all clear how to find the concept
+descriptions that appear in this kind of knowledge.
 
 Recent work by Baader and Distel~\cite{Diss-Felix} proposes an approach to learning
 terminological knowledge, using ideas from the area of \emph{formal concept
   analysis}~\cite{fca-book}.  In this approach it is assumed that the domain of interest
-is representable as a \emph{finite interpretation}, that are structures used to define the
-semantics of description logics.  Intuitively, finite interpretation can be thought of as
-directed edge- and vertex-labeled graphs.  Baader and Distel then propose to learn
-terminological knowledge by computing \emph{finite base} of all \emph{general concept
-  inclusions} (GCIs) that are valid in a given finite interpretation and are expressible
-using the description logic \ELbot.  GCIs are the most general means in description logics
-to express terminological knowledge.  Using GCIs, the examples given above could be
-reformulated as
+is representable as a \emph{finite interpretation}.  Intuitively, finite interpretations
+can be thought of as directed edge- and vertex-labeled graphs.  Baader and Distel then
+propose to learn terminological knowledge by computing \emph{finite base} of all
+\emph{general concept inclusions} (GCIs) that are valid in a given finite interpretation
+and are expressible using the description logic \ELbot.  GCIs are the most general means
+in description logics to express terminological knowledge.  Using GCIs, the examples given
+above could be reformulated as
 \begin{equation*}
   \mathsf{Human} \sqsubseteq \mathsf{Mortal}, \; \mathsf{Human} \sqsubseteq \exists
   \mathsf{has}. \mathsf{Head}.
@@ -82,30 +82,29 @@ entailed by $\mathcal{B}$.
 The approach of Baader and Distel is interesting for practical applications.  This is
 because finite interpretations can be seen as a different form of \emph{linked data}, the
 data-format used by the \emph{Semantic Web}.  The first contribution of this work is to
-provide an implementation of the algorithms by Baader and Distel, and to apply them to
-linked data obtained by the DBpedia project~\cite{DBpedia}.  The results of these
-experiments show that this approach indeed allows us to learn terminological knowledge
-from data.
+apply the results by Baader and Distel to linked data obtained by the DBpedia
+project~\cite{DBpedia}.  These experiments show that this approach indeed allows us to
+learn terminological knowledge from data.
 
 These experiments also reveal a disadvantage of the algorithm: considering only valid GCIs
-leads to a high sensitivity of the extracted knowledge with respect to \emph{errors} in
-the data.  In other words, as soon as one error is present in the data, all valid GCIs
-affected by this error are not extracted anymore.  Since one cannot assume that data, and
-linked data in particular, is free of errors, this sensitivity severely impairs the
-usefulness of Baader and Distel's approach.
+leads to a high sensitivity of the extracted knowledge to \emph{errors} in the data.  In
+other words, as soon as a single error is contained in the data, all valid GCIs affected
+by this error are not extracted anymore.  Since one cannot assume that data, and linked
+data in particular, is free of errors, this sensitivity severely impairs the usefulness of
+Baader and Distel's approach.
 
 One can assume, however, that the given data represents the domain of interest
 \enquote{sufficiently well}, in the sense that it does not contain too many errors.  Based
 on this assumption, one can think of alleviating the sensitivity of Baader and Distel's
-approach to errors in the data by considering GCIs that are \enquote{almost valid} in a
-finite interpretation instead.  This way, GCIs that are erroneously invalidated by
-sporadic errors are still retrieved from the data.
+approach to errors in the data by considering GCIs that are \enquote{almost valid}
+instead.  This way, GCIs that are erroneously invalidated by sporadic errors are still
+retrieved from the data.
 
 It is the goal of this thesis to generalize the results by Baader and Distel accordingly.
 For this, the notion of \emph{confidence} as used in
 data-mining~\cite{arules:agrawal:association-rules} is transferred to GCIs.  Intuitively,
 the confidence of a GCI $C \sqsubseteq D$ in a finite interpretation $\mathcal{I}$
-measures how often this GCI is correct, in the sense that if an individual in
+quantifies how often this GCI is correct, in the sense that if an individual in
 $\mathcal{I}$ satisfies the concept description $C$, then it also satisfies the concept
 description $D$.  For example, the confidence of $\mathsf{Human} \sqsubseteq
 \mathsf{Mortal}$ in a finite interpretation would be the number of individuals labeled
