@@ -82,9 +82,9 @@ entailed by $\mathcal{B}$.
 The approach of Baader and Distel is interesting for practical applications.  This is
 because finite interpretations can be seen as a different form of \emph{linked data}, the
 data-format used by the \emph{Semantic Web}.  The first contribution of this work is to
-apply the results by Baader and Distel to linked data obtained by the DBpedia
-project~\cite{DBpedia}.  These experiments show that this approach indeed allows us to
-learn terminological knowledge from data.
+evaluated the practicability of the approach by Baader and Distel by applying them to
+linked data obtained by the DBpedia project~\cite{DBpedia}.  This evaluation shows that
+this approach indeed allows us to learn terminological knowledge from data.
 
 These experiments also reveal a disadvantage of the algorithm: considering only valid GCIs
 leads to a high sensitivity of the extracted knowledge to \emph{errors} in the data.  In
@@ -145,22 +145,21 @@ soon as a GCI is removed, other GCIs may have to be added to ensure completeness
 base, and it is by far clear how this can be done effectively.  In the worst case, the
 base has to be recomputed completely.
 
-A more systematic approach is based on \emph{model exploration}, an algorithm devised by
-Baader and Distel based on \emph{attribute exploration}, a knowledge acquisition algorithm
-from formal concept analysis.  Model exploration is concerned with the issue of
-\emph{incomplete data}: a finite interpretation may only incompletely represent a domain
-of interest by missing certain individuals.  In this case, it may happen that GCIs that
-are valid in the interpretation do actually not hold in the domain.  Model exploration
-solves this issue by using the expert to interactively verify every GCI that is computed,
-providing missing individuals if necessary.  The algorithm ensures that the resulting set
-of GCIs is a finite base of the domain, and not only of the interpretation.
+A more systematic approach is presented in this thesis as \emph{model exploration by
+  confidence}.  This is an interactive learning algorithm based on \emph{model
+  exploration}, an algorithm devised by Baader and Distel to address the problem of
+\emph{incomplete data}, and is itself based on \emph{attribute exploration}, an
+interactive knowledge acquisition algorithm from formal concept analysis.
 
-In this thesis, model exploration is generalized to \emph{model exploration by
-  confidence}.  During the run of this algorithm, the expert has to verify GCIs with high
-confidence in the original data, and may provide valid counterexamples if necessary.  GCIs
-that are invalidated by such counterexamples are not considered any further, even if their
-confidence would be high enough.  In this way, the expert can distinguish between errors
-and rare counterexamples in the data.
+Model exploration by confidence is essentially an interactive algorithm to compute finite
+bases of GCIs with high confidence.  During the run of this algorithm, every computed GCI
+is given to the expert for verification.  If the expert confirms this GCI, it is added to
+the base.  If it is rejected, the expert is required to provide \emph{valid}
+counterexamples for this GCI, which are then added to the data.  When the algorithm
+terminates, the set of confirmed GCIs constitutes a base.  Moreover, counterexamples
+provided by the expert are not subject to the confidence heuristics, \ie as soon as a
+counterexample invalidates a GCI, it is not considered any further, even if its confidence
+is high enough.  In this way, rare counterexamples can be distinguished from errors.
 
 \printbibliography{}
 
