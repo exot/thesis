@@ -4,6 +4,7 @@
 \usepackage{babel}
 
 \usepackage[nobackrefs]{preamble}
+\usepackage[subtle]{savetrees}
 
 \pagestyle{empty}
 
@@ -74,8 +75,9 @@ reformulated as
 Then these two GCIs are valid in an interpretation if and only if every \emph{individual}
 (node) that is labeled with \textsf{Human} is also labeled with \textsf{Mortal}, and has
 an outgoing edge labeled with \textsf{has} that points to a node labeled with
-\textsf{Head}.  Finite bases are finite sets of valid GCIs that entail all GCIs that are
-valid in the given interpretation.
+\textsf{Head}.  Finite bases $\mathcal{B}$ are finite sets of valid GCIs that are
+\emph{complete}, in the sense that all GCIs that are valid in the given interpretation are
+entailed by $\mathcal{B}$.
 
 The approach of Baader and Distel is interesting for practical applications.  This is
 because finite interpretations can be seen as a different form of \emph{linked data}, the
@@ -110,11 +112,56 @@ description $D$.  For example, the confidence of $\mathsf{Human} \sqsubseteq
 with both $\mathsf{Human}$ and $\mathsf{Mortal}$, divided by the number of individuals
 just labeled with $\mathsf{Human}$.
 
-The notion confidence of GCIs gives a measure of \enquote{how valid} a GCI is in a finite
-interpretation $\mathcal{I}$.  To say that a GCI is \emph{almost valid} in $\mathcal{I}$
-then means that the confidence of this GCI in $\mathcal{I}$ is above a chosen
-\emph{confidence threshold} $c \in [0,1]$.  Based on results obtained by Luxenburger on
-\emph{partial implications} in formal context~\cite{diss:Luxenburger}, \dots
+The notion of confidence of GCIs gives a measure of \enquote{how valid} a GCI is in a
+finite interpretation $\mathcal{I}$: to say that a GCI is \emph{almost valid} in
+$\mathcal{I}$ then means the confidence of this GCI in $\mathcal{I}$ is above a chosen
+\emph{confidence threshold} $c \in [0,1]$.  Such an almost valid GCI is then also called a
+GCI \emph{with high confidence}.  The task is then interested in finding finite bases for
+such GCIs with high confidence, \ie to find finite sets $\mathcal{B}$ of GCIs with high
+confidence that are \emph{complete}, in the sense that all GCIs with high confidence are
+entailed by $\mathcal{B}$.
+
+First results on computing such bases are achieved by exploiting the close connection
+between description logics and formal concept analysis that has already been used in the
+approach by Baader and Distel.  Based on this connection as well as on results by
+Luxenburger on \emph{partial implications} in formal contexts~\cite{diss:Luxenburger},
+methods are discussed that explicitly describe bases of GCIs with high confidence.
+Furthermore, results are obtained that allow to compute such bases from bases of
+implications with \emph{high confidence} in formal contexts.  All these findings are
+applied to the data set used for the initial experiments, and evaluated for their
+practicability with respect to handling sporadic errors.
+
+A drawback of this approach is that that considering GCIs with high confidence is purely
+heuristic, in the sense that counterexamples to GCIs are ignored if they are just not
+frequent enough.  In particular, if the initial interpretation contains rare but valid
+counterexamples, then these are ignored as well.  To remedy this, an external source of
+information is necessary that is able to distinguish between these rare counterexamples
+and errors.  An example for such a source would be a human expert for the domain of
+interest.
+
+Given a finite base of GCIs with high confidence, one could address this problem by
+letting an expert verify every GCI contained in this base.  All GCIs rejected by the
+expert are then removed from the base.  This naive approach has the disadvantage that as
+soon as a GCI is removed, other GCIs may have to be added to ensure completeness of the
+base, and it is by far clear how this can be done effectively.  In the worst case, the
+base has to be recomputed completely.
+
+A more systematic approach is based on \emph{model exploration}, an algorithm devised by
+Baader and Distel based on \emph{attribute exploration}, a knowledge acquisition algorithm
+from formal concept analysis.  Model exploration is concerned with the issue of
+\emph{incomplete data}: a finite interpretation may only incompletely represent a domain
+of interest by missing certain individuals.  In this case, it may happen that GCIs that
+are valid in the interpretation do actually not hold in the domain.  Model exploration
+solves this issue by using the expert to interactively verify every GCI that is computed,
+providing missing individuals if necessary.  The algorithm ensures that the resulting set
+of GCIs is a finite base of the domain, and not only of the interpretation.
+
+In this thesis, model exploration is generalized to \emph{model exploration by
+  confidence}.  During the run of this algorithm, the expert has to verify GCIs with high
+confidence in the original data, and may provide valid counterexamples if necessary.  GCIs
+that are invalidated by such counterexamples are not considered any further, even if their
+confidence would be high enough.  In this way, the expert can distinguish between errors
+and rare counterexamples in the data.
 
 \printbibliography{}
 
