@@ -1,7 +1,28 @@
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{preamble}[2014/31/03 Definitions for Thesis]
+
+\newif\if@nobackrefs
+\DeclareOption{nobackrefs}{
+  \@nobackrefstrue
+}
+
+\ProcessOptions\relax
+
 \usepackage{draftwatermark}
 
 \usepackage{csquotes}
+\if@nobackrefs
 \usepackage[
+  style=numeric-comp,
+  backref=false,
+  isbn=false,
+  doi=false,
+  url=false,
+  maxbibnames=5,
+  mincrossrefs=99]
+  {biblatex}
+\else
+  \usepackage[
   style=numeric-comp,
   backref=true,
   isbn=false,
@@ -10,6 +31,8 @@
   maxbibnames=5,
   mincrossrefs=99]
   {biblatex}
+
+\fi
 \addbibresource{fca.bib}
 \addbibresource{dl.bib}
 \addbibresource{others.bib}
@@ -310,3 +333,5 @@
 %%% mode: latex
 %%% TeX-master: "main"
 %%% End: 
+
+%  LocalWords:  nobackrefs

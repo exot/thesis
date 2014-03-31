@@ -1,6 +1,7 @@
 (TeX-add-style-hook "main"
  (lambda ()
     (TeX-run-style-hooks
+     "preamble"
      "babel"
      ""
      "inputenx"
@@ -14,7 +15,6 @@
      "english"
      "german"
      "fleqn"
-     "preamble"
      "chapters/title-page"
      "chapters/preface"
      "chapters/introduction"
