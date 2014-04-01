@@ -542,7 +542,7 @@ necessarily need to exist in \ELbot.
     \exists \mathsf{r}^{n}. \top &\sqsubseteq \exists \mathsf{r}^m. \top, \\
     \exists \mathsf{r}^{m}. \top &\not\sqsubseteq \exists \mathsf{r}^n. \top.
   \end{align*}
-  But because of this there does not exist a most-specific concept description for $X$.
+  Because of this, a most-specific concept description for $X$ does not exist.
 \end{Example}
 
 To remedy this deficit we shall consider an extension of \ELbot which does guarantee the
@@ -556,7 +556,7 @@ introduced cyclic TBoxes $\mathcal{T}$ in
 interpretation $\mathcal{I}$ is a model of $\mathcal{T}$ if and only if every primitive
 concept description in $\mathcal{T}$ holds in $\mathcal{I}$.  This form of semantics for
 cyclic TBoxes is called \emph{descriptive} semantics.  However, it is possible to further
-restrict the notion of a model of $\mathcal{T}$, and one such restriction is to use
+restrict the notion of a model of $\mathcal{T}$, and such a restriction is to use
 \emph{greatest fixpoint models} instead.  To introduce this semantics we need some
 auxiliary definitions first.
 
@@ -598,7 +598,7 @@ $(\Ext(\mathcal{I}), \preceq)$ becomes a complete lattice: if $\set{ \mathcal{J}
 \end{equation*}
 for all $A \in N_D$.  On this complete lattice we can now define an order-preserving map
 $f_{\mathcal{I}} \colon \Ext(\mathcal{I}) \to \Ext(\mathcal{I})$ by means of the TBox
-$\mathcal{T}$ as follows.  Let $\mathcal{J} \in \Ext(\mathcal{I})$.  We define
+$\mathcal{T}$.  Let $\mathcal{J} \in \Ext(\mathcal{I})$.  We define
 $f_{\mathcal{I}}(\mathcal{J}) = (\Delta^{\mathcal{I}},
 \cdot^{f_{\mathcal{I}}(\mathcal{J})}) \in \Ext(\mathcal{I})$ by
 \begin{equation*}
@@ -694,14 +694,13 @@ in \Cref{expl:mmscs-may-not-exist-in-ELbot}.
   \begin{equation*}
     C_n := \exists r^n. \top
   \end{equation*}
-  for $n \in \NN_0$ all satisfy $C_n^{\mathcal{I}} = X$, and that therefore the
-  model-based most-specific concept description for $X$ does not exist in \ELbot.
-  However, we can find a model-based most-specific concept description for $X$ in
-  \ELgfpbot, namely
+  for $n \in \NN_0$ satisfy $C_n^{\mathcal{I}} = X$, and that therefore the model-based
+  most-specific concept description for $X$ does not exist in \ELbot.  However, we can
+  find a model-based most-specific concept description for $X$ in \ELgfpbot, namely
   \begin{equation*}
     C := (A, \set{ A \equiv \exists r. A }).
   \end{equation*}
-  One can intuitively think of $C$ is an ``infinite chain'' of existential restrictions,
+  Intuitively, one can think of $C$ is an ``infinite chain'' of existential restrictions,
   and the possibility to have cyclic concept descriptions in \ELgfpbot allows us to
   express this infinite chain with a finite expression.
 
@@ -759,16 +758,16 @@ here, and refer the interested reader to the literature.
 \label{sec:unrav-elgfpb-conc}
 
 \ELgfpbot has a disadvantage over \ELbot which impairs its practical use: due to the
-cyclic nature of \ELgfpbot concept descriptions their meaning is often hard to grasp, and
-especially for non-experts in logics, \ELgfpbot concept descriptions are mostly
-incomprehensible.  On the other side, we need to consider \ELgfpbot concept descriptions
-to guarantee the existence of model-based most-specific concept descriptions.  Therefore,
-we cannot dispense with \ELgfpbot completely.
+cyclic nature of \ELgfpbot concept descriptions their meaning is often hard to grasp, and,
+particularly, for non-experts in logics, \ELgfpbot concept descriptions are mostly
+incomprehensible.  Despite that, we need to consider \ELgfpbot concept descriptions to
+guarantee the existence of model-based most-specific concept descriptions.  Therefore, we
+cannot dispense with \ELgfpbot completely.
 
 Instead, we discuss a method which allows us to transform \ELgfpbot concept descriptions
 into \ELbot concept descriptions in a way suitable for our considerations.  This
 transformation is based on \emph{unravelling} \ELgfpbot concept descriptions \emph{up to a
-certain depth}.  Concept descriptions such obtained will always be \ELbot concept
+  certain depth}.  Concept descriptions obtained by this will always be \ELbot concept
 descriptions, which are usually much easier to read and understand.
 
 Recall that \ELgfpbot concept descriptions $C$ are either of the form $C = \bot$ or $C =
@@ -841,7 +840,7 @@ $C_d$, the unravelling of $C$ up to depth $d$.
     \names(B) &:= \set{ P_1, \dots, P_n },\\
     \rsucc_r(B) &:= \set{ B_i \mid 1 \leq i \leq m, r_i = r }
   \end{align*}
-  for every $r \in N_R$.  Then to define $G_C = (V, E, L)$ we set
+  for every $r \in N_R$.  To define $G_C = (V, E, L)$ we set
   \begin{enumerate}[i. ]
   \item $V := N_D(\mathcal{T})$,
   \item $E := \set{ (B_1, r, B_2) \mid B_1, B_2 \in N_D(\mathcal{T}), B_2 \in
