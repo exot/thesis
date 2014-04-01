@@ -45,7 +45,7 @@ individuals.  Terminological knowledge represents common knowledge about all ind
 of the domain of interest.  Examples for this kind of knowledge are \enquote{all humans
   are mortal} or \enquote{every human has a head}.  Thus, terminological knowledge
 represents dependencies between different \emph{terms}, called \emph{concept
-  descriptions}.
+  descriptions} in description logics.
 
 If one chooses to represent knowledge using description logics, one is left with the
 problem to obtain all relevant assertional and terminological knowledge about the domain
@@ -54,37 +54,38 @@ one knows all individuals of the domain, one can gather all facts that are known
 them.  The difficulty here lies mostly in the problem of automating this process, in
 particular if one tries to gather facts from unstructured data, like text, that is hard to
 process for computers.  On the other hand, obtaining terminological knowledge cannot be
-achieved this way, since one is looking for general knowledge that affects \emph{all}
-individuals of the domain.  Moreover, it is not at all clear how to find the concept
-descriptions that appear in this kind of knowledge.
+achieved this way, since one is looking for knowledge that affects \emph{all} individuals
+of the domain.  Moreover, it is not at all clear how to find the concept descriptions that
+appear in this kind of knowledge.
 
-Recent work by Baader and Distel~\cite{Diss-Felix} proposes an approach to learning
+Recent works by Baader and Distel~\cite{Diss-Felix} propose an approach to learning
 terminological knowledge, using ideas from the area of \emph{formal concept
   analysis}~\cite{fca-book}.  In this approach it is assumed that the domain of interest
-is representable as a \emph{finite interpretation}.  Intuitively, finite interpretations
-can be thought of as directed edge- and vertex-labeled graphs.  Baader and Distel then
-propose to learn terminological knowledge by computing \emph{finite base} of all
-\emph{general concept inclusions} (GCIs) that are valid in a given finite interpretation
-and are expressible using the description logic \ELbot.  GCIs are the most general means
-in description logics to express terminological knowledge.  Using GCIs, the examples given
-above could be reformulated as
+is representable as a \emph{finite interpretation}.  Interpretation are relational
+structures used to define the semantics of description logics, and can intuitively be seen
+as directed edge- and vertex-labeled graphs.  Baader and Distel then propose to learn
+terminological knowledge by computing \emph{finite base} of all \emph{general concept
+  inclusions} (GCIs) that are valid in a given finite interpretation and are expressible
+in the description logic \ELbot.  GCIs are the most general means in description logics to
+express terminological knowledge.  Using GCIs, the examples given above could be
+reformulated as
 \begin{equation*}
-  \mathsf{Human} \sqsubseteq \mathsf{Mortal}, \; \mathsf{Human} \sqsubseteq \exists
+  \mathsf{Human} \sqsubseteq \mathsf{Mortal}, \;\;\; \mathsf{Human} \sqsubseteq \exists
   \mathsf{has}. \mathsf{Head}.
 \end{equation*}
 Then these two GCIs are valid in an interpretation if and only if every \emph{individual}
 (node) that is labeled with \textsf{Human} is also labeled with \textsf{Mortal}, and has
 an outgoing edge labeled with \textsf{has} that points to a node labeled with
-\textsf{Head}.  Finite bases $\mathcal{B}$ are finite sets of valid GCIs that are
+\textsf{Head}.  Finally, finite bases $\mathcal{B}$ are finite sets of valid GCIs that are
 \emph{complete}, in the sense that all GCIs that are valid in the given interpretation are
 entailed by $\mathcal{B}$.
 
 The approach of Baader and Distel is interesting for practical applications.  This is
 because finite interpretations can be seen as a different form of \emph{linked data}, the
 data-format used by the \emph{Semantic Web}.  The first contribution of this work is to
-evaluated the practicability of the approach by Baader and Distel by applying them to
-linked data obtained by the DBpedia project~\cite{DBpedia}.  This evaluation shows that
-this approach indeed allows us to learn terminological knowledge from data.
+evaluated the practicability of the approach by Baader and Distel by applying it to linked
+data obtained by the DBpedia project~\cite{DBpedia}.  This evaluation shows that this
+approach indeed allows us to learn terminological knowledge from data.
 
 These experiments also reveal a disadvantage of the algorithm: considering only valid GCIs
 leads to a high sensitivity of the extracted knowledge to \emph{errors} in the data.  In
@@ -112,44 +113,44 @@ with both $\mathsf{Human}$ and $\mathsf{Mortal}$, divided by the number of indiv
 just labeled with $\mathsf{Human}$.
 
 The notion of confidence of GCIs gives a measure of \enquote{how valid} a GCI is in a
-finite interpretation $\mathcal{I}$: to say that a GCI is \emph{almost valid} in
-$\mathcal{I}$ then means the confidence of this GCI in $\mathcal{I}$ is above a chosen
-\emph{confidence threshold} $c \in [0,1]$.  Such an almost valid GCI is then also called a
-GCI \emph{with high confidence}.  The task is then interested in finding finite bases for
-such GCIs with high confidence, \ie to find finite sets $\mathcal{B}$ of GCIs with high
-confidence that are \emph{complete}, in the sense that all GCIs with high confidence are
-entailed by $\mathcal{B}$.
+finite interpretation $\mathcal{I}$, and it can be used to formalize the notion of being
+\enquote{almost valid}: a GCI is \emph{almost valid} in $\mathcal{I}$ if and only if its
+confidence in $\mathcal{I}$ is above a chosen \emph{confidence threshold} $c \in [0,1]$.
+Such an almost valid GCI is then also called a GCI \emph{with high confidence}.  The task
+is then to find finite bases for such GCIs with high confidence, \ie to find finite sets
+$\mathcal{B}$ of GCIs with high confidence that are \emph{complete}, in the sense that all
+GCIs with high confidence are entailed by $\mathcal{B}$.
 
 First results on computing such bases are achieved by exploiting the close connection
 between description logics and formal concept analysis that has already been used in the
 approach by Baader and Distel.  Based on this connection as well as on results by
 Luxenburger on \emph{partial implications} in formal contexts~\cite{diss:Luxenburger},
-methods are discussed that explicitly describe bases of GCIs with high confidence.
+this thesis discusses methods to explicitly describe bases of GCIs with high confidence.
 Furthermore, results are obtained that allow to compute such bases from bases of
 implications with \emph{high confidence} in formal contexts.  All these findings are
-applied to the data set used for the initial experiments, and evaluated for their
+applied to the data set used for the experiments above, and are evaluated for their
 practicability with respect to handling sporadic errors.
 
-A drawback of this approach is that that considering GCIs with high confidence is purely
+A drawback of this approach is that considering GCIs with high confidence is purely
 heuristic, in the sense that counterexamples to GCIs are ignored if they are just not
 frequent enough.  In particular, if the initial interpretation contains rare but valid
-counterexamples, then these are ignored as well.  To remedy this, an external source of
-information is necessary that is able to distinguish between these rare counterexamples
-and errors.  An example for such a source would be a human expert for the domain of
-interest.
+counterexamples of a given GCI, then these are ignored as well.  To remedy this, an
+external source of information is necessary that is able to distinguish between these rare
+counterexamples and errors in the data.  An example for such a source would be a human
+expert for the domain of interest.
 
-Given a finite base of GCIs with high confidence, one could address this problem by
-letting an expert verify every GCI contained in this base.  All GCIs rejected by the
-expert are then removed from the base.  This naive approach has the disadvantage that as
-soon as a GCI is removed, other GCIs may have to be added to ensure completeness of the
-base, and it is by far clear how this can be done effectively.  In the worst case, the
-base has to be recomputed completely.
+Given such an expert and a finite base of GCIs with high confidence, one could address
+this problem by letting an expert verify every GCI contained in this base.  All GCIs
+rejected by the expert are then removed.  However, this naive approach has the
+disadvantage that as soon as a GCI is removed, other GCIs may have to be added to ensure
+completeness of the base, and it is by far clear how this can be done without recomputing
+the base completely.
 
-A more systematic approach is presented in this thesis as \emph{model exploration by
-  confidence}.  This is an interactive learning algorithm based on \emph{model
-  exploration}, an algorithm devised by Baader and Distel to address the problem of
-\emph{incomplete data}, and is itself based on \emph{attribute exploration}, an
-interactive knowledge acquisition algorithm from formal concept analysis.
+In this thesis, the more systematic approach of \emph{model exploration by confidence} is
+introduced.  This is an interactive learning algorithm based on \emph{model exploration},
+an algorithm devised by Baader and Distel to address the problem of \emph{incomplete
+  data}, and is itself based on \emph{attribute exploration}, an interactive knowledge
+acquisition algorithm from formal concept analysis.
 
 Model exploration by confidence is essentially an interactive algorithm to compute finite
 bases of GCIs with high confidence.  During the run of this algorithm, every computed GCI
