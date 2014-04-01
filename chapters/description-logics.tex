@@ -416,7 +416,7 @@ represented explicitly.  A related reasoning task is \emph{classification}.
   Let $\mathcal{K} = (\mathcal{T}, \mathcal{A})$ be a knowledge base over $N_{C}$ and
   $N_{R}$.  Then to \emph{classify} $\mathcal{K}$ means to compute the set of all general
   concept inclusions $A \sqsubseteq B$ such that $A \sqsubseteq_{\mathcal{K}} B$, where
-  $A, B \in N_{C} \cup N_{D}(\mathcal{T})$.
+  $A, B \in N_{D}(\mathcal{T})$.
 \end{Definition}
 
 Classification and subsumption checking only treat the TBox of the knowledge base.  A
@@ -743,16 +743,15 @@ restriction, \ie for every $C, D \in \EL(N_C, N_R)$ and $r \in N_R$ it is true t
 We can therefore regard \ELgfp as an extension of \EL.  This of course also means that
 \ELgfpbot can be seen as an extension of \ELbot.
 
-A property that \ELgfpbot retains as an extension of \EL is that it still allows for the
-computation of least common
-subsumers~\cite{DBLP:conf/iccs/Baader03,DBLP:conf/ijcai/Baader03}.  In other words, if
-$C_1, \dots, C_n$ are \ELgfpbot concept descriptions, then there exists an \ELgfpbot
-concept description $\lcs(\set{ C_1, \dots, C_n} )$ that is the least common subsumer of
-$C_1, \dots, C_n$ in \ELgfpbot.  As in the case of \ELbot, the existence of $\lcs(\set{
-  C_1, \dots, C_n })$ can be shown in a constructive way, giving rise to an effective
-method to compute the least common subsumer.  The construction involves \emph{\EL
-  description graphs} and \emph{products} of these graphs.  We shall not go into details
-here, and refer the interested reader to the literature.
+A noteworthy property of \ELgfpbot is that least common subsumers always exist, and that
+they can be computed effectively~\cite{DBLP:conf/iccs/Baader03,DBLP:conf/ijcai/Baader03}.
+In other words, if $C_1, \dots, C_n$ are \ELgfpbot concept descriptions, then there exists
+an \ELgfpbot concept description $\lcs(\set{ C_1, \dots, C_n} )$ that is the least common
+subsumer of $C_1, \dots, C_n$ in \ELgfpbot.  The existence of $\lcs(\set{ C_1, \dots, C_n
+})$ can be shown in a constructive way, giving rise to an effective method to compute the
+least common subsumer.  The construction involves \emph{\EL description graphs} and
+\emph{products} of these graphs.  We shall not go into details here, and refer the
+interested reader to the literature.
 
 \section{Unravelling \ELgfpbot Concept Descriptions}
 \label{sec:unrav-elgfpb-conc}
