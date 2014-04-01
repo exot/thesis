@@ -11,7 +11,7 @@ necessary for our own.
 The problem of extracting all valid general concept inclusions from a finite
 interpretation can be made more precise as follows.  Let $\mathcal{I} =
 (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be a finite interpretation over $N_C$ and
-$N_R$, \ie $\Delta^{\mathcal{I}}$ is a finite set.  The task is then to find the set of
+$N_R$, \ie $\Delta^{\mathcal{I}}$ is a finite set.  The task then is to find the set of
 all general concept inclusions $C \sqsubseteq D$ with $C, D \in \ELbot(N_C, N_R)$ which
 are valid in $\mathcal{I}$.
 
@@ -20,9 +20,8 @@ is because if $C \sqsubseteq D$ holds in $\mathcal{I}$, and $r \in N_R$, then $\
 r. C \sqsubseteq \exists r. D$ holds in $\mathcal{I}$ as well.  Such an infinite set is
 hardly usable to represent knowledge suitable for machine consumption.  Therefore, the
 considerations in~\cite{Diss-Felix} concentrate on finding \emph{finite bases} of
-$\mathcal{I}$, \ie sets of valid general concept inclusions of $\mathcal{I}$ which are
-also \emph{complete}.  We shall introduce these notions briefly in
-\Cref{sec:bases-gener-conc}.
+$\mathcal{I}$, \ie sets of valid general concept inclusions of $\mathcal{I}$ that are also
+\emph{complete}.  We shall introduce these notions briefly in \Cref{sec:bases-gener-conc}.
 
 One of the main results of~\cite{Diss-Felix} then is that finite bases for finite
 interpretations $\mathcal{I}$ always exist, and we shall discuss them in
@@ -86,7 +85,7 @@ entailed by $\mathcal{K}$.
 
 Description logics and formal concept analysis are connected by a number of similar
 notions.  As an example, let us consider a formal context $\con K = (G, M, I)$ and a set
-$A \subseteq M$.  Then the set $A'$ is the set of all objects of $\con K$ which have all
+$A \subseteq M$.  The set $A'$ then is the set of all objects of $\con K$ which have all
 the attributes in $A$.  We can view this fact from another perspective: if $A = \set{ m_1,
   \dots, m_n }$, then we can think of the attributes $m_1, \dots, m_n$ as
 \emph{propositions}, and the fact that $(g, m) \in I$ as saying that $g$ \emph{satisfies}
@@ -669,7 +668,7 @@ this result in terms of description logics as follows.
   $C \sqsubseteq D$ follows from $C \sqsubseteq C^{\mathcal{I}\mathcal{I}}$.
 \end{Lemma}
 
-The following statement is then a simple corollary.
+The following statement then is a simple corollary.
 
 \begin{Corollary}
   \label{cor:Felix-base-B0}
@@ -685,7 +684,7 @@ The following statement is then a simple corollary.
 
 Of course, this base is not finite in general, \ie if $N_R \neq \emptyset$.  However,
 based on this result, Baader and Distel investigate subsets of $\mathcal{B}_0$ and finally
-arrives at a finite base.  The first step into this direction is to show that considering
+arrive at a finite base.  The first step into this direction is to show that considering
 only \ELbot concept descriptions is enough, in the sense as described in the next theorem.
 The main advantage of this result is that we can now use induction over the premises of
 general concept inclusions.
