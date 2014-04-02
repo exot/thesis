@@ -1,0 +1,13 @@
+Description logics knowledge bases are a popular approach to represent terminological and
+assertional knowledge suitable for computers to work with.  Despite that, the practicality
+of description logics is impaired by the difficulties one has to overcome to construct
+such knowledge bases.  Previous work has addressed this issue by providing methods to
+learn valid terminological knowledge from data, making use of ideas from formal concept
+analysis.  A basic assumption here is that the data is free of errors, an assumption that
+can in general not be made for practical applications.  This thesis presents extensions of
+these results that allow to handle errors in the data.  For this, knowledge that is
+"almost valid" in the data is retrieved, where the notion of "almost valid" is formalized
+using the notion of confidence from data mining.  This thesis presents two algorithms
+which achieve this retrieval.  The first algorithm just extracts all almost valid
+knowledge from the data, while the second algorithm utlizes expert interaction to
+distinguish errors from rare but valid counterexamples.
