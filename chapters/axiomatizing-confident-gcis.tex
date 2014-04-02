@@ -34,8 +34,8 @@ computation of bases to be rather complicated, because those GCIs have to avoid 
 erroneous counterexamples using complicated concept descriptions.
 
 To remedy or at least to alleviate this effect of erroneous counterexample we shall
-consider an extension of Baader and Distel's results which tries to find bases of GCIs
-which are not necessarily valid in the given interpretation, but instead enjoy a
+consider an extension of Baader and Distel's results.  This extension tries to find bases
+of GCIs which are not necessarily valid in the given interpretation, but instead enjoy a
 \emph{high confidence} therein.  The notion of \emph{confidence} is borrowed from
 data-mining~\cite{arules:agrawal:association-rules}, more precisely from the theory of
 \emph{association rules}, and allows to measure how much an association rule is allowed to
@@ -49,18 +49,18 @@ implications considered together with their confidence in some particular formal
 We shall discuss in \Cref{Luxen-base} how these results allow us to obtain bases of all
 implications which have \emph{high confidence} in some given formal context.
 
-In \Cref{sec:first-base} we then show how these ideas can be simulated in \ELgfpbot to
+In \Cref{sec:first-base} then we show how these ideas can be simulated in \ELgfpbot to
 find bases for GCIs with high confidence.  Moreover, we shall show in
 \Cref{sec:bases-confident-gcis} how bases of implications with high confidence yield bases
 of GCIs with high confidence.  We shall also discuss a way to \emph{complete} sets of
 GCIs, \ie how to obtain a set of valid GCIs that makes a given set of GCIs complete.  This
-result is quite similar to \Cref{thm:Felix-base-B3}, and we shall do this in
+result is quite similar to \Cref{thm:Felix-base-B3}, and we shall discuss it in
 \Cref{sec:completing-sets-of-gcis}.  Finally, we shall see how to obtain \ELbot bases from
 \ELgfpbot bases for GCIs with high confidence, using the technique of unravelling
 \ELgfpbot concept descriptions as discussed in \Cref{sec:unrav-elgfpb-conc}.
 
 The results thus obtained are again all effective, and we shall discuss some experiments
-in \Cref{sec:exper-with-conf} which use the same data-set as the one used in
+in \Cref{sec:exper-with-conf} that use the same data-set as the one used in
 \Cref{sec:computing-bases-from}.  This allows us to directly compare the approaches of
 computing bases of valid GCIs on the one hand, and bases of GCIs with high confidence on
 the other.  Moreover, we shall also discuss shortcomings of the approach of considering
@@ -75,8 +75,8 @@ We want to evaluate the practicability of the results of Baader and Distel by ap
 them to linked data extracted from the Linked Open Data Cloud.  In other words, given some
 linked data, we want to extract a complete set of general concept inclusions that is valid
 within this data set.  The goal of this experiment is to see in how far Baader and
-Distel's approach is practical in learning terminological knowledge about some domain
-which is represented by linked data.
+Distel's approach is practical in learning terminological knowledge about some domain,
+that is represented by linked data.
 
 Of course, before we can do so we first have to discuss how we can obtain an
 interpretation from a given linked data set, and one which sufficiently reflects the
@@ -135,8 +135,8 @@ $N_C$ and $N_R$, and to apply Baader and Distel's result to such data sets.  For
 experiments, we have chosen a subset of the DBpedia data set as of March 2010 (Version
 3.5)\footnote{\url{http://wiki.dbpedia.org/Downloads35?v=pb8}}.  The linked data contained
 in the DBpedia data set has been extracted automatically from \emph{Wikipedia Infoboxes},
-which are a means to represent facts about the topic of the current page in a compact way.
-An example of such an Infobox is shown in \Cref{fig:infobox-screenshot}.
+which mean to represent facts about the topic of the current page in a compact way.  An
+example of such an Infobox is shown in \Cref{fig:infobox-screenshot}.
 
 \begin{figure}[tp]
   \centering
@@ -151,9 +151,9 @@ attention to the relation
   \verb|http://dbpedia.org/ontology/child|.
 \end{equation*}
 From this subset, we constructed an interpretation $\Idbpedia = (\Delta^{\Idbpedia},
-\cdot^{\Idbpedia})$.  To make the our considerations easier to read, we shall drop the
-prefix \verb|http://dbpedia.org/ontology| in the following, and just write \textsf{child}
-instead of \texttt{http://dbpedia.org/ontology/child}, for example.
+\cdot^{\Idbpedia})$.  To make the considerations easier to read, we shall drop the prefix
+\verb|http://dbpedia.org/ontology| in the following, and just write \textsf{child} instead
+of \texttt{http://dbpedia.org/ontology/child}, for example.
 
 To construct $\Idbpedia$ we first compute all triples $T_{\mathsf{child}}$ from the
 DBpedia data set whose predicate is \textsf{child}.  The subjects and objects of these
@@ -175,11 +175,11 @@ Therefore,
 
 Then we considered all triples $T_{\mathsf{type}}$ whose predicate is the special type
 predicate of \Cref{eq:16} and whose subject is contained in $\Delta^{\Idbpedia}$.  The
-objects of those triples where collected into a set $N_C$, \ie they constituted the
-concept names of $\Idbpedia$.\footnote{We omitted
-  \texttt{http://www.w3.org/2002/07/owl\#Thing} in $N_C$, as it does not introduce any
-  meaningful information} Then, for an $A \in N_C$, we defined $A^{\Idbpedia}$ to be the
-set of all subjects which appear in a triple in $T_{\mathsf{type}}$, \ie
+objects of those triples were collected into a set $N_C$, \ie they constituted the concept
+names of $\Idbpedia$.\footnote{We omitted \texttt{http://www.w3.org/2002/07/owl\#Thing} in
+  $N_C$, as it does not introduce any meaningful information} Then, for an $A \in N_C$, we
+defined $A^{\Idbpedia}$ to be the set of all subjects that appear in a triple in
+$T_{\mathsf{type}}$, \ie
 \begin{equation*}
   A^{\Idbpedia} := \set{ s \in \Delta^{\Idbpedia} \mid (s, t, A) \in
     T_{\mathsf{type}} }
@@ -203,7 +203,7 @@ and therefore
 
 The interpretation $\Idbpedia$ then contains 5624 elements and 60 concept names, \ie
 $\abs{ N_C } = 60$.  By construction, there is only one role name in $\Idbpedia$, namely
-\textsf{child}.  To now compute bases of $\Idbpedia$ means to extract all knowledge about
+\textsf{child}.  To compute now bases of $\Idbpedia$ means to extract all knowledge about
 the child-relation present in DBpedia and expressible in \ELbot.  Note that elements from
 DBpedia are only present in $\Idbpedia$ if they have children, or are children of someone
 else.  Moreover, as DBpedia extracts its information from Wikipedia, all elements in
@@ -239,14 +239,14 @@ the relationships among the concept names occurring in $\Idbpedia$ only, for exa
 This knowledge can indeed be useful to learn the hierarchy of concept names
 (\emph{taxonomy}) of $\Idbpedia$.  On the other hand, this does not yet show whether
 computing bases of $\Idbpedia$ is useful, as the GCIs shown above could have easily been
-obtained my methods from formal concept analysis alone.
+obtained by methods from formal concept analysis alone.
 
 The last GCI states that there are no elements in $\Idbpedia$ that are both criminal and
 politicians.  GCIs of this form are called \emph{disjointness constraints}, and they can
-be useful in applications.  The disjointness constraint shown above only contain concept
-names.  However, the approach by Baader and Distel lets us find more disjointness
-constraints than just those between concept names.  For example, $\mathcal{B}_{\Idbpedia}$
-contains the GCI
+be useful in applications.  The disjointness constraints mentioned above contain only
+concept names.  However, the approach by Baader and Distel enables us to find more
+disjointness constraints than just those between concept names.  For example,
+$\mathcal{B}_{\Idbpedia}$ contains the GCI
 \begin{equation*}
    \mathsf{Philosopher} \sqcap \exists \mathsf{child}. \top \sqsubseteq \bot
 \end{equation*}
@@ -268,7 +268,7 @@ that fictional characters can only have fictional characters as their children. 
 GCIs can indeed be seen as useful terminological knowledge for the domain represented by
 $\Idbpedia$.
 
-Those GCIs where one could argue that they represent meaningful knowledge are quite rare
+Those GCIs, where one could say that they represent meaningful knowledge, are quite rare
 in $\mathcal{B}_\Idbpedia$.  On the other hand, $\mathcal{B}_\Idbpedia$ contains many GCIs
 whose usefulness is highly doubtful, either because they combine otherwise unrelated
 concepts, or they are too specific.
@@ -287,7 +287,7 @@ information, but are not helpful as knowledge itself.  Similar examples are
   \mathsf{\exists child. Settlement \sqcap Politician} &\sqsubseteq \mathsf{Congressman}.
 \end{align*}
 
-GCIs which can be considered as being too specific are to most common case among all GCIs
+GCIs that can be considered as being too specific are the most common case among all GCIs
 in $\mathcal{B}_{\Idbpedia}$, examples of them being
 \begin{gather*}
   \mathsf{\exists child. Ambassador \sqcap OfficeHolder} \\
@@ -303,9 +303,9 @@ exploration the expert would encounter such a GCI as shown above, she would reje
 being too specific, and would provide counterexamples for it.  We shall discuss this
 algorithm in more detail in \Cref{cha:model-expl-conf}.
 
-Another approach to eliminating those over-specific GCIs may be to require for the
-extracted GCIs that they apply to at least a certain number of different individuals, see
-\Cref{cha:conclusions}.
+Another approach to eliminating those over-specific GCIs could be to demand that the
+extracted GCIs apply to at least a certain number of different individuals.  See
+\Cref{cha:conclusions} for more details on this.
 
 Finally, among the GCIs contained in $\mathcal{B}_\Idbpedia$ there exist some which convey
 the impression of being redundant, like
@@ -318,26 +318,26 @@ can have children, \ie the following GCI
   \label{eq:23}
   \mathsf{\exists child. \top \sqsubseteq Person}
 \end{equation}
-should hold in $\Idbpedia$.  This is because only Wikipedia articles of human beings
-should contain a child-entry within their Infobox.  Thus, even with all the errors in
-$\Idbpedia$ concerning non-persons that we have discussed before, the GCI in \Cref{eq:23}
-should hold in $\Idbpedia$.
+should hold in $\Idbpedia$.  The reason for that is that only Wikipedia articles of human
+beings should contain a child-entry within their Infobox.  Thus, even with all the errors
+in $\Idbpedia$ concerning non-persons that we have discussed before, the GCI in
+\Cref{eq:23} should hold in $\Idbpedia$.
 
 However, this is not the case, since there are four counterexamples to this GCI in
 $\Idbpedia$, \ie elements $x \in \Delta^{\Idbpedia}$ satisfying $x \in (\mathsf{\exists
   child. \top})^{\Idbpedia} \setminus \mathsf{Person}^{\Idbpedia}$.  These
-are\footnote{Coincidentally, all these are artists from Hong Kong}
+are\footnote{Coincidentally, all these are artists from Hong Kong.}
 \begin{equation*}
   \mathtt{Teresa\_Carpio},\; \mathtt{Charles\_Heung},\;
   \mathtt{Adam\_Cheng}, \; \mathtt{Lydia\_Shum}.
 \end{equation*}
-However, these elements clearly represent human beings, so they \emph{should} actually be
+However, these elements represent human beings, so they \emph{should} actually be
 instances of \textsf{Person}.  In other words, these counterexamples are all
 \emph{erroneous} counterexamples, but since they are present in $\Idbpedia$, the approach
 developed by Baader and Distel will not ignore them.  This not only inhibits finding the
 GCI $\mathsf{\exists child. \top \sqsubseteq Person}$, but also causes incomprehensible
-GCIs to be found which are special cases of this GCI but somehow try to ``circumvent'' the
-erroneous counterexamples. An example for this is
+GCIs to be found, which are special cases of this GCI but somehow try to ``circumvent''
+the erroneous counterexamples. An example for this is
 \begin{gather*}
   \mathsf{Person \sqcap \exists child. (Person \sqcap \exists child. (Person \sqcap \exists child.
     (Person \sqcap {}}\\
@@ -361,24 +361,24 @@ how to distinguish errors in the current domain of interest, and for this the al
 would need to posses knowledge about this domain, which however we are just about to
 learn.
 
-On the other hand, what we can assume is that our initially given interpretation
-$\mathcal{I}$ contains only \emph{few} errors, as otherwise learning GCIs from it would be
-futile.  Based on this assumption we can approach the problem of erroneous counterexamples
-as follows: if it is the case that $\mathcal{I}$ contains much more \emph{positive
-  examples} for a GCI $C \sqsubseteq D$ than \emph{negative} ones, then we assume that the
-negative counterexamples are ``probably erroneous.''  Here, a \emph{positive example} for
-$C \sqsubseteq D$ would be an element $x \in \Delta^{\mathcal{I}}$ satisfying $x \in
+On the other hand, we can assume is our initially given interpretation $\mathcal{I}$
+contains only \emph{few} errors, as otherwise learning GCIs from it would be futile.
+Based on this assumption we can approach the problem of erroneous counterexamples as
+follows: in the case that $\mathcal{I}$ contains much more \emph{positive examples} for a
+GCI $C \sqsubseteq D$ than \emph{negative} ones, we assume that the negative
+counterexamples are ``probably erroneous.''  Here, a \emph{positive example} for $C
+\sqsubseteq D$ would be an element $x \in \Delta^{\mathcal{I}}$ satisfying $x \in
 C^{\mathcal{I}} \cap D^{\mathcal{I}}$, and a \emph{negative example} for $C \sqsubseteq D$
 would be an element $y \in \Delta^{\mathcal{I}}$ such that $y \in C^{\mathcal{I}}
 \setminus D^{\mathcal{I}}$.  We can consider a GCI to be ``almost valid'' in $\mathcal{I}$
 if the number of positive examples is much higher than the number of negative ones.  The
-approach to ignore erroneous counterexamples would then be to consider these ``almost
-valid'' GCIs in addition to the valid ones, and try to find finite bases for both of them.
+approach to ignore erroneous counterexamples would then consider these ``almost valid''
+GCIs in addition to the valid ones, and try to find finite bases for both of them.
 
 This actually works quite well for our example interpretation $\Idbpedia$, as
 $\mathsf{\exists child. \top \sqsubseteq Person}$ has much more positive than negative
 examples: there are 2551 elements $x \in \Delta^{\Idbpedia}$ to which $\mathsf{\exists
-  child. \top \sqsubseteq Person}$ applies, \ie which satisfy $x \in (\mathsf{\exists
+  child. \top \sqsubseteq Person}$ applies, \ie they satisfy $x \in (\mathsf{\exists
   child. \top})^{\Idbpedia}$, but only 4 of those (the ones mentioned above) fail to also
 satisfy $x \in \mathsf{Person}^{\Idbpedia}$.  Therefore, $\mathsf{\exists child. \top
   \sqsubseteq Person}$ has 2547 positive examples, but only 4 negative ones.  By our
@@ -403,10 +403,9 @@ given interpretation.
 \subsection{Confidence of GCIs and Confident Bases}
 \label{sec:conf-gcis-conf}
 
-We want to formalize the notion of a GCI $C \sqsubseteq D$ to be ``almost valid'' in some
-given interpretation $\mathcal{I}$.  For this we argued intuitively that the number of
-positive examples should be ``much higher'' then the number of negative examples.  For
-this, we define the \emph{confidence} of $C \sqsubseteq D$ in $\mathcal{I}$ as follows.
+We argued intuitively that the number of positive examples should be ``much higher'' then
+the number of negative examples.  To formalize this notion, we define the
+\emph{confidence} of $C \sqsubseteq D$ in $\mathcal{I}$ as follows.
 
 \begin{Definition}[Confidence of GCIs]
   \label{def:gci-confidence}
