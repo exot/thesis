@@ -23,47 +23,47 @@
 
 \noindent
 Knowledge is a necessary requirement for intelligent behavior.  For computers, in
-particular, it is therefore indispensable to first obtain relevant knowledge before they
-can act intelligently in certain situations.  The problem of obtaining this knowledge,
-commonly referred to as the problem of \emph{knowledge acquisition} or just
-\emph{learning}, is hard to address, because computers, in contrast to human beings, are
-not able to learn autonomously.  Moreover, for computers it is relevant that the knowledge
-they obtain is represented in a way that is suitable for them to work with.  Thus, the
-problem of \emph{knowledge representation} has also to be tackled to enable intelligent
-behavior of machines.
+particular, it is indispensable to obtain relevant knowledge before they can act
+intelligently in certain situations.  The problem of obtaining this knowledge, commonly
+referred to as the problem of \emph{knowledge acquisition} or just \emph{learning}, is
+hard to address, because computers, in contrast to human beings, are not able to learn
+autonomously.  Moreover, for computers it is relevant that the knowledge they obtain is
+represented in a suitable way for them to work with.  Thus, the problem of \emph{knowledge
+  representation} has also to be tackled to enable intelligent behavior of machines.
 
 A popular choice to represent knowledge for computers is to use logic-based formalisms,
 because they yield predictable and reliable behavior.  In the area of logic-based
 knowledge representation formalism, \emph{description logics}~\cite{DLhandbook} are one of
-the most successful approaches.  Using \emph{description logic knowledge bases} it is
-possible to represent \emph{assertional} and \emph{terminological} knowledge.  Assertional
-knowledge express facts about one or two individuals the domain for which knowledge has to
-be learned.  Examples for this kind of knowledge are \enquote{Abraham Lincoln was a
-  president}, or \enquote{John McCarthy was a professor at Stanford University}.  In other
-words, assertional knowledge expresses \emph{assertions} (\emph{facts}) about certain
-individuals.  Terminological knowledge represents common knowledge about all individuals
-of the domain of interest.  Examples for this kind of knowledge are \enquote{all humans
-  are mortal} or \enquote{every human has a head}.  Thus, terminological knowledge
-represents dependencies between different \emph{terms}, called \emph{concept
-  descriptions} in description logics.
+the most successful approaches.  By the use of \emph{description logic knowledge bases} it
+is possible to represent \emph{assertional} and \emph{terminological} knowledge.
+Assertional knowledge expresses facts about one or two individuals of the domain.
+Examples for this kind of knowledge are \enquote{Abraham Lincoln was a president}, or
+\enquote{John McCarthy was a professor at Stanford University}.  In other words,
+assertional knowledge expresses \emph{assertions} (\emph{facts}) about certain
+individuals.
+
+Terminological knowledge represents common knowledge about all individuals of the domain
+of interest.  Examples for this kind of knowledge are \enquote{all humans are mortal} or
+\enquote{every human has a head}.  Thus, terminological knowledge represents dependencies
+between different \emph{terms}, called \emph{concept descriptions} in description logics.
 
 If one chooses to represent knowledge using description logics, one is left with the
 problem to obtain all relevant assertional and terminological knowledge about the domain
-one is interested in.  Obtaining assertional knowledge is relatively easy: assuming that
-one knows all individuals of the domain, one can gather all facts that are known about
-them.  The difficulty here lies mostly in the problem of automating this process, in
-particular if one tries to gather facts from unstructured data, like text, that is hard to
-process for computers.  On the other hand, obtaining terminological knowledge cannot be
+of interest.  Obtaining assertional knowledge is relatively easy: assuming that one knows
+all individuals of the domain, one can gather all facts that are known about them.  The
+difficulty here lies mainly in the problem of automating this process, in particular, if
+one tries to gather the facts from unstructured data that is hard to process for
+computers, like text.  On the other hand, obtaining terminological knowledge cannot be
 achieved this way, since one is looking for knowledge that affects \emph{all} individuals
-of the domain.  Moreover, it is not at all clear how to find the concept descriptions that
+of the domain.  Moreover, it is not clear at all how to find the concept descriptions that
 appear in this kind of knowledge.
 
 Recent works by Baader and Distel~\cite{Diss-Felix} propose an approach to learning
 terminological knowledge, using ideas from the area of \emph{formal concept
-  analysis}~\cite{fca-book}.  In this approach it is assumed that the domain of interest
-is representable as a \emph{finite interpretation}.  Interpretation are relational
+  analysis}~\cite{fca-book}.  This approach assumes that the domain of interest is
+representable as a \emph{finite interpretation}.  Interpretations are relational
 structures used to define the semantics of description logics, and can intuitively be seen
-as directed edge- and vertex-labeled graphs.  Baader and Distel then propose to learn
+as directed edge- and node-labeled graphs.  Baader and Distel then propose to learn
 terminological knowledge by computing \emph{finite base} of all \emph{general concept
   inclusions} (GCIs) that are valid in a given finite interpretation and are expressible
 in the description logic \ELbot.  GCIs are the most general means in description logics to
@@ -83,7 +83,7 @@ entailed by $\mathcal{B}$.
 The approach of Baader and Distel is interesting for practical applications.  This is
 because finite interpretations can be seen as a different form of \emph{linked data}, the
 data-format used by the \emph{Semantic Web}.  The first contribution of this work is to
-evaluated the practicability of the approach by Baader and Distel by applying it to linked
+evaluate the practicability of the approach by Baader and Distel by applying it to linked
 data obtained by the DBpedia project~\cite{DBpedia}.  This evaluation shows that this
 approach indeed allows us to learn terminological knowledge from data.
 
@@ -101,8 +101,8 @@ approach to errors in the data by considering GCIs that are \enquote{almost vali
 instead.  This way, GCIs that are erroneously invalidated by sporadic errors are still
 retrieved from the data.
 
-It is the goal of this thesis to generalize the results by Baader and Distel accordingly.
-For this, the notion of \emph{confidence} as used in
+It is the main goal of this thesis to generalize the results by Baader and Distel
+accordingly.  For this, the notion of \emph{confidence} as used in
 data-mining~\cite{arules:agrawal:association-rules} is transferred to GCIs.  Intuitively,
 the confidence of a GCI $C \sqsubseteq D$ in a finite interpretation $\mathcal{I}$
 quantifies how often this GCI is correct, in the sense that if an individual in
@@ -116,8 +116,8 @@ The notion of confidence of GCIs gives a measure of \enquote{how valid} a GCI is
 finite interpretation $\mathcal{I}$, and it can be used to formalize the notion of being
 \enquote{almost valid}: a GCI is \emph{almost valid} in $\mathcal{I}$ if and only if its
 confidence in $\mathcal{I}$ is above a chosen \emph{confidence threshold} $c \in [0,1]$.
-Such an almost valid GCI is then also called a GCI \emph{with high confidence}.  The task
-is then to find finite bases for such GCIs with high confidence, \ie to find finite sets
+Such an almost valid GCI is also called a GCI \emph{with high confidence}.  The task is
+then to find finite bases for such GCIs with high confidence, \ie to find finite sets
 $\mathcal{B}$ of GCIs with high confidence that are \emph{complete}, in the sense that all
 GCIs with high confidence are entailed by $\mathcal{B}$.
 
@@ -131,20 +131,20 @@ implications with \emph{high confidence} in formal contexts.  All these findings
 applied to the data set used for the experiments above, and are evaluated for their
 practicability with respect to handling sporadic errors.
 
-A drawback of this approach is that considering GCIs with high confidence is purely
-heuristic, in the sense that counterexamples to GCIs are ignored if they are just not
-frequent enough.  In particular, if the initial interpretation contains rare but valid
+A drawback of this approach is that the consideration of GCIs with high confidence is
+purely heuristic, in the sense that counterexamples to GCIs are ignored if they are just
+not frequent enough.  In particular, if the initial interpretation contains rare but valid
 counterexamples of a given GCI, then these are ignored as well.  To remedy this, an
-external source of information is necessary that is able to distinguish between these rare
-counterexamples and errors in the data.  An example for such a source would be a human
-expert for the domain of interest.
+external source of information that is able to distinguish between these rare
+counterexamples and errors in the data is necessary.  An example for such a source would
+be a human expert for the domain of interest.
 
 Given such an expert and a finite base of GCIs with high confidence, one could address
 this problem by letting an expert verify every GCI contained in this base.  All GCIs
 rejected by the expert are then removed.  However, this naive approach has the
 disadvantage that as soon as a GCI is removed, other GCIs may have to be added to ensure
-completeness of the base, and it is by far clear how this can be done without recomputing
-the base completely.
+completeness of the base, and it is by far not clear how this can be done without
+recomputing the base completely.
 
 In this thesis, the more systematic approach of \emph{model exploration by confidence} is
 introduced.  This is an interactive learning algorithm based on \emph{model exploration},
