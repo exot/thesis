@@ -1,4 +1,4 @@
-\documentclass[ngerman,fleqn,DIV=14]{scrartcl}
+\documentclass[ngerman,fleqn,DIV=12]{scrartcl}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{babel}
@@ -141,38 +141,40 @@ aus diesen Ergebnissen resultierende Algorithmen auf den gleichen Datensatz ange
 der auch für die obigen Experimente verwendet wurde, um auszuwerten, in wie weit sich
 dieser Ansatz zur Handhabung fehlerhafter Daten eignet.
 
-% A drawback of this approach is that the consideration of GCIs with high confidence is
-% purely heuristic, in the sense that counterexamples to GCIs are ignored if they are just
-% not frequent enough.  In particular, if the initial interpretation contains rare but
-% valid counterexamples of a given GCI, then these are ignored as well.  To remedy this,
-% an external source of information that is able to distinguish between these rare
-% counterexamples and errors in the data is necessary.  An example for such a source would
-% be a human expert for the domain of interest.
-%
-% Given such an expert and a finite base of GCIs with high confidence, one could address
-% this problem by letting an expert verify every GCI contained in this base.  All GCIs
-% rejected by the expert are then removed.  However, this naive approach has the
-% disadvantage that as soon as a GCI is removed, other GCIs may have to be added to ensure
-% completeness of the base, and it is by far not clear how this can be done without
-% recomputing the base completely.
-%
-% In this thesis, the more systematic approach of \emph{model exploration by confidence}
-% is introduced.  This is an interactive learning algorithm based on \emph{model
-% exploration}, an algorithm devised by Baader and Distel to address the problem of
-% \emph{incomplete data}, and is itself based on \emph{attribute exploration}, an
-% interactive knowledge acquisition algorithm from formal concept analysis.
-%
-% Model exploration by confidence is essentially an interactive algorithm to compute
-% finite bases of GCIs with high confidence.  During the run of this algorithm, every
-% computed GCI is given to the expert for verification.  If the expert confirms this GCI,
-% it is added to the base.  If it is rejected, the expert is required to provide
-% \emph{valid} counterexamples for this GCI, which are then added to the data.  When the
-% algorithm terminates, the set of confirmed GCIs constitutes a base.  Moreover,
-% counterexamples provided by the expert are not subject to the confidence heuristics, \ie
-% as soon as a counterexample invalidates a GCI, it is not considered any further, even if
-% its confidence is high enough.  In this way, rare counterexamples can be distinguished
-% from errors.
-%
+Ein Nachteil des Ansatzes, GCIs mit hoher Konfidenz zu betrachten, liegt darin, dass er
+rein heuristisch ist, genauer, dass Gegenbeispiele für GCIs als fehlerhafte Gegenbeispiele
+eingestuft werden, sobald sie nicht häufig genug auftreten.  Insbesondere bedeutet dies,
+dass auch gültige Gegenbeispiele, die im Datensatz einfach nicht häufig genug auftreten,
+ebenfalls als Fehler eingestuft und daher ignoriert werden.  Um diesen Nachteil zu beheben
+ist eine externe Informationsquelle nötig, die es uns erlaubt, solch \emph{seltene
+  Gegenbeispiele} von Fehlern zu unterscheiden.  Beispielsweise könnte ein
+Anwendungsexperte für solche eine Unterscheidung genutzt werden.
+
+Steht ein solcher Experte zur Verfügung, und hat meine eine Basis von GCIs mit hoher
+Konfidenz gegeben, so könnte dieser Experte einfach nacheinander alle Elemente der Basis
+auf seine Korrektheit prüfen, und fehlerhafte GCIs aus dieser Basis entfernen.  Der
+Nachteil dieses recht einfach Ansatzes liegt darin, dass sobald eine GCI aus der Basis
+entfernt wird, möglicherweise andere, speziellere, GCIs zu dieser Basis hinzugefügt werden
+müssen, um deren Vollständigkeit zu Garantieren.  Wie diese Anpassung durchzuführen wären,
+ohne die Basis neu zu berechnen, bleibt unklar.
+
+In dieser Arbeit wird der systematischere Ansatz der \emph{model exploration by
+  confidence} präsentiert.  Dieser Algorithmus basiert auf dem \emph{model exploration}
+Algorithmus von Baader und Distel, der entwickelt worden ist um das Problem
+unvollständiger Daten zu lösen, und welcher wiederum auf dem Algorithmus der
+Merkmalexploration aus Formalen Begriffsanalyse basiert.
+
+Model exploration by confidence ist im Prinzip ein interaktiver Algorithmus zur Berechnung
+endlicher Basen von GCIs mit hoher Konfidenz.  Während dieser Berechnung wird jede
+erzeugte GCI dem Experten zur Bestätigung vorgelegt.  Wird diese GCI akzeptiert, wird sie
+zu der Basis hinzugefügt.  Lehnt hingegen der Experte die vorgelegte GCI ab, so muss er
+\emph{gültige} Gegenbeispiele dafür angeben, die dann den bereits bekannten Daten
+hinzugefügt werden.  Sobald der Algorithmus terminiert, bildet die Menge der akzeptierten
+GCIs eine Basis.  Darüber hinaus werden die Gegenbeispiele, die von dem Experten den Daten
+hinzugefügt werden, nicht Konfidenz basierten Heuristik unterworfen, \dh sobald ein
+solches Gegenbeispiel eine GCI widerlegt wird diese nicht weiter betrachtet, selbst wenn
+deren Konfidenz in den Daten hoch genug ist.  Dadurch erlaubt es der Algorithmus dem
+Experten, seltene Gegenbeispiele von Fehler in den Daten zu unterscheiden.
 
 \printbibliography{}
 
@@ -184,4 +186,5 @@ dieser Ansatz zur Handhabung fehlerhafter Daten eignet.
 %%% ispell-local-dictionary: "de_DE"
 %%% End: 
 
-%  LocalWords:  Konzeptinklusionen graphenartigen Konzeptbeschreibung
+%  LocalWords:  Konzeptinklusionen graphenartigen Konzeptbeschreibung Anwendungsexperte
+%  LocalWords:  model exploration by confidence
