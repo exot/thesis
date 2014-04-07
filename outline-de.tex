@@ -119,25 +119,28 @@ $\mathsf{Mensch} \sqsubseteq \mathsf{Sterblich}$ der Quotient aus der Anzahl der
 Individuen, die mit \enquote{\textsf{Mensch}} und \enquote{\textsf{Sterblich}} beschriftet
 sind, und den Individuen, die nur mit \enquote{\textsf{Mensch}} beschriftet sind.
 
-% The notion of confidence of GCIs gives a measure of \enquote{how valid} a GCI is in a
-% finite interpretation $\mathcal{I}$, and it can be used to formalize the notion of being
-% \enquote{almost valid}: a GCI is \emph{almost valid} in $\mathcal{I}$ if and only if its
-% confidence in $\mathcal{I}$ is above a chosen \emph{confidence threshold} $c \in [0,1]$.
-% Such an almost valid GCI is also called a GCI \emph{with high confidence}.  The task is
-% then to find finite bases for such GCIs with high confidence, \ie to find finite sets
-% $\mathcal{B}$ of GCIs with high confidence that are \emph{complete}, in the sense that
-% all GCIs with high confidence are entailed by $\mathcal{B}$.
-%
-% First results on computing such bases are achieved by exploiting the close connection
-% between description logics and formal concept analysis that has already been used in the
-% approach by Baader and Distel.  Based on this connection as well as on results by
-% Luxenburger on \emph{partial implications} in formal contexts~\cite{diss:Luxenburger},
-% this thesis discusses methods to explicitly describe bases of GCIs with high confidence.
-% Furthermore, results are obtained that allow to compute such bases from bases of
-% implications with \emph{high confidence} in formal contexts.  All these findings are
-% applied to the data set used for the experiments above, and are evaluated for their
-% practicability with respect to handling sporadic errors.
-%
+Der Begriff der Konfidenz von GCIs bietet ein Maß dafür, \enquote{wie gültig} eine GCI in
+einer bestimmten Interpretation $\mathcal{I}$ ist, und es kann daher dafür genutzt werden,
+den Begriff \enquote{fast gültig} zu formalisieren: eine GCI ist \emph{fast gültig} in
+$\mathcal{I}$ genau dann, wenn ihre Konfidenz über einer vorab gewählten Schranke $c \in
+[0,1]$ liegt.  Solche GCIs werden im Rahmen der Arbeit dann auch GCIs mit \emph{hoher
+  Konfidenz} genannt.  Sobald solche eine Schranke $c$ gewählt ist besteht dann die
+Aufgabe darin, eine Basis aller GCIs mit hoher Konfidenz zu finden, \dh eine endliche
+Menge $\mathcal{B}$ von GCIs mit hoher Konfidenz zu finden, welche \emph{vollständig} ist
+in dem Sinne, dass alle GCIs mit hoher Konfidenz bereits aus $\mathcal{B}$ folgen.
+
+Um solche Basen zu erhalten wird die wiederum die enge Verbindung zwischen
+Beschreibungslogiken und Formaler Begriffsanalyse ausgenutzt, die auch schon in den
+Arbeiten von Baader und Distel eine Rolle gespielt hat.  Basierend auf dieser Verbindung
+als auch auf Resultaten von Luxenburger über \emph{partielle Implikationen} in formalen
+Kontexten~\cite{diss:Luxenburger} werden in dieser Arbeit Methoden diskutiert, welche eine
+Beschreibung von endlichen Base von GCIs mit hoher Konfidenz erlauben.  Darüber hinaus
+werden Resultate präsentiert, die es erlauben solche Basen zu berechnen aus Basen von
+Implikationen mit \emph{hoher Konfidenz} in formalen Kontexten.  Schließlich werden die
+aus diesen Ergebnissen resultierende Algorithmen auf den gleichen Datensatz angewendet,
+der auch für die obigen Experimente verwendet wurde, um auszuwerten, in wie weit sich
+dieser Ansatz zur Handhabung fehlerhafter Daten eignet.
+
 % A drawback of this approach is that the consideration of GCIs with high confidence is
 % purely heuristic, in the sense that counterexamples to GCIs are ignored if they are just
 % not frequent enough.  In particular, if the initial interpretation contains rare but
