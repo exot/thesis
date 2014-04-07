@@ -33,7 +33,7 @@ represented in a suitable way for them to work with.  Thus, the problem of \emph
 
 A popular choice to represent knowledge for computers is to use logic-based formalisms,
 because they yield predictable and reliable behavior.  In the area of logic-based
-knowledge representation formalism, \emph{description logics}~\cite{DLhandbook} are one of
+knowledge representation formalisms, \emph{description logics}~\cite{DLhandbook} are one of
 the most successful approaches.  By the use of \emph{description logic knowledge bases} it
 is possible to represent \emph{assertional} and \emph{terminological} knowledge.
 Assertional knowledge expresses facts about one or two individuals of the domain.
@@ -51,7 +51,7 @@ If one chooses to represent knowledge using description logics, one is left with
 problem to obtain all relevant assertional and terminological knowledge about the domain
 of interest.  Obtaining assertional knowledge is relatively easy: assuming that one knows
 all individuals of the domain, one can gather all facts that are known about them.  The
-difficulty here lies mainly in the problem of automating this process, in particular, if
+difficulty here mainly lies in the problem of automating this process, in particular, if
 one tries to gather the facts from unstructured data that is hard to process for
 computers, like text.  On the other hand, obtaining terminological knowledge cannot be
 achieved this way, since one is looking for knowledge that affects \emph{all} individuals
@@ -64,7 +64,7 @@ terminological knowledge, using ideas from the area of \emph{formal concept
 representable as a \emph{finite interpretation}.  Interpretations are relational
 structures used to define the semantics of description logics, and can intuitively be seen
 as directed edge- and node-labeled graphs.  Baader and Distel then propose to learn
-terminological knowledge by computing \emph{finite base} of all \emph{general concept
+terminological knowledge by computing \emph{finite bases} of all \emph{general concept
   inclusions} (GCIs) that are valid in a given finite interpretation and are expressible
 in the description logic \ELbot.  GCIs are the most general means in description logics to
 express terminological knowledge.  Using GCIs, the examples given above could be
@@ -78,7 +78,7 @@ Then these two GCIs are valid in an interpretation if and only if every \emph{in
 \enquote{\textsf{Mortal}}, and has an outgoing edge labeled with \enquote{\textsf{has}}
 that points to a node labeled with \enquote{\textsf{Head}}.  Finally, finite bases
 $\mathcal{B}$ are finite sets of valid GCIs that are \emph{complete}, in the sense that
-all GCIs that are valid in the given interpretation are entailed by $\mathcal{B}$.
+all GCIs that are valid in the given interpretation are \emph{entailed} by $\mathcal{B}$.
 
 The approach of Baader and Distel is interesting for practical applications.  This is
 because finite interpretations can be seen as a different form of \emph{linked data}, the
