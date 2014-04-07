@@ -1,4 +1,4 @@
-\documentclass[ngerman,fleqn]{scrartcl}
+\documentclass[ngerman,fleqn,DIV=14]{scrartcl}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{babel}
@@ -92,31 +92,33 @@ Baader und Distel auf eine Teilmenge des Datensatzes des DBpedia-Projektes~\cite
 angewendet werden.  Es stellt sich dabei heraus, dass dieser Ansatz sich tatsächlich dazu
 eignet, terminologisches Wissen aus Linked Data zu extrahieren.
 
-% These experiments also reveal a disadvantage of the algorithm: considering only valid
-% GCIs leads to a high sensitivity of the extracted knowledge to \emph{errors} in the
-% data.  In other words, as soon as a single error is contained in the data, all valid
-% GCIs affected by this error are not extracted anymore.  Since one cannot assume that
-% data, and linked data in particular, is free of errors, this sensitivity severely
-% impairs the usefulness of Baader and Distel's approach.
-%
-% One can assume, however, that the given data represents the domain of interest
-% \enquote{sufficiently well}, in the sense that it does not contain too many errors.
-% Based on this assumption, one can think of alleviating the sensitivity of Baader and
-% Distel's approach to errors in the data by considering GCIs that are \enquote{almost
-% valid} instead.  This way, GCIs that are erroneously invalidated by sporadic errors are
-% still retrieved from the data.
-%
-% It is the main goal of this thesis to generalize the results by Baader and Distel
-% accordingly.  For this, the notion of \emph{confidence} as used in
-% data-mining~\cite{arules:agrawal:association-rules} is transferred to GCIs.
-% Intuitively, the confidence of a GCI $C \sqsubseteq D$ in a finite interpretation
-% $\mathcal{I}$ quantifies how often this GCI is correct, in the sense that if an
-% individual in $\mathcal{I}$ satisfies the concept description $C$, then it also
-% satisfies the concept description $D$.  For example, the confidence of $\mathsf{Human}
-% \sqsubseteq \mathsf{Mortal}$ in a finite interpretation would be the number of
-% individuals labeled with both $\mathsf{Human}$ and $\mathsf{Mortal}$, divided by the
-% number of individuals just labeled with $\mathsf{Human}$.
-%
+Ein weiteres Ergebnis dieser Experimente ist aber auch die Beobachtung, dass die
+ausschließliche Betrachtung gültiger GCIs dazu führt, dass das extrahierte Wissen sehr
+empfindlich gegenüber \emph{Fehlern} in den Daten ist: sobald ein einziger Fehler
+vorhanden ist, werden alle von diesem Fehler widerlegten GCIs nicht mehr extrahiert, auch
+wenn sie eigentlich gültig wären.  Da man bei realistischen Datensätzen nicht annehmen
+kann, dass diese frei von Fehlern sind, wird durch hierdurch die praktische Verwendbarkeit
+des Ansatzes stark beeinträchtigt.
+
+Es kann allerdings angenommen werden, dass die Darstellung des Anwendungsgebietes
+\enquote{hinreichend genau} ist in dem Sinne, dass sie nicht zu viele Fehler enthält.
+Basierend auf dieser Annahme kann man versuchen, die oben genannte Empfindlichkeit
+dahingehend zu mildern, in dem statt nur gültiger GCIs auch solche betrachtet werden, die
+\enquote{fast gültig} in den vorliegenden Daten sind.  Werden dann gültige GCIs durch
+wenige, sporadische Fehler widerlegt, können sie immer noch als fast gültiges Wissen
+extrahiert werden.
+
+Das Hauptanliegen dieser Arbeit ist die Verallgemeinerung der Arbeit von Baader und Distel
+um die Betrachtung fast gültiger GCIs.  Dafür wird der Begriff der
+\emph{Konfidenz}~\cite{arules:agrawal:association-rules}, wie er im Data Mining verwendet
+wird, auf GCIs übertragen.  Intuitiv gibt die Konfidenz einer GCI $C \sqsubseteq D$ in
+einer endlichen Interpretation $\mathcal{I}$ an, \enquote{wie oft} diese gültig ist, \dh
+wie oft ein Individuum, welches die Konzeptbeschreibung $C$ erfüllt, auch die
+Konzeptbeschreibung $D$ erfüllt.  Beispielsweise ist die Konfidenz der GCI
+$\mathsf{Mensch} \sqsubseteq \mathsf{Sterblich}$ der Quotient aus der Anzahl der
+Individuen, die mit \enquote{\textsf{Mensch}} und \enquote{\textsf{Sterblich}} beschriftet
+sind, und den Individuen, die nur mit \enquote{\textsf{Mensch}} beschriftet sind.
+
 % The notion of confidence of GCIs gives a measure of \enquote{how valid} a GCI is in a
 % finite interpretation $\mathcal{I}$, and it can be used to formalize the notion of being
 % \enquote{almost valid}: a GCI is \emph{almost valid} in $\mathcal{I}$ if and only if its
@@ -179,4 +181,4 @@ eignet, terminologisches Wissen aus Linked Data zu extrahieren.
 %%% ispell-local-dictionary: "de_DE"
 %%% End: 
 
-%  LocalWords:  Konzeptinklusionen graphenartigen
+%  LocalWords:  Konzeptinklusionen graphenartigen Konzeptbeschreibung
