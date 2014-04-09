@@ -13,7 +13,7 @@
      "scrbook"
      "bibtotocnumbered"
      "english"
-     "german"
+     "ngerman"
      "fleqn"
      "chapters/title-page"
      "chapters/preface"
