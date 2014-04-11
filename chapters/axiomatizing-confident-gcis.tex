@@ -459,19 +459,19 @@ number of positive examples is ``much higher'' then the number of negative ones.
 
 Note that in general the set $\Th_c(\mathcal{I})$ is not closed under entailment.
 
-Note that if $C \sqsubseteq D$ has confidence 1 in $\mathcal{I}$ if and only if $C
+Note that $C \sqsubseteq D$ has confidence 1 in $\mathcal{I}$ if and only if $C
 \sqsubseteq D$ holds in $\mathcal{I}$.  Therefore, $\Th(\mathcal{I}) \subseteq
 \Th_c(\mathcal{I})$, and thus the set $\Th_c(\mathcal{I})$ is also infinite in general
-(\ie when $N_R \neq \emptyset$).  Therefore, we again want to find \emph{finite bases},
-this time of the set $\Th_c(\mathcal{I})$.  Recall that a set $\mathcal{B}$ of general
-concept inclusions is a base of $\Th_c(\mathcal{I})$ if it is sound and complete for
+(\ie when $N_R \neq \emptyset$).  Thus, again we want to find \emph{finite bases}, this
+time of the set $\Th_c(\mathcal{I})$.  Recall that a set $\mathcal{B}$ of general concept
+inclusions is a base of $\Th_c(\mathcal{I})$ if it is sound and complete for
 $\Th_c(\mathcal{I})$, \ie if all GCIs in $\mathcal{B}$ are entailed by
 $\Th_c(\mathcal{I})$ and vice versa.
 
 Notice, however, that since $\Th_c(\mathcal{I})$ is not closed under entailment it may
 happen that $\mathcal{B} \not\subseteq \Th_c(\mathcal{I})$.  On the other hand, it may be
 desirable to have bases $\mathcal{B}$ of $\Th_c(\mathcal{I})$ where the GCIs contained in
-this base have high confidence as well, \ie which satisfy $\mathcal{B} \subseteq
+this base have high confidence as well, \ie they satisfy $\mathcal{B} \subseteq
 \Th_c(\mathcal{I})$.  We shall call such bases \emph{confident bases} of
 $\Th_c(\mathcal{I})$.
 
@@ -480,9 +480,9 @@ $\Th_c(\mathcal{I})$.
 
 Before we consider finite bases and finite confident bases of $\Th_c(\mathcal{I})$, let us
 first consider the analogous problem in formal concept analysis, which is to find small
-bases of \emph{implications with high confidence} in a given formal context.  The results
-which are relevant for this discussion mainly go back to results by Luxenburger on
-\emph{partial implications}~\cite{diss:Luxenburger,Luxenburger91}, and extensions
+bases of \emph{implications with high confidence} in a given formal context.  The relevant
+results of this discussion mainly go back to results by Luxenburger on \emph{partial
+  implications}~\cite{diss:Luxenburger,Luxenburger91}, and extensions
 thereof~\cite{DBLP:conf/ki/StummeTBPL01}.  We shall first discuss these results, however
 not in their original form, but instead in way suitable for our considerations.
 
@@ -520,7 +520,7 @@ and only if it is above a certain threshold $c \in [0,1]$.
 
 We now want to find small bases of $\Th_c(\con K)$ for finite formal contexts $\con K =
 (G, M, I)$ and $c \in [0,1]$.  Of course, the term ``small'' is rather subjective here,
-but recall that the main purpose of this discussion is to have obtain a finite base of
+but recall that the main purpose of this discussion is to obtain a finite base of
 $\Th_c(\con K)$ which, when transferred to the side of description logics, stays finite.
 The main idea in that direction is that, if an interpretation $\mathcal{I}$ is finite,
 then it only has finitely many model-based most-specific concept descriptions (up to
@@ -536,7 +536,7 @@ Furthermore, we already know how to compute bases of $\Th(\con K)$.  Thus, if
 $\mathcal{L}$ is a base of $\Th(\con K)$, to find a base of $\Th_c(\con K)$ it is enough
 to compute bases of $\Th_c(\con K)$ with background knowledge $\mathcal{L}$.
 
-The first crucial observation is now the well-known fact that
+The first crucial observation now is the well-known fact that
 \begin{equation*}
   \conf_{\con K}(A \to B) = \conf_{\con K}(A'' \to B'')
 \end{equation*}
@@ -632,9 +632,9 @@ removed without any harm.
   Let $\con K = (G, M, I)$ be a finite formal context, and let $c \in [0,1]$.  Let
   $\mathcal{L}$ be a base of $\con K$.  Then
   \begin{multline*}
-    \Lux(\con K, c) := \{\, (A'' \to C'') \in \Imp(M) \mid A \subseteq C \subseteq M, \\ 1
-    > \conf_{\con K}(A'' \to C'') \ge c, \nexists B \subseteq M \st A'' \subsetneq B''
-    \subsetneq C'' \,\}
+    \Lux(\con K, c) := \{\, (A'' \to C'') \mid A \subseteq C \subseteq M, 1 > \conf_{\con
+      K}(A'' \to C'') \ge c, \\ \nexists B \subseteq M \st A'' \subsetneq B'' \subsetneq
+    C'' \,\}
   \end{multline*}
   is a confident base of $\Th_c(\con K)$ with background knowledge $\mathcal{L}$.
 \end{Theorem}
@@ -648,14 +648,14 @@ from~\cite{DBLP:conf/ki/StummeTBPL01}.
     \Lux(\con K, c) \models (A'' \to C'').
   \end{equation*}
   Because $(A'' \to C'') \in \Conf(\con K, c)$ it is true that $A'' \subseteq C''$.  Since
-  $\con K$ is finite, the lattice of all intents of $\con K$ is finite as well.
-  Therefore, there exist a chain of intents
+  $\con K$ is finite, the lattice of all intents of $\con K$ is finite, as well.
+  Therefore, there exists a chain of intents
   \begin{equation*}
     B_0 = A'' \subsetneq B_1 \subsetneq B_2 \subsetneq \dots \subsetneq B_{n-1} \subsetneq B_n = C''
   \end{equation*}
-  such that there are no intents $D$ such that $B_i \subsetneq D \subsetneq B_{i+1}$ for
-  all $i \in \set{ 0, \dots, n-1 }$.  Then by induction,
-  \Cref{lem:chain-rule-for-confidence} yields
+  such that there are no intents $D$ which $B_i \subsetneq D \subsetneq B_{i+1}$ for all
+  $i \in \set{ 0, \dots, n-1 }$.  Then, by induction, \Cref{lem:chain-rule-for-confidence}
+  yields
   \begin{equation*}
     \conf_{\con K}(A'' \to C'') = \prod_{i = 0}^{n-1} \conf_{\con K}(B_i \to B_{i+1}).
   \end{equation*}
@@ -671,7 +671,7 @@ from~\cite{DBLP:conf/ki/StummeTBPL01}.
 \end{Proof}
 
 Clearly we can weaken the prerequisites of this theorem as follows: instead of considering
-the whole set $\Lux(\con K, c)$ a subset $\mathcal{B} \subseteq \Lux(\con K, c)$ that is
+the whole set $\Lux(\con K, c)$, a subset $\mathcal{B} \subseteq \Lux(\con K, c)$ that is
 complete for $\Lux(\con K, c)$ is just sufficient.  Moreover, it is not necessary to
 consider only bases $\mathcal{L}$ of $\con K$.  Instead, it is sufficient to take a set
 $\mathcal{L} \subseteq \Th(\con K)$ such that $\mathcal{L} \cup \mathcal{B}$ is complete
@@ -681,7 +681,7 @@ for $\con K$.
   \label{cor:weakened-luxenburger-base}
   Let $\con K = (G, M, I)$ be a finite formal context, and let $c \in [0,1]$.  If
   $\mathcal{B} \subseteq \Th_c(\con K)$ is complete for $\Lux(\con K, c)$, and if
-  $\mathcal{L} \subseteq \Th(\con K)$ is such that $\mathcal{L} \cup \mathcal{B}$ is
+  $\mathcal{L} \subseteq \Th(\con K)$ satisfies that $\mathcal{L} \cup \mathcal{B}$ is
   complete for $\Th(\con K)$, then $\mathcal{B}$ is a confident base of $\Th_c(\con K)$
   with background knowledge $\mathcal{L}$.
 \end{Corollary}
@@ -736,7 +736,7 @@ From this fact we can now derive the analog of \Cref{lem:chain-rule-for-confiden
   \label{thm:conf-base}
   Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be a finite
   interpretation over $N_C$ and $N_R$, and let $\mathcal{B}$ be a finite base of
-  $\mathcal{I}$.  Define
+  $\mathcal{I}$.  Let $c \in [0,1]$ and define
   \begin{equation*}
     \Conf(\mathcal{I}, c) := \set{ X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}} \mid Y
       \subseteq X \subseteq \Delta^{\mathcal{I}}, 1 > \conf_{\mathcal{I}}( X^{\mathcal{I}}
@@ -746,15 +746,15 @@ From this fact we can now derive the analog of \Cref{lem:chain-rule-for-confiden
   $\Th_c(\mathcal{I})$.
 \end{Theorem}
 
-In the definition of $\Conf(\mathcal{I}, c)$ we of course consider all GCIs only up to
+In the definition of $\Conf(\mathcal{I}, c)$ we consider of course all GCIs only up to
 equivalence: if $(X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}), (\overline X^{\mathcal{I}}
 \sqsubseteq \overline Y^{\mathcal{I}}) \in \Conf(\mathcal{I}, c)$ are such that
 $X^{\mathcal{I}} \equiv \overline X^{\mathcal{I}}, Y^{\mathcal{I}} \equiv \overline
 Y^{\mathcal{I}}$, we only keep one of these GCIs in $\Conf(\mathcal{I}, c)$, and discard
-the other.
+the other one.
 
 \begin{Proof}
-  Clearly $\Conf(\mathcal{I}, c) \cup \mathcal{B} \subseteq \Th_c(\mathcal{I})$.
+  Clearly, $\Conf(\mathcal{I}, c) \cup \mathcal{B} \subseteq \Th_c(\mathcal{I})$.
   Furthermore, since $\Delta^{\mathcal{I}}$ is finite, $\Conf(\mathcal{I}, c)$ is finite
   as well.  Thus, it remains to show that $\Conf(\mathcal{I}, c) \cup \mathcal{B}$ is
   complete for $\Th_c(\mathcal{I})$.
@@ -1085,12 +1085,12 @@ $\Th_c(\con K)$ by defining
 
 This approach has a particular advantage over computing finite bases of
 $\Th_c(\mathcal{I})$ the way we described it in the previous section.  This advantage lies
-in the very close connection between formal concept analysis and data-mining, which extend
-to the level that formal concept analysis can be used as a framework for the logical
-foundations of the theory of \emph{association rules}~\cite{arules:Zaki:1998}.  Although
-we have not introduced association rules formally here, they can be thought of as a
-generalization of implications with high confidence.  Association rules are a well
-investigated topic in data-mining, and there is an extensive literature on algorithms that
+in the very close connection between formal concept analysis and data-mining, which
+extends to the level that formal concept analysis can be used as a framework for the
+logical foundations of the theory of \emph{association rules}~\cite{arules:Zaki:1998}.
+Although we have not introduced association rules formally here, they can be thought of as
+a generalization of implications with high confidence.  Association rules are a well
+investigated topic in data-mining, and there is extensive literature on algorithms that
 mine association rules from data, see~\cite{arules:Hipp:2000} for an overview over some of
 them.  Because of the close connection of formal concept analysis to data-mining, these
 algorithms can be adapted quite easily to the problem of finding bases of implications
@@ -1426,7 +1426,7 @@ may contain redundancies, as the following example shows.
   \end{figure}
 
   By \Cref{thm:conf-base} the set $\Can(\con K_{\mathcal{I}}) \cup \Conf(\mathcal{I}, c)$
-  is a confident base of $\Th_c(\con K_{\mathcal{I}})$.  An irredundant subset
+  is a finite confident base of $\Th_c(\con K_{\mathcal{I}})$.  An irredundant subset
   $\mathcal{L}$ of this base which is still a base of $\Th_c(\con K_{\mathcal{I}})$ with
   background knowledge $\mathcal{S}_{\mathcal{I}}$ is given by the following list of
   implications:
@@ -1462,7 +1462,7 @@ K_{\mathcal{I}})$.  In particular, if $\mathcal{L} = \Th_c(\con K_{\mathcal{I}})
 consider $\Can(\Th_c(\con K_{\mathcal{I}}))$ as a minimal base of $\Th_c(\con
 K_{\mathcal{I}})$.\footnote{Also note that $\Can(\mathcal{L}) = \Can(\Th_c(\con
   K_{\mathcal{I}}))$ for all bases $\mathcal{L}$ of $\Th_c(\con K_{\mathcal{I}})$.}  In
-this case also we obtain that $\bigsqcap \Can(\Th_c(\con K_{\mathcal{I}}))$ is a finite
+this case we also obtain that $\bigsqcap \Can(\Th_c(\con K_{\mathcal{I}}))$ is a finite
 base of $\Th_c(\mathcal{I})$, as the following argumentation shows.
 
 \begin{Corollary}
@@ -1670,8 +1670,8 @@ By \Cref{cor:weakened-luxenburger-base-for-gcis} the set $\bigsqcap \mathcal{L} 
 Of course, we can also include the implications in $\mathcal{S}_{\mathcal{I}}$ as
 background knowledge when computing $\mathcal{L}$.  To see this we observe that the proof
 of \Cref{thm:gci-completion-simple-version} still works if we include
-$\mathcal{S}_{\mathcal{I}}$ in the computation of $\mathcal{L}$.  Then (\ref{item:20}) of
-the proof would be extended to also claim that $\con K_{\mathcal{J}, M_{\mathcal{I}}}
+$\mathcal{S}_{\mathcal{I}}$ in the computation of $\mathcal{L}$.  Part(\ref{item:20}) of
+the proof would then be extended to also claim that $\con K_{\mathcal{J}, M_{\mathcal{I}}}
 \models \mathcal{S}_{\mathcal{I}}$, which is true for all induced contexts with attribute
 set $M_{\mathcal{I}}$.
 
@@ -1877,9 +1877,9 @@ As already sketched in \Cref{sec:base-all-valid} the following claims hold.
   \end{enumerate}
 \end{Lemma}
 \begin{Proof}
-  For the first claim we observe that if $Y = \emptyset$, that then $Y^{\mathcal{I}} =
-  \bot$ and nothing remains to be shown.  Therefore, let $Y \neq \emptyset$.  We shall
-  show the claim by induction over $k$.
+  For the first claim we observe that if $Y = \emptyset$, then $Y^{\mathcal{I}} = \bot$
+  and nothing remains to be shown.  Therefore, let $Y \neq \emptyset$.  We shall show the
+  claim by induction over $k$.
 
   For $k = d_{\mathcal{I}}$ the claim is trivial, as $((Y^{\mathcal{I}})_{d_{\mathcal{I}}}
   \sqsubseteq (Y^{\mathcal{I}})_{d_{\mathcal{I}}+1}) \in \mathcal{X}_{\mathcal{I}}$.  For
@@ -2057,12 +2057,12 @@ using GCIs with high confidence.
 
 Let us assume that an ontology engineer wants to use the approach of considering GCIs with
 high confidence to extract GCIs from some finite interpretation $\mathcal{I}$.  Then what
-she has to do is that she needs to consider GCIs in $\Lux(\mathcal{I}, c)$ for a suitable
-choice of $c$ and has to decide whether these GCIs should be added to the knowledge base
-or not.  To make this a practical approach, the set $\Lux(\mathcal{I}, c)$ should not be
-too large, and the GCIs contained in there should not be incomprehensible.
+she has to do is to consider GCIs in $\Lux(\mathcal{I}, c)$ for a suitable choice of $c$
+and to decide whether these GCIs should be added to the knowledge base or not.  To make
+this a practical approach, the set $\Lux(\mathcal{I}, c)$ should not be too large, and the
+GCIs contained in there should not be incomprehensible.
 
-We want to examine how this approach behaves for our data set $\Idbpedia$.  To this end,
+We want to examine how this approach performs for our data set $\Idbpedia$.  To this end,
 we want to conduct several experiments, namely
 \begin{enumerate}[i. ]
 \item We want to examine the set $\Lux(\Idbpedia, 0.95)$ in detail, \ie we want to show
@@ -2073,7 +2073,7 @@ we want to conduct several experiments, namely
   c)$ to see in how far we can remove redundancies from $\Conf(\Idbpedia, c)$ by using
   $\Lux(\Idbpedia, c)$ instead.  To this end, we shall compute for all $c \in \set{ 0.0,
     0.01, \dots, 0.99}$ the size of the sets $\Conf(\Idbpedia, c)$ and $\Lux(\Idbpedia,
-  c)$ to see how the cardinality of these sets behaves.
+  c)$ to see how the cardinality of these sets depends on the choice of the parameter $c$.
 \item Finally, we want to consider the size of the canonical base of $\Th_c(\con
   K_\Idbpedia)$ for $c \in \set{ 0.0, 0.01, \dots, 0.99 }$ to see how large this set can
   be.  Recall that $\bigsqcap \Can(\Th_c(\con K_\Idbpedia))$ is a finite base of
@@ -2102,7 +2102,7 @@ not famous enough to deserve their own Wikipedia articles.
 
 In the following we want to examine which GCIs we have to consider in addition to the base
 $\mathcal{B}_{\Idbpedia}$ of $\Idbpedia$ we had computed in
-\Cref{sec:computing-bases-from} if we want to consider also GCIs which have a confidence
+\Cref{sec:computing-bases-from}, if we want to consider also GCIs which have a confidence
 in $\Idbpedia$ of at least 0.95.  Thus, let $c = 0.95$.  We then can compute
 $\Conf(\Idbpedia, c)$ to be
 \begin{align*}
@@ -2166,7 +2166,7 @@ We have accepted the GCIs
 \end{equation*}
 as being valid although $\Idbpedia$ contains counterexamples for it.  It would now be
 interesting to know what happened if we would include those two GCIs in a computation of a
-base of $\Idbpedia$.  For this note that
+base of $\Idbpedia$.  For this, note that
 \begin{equation*}
   \pr_{M_{\Idbpedia}}(\mathcal{B}) = \set{ \set{ \mathsf{\exists child. \top} } \to \set{
       \mathsf{Person} }, \set{ \mathsf{Place} } \to \set{ \mathsf{PopulatedPlace} } }.
@@ -2218,8 +2218,8 @@ scaled logarithmically.
 \begin{figure}[tp]
   \centering
   \begin{tikzpicture}
-    \begin{semilogyaxis}[xlabel={$c$}]
-      \addplot[blue, no marks, dotted] coordinates {
+    \begin{semilogyaxis}[xlabel={$c$}, semithick]
+      \addplot[blue, no marks] coordinates {
         (0.00,  6439 )
         (0.01,  3397 )
         (0.02,  2835 )
@@ -2324,7 +2324,7 @@ scaled logarithmically.
       };
       \addlegendentry{$|\Conf(\Idbpedia, c)|$}
 
-      \addplot[red, no marks, densely dashdotted] coordinates {
+      \addplot[blue, no marks, densely dashed] coordinates {
         (0.00, 1129)
         (0.01,  891)
         (0.02,  860)
@@ -2426,7 +2426,7 @@ scaled logarithmically.
         (0.98,    2)
         (0.99,    1)
         (1.00,    0)
-      }; 
+      };
       \addlegendentry{$|\Lux(\Idbpedia, c)|$}
     \end{semilogyaxis}
   \end{tikzpicture}
@@ -2435,12 +2435,12 @@ scaled logarithmically.
   \label{fig:conf-size-behavior}
 \end{figure}
 
-From this picture we can see that for high values of $c$ the amount of GCIs which has to
+From this picture we can see that for high values of $c$ the amount of GCIs which have to
 be considered in $\Conf(\Idbpedia, c)$ and $\Lux(\Idbpedia, c)$ is negligible.  Even for
 $c = 0.86$ the set $\Conf(\Idbpedia, c)$ contains only 15 GCIs.  Of course, this
-observation is per se only valid for $\Idbpedia$, however since it originates from
-real-world data one could assume that the same behavior of $\abs{ \Conf(\Idbpedia, c) }$
-and $\abs{ \Lux(\Idbpedia, c) }$ can be expected for other, non-artificial data-sets.
+observation is per se only valid for $\Idbpedia$.  Since it originates from real-world
+data one could assume that the same behavior of $\abs{ \Conf(\Idbpedia, c) }$ and $\abs{
+  \Lux(\Idbpedia, c) }$ can be expected for other, non-artificial data-sets.
 
 What we also observe is that for values $c \geq 0.73$, $\Conf(\Idbpedia, c)$ and
 $\Lux(\Idbpedia, c)$ are actually the same sets, \ie the optimization provided by
@@ -2469,7 +2469,7 @@ those redundancies are removed.  Of course, other dependencies may remain, but t
 the canonical base of $\Th_c(\con K_{\mathcal{I}})$ may serve as an upper bound on the
 number of GCIs one needs to represent $\Th_c(\con K_{\mathcal{I}})$.  On the other hand,
 considering the canonical base of $\Th_c(\con K_{\mathcal{I}})$ may result in bases which
-are not confident anymore, \ie which contain GCIs whose confidence is not above $c$.
+are not confident anymore, \ie they contain GCIs whose confidence is not above $c$.
 
 Let us now see how the size of the canonical base changes for all $c \in \set{ 0, 0.01,
   0.02, \dots, 0.99 }$.  The results are shown in \Cref{fig:can-Th_c-size-behavior}.
@@ -2477,7 +2477,7 @@ Let us now see how the size of the canonical base changes for all $c \in \set{ 0
 \begin{figure}[tp]
   \centering
   \begin{tikzpicture}
-    \begin{axis}[xlabel={$c$}, ylabel={$|\Can(\Th_c(\con{K}_\Idbpedia))|$}]
+    \begin{axis}[xlabel={$c$}, ylabel={$|\Can(\Th_c(\con{K}_\Idbpedia))|$}, semithick]
       \addplot[blue, no marks] coordinates {
         (0.00,    1)
         (0.01,    1)
@@ -2632,27 +2632,28 @@ in $\Idbpedia$.  Because of this generality they can make a lot of other implica
 redundant, causing the size of the canonical base to be reduced noticeably.
 
 Indeed, we could argue that whenever we observe that the canonical base of $\Th_c(\con
-K_{\Idbpedia})$ is reduced drastically, that then it is the very likely that a general GCI
-has been found, in the sense that the confidence threshold is now so low that it is
-accepted.  To this end recall that we had already noticed that the size of the canonical
-base of $\Th_c(\con K_{\Idbpedia})$ can be seen as some kind of indication how
-\emph{complex} this set is: the less implications are contained in the canonical base, the
-less implications are necessary to represent $\Th_c(\con K_\Idbpedia)$ and thus the
-\emph{simpler} this set is, from a logical point of view.  Therefore, if we can observe
-for $c_1 > c_2$ a steep decline in the size of the canonical base of $\Th_{c_2}(\con
-K_{\Idbpedia})$ compared to the size of the canonical base of $\Th_{c_1}(\con
-K_{\Idbpedia})$, it is legitimate to assume that then $\Th_{c_2}(\con K_{\Idbpedia})$
-contains new implications which make a lot of implications in the canonical base of
-$\Th_{c_1}(\con K_\Idbpedia)$ dispensable.  Those implications can then considered to be
-very general, since they need to account for the entailment which in $\Th_{c_1}(\con
-K_\Idbpedia)$ has only been achieved by a larger number of implications.
+K_{\Idbpedia})$ is reduced drastically, then it is the very likely that a general GCI has
+been found, in the sense that the confidence threshold is now so low that it is accepted.
+To this end recall that we had already noticed that the size of the canonical base of
+$\Th_c(\con K_{\Idbpedia})$ can be seen as some kind of indication how \emph{complex} this
+set is: the less implications are contained in the canonical base, the less implications
+are necessary to represent $\Th_c(\con K_\Idbpedia)$ and thus the \emph{simpler} this set
+is, from a logical point of view.  Therefore, if we can observe for $c_1 > c_2$ a steep
+decline in the size of the canonical base of $\Th_{c_2}(\con K_{\Idbpedia})$ compared to
+the size of the canonical base of $\Th_{c_1}(\con K_{\Idbpedia})$, it is legitimate to
+assume that then $\Th_{c_2}(\con K_{\Idbpedia})$ contains new implications which make a
+lot of implications in the canonical base of $\Th_{c_1}(\con K_\Idbpedia)$ dispensable.
+Those implications then can considered to be very general, since they need to account for
+the entailment, which in $\Th_{c_1}(\con K_\Idbpedia)$ has only been achieved by a larger
+number of implications.
 
-Therefore, the way the size of $\Can(\Th_c(\con K_{\mathcal{I}}))$ behaves can indicate
-which kind of GCIs have been accepted with the current confidence threshold $c$.  This can
-especially be interesting when looking for general patterns in the interpretation
-$\mathcal{I}$, or when it is not yet clear which value for the confidence threshold to
-choose.  On the other hand, it is also quite obvious that the preceding argumentation is
-not formal, and that this approach should be seen as a heuristics.
+Therefore, the way the size of $\Can(\Th_c(\con K_{\mathcal{I}}))$ depends on the choice
+of $c$ can indicate which kind of GCIs have been accepted with the current confidence
+threshold $c$.  This can especially be interesting when looking for general patterns in
+the interpretation $\mathcal{I}$, or when it is not yet clear which value for the
+confidence threshold to choose.  On the other hand, it is also quite obvious that the
+preceding argumentation is not formal, and that this approach should be seen as a
+heuristics.
 
 %%% Local Variables: 
 %%% mode: latex
