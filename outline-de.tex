@@ -4,6 +4,8 @@
 \usepackage{babel}
 
 \usepackage[nobackrefs]{preamble}
+\SetWatermarkText{ENTWURF}
+\SetWatermarkScale{0.8}
 \usepackage[subtle]{savetrees}
 
 \pagestyle{empty}
@@ -22,93 +24,92 @@
 
 \noindent
 Wissen ist eine notwendige Voraussetzung für intelligentes Verhalten, und insbesondere für
-Computer ist es daher unausweichlich zuerst relevantes Wissen zu erwerben um in gewissen
-Situation entsprechend handeln zu können.  Das Problem des Erwerbs dieses Wissen,
-allgemein als \emph{Knowledge Acquisition} oder auch \emph{Learning} bezeichnet, ist
-gerade für Computer schwierig, da diese nicht, im Gegensatz zu Menschen, selbständig
-lernen können.  Darüber hinaus besteht das Problem des \emph{Knowledge Representation},
-\dh das Problem, das Wissen in solch einer Form darzustellen, die für eine maschinelle
-Verarbeitung geeignet ist.  Um also intelligentes Verhalten von Maschinen zu erlauben muss
-sich zu erst klar gemacht werden, wie eine solche Darstellung erreicht werden kann.
+Computer ist es daher unausweichlich, sich zuerst relevantes Wissen anzueignen um in
+bestimmten Situationen entsprechend handeln zu können.  Dieses Wissen zu erwerben -- ein
+Vorgang der allgemein als \emph{Knowledge Acquisition} oder auch \emph{Learning}
+bezeichnet wird -- ist gerade für Computer schwierig, da diese, im Gegensatz zu Menschen,
+nicht selbstständig lernen können.  Darüber hinaus besteht das Problem des \emph{Knowledge
+  Representation}, \dh das Wissen in solch einer Form darzustellen, die für eine
+maschinelle Verarbeitung geeignet ist.  Um also intelligentes Verhalten von Maschinen zu
+ermöglichen muss sich zuerst klar gemacht werden, wie eine solche Darstellung erreicht
+werden kann.
 
-Ein populärer Ansatz für Knowledge Representation ist die Verwendung Logik basierter
-Formalismen, da diese ein vorhersagbares und verlässliches Verhalten versprechen.  Unter
-diesen Formalismen sind \emph{Beschreibungslogiken}~\cite{DLhandbook} sehr populär.  So
-ist es durch die Verwendung beschreibungslogischer \emph{Wissensbasen} möglich,
-\emph{faktisch Wissen} und \emph{terminologisches Wissen} darzustellen.  Faktisches Wissen
-gibt Wissen über ein oder zwei \emph{Individuen} wieder; Beispiele dafür sind
-\enquote{Abraham Lincoln war Präsident} oder \enquote{John McCarthy war Professor in
-  Stanford}.  Dem gegenüber stellt terminologisches Wissen allgemeines Wissen über alle
-relevanten Individuen dar; Beispiele hierfür sind Aussagen wie \enquote{alle Menschen sind
-  sterblich} oder \enquote{jeder Mensch hat einen Kopf}.  Diese Form von Wissen stellt
-also Beziehungen zwischen verschiedenen \emph{Begriffen} dar, die in dem Gebiet der
-Beschreibungslogiken mittels \emph{Konzeptbeschreibungen} repräsentiert werden.
+Ein weit-verbreiteter Ansatz für Knowledge Representation sind Logik basierte Formalismen,
+da diese ein vorhersagbares und verlässliches Verhalten versprechen.  Unter diesen
+Formalismen sind \emph{Beschreibungslogiken}~\cite{DLhandbook} sehr populär.  So ist es
+durch die Verwendung beschreibungslogischer \emph{Wissensbasen} möglich, \emph{faktisches
+  Wissen} und \emph{terminologisches Wissen} darzustellen.  Faktisches Wissen gibt Wissen
+über ein oder zwei \emph{Individuen} wieder; Beispiele dafür sind \enquote{Abraham Lincoln
+  war Präsident} oder \enquote{John McCarthy war Professor in Stanford}.  Dem gegenüber
+drückt terminologisches Wissen allgemeines Wissen über alle relevanten Individuen aus;
+Beispiele hierfür sind Aussagen wie \enquote{alle Menschen sind sterblich} oder
+\enquote{jeder Mensch hat einen Kopf}.  Diese Form von Wissen gibt also Beziehungen
+zwischen verschiedenen \emph{Begriffen} wieder, die in dem Gebiet der Beschreibungslogiken
+mittels \emph{Konzeptbeschreibungen} repräsentiert werden.
 
 Bei der Verwendung von beschreibungslogischen Wissensbasen bleibt das praktische Problem,
-\emph{alles} faktische und terminologische Wissen darzustellen, welches für die aktuelle
+\emph{alles} faktische und terminologische Wissen zu erfassen, welches für die aktuelle
 Anwendung relevant ist.  Dabei ist das Auffinden allen faktischen Wissens relativ einfach,
-da man hier nur für alle Individuen des Anwendungsbereichs die bekannten Fakten aufnehmen
-muss.  Das Problematische hier ist meist nur die Automatisierung, insbesondere wenn Fakten
-aus unstrukturierten Datensätzen extrahiert werden sollen, wie zum Beispiel Text.
+da man lediglich für alle Individuen des Anwendungsbereichs die bekannten Fakten aufnehmen
+muss.  Schwierig ist hierbei meist nur die Automatisierung, insbesondere wenn Fakten aus
+unstrukturierten Datensätzen, wie zum Beispiel Text, extrahiert werden sollen.
 Terminologisches Wissen kann allerdings auf diese Art und Weise nicht erhalten werden, da
 es sich hier ja um Wissen handelt, welches für \emph{alle} relevanten Individuen gültig
-ist, und nicht nur für einige.  Darüber hinaus ist auch gar nicht klar, wie man die
+ist, und nicht nur für einige.  Darüber hinaus ist nicht klar, wie man die
 Konzeptbeschreibungen erhalten soll, die in solchem Wissen in Beziehung gesetzt werden.
 
-Ein aktueller Ansatz für diese Problem wurde von Baader und Distel
-erarbeitet~\cite{Diss-Felix}, welcher Ideen aus dem Gebiet der Formalen
-Begriffsanalyse~\cite{fca-book} nutzt.  Die Grundidee dieser Arbeit ist es, dass die
-Domäne, für die terminologisches Wissen erlangt werden soll, darstellbar ist als eine
-\emph{endliche Interpretation}.  Interpretation sind relationale Strukturen, die verwendet
-werden um die Semantik von Beschreibungslogiken zu definieren.  Intuitiv können diese
-Strukturen gesehen werden als knoten- und kanten-beschriftet Graphen.  Baader und Distel
-schlagen in diesem Fall vor, terminologisches Wissen für die so dargestellten Domäne zu
-erhalten, indem \emph{endliche Basen} aller \emph{Allgemeiner Konzeptinklusionen}
-berechnet werden, die in dieser Interpretation gültig sind und sich in der
-Beschreibungslogik \ELbot ausdrücken lassen.  Allgemeine Konzeptinklusionen (\emph{general
-  concept inclusions}, GCIs) bieten im Gebiet der Beschreibungslogiken einen allgemeinen
-Ansatz, terminologisches Wissen darzustellen.  So lassen sich zum Beispiel unter
-Verwendung von GCIs die obigen Beispiele darstellen als
+Ein aktueller Ansatz für dieses Problem, welcher Ideen aus dem Gebiet der Formalen
+Begriffsanalyse~\cite{fca-book} nutzt, wurde von Baader und Distel
+erarbeitet~\cite{Diss-Felix}.  Die Grundidee dieser Arbeit ist es, dass die Domäne, für
+die terminologisches Wissen erlangt werden soll, als eine \emph{endliche Interpretation}
+darstellbar ist.  Interpretationen sind relationale Strukturen, die verwendet werden um
+die Semantik von Beschreibungslogiken zu definieren.  Intuitiv können diese Strukturen als
+knoten- und kanten-beschriftete Graphen gesehen werden.  Baader und Distel schlagen vor,
+terminologisches Wissen für die so dargestellte Domäne zu erwerben, indem \emph{endliche
+  Basen} aller \emph{Allgemeinen Konzeptinklusionen} berechnet werden, die in dieser
+Interpretation gültig sind und sich in der Beschreibungslogik \ELbot ausdrücken lassen.
+Allgemeine Konzeptinklusionen (\emph{general concept inclusions}, GCIs) bieten im Gebiet
+der Beschreibungslogiken einen allgemeinen Ansatz, terminologisches Wissen darzustellen.
+So lassen sich zum Beispiel unter Verwendung von GCIs die obigen Beispiele ausdrücken als
 \begin{equation*}
   \mathsf{Mensch} \sqsubseteq \mathsf{Sterblich}, \;\;\; \mathsf{Mensch} \sqsubseteq \exists
   \mathsf{hat}. \mathsf{Kopf}.
 \end{equation*}
-Diese zwei Konzeptinklusionen sind genau dann gültig in einer gewählten Interpretation,
-wenn jeder Knoten (also jedes \emph{Individuum}) in dieser Interpretation, welches mit
-\enquote{\textsf{Mensch}} beschriftet ist, auch mit \enquote{\textsf{Sterblich}}
-beschriftet ist, und eine mit \enquote{\textsf{hat}} beschriftete, ausgehende Kante hat,
-die auf ein Individuum zeigt, welches \enquote{\textsf{Kopf}} als Beschriftung hat.
-Endliche Basen $\mathcal{B}$ sind dann endliche Mengen gültiger GCIs, die
-\emph{vollständig} sind in dem Sinne, dass alle gültigen GCIs bereits aus $\mathcal{B}$
-\emph{folgen}.
+Diese zwei Konzeptinklusionen sind in einer gewählten Interpretation genau dann gültig,
+wenn in dieser Interpretation jeder Knoten (jedes \emph{Individuum}) mit der Beschriftung
+\enquote{\textsf{Mensch}} auch als \enquote{\textsf{Sterblich}} gekennzeichnet ist und
+zudem eine ausgehende Kante besitzt, die mit \enquote{\textsf{hat}} beschriftet ist und
+auf einen Knoten mit der Beschriftung \enquote{\textsf{Kopf}} zeigt.  Endliche Basen
+$\mathcal{B}$ sind dann endliche Mengen gültiger GCIs, die \emph{vollständig} in dem Sinne
+sind, dass alle gültigen GCIs bereits aus $\mathcal{B}$ \emph{folgen}.
 
-Der Ansatz von Baader und Distel ist interessant für praktische Anwendungen, denn endliche
+Der Ansatz von Baader und Distel ist für praktische Anwendungen interessant, denn endliche
 Interpretationen können auf Grund ihrer graphenartigen Struktur als eine andere
 Darstellungsform von \emph{Linked Data}, dem bevorzugten Datenformat des \emph{Semantic
   Web}, aufgefasst werden.  Die vorliegende Arbeit beginnt damit, diese
-Anwendungsmöglichkeit an Hand eines Experimentes zu evaluieren, indem die Algorithmen von
+Anwendungsmöglichkeit anhand eines Experimentes zu untersuchen, indem die Algorithmen von
 Baader und Distel auf eine Teilmenge des Datensatzes des DBpedia-Projektes~\cite{DBpedia}
-angewendet werden.  Es stellt sich dabei heraus, dass dieser Ansatz sich tatsächlich dazu
-eignet, terminologisches Wissen aus Linked Data zu extrahieren.
+angewendet werden.  Es stellt sich dabei heraus, dass dieses Vorgehen sich tatsächlich
+dazu eignet, terminologisches Wissen aus Linked Data zu extrahieren.
 
 Ein weiteres Ergebnis dieser Experimente ist aber auch die Beobachtung, dass die
 ausschließliche Betrachtung gültiger GCIs dazu führt, dass das extrahierte Wissen sehr
-empfindlich gegenüber \emph{Fehlern} in den Daten ist: sobald ein einziger Fehler
-vorhanden ist, werden alle von diesem Fehler widerlegten GCIs nicht mehr extrahiert, auch
-wenn sie eigentlich gültig wären.  Da man bei realistischen Datensätzen nicht annehmen
-kann, dass diese frei von Fehlern sind, wird hierdurch die praktische Verwendbarkeit des
-Ansatzes stark beeinträchtigt.
+empfindlich gegenüber \emph{Fehlern} in den Daten ist: Sobald ein einziger Fehler
+vorhanden ist, wird keine von diesem Fehler widerlegte GCI mehr extrahiert, auch wenn sie
+eigentlich gültig wäre.  Da man bei realistischen Datensätzen nicht annehmen kann, dass
+diese frei von Fehlern sind, wird hierdurch die praktische Verwendbarkeit des Verfahrens
+stark beeinträchtigt.
 
-Es kann allerdings angenommen werden, dass die Darstellung des Anwendungsgebietes durch
-eine Interpretation \enquote{hinreichend genau} ist in dem Sinne, dass sie nicht zu viele
+Es kann allerdings angenommen werden, dass die Darstellung der Domäne durch eine
+Interpretation in dem Sinne \enquote{hinreichend genau} ist, dass sie nicht zu viele
 Fehler enthält.  Basierend auf dieser Annahme kann man versuchen, die oben genannte
-Empfindlichkeit dahingehend zu mildern, statt nur gültiger GCIs auch solche zu betrachten,
-die \enquote{fast gültig} in der gegebenen Interpretation sind.  Werden dann gültige GCIs
-durch wenige, sporadische Fehler widerlegt, können sie immer noch als fast gültiges Wissen
-extrahiert werden.
+Empfindlichkeit abzuschwächen, indem nicht nur in der Interpretation gültige, sondern auch
+\enquote{fast gültige} GCIs betrachtet werden.  Werden dann gültige GCIs durch wenige,
+sporadische Fehler widerlegt, können sie immer noch als fast gültiges Wissen extrahiert
+werden.
 
-Das Hauptanliegen dieser Arbeit ist die Verallgemeinerung der Arbeit von Baader und Distel
-um die Betrachtung fast gültiger GCIs.  Dafür wird der Begriff der
+Das Hauptanliegen dieser Arbeit ist die Erweiterung der Arbeit von Baader und Distel um
+die Betrachtung fast gültiger GCIs.  Dafür wird der Begriff der
 \emph{Konfidenz}~\cite{arules:agrawal:association-rules}, wie er im Data Mining verwendet
 wird, auf GCIs übertragen.  Intuitiv gibt die Konfidenz einer GCI $C \sqsubseteq D$ in
 einer endlichen Interpretation $\mathcal{I}$ an, \enquote{wie oft} diese gültig ist, \dh
@@ -119,61 +120,62 @@ Individuen, die mit \enquote{\textsf{Mensch}} und \enquote{\textsf{Sterblich}} b
 sind, und den Individuen, die nur mit \enquote{\textsf{Mensch}} beschriftet sind.
 
 Der Begriff der Konfidenz von GCIs bietet ein Maß dafür, \enquote{wie gültig} eine GCI in
-einer bestimmten Interpretation $\mathcal{I}$ ist, und es kann daher dafür genutzt werden,
-den Begriff \enquote{fast gültig} zu formalisieren: eine GCI ist \emph{fast gültig} in
-$\mathcal{I}$ genau dann, wenn ihre Konfidenz über einer vorab gewählten Schranke $c \in
-[0,1]$ liegt.  Solche GCIs werden im Rahmen der Arbeit dann auch GCIs mit \emph{hoher
-  Konfidenz} genannt.  Sobald solch eine Schranke $c$ gewählt ist besteht dann die Aufgabe
+einer bestimmten Interpretation $\mathcal{I}$ ist, und kann daher dafür genutzt werden,
+den Begriff \enquote{fast gültig} zu formalisieren: eine GCI ist genau dann \emph{fast
+  gültig} in $\mathcal{I}$, wenn ihre Konfidenz über einer vorab gewählten Schranke $c \in
+[0,1]$ liegt.  Solche GCIs werden im Rahmen der Arbeit dann auch \emph{GCIs mit hoher
+  Konfidenz} genannt.  Sobald solch eine Schranke $c$ gewählt ist, besteht die Aufgabe
 darin, eine Basis aller GCIs mit hoher Konfidenz zu finden, \dh eine endliche Menge
-$\mathcal{B}$ von GCIs mit hoher Konfidenz anzugeben welche \emph{vollständig} ist in dem
-Sinne, dass alle GCIs mit hoher Konfidenz bereits aus $\mathcal{B}$ folgen.
+$\mathcal{B}$ von GCIs mit hoher Konfidenz anzugeben welche in dem Sinne
+\emph{vollständig} ist, dass alle GCIs mit hoher Konfidenz bereits aus $\mathcal{B}$
+folgen.
 
-Um solche Basen zu erhalten wird wiederum die enge Verbindung zwischen
+Um solche Basen zu erhalten, wird wiederum die enge Verbindung zwischen
 Beschreibungslogiken und Formaler Begriffsanalyse ausgenutzt, die auch schon in den
-Arbeiten von Baader und Distel eine Rolle gespielt hat.  Basierend auf dieser Verbindung
-als auch auf Resultaten von Luxenburger über \emph{partiellen Implikationen} in formalen
-Kontexten~\cite{diss:Luxenburger} werden in dieser Arbeit Methoden diskutiert, welche eine
-Beschreibung von endlichen Base von GCIs mit hoher Konfidenz erlauben.  Darüber hinaus
-werden Resultate präsentiert, die es erlauben solche Basen aus Basen von Implikationen mit
-\emph{hoher Konfidenz in formalen Kontexten} zu berechnen.  Schließlich werden die aus
-diesen Ergebnissen resultierende Algorithmen auf den gleichen Datensatz angewendet, der
-auch für die obigen Experimente verwendet wurde, um auszuwerten, in wie weit sich dieser
-Ansatz zur Handhabung fehlerhafter Daten eignet.
+Arbeiten von Baader und Distel eine Rolle gespielt hat.  Basierend auf dieser Verbindung,
+wie auch auf Resultaten von Luxenburger über \emph{partielle Implikationen} in formalen
+Kontexten~\cite{diss:Luxenburger}, werden in dieser Arbeit Methoden diskutiert, welche
+eine Beschreibung von endlichen Basen von GCIs mit hoher Konfidenz ermöglichen.  Darüber
+hinaus werden Resultate präsentiert, die es erlauben, solche Basen aus Basen von
+\emph{Implikationen mit hoher Konfidenz in formalen Kontexten} zu berechnen.  Schließlich
+werden die aus diesen Ergebnissen resultierenden Algorithmen auf den oben genannten
+DBpedia-Datensatz angewandt, um auszuwerten, inwieweit sich diese Herangehensweise zur
+Handhabung fehlerhafter Daten eignet.
 
-Ein Nachteil des Ansatzes, GCIs mit hoher Konfidenz zu betrachten, liegt darin, dass er
-rein heuristisch ist.  Genauer werden Gegenbeispiele für GCIs als fehlerhafte
-Gegenbeispiele eingestuft, sobald sie nicht häufig genug auftreten.  Insbesondere bedeutet
-dies, dass auch gültige Gegenbeispiele, die im Datensatz einfach nicht häufig genug
-auftreten, ebenfalls als Fehler eingestuft und daher ignoriert werden.  Um diesen Nachteil
-zu beheben ist eine externe Informationsquelle nötig, die es erlaubt, solch \emph{seltene
-  Gegenbeispiele} von Fehlern zu unterscheiden.  Beispielsweise könnte ein
-Anwendungsexperte für solch eine Unterscheidung genutzt werden.
+Ein Nachteil des Verfahrens, GCIs mit hoher Konfidenz zu betrachten, liegt darin, dass es
+rein heuristisch ist.  So werden Gegenbeispiele für GCIs als fehlerhafte Gegenbeispiele
+eingestuft, wenn sie nicht häufig genug auftreten.  Insbesondere bedeutet dies, dass auch
+gültige Gegenbeispiele, die im Datensatz zu selten vorkommen, als Fehler eingestuft und
+daher ignoriert werden.  Um diesen Nachteil zu beheben, ist eine externe
+Informationsquelle nötig, die es erlaubt, solch \emph{seltene Gegenbeispiele} von Fehlern
+zu unterscheiden.  Beispielsweise könnte ein Anwendungsexperte für diese Art von
+Unterscheidung genutzt werden.
 
-Steht ein solcher Experte zur Verfügung, und hat meine eine Basis von GCIs mit hoher
-Konfidenz gegeben, so könnte dieser Experte einfach nacheinander alle Elemente der Basis
-auf seine Korrektheit prüfen, und fehlerhafte GCIs aus dieser Basis entfernen.  Der
-Nachteil dieses recht einfach Ansatzes liegt darin, dass, sobald eine GCI aus der Basis
-entfernt wird, möglicherweise andere, speziellere, GCIs zu dieser Basis hinzugefügt werden
-müssen um deren Vollständigkeit zu garantieren.  Wie diese Anpassung durchzuführen wären,
-ohne die Basis neu zu berechnen, ist allerdings unklar.
+Steht ein solcher Experte zur Verfügung, und hat man eine Basis von GCIs mit hoher
+Konfidenz gegeben, so könnte dieser Experte alle Elemente der Basis nacheinander auf ihre
+Korrektheit prüfen und fehlerhafte GCIs aus der Basis entfernen.  Der Nachteil dieses
+recht einfachen Ansatzes liegt darin, dass, sobald eine GCI aus der Basis entfernt wird,
+möglicherweise andere, speziellere GCIs hinzugefügt werden müssen um die Vollständigkeit
+der Basis zu garantieren.  Wie diese Anpassung durchzuführen wäre, ohne die Basis neu zu
+berechnen, ist allerdings unklar.
 
 In dieser Arbeit wird der systematischere Ansatz der \emph{Model Exploration by
-  Confidence} präsentiert.  Dieser Algorithmus basiert auf dem \emph{Model Exploration}
-Algorithmus von Baader und Distel, der entwickelt worden ist um das Problem
-unvollständiger Daten zu lösen, und welcher wiederum auf dem Algorithmus der
+  Confidence} präsentiert.  Dieser Algorithmus beruht auf dem
+\emph{Model-Exploration}-Algorithmus von Baader und Distel, der entwickelt worden ist um,
+das Problem unvollständiger Daten zu lösen, und der selbst auf dem Algorithmus der
 Merkmalexploration aus der Formalen Begriffsanalyse basiert.
 
 Model Exploration by Confidence ist im Prinzip ein interaktiver Algorithmus zur Berechnung
-endlicher Basen von GCIs mit hoher Konfidenz.  Während dieser Berechnung wird jede
-erzeugte GCI dem Experten zur Bestätigung vorgelegt.  Wird diese GCI akzeptiert, wird sie
-zu der Basis hinzugefügt.  Lehnt hingegen der Experte die vorgelegte GCI ab, so muss er
-\emph{gültige} Gegenbeispiele dafür angeben, die dann den bereits bekannten Daten
-hinzugefügt werden.  Sobald der Algorithmus terminiert, bildet die Menge der akzeptierten
-GCIs eine Basis.  Darüber hinaus werden die Gegenbeispiele, die von dem Experten den Daten
-hinzugefügt werden, nicht der Konfidenz basierten Heuristik unterworfen, \dh sobald ein
-solches Gegenbeispiel eine GCI widerlegt, wird diese nicht weiter betrachtet, selbst wenn
-deren Konfidenz in den Daten hoch genug ist.  Dadurch erlaubt es der Algorithmus dem
-Experten, seltene Gegenbeispiele von Fehler in den Daten zu unterscheiden.
+endlicher Basen von GCIs mit hoher Konfidenz.  Während dieser Berechnung wird dem Experten
+jede erzeugte GCI zur Bestätigung vorgelegt.  Wird eine GCI akzeptiert, wird sie zur Basis
+hinzugefügt.  Lehnt hingegen der Experte die vorgelegte GCI ab, so muss er \emph{gültige}
+Gegenbeispiele dafür angeben, die dann den bereits bekannten Daten hinzugefügt werden.
+Sobald der Algorithmus terminiert, bildet die Menge der akzeptierten GCIs eine Basis.
+Darüber hinaus werden diejenigen Gegenbeispiele, die der Experte ergänzt hat, nicht der
+Konfidenz basierten Heuristik unterworfen, \dh sobald ein solches Gegenbeispiel eine GCI
+widerlegt, wird diese nicht weiter betrachtet, selbst wenn ihre Konfidenz in den Daten
+hoch genug ist.  Dadurch erlaubt es der Algorithmus dem Experten, seltene Gegenbeispiele
+von Fehlern in den Daten zu unterscheiden.
 
 \printbibliography{}
 
@@ -187,4 +189,4 @@ Experten, seltene Gegenbeispiele von Fehler in den Daten zu unterscheiden.
 
 %  LocalWords:  Konzeptinklusionen graphenartigen Konzeptbeschreibung Anwendungsexperte
 %  LocalWords:  model exploration by confidence Knowledge Representation Linked Data
-%  LocalWords:  Semantic
+%  LocalWords:  Semantic Learning general concept inclusions
