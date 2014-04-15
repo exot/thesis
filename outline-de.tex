@@ -24,23 +24,23 @@
 
 \noindent
 Wissen ist eine notwendige Voraussetzung für intelligentes Verhalten, und insbesondere für
-Computer ist es daher unausweichlich, sich zuerst relevantes Wissen anzueignen um in
+Computer ist es daher unausweichlich, sich zuerst relevantes Wissen anzueignen, um in
 bestimmten Situationen entsprechend handeln zu können.  Dieses Wissen zu erwerben -- ein
-Vorgang der allgemein als \emph{Knowledge Acquisition} oder auch \emph{Learning}
+Vorgang, der allgemein als \emph{Knowledge Acquisition} oder auch \emph{Learning}
 bezeichnet wird -- ist gerade für Computer schwierig, da diese, im Gegensatz zu Menschen,
-nicht selbstständig lernen können.  Darüber hinaus besteht das Problem des \emph{Knowledge
+nicht selbstständig lernen können.  Darüber hinaus besteht das Problem der \emph{Knowledge
   Representation}, \dh das Wissen in solch einer Form darzustellen, die für eine
 maschinelle Verarbeitung geeignet ist.  Um also intelligentes Verhalten von Maschinen zu
-ermöglichen muss sich zuerst klar gemacht werden, wie eine solche Darstellung erreicht
+ermöglichen, muss sich zuerst klar gemacht werden, wie eine solche Darstellung erreicht
 werden kann.
 
-Ein weit-verbreiteter Ansatz für Knowledge Representation sind Logik basierte Formalismen,
+Ein weitverbreiteter Ansatz für Knowledge Representation sind Logik basierte Formalismen,
 da diese ein vorhersagbares und verlässliches Verhalten versprechen.  Unter diesen
 Formalismen sind \emph{Beschreibungslogiken}~\cite{DLhandbook} sehr populär.  So ist es
 durch die Verwendung beschreibungslogischer \emph{Wissensbasen} möglich, \emph{faktisches
   Wissen} und \emph{terminologisches Wissen} darzustellen.  Faktisches Wissen gibt Wissen
 über ein oder zwei \emph{Individuen} wieder; Beispiele dafür sind \enquote{Abraham Lincoln
-  war Präsident} oder \enquote{John McCarthy war Professor in Stanford}.  Dem gegenüber
+  war Präsident} oder \enquote{John McCarthy war Professor in Stanford}.  Demgegenüber
 drückt terminologisches Wissen allgemeines Wissen über alle relevanten Individuen aus;
 Beispiele hierfür sind Aussagen wie \enquote{alle Menschen sind sterblich} oder
 \enquote{jeder Mensch hat einen Kopf}.  Diese Form von Wissen gibt also Beziehungen
@@ -62,7 +62,7 @@ Ein aktueller Ansatz für dieses Problem, welcher Ideen aus dem Gebiet der Forma
 Begriffsanalyse~\cite{fca-book} nutzt, wurde von Baader und Distel
 erarbeitet~\cite{Diss-Felix}.  Die Grundidee dieser Arbeit ist es, dass die Domäne, für
 die terminologisches Wissen erlangt werden soll, als eine \emph{endliche Interpretation}
-darstellbar ist.  Interpretationen sind relationale Strukturen, die verwendet werden um
+darstellbar ist.  Interpretationen sind relationale Strukturen, die verwendet werden, um
 die Semantik von Beschreibungslogiken zu definieren.  Intuitiv können diese Strukturen als
 knoten- und kanten-beschriftete Graphen gesehen werden.  Baader und Distel schlagen vor,
 terminologisches Wissen für die so dargestellte Domäne zu erwerben, indem \emph{endliche
@@ -126,7 +126,7 @@ den Begriff \enquote{fast gültig} zu formalisieren: eine GCI ist genau dann \em
 [0,1]$ liegt.  Solche GCIs werden im Rahmen der Arbeit dann auch \emph{GCIs mit hoher
   Konfidenz} genannt.  Sobald solch eine Schranke $c$ gewählt ist, besteht die Aufgabe
 darin, eine Basis aller GCIs mit hoher Konfidenz zu finden, \dh eine endliche Menge
-$\mathcal{B}$ von GCIs mit hoher Konfidenz anzugeben welche in dem Sinne
+$\mathcal{B}$ von GCIs mit hoher Konfidenz anzugeben, welche in dem Sinne
 \emph{vollständig} ist, dass alle GCIs mit hoher Konfidenz bereits aus $\mathcal{B}$
 folgen.
 
@@ -155,13 +155,13 @@ Steht ein solcher Experte zur Verfügung, und hat man eine Basis von GCIs mit ho
 Konfidenz gegeben, so könnte dieser Experte alle Elemente der Basis nacheinander auf ihre
 Korrektheit prüfen und fehlerhafte GCIs aus der Basis entfernen.  Der Nachteil dieses
 recht einfachen Ansatzes liegt darin, dass, sobald eine GCI aus der Basis entfernt wird,
-möglicherweise andere, speziellere GCIs hinzugefügt werden müssen um die Vollständigkeit
+möglicherweise andere, speziellere GCIs hinzugefügt werden müssen, um die Vollständigkeit
 der Basis zu garantieren.  Wie diese Anpassung durchzuführen wäre, ohne die Basis neu zu
 berechnen, ist allerdings unklar.
 
 In dieser Arbeit wird der systematischere Ansatz der \emph{Model Exploration by
   Confidence} präsentiert.  Dieser Algorithmus beruht auf dem
-\emph{Model-Exploration}-Algorithmus von Baader und Distel, der entwickelt worden ist um,
+\emph{Model-Exploration}-Algorithmus von Baader und Distel, der entwickelt worden ist, um
 das Problem unvollständiger Daten zu lösen, und der selbst auf dem Algorithmus der
 Merkmalexploration aus der Formalen Begriffsanalyse basiert.
 
