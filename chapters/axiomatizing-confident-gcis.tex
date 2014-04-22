@@ -12,7 +12,7 @@ A possible application of the results of Baader and Distel is to compute bases f
 semantic web~\cite{journal/sciam/BernersLeeHL01,DBLP:conf/dagstuhl/2003sweb,FOST}.  This
 data format consists of RDF triples, and can thus be thought of as an edge-labeled graph.
 As such, it is very similar to interpretations, and thus we can use the results by Baader
-and Distel results here.
+and Distel here.
 
 As a first contribution of this thesis we have implemented the major results on computing
 finite bases as described previously, and applied them to a particular data set of the
@@ -23,9 +23,9 @@ discussed previously~\cite{Borchmann:confident-GCIs,DBLP:conf/icdm/BorchmannD11}
 
 One conclusion from this experiment is that the results by Baader and Distel are very
 sensitive to \emph{errors} in the data.  This is actually not surprising: bases of finite
-interpretations only contain general concept inclusion which are valid in the data, and if
-there is only one single counterexample to a general concept inclusions, it will not be
-contained in any base.
+interpretations only contain general concept inclusions which are valid in the data, and
+if there is as little as a single counterexample to a given general concept inclusion in
+the data, it will not be contained in any base.
 
 If those counterexamples are erroneous, however, then this can cause problems.  Not only
 that otherwise valid general concept inclusions are not obtained by Distel's approach
@@ -33,7 +33,7 @@ anymore.  Sporadic erroneous counterexamples may also cause GCIs found during th
 computation of bases to be rather complicated, because those GCIs have to avoid those
 erroneous counterexamples using complicated concept descriptions.
 
-To remedy or at least to alleviate this effect of erroneous counterexample we shall
+To remedy or at least to alleviate this effect of erroneous counterexamples we shall
 consider an extension of Baader and Distel's results.  This extension tries to find bases
 of GCIs which are not necessarily valid in the given interpretation, but instead enjoy a
 \emph{high confidence} therein.  The notion of \emph{confidence} is borrowed from
@@ -92,12 +92,13 @@ some examples of depicting interpretations as \emph{graphs}, more precisely as
 nothing else than those graphs, where the set of vertex labels is $N_C$ and the set of
 edge labels is $N_R$.
 
-Linked data is now quite similar to labeled graphs.  More precisely, linked data is just
-an edge-labeled graph, represented by so-called \emph{RDF-Triples}.  Every triple consists
-of a \emph{subject}, a \emph{predicate}, and an \emph{object} (in that order), each of
-them being an \emph{uniform resource identifier} (URI).  The idea is that RDF-Triples
-encode the information that the subject is connected to the object by means of the
-predicate.  Two examples of RDF-Triples, taken from the DBpedia data set~\cite{DBpedia},
+Linked data is quite similar to labeled graphs.  More precisely, linked data is just an
+edge-labeled graph, represented by so-called \emph{RDF-Triples} (where \emph{RDF} stands
+for \emph{Resource Description Framework}).  Every triple consists of a \emph{subject}, a
+\emph{predicate}, and an \emph{object} (in that order), each of them being an
+\emph{uniform resource identifier} (URI).  The idea is that RDF-Triples encode the
+information that the subject is connected to the object by means of the predicate.  Two
+examples of RDF-Triples, taken from the DBpedia data set~\cite{DBpedia},
 are\footnote{Indeed, these are \emph{serializations} of RDF-Triples, in this case in the
   so-called \emph{N-Triples} format}
 \begin{verbatim}
@@ -114,8 +115,8 @@ and that \emph{Aristotle influenced Western Philosophy}.
 
 Since RDF-Triples constitute edge-labeled graphs, we can take them as they are and regard
 them as interpretations over $N_C = \emptyset$ and $N_R$, where $N_R$ is just the set of
-all predicates which appear in RDF-Triples in the data set.  This approach would work,
-however it would only yield GCIs where no concept names are present.  Such terminological
+all predicates which appear in RDF-Triples in the data set.  This approach would work, but
+it would only yield GCIs where no concept names are present.  Such terminological
 knowledge may not be very interesting.
 
 To alleviate this problem we make use of the special RDF predicate
@@ -131,7 +132,7 @@ and edge-labeled graph with vertex labels $N_C$ and edge-labels $N_R$, where $N_
 general not empty.
 
 This view on linked data now allows us to consider it as an interpretation over some sets
-$N_C$ and $N_R$, and to apply Baader and Distel's result to such data sets.  For our
+$N_C$ and $N_R$, and to apply Baader and Distel's results to such data sets.  For our
 experiments, we have chosen a subset of the DBpedia data set as of March 2010 (Version
 3.5)\footnote{\url{http://wiki.dbpedia.org/Downloads35?v=pb8}}.  The linked data contained
 in the DBpedia data set has been extracted automatically from \emph{Wikipedia Infoboxes},
@@ -145,7 +146,7 @@ example of such an Infobox is shown in \Cref{fig:infobox-screenshot}.
   \label{fig:infobox-screenshot}
 \end{figure}
 
-The subset of the DBpedia data set we used for our experiments arises by restricting our
+The subset of the DBpedia data set we use for our experiments arises by restricting our
 attention to the relation
 \begin{equation*}
   \verb|http://dbpedia.org/ontology/child|.
@@ -173,12 +174,12 @@ Therefore,
   (\mathsf{Abraham\_Lincoln}, \mathsf{Edward\_Baker\_Lincoln}) &\in \mathsf{child}^{\Idbpedia}.
 \end{align*}
 
-Then we considered all triples $T_{\mathsf{type}}$ whose predicate is the special type
+Then we consider all triples $T_{\mathsf{type}}$ whose predicate is the special type
 predicate of \Cref{eq:16} and whose subject is contained in $\Delta^{\Idbpedia}$.  The
-objects of those triples were collected into a set $N_C$, \ie they constituted the concept
-names of $\Idbpedia$.\footnote{We omitted \texttt{http://www.w3.org/2002/07/owl\#Thing} in
-  $N_C$, as it does not introduce any meaningful information} Then, for an $A \in N_C$, we
-defined $A^{\Idbpedia}$ to be the set of all subjects that appear in a triple in
+objects of those triples are collected into a set $N_C$, \ie they constitute the concept
+names of $\Idbpedia$.\footnote{We omit \texttt{http://www.w3.org/2002/07/owl\#Thing} in
+  $N_C$, as it does not introduce any meaningful information.} Then, for an $A \in N_C$,
+we define $A^{\Idbpedia}$ to be the set of all subjects that appear in a triple in
 $T_{\mathsf{type}}$, \ie
 \begin{equation*}
   A^{\Idbpedia} := \set{ s \in \Delta^{\Idbpedia} \mid (s, t, A) \in
@@ -223,11 +224,10 @@ We have implemented the algorithms devised by Baader and Distel to compute bases
 interpretations\footnote{\url{http://github.com/exot/EL-exploration}} on top of
 \texttt{conexp-clj}\footnote{\url{http://github.com/exot/conexp-clj}}, a general purpose
 tool for formal concept analysis.  When computing a minimal base of $\Idbpedia$ as
-described in \Cref{thm:Felix-5.18}, we obtained a base $\mathcal{B}_{\Idbpedia}$
-containing 1252 general concept inclusions.  In the following we want to examine the GCIs
-contained in this bases, describe some observations we made, and discuss the usefulness of
-these GCIs.  Of course, we cannot do this formally, and shall therefore only argue
-intuitively.
+described in \Cref{thm:Felix-5.18}, we obtain a base $\mathcal{B}_{\Idbpedia}$ containing
+1252 general concept inclusions.  In the following we want to examine the GCIs contained
+in this base, describe some observations we made, and discuss the usefulness of these
+GCIs.  Of course, we cannot do this formally, and shall therefore only argue intuitively.
 
 Firstly, some of the GCIs contained in $\mathcal{B}_\Idbpedia$ constitute knowledge about
 the relationships among the concept names occurring in $\Idbpedia$ only, for example
@@ -280,7 +280,7 @@ An example for the first case is
 which does not really represent any meaningful knowledge.  On the other hand, this GCI
 indicates that DBpedia finds books as children only on Wikipedia pages on fictional
 characters.  Thus, such GCIs may help to find errors in the way DBpedia extracts
-information, but are not helpful as knowledge itself.  Similar examples are
+information, but are not helpful as knowledge themselves.  Similar examples are
 \begin{align*}
   \mathsf{\exists child. Newspaper \sqcap Person} &\sqsubseteq \mathsf{Writer}, \\
   \mathsf{\exists child. MilitaryUnit} &\sqsubseteq \mathsf{Judge}, \\
@@ -358,7 +358,7 @@ general GCIs from this data.  However, we cannot expect to have an automatic pro
 which achieves this goal, \ie we cannot expect an algorithm that automatically ignores
 erroneous counterexamples.  The reason for that is that the algorithm would need to know
 how to distinguish errors in the current domain of interest, and for this the algorithm
-would need to posses knowledge about this domain, which however we are just about to
+would need to possess knowledge about this domain, which however we are just about to
 learn.
 
 On the other hand, we can assume is our initially given interpretation $\mathcal{I}$
@@ -403,8 +403,8 @@ given interpretation.
 \subsection{Confidence of GCIs and Confident Bases}
 \label{sec:conf-gcis-conf}
 
-We argued intuitively that the number of positive examples should be ``much higher'' then
-the number of negative examples.  To formalize this notion, we define the
+We argued intuitively that the number of positive examples should be \enquote{much higher}
+than the number of negative examples.  To formalize this notion, we define the
 \emph{confidence} of $C \sqsubseteq D$ in $\mathcal{I}$ as follows.
 
 \begin{Definition}[Confidence of GCIs]
@@ -440,8 +440,8 @@ number of positive examples is higher than the number of negative ones.
 \end{Example}
 
 To use the confidence of GCIs in finite interpretations to formalize the notion of being
-``almost true'' we need to choose a \emph{threshold} above which we can say that the
-number of positive examples is ``much higher'' then the number of negative ones.
+\enquote{almost true} we need to choose a \emph{threshold} above which we can say that the
+number of positive examples is \enquote{much higher} than the number of negative ones.
 
 \begin{Definition}[Confidence-Based Theory of Finite Interpretations]
   \label{def:confident-theory-of-interpretations}
@@ -484,7 +484,7 @@ bases of \emph{implications with high confidence} in a given formal context.  Th
 results of this discussion mainly go back to results by Luxenburger on \emph{partial
   implications}~\cite{diss:Luxenburger,Luxenburger91}, and extensions
 thereof~\cite{DBLP:conf/ki/StummeTBPL01}.  We shall first discuss these results, however
-not in their original form, but instead in way suitable for our considerations.
+not in their original form, but instead in a way suitable for our considerations.
 
 We have already defined the notion of confidence of a GCI in some given finite
 interpretation.  The analogous notion in formal concept analysis is the confidence of an
@@ -527,7 +527,7 @@ then it only has finitely many model-based most-specific concept descriptions (u
 equivalence).  Since model-based most-specific concept descriptions are in a one-to-one
 correspondence to the intents of the induced context $\con K_{\mathcal{I}}$ of
 $\mathcal{I}$, finding a base of $\Th_c(\con K)$ which only contains intents of $\con K$
-is likely suitable for our purposes.
+is likely suitable for our purpose.
 
 To compute such a base of $\Th_c(\con K)$ we first observe that, as in the case of GCIs,
 an implication $(A \to B)$ holds in $\con K$ if and only if its confidence in $\con K$ is
@@ -639,7 +639,7 @@ removed without any harm.
   is a confident base of $\Th_c(\con K)$ with background knowledge $\mathcal{L}$.
 \end{Theorem}
 
-The proof of the following theorem is inspired by a similar proof
+The proof of this theorem is inspired by a similar proof
 from~\cite{DBLP:conf/ki/StummeTBPL01}.
 
 \begin{Proof}
@@ -647,15 +647,15 @@ from~\cite{DBLP:conf/ki/StummeTBPL01}.
   \begin{equation*}
     \Lux(\con K, c) \models (A'' \to C'').
   \end{equation*}
-  Because $(A'' \to C'') \in \Conf(\con K, c)$ it is true that $A'' \subseteq C''$.  Since
-  $\con K$ is finite, the lattice of all intents of $\con K$ is finite, as well.
+  Because $(A'' \to C'') \in \Conf(\con K, c)$ it is true that $A'' \subsetneq C''$.
+  Since $\con K$ is finite, the lattice of all intents of $\con K$ is finite, as well.
   Therefore, there exists a chain of intents
   \begin{equation*}
     B_0 = A'' \subsetneq B_1 \subsetneq B_2 \subsetneq \dots \subsetneq B_{n-1} \subsetneq B_n = C''
   \end{equation*}
-  such that there are no intents $D$ which $B_i \subsetneq D \subsetneq B_{i+1}$ for all
-  $i \in \set{ 0, \dots, n-1 }$.  Then, by induction, \Cref{lem:chain-rule-for-confidence}
-  yields
+  such that for all $i \in \set{ 0, \dots, n-1 }$ there is no intent $D$ satisfying $B_i
+  \subsetneq D \subsetneq B_{i+1}$.  Then, by induction,
+  \Cref{lem:chain-rule-for-confidence} yields
   \begin{equation*}
     \conf_{\con K}(A'' \to C'') = \prod_{i = 0}^{n-1} \conf_{\con K}(B_i \to B_{i+1}).
   \end{equation*}
@@ -691,7 +691,7 @@ for $\con K$.
 
 We can now use the results about confident bases of implications with high confidence to
 obtain confident bases of GCIs with high confidence.  For this, we simply adapt the
-results of the previous section and reprove them in the setting of description logics.
+results of the previous section and prove them again in the setting of description logics.
 Notice that because of this, the following section is very similar to the previous one.
 
 We start with the observation that the confidence of GCIs does not change if we switch to
@@ -859,13 +859,13 @@ It is also possible to establish the analog to \Cref{lem:chain-rule-for-confiden
   let $(X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}) \in \Conf(\mathcal{I}, c)$.  Then $Y
   \subseteq X \subseteq \Delta^{\mathcal{I}}$, \ie $Y^{\mathcal{I}} \sqsubseteq
   X^{\mathcal{I}}$.  Since $\Delta^{\mathcal{I}}$ is finite, there exist sets
-  $\Delta^{\mathcal{I}} \supseteq Z_0 \supseteq Z_1 \supseteq \dots \supseteq Z_n$ such
-  that
+  $\Delta^{\mathcal{I}} \supseteq Z_0 \supseteq Z_1 \supseteq \dots \supseteq Z_n$
+  satisfying
   \begin{equation*}
     Y^{\mathcal{I}} = Z_n^{\mathcal{I}} \sqsubsetneq Z_{n-1}^{\mathcal{I}} \sqsubsetneq
     \dots \sqsubsetneq Z_1^{\mathcal{I}} \sqsubsetneq Z_0^{\mathcal{I}} = X^{\mathcal{I}}
   \end{equation*}
-  such that there do not exist sets $W \subseteq \Delta^{\mathcal{I}}$ such that
+  such that there do not exist sets $W \subseteq \Delta^{\mathcal{I}}$ with
   \begin{equation}
     \label{eq:25}
     Z_i^{\mathcal{I}} \sqsubsetneq W^{\mathcal{I}} \sqsubsetneq Z_{i-1}^{\mathcal{I}}
@@ -913,7 +913,7 @@ be done in the induced formal context $\con K_{\mathcal{I}}$.  This may be desir
 because the computations in $\con K_{\mathcal{I}}$ may be easier to conduct, since we only
 have to work with subsets of $M_{\mathcal{I}}$, and not with complex concept descriptions.
 
-The actual transformation is actually quite simple: it is true that
+The actual transformation is quite simple: it is true that
 \begin{equation}
   \label{eq:31}
   \begin{aligned}
@@ -924,7 +924,7 @@ The actual transformation is actually quite simple: it is true that
 where the equality is meant up to equivalence, \ie every GCI in the set on the left-hand
 side is equivalent to one in the right-hand side, and vice versa.
 
-Establishing these equations is actually quite easy.  We start with a simple connection
+Establishing these equations is also not difficult.  We start with a simple connection
 between the confidence of GCIs in $\mathcal{I}$ and the confidence of implications in
 $\con K_{\mathcal{I}}$.
 
@@ -957,7 +957,7 @@ $\con K_{\mathcal{I}}$.
   \end{align*}
 \end{Proof}
 
-This already allows us to establish the first equation of \Cref{eq:31}.
+This already allows us to establish the first of \Cref{eq:31}.
 
 \begin{Corollary}
   \label{cor:Conf-from-K_I}
@@ -997,7 +997,7 @@ This already allows us to establish the first equation of \Cref{eq:31}.
     &\implies A'' = \bar A'',
   \end{align*}
   using \Cref{prop:connection-I-prime-2} and \Cref{prop:connection-I-prime-3}.  Therefore,
-  no two GCIs in $\bigsqcap \Conf(\con K_{\Idbpedia}, c)$ are equivalent, and the claim
+  no two GCIs in $\bigsqcap \Conf(\con K_{\mathcal{I}}, c)$ are equivalent, and the claim
   follows.
 \end{Proof}
 
@@ -1224,7 +1224,7 @@ The main result of this section is now the following theorem.
     Y^{\mathcal{I}})$ for each $(X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}) \in
     \Conf(\mathcal{I}, c)$.
   \end{enumerate}
-  The first claim than ensures that $\bigsqcap \mathcal{L}$ entails all GCIs from the set
+  The first claim then ensures that $\bigsqcap \mathcal{L}$ entails all GCIs from the set
   \begin{equation*}
     \set{ \bigsqcap U \sqsubseteq (\bigsqcap U)^{\mathcal{I}\mathcal{I}} \mid U \subseteq
       M_{\mathcal{I}} }
@@ -1234,7 +1234,7 @@ The main result of this section is now the following theorem.
   (\ref{item:17}) states that $\bigsqcap \mathcal{L}$ is complete for $\Conf(\mathcal{I},
   c)$.  Using \Cref{cor:weakened-luxenburger-base-for-gcis} and the fact that $\bigsqcap
   \mathcal{L}$ is sound for $\Th_c(\mathcal{I})$ then shows that $\bigsqcap \mathcal{L}$
-  of $\Th_c(\mathcal{I})$.
+  is a confident base of $\Th_c(\mathcal{I})$.
 
   We show (\ref{item:16}).  Let $U \subseteq M_{\mathcal{I}}$.  Since $\mathcal{L}$ is a
   confident base for $\Th_c(\con K_{\mathcal{I}})$ it is complete for $\con
@@ -1286,7 +1286,7 @@ that $\bigsqcap \mathcal{L}$ still contains trivial knowledge in the sense that 
 $C, D \in M_{\mathcal{I}}$ are such that $C \sqsubseteq D$, then $\mathcal{L}$ has to
 entail $\set{ C } \to \set{ D }$, although the corresponding GCI $C \sqsubseteq D$ is
 trivially true.  We can remedy this redundancy by considering an appropriate background
-knowledge.  Recall that we defined in \Cref{eq:28} the set
+knowledge.  Recall that in \Cref{eq:28} we defined the set
 \begin{equation*}
   \mathcal{S}_{\mathcal{I}} := \set{ \set{ C } \to \set{ D } \mid C, D \in
     M_{\mathcal{I}}, C \sqsubseteq D }.
@@ -1304,8 +1304,8 @@ knowledge.  Recall that we defined in \Cref{eq:28} the set
   $\bigsqcap \mathcal{L} \cup \bigsqcap \mathcal{S}_{\mathcal{I}}$ is a finite confident
   base of $\Th_c(\mathcal{I})$.  Since $\bigsqcap \mathcal{S}_{\mathcal{I}}$ is valid in
   every interpretation, it is entailed by $\bigsqcap \mathcal{L}$, and thus the set
-  $\bigsqcap \mathcal{L}$ is already a complete for $\Th_c(\mathcal{I})$.  Thus,
-  $\bigsqcap \mathcal{L}$ is a finite confident base of $\Th_c(\mathcal{I})$.
+  $\bigsqcap \mathcal{L}$ is already complete for $\Th_c(\mathcal{I})$.  Thus, $\bigsqcap
+  \mathcal{L}$ is a finite confident base of $\Th_c(\mathcal{I})$.
 \end{Proof}
 
 We can use \Cref{lem:implicational-entailment-implies-gci-entailment} to further remove
@@ -1322,7 +1322,7 @@ then \Cref{lem:implicational-entailment-implies-gci-entailment} yields that
   \bigsqcap X \sqsubseteq \bigsqcap Y).
 \end{equation*}
 Thus, redundancies in bases of $\Th_c(\con K_{\mathcal{I}})$ always result in redundancies
-of bases of $\Th_c(\mathcal{I})$.  Thus, removing these redundancies is a good starting
+in bases of $\Th_c(\mathcal{I})$.  Thus, removing these redundancies is a good starting
 point to obtain smaller bases of $\Th_c(\mathcal{I})$.
 
 In particular, we can consider irredundant bases $\mathcal{L}$ of $\Th_c(\con
@@ -1454,7 +1454,7 @@ For this we recall that if $\mathcal{L}$ is a base of $\Th_c(\con K_{\mathcal{I}
 the canonical base $\Can(\mathcal{L})$ of $\mathcal{L}$ is a minimal base of $\Th_c(\con
 K_{\mathcal{I}})$.\footnote{Note that we have only introduced the canonical base for
   formal contexts, but by \Cref{prop:context-model-for-implications} we can represent
-  every set $\mathcal{L}$ is a base of a formal context $\con K_{\mathcal{L}}$.  Then
+  every set $\mathcal{L}$ as a base of a formal context $\con K_{\mathcal{L}}$.  Then
   $\Can(\mathcal{L}) := \Can(\con K_{\mathcal{L}})$.  Note that this definition is
   independent from the context $\con K_{\mathcal{L}}$ we use.}  Since $\Cn(\mathcal{L}) =
 \Cn(\Can(\mathcal{L}))$, we know that $\Can(\mathcal{L})$ is also a base of $\Th_c(\con
@@ -1719,7 +1719,7 @@ shows that this is not the case.
   If $X \subseteq \Delta^{\mathcal{I}}$ is such that $5 \in X$, then $X^{\mathcal{I}} =
   \mathsf{A}$.  If $5 \notin X$ but $1 \in X$ or $4 \in X$, then $X^{\mathcal{I}} =
   \mathsf{A} \sqcap \mathsf{B}$.  Otherwise, $X^{\mathcal{I}} = \mathsf{A \sqcap B \sqcap
-    \exists r. A \sqcap B}$.  Thus the set of model-based most-specific concept
+    \exists r.(A \sqcap B)}$.  Thus the set of model-based most-specific concept
   descriptions of $\mathcal{I}$ is (up to equivalence)
   \begin{equation*}
     \set{ \bot, \mathsf{A}, \mathsf{A \sqcap B}, \mathsf{A \sqcap B \sqcap \exists
@@ -1763,7 +1763,7 @@ shows that this is not the case.
   \begin{equation*}
     U := \set{ \mathsf{\exists r. A}, \mathsf{A}, \mathsf{B} }.
   \end{equation*}
-  The $U$ is closed under $\mathcal{S}_{\mathcal{I}}$.  Furthermore, $U$ is a
+  Then $U$ is closed under $\mathcal{S}_{\mathcal{I}}$.  Furthermore, $U$ is a
   $\pr_{M_{\mathcal{I}}}(\mathcal{B})$-pseudo-intent of $\con K_{\mathcal{I}}$:
   $\emptyset$ is a $\pr_{M_{\mathcal{I}}}(\mathcal{B})$-pseudo-intent of $\con
   K_{\mathcal{I}}$, and $\emptyset'' = \set{ \mathsf{A} } \subseteq U$.  The set $\set{
@@ -1820,7 +1820,7 @@ D$ is entailed by $\mathcal{B}$, it must happen on the top-level of the concept
 descriptions, and this entailment can then be simulated by implications.
 
 A formal argumentation requires the notions of \emph{simulations} between \EL description
-graphs, which have not introduced in this work.  For more details on this we refer to
+graphs, which have not been introduced in this work.  For more details on this we refer to
 Lemma~5.16 and the proof of Theorem~5.18 in~\cite{Diss-Felix}.
 
 \subsection{Unravelling \ELgfpbot Bases into \ELbot Bases}
@@ -1828,7 +1828,7 @@ Lemma~5.16 and the proof of Theorem~5.18 in~\cite{Diss-Felix}.
 
 So far we have only considered finite bases of $\Th_c(\mathcal{I})$ which may contain
 proper \ELgfpbot concept descriptions.  As we had argued before, those concept
-descriptions may actually be hard to read, even for those trained in logic.  Therefore, it
+descriptions may actually be hard to read, even for those trained in logics.  Therefore, it
 would be desirable to obtain bases which contain \ELbot concept descriptions only, as
 these are potentially much easier to understand.  To show that this is indeed possible is
 the purpose of this section.  The argumentation we want to employ is again similar to the
@@ -1889,7 +1889,7 @@ As already sketched in \Cref{sec:base-all-valid} the following claims hold.
     \mathcal{X}_{\mathcal{I}} \models ((Z^{\mathcal{I}})_{k-1} \sqsubseteq (Z^{\mathcal{I}})_k)
   \end{equation}
   is true for all $Z \subseteq \Delta^{\mathcal{I}}$.  Since $Y^{\mathcal{I}}$ is
-  expressible in terms of $M_{\mathcal{I}}$, and $Y \neq \emptyset$, there exists $U
+  expressible in terms of $M_{\mathcal{I}}$, and $Y \neq \emptyset$, there exist $U
   \subseteq N_C$ and $\Pi \subseteq N_R \times \subsets{\Delta^{\mathcal{I}}}$ such that
   \begin{equation*}
     Y^{\mathcal{I}} \equiv \bigsqcap U \sqcap \bigsqcap_{(r, Z) \in \Pi} \exists r. Z^{\mathcal{I}}.
@@ -1954,7 +1954,7 @@ $\mathcal{D}$ we can now proceed as described in the following theorem.
   \label{thm:unravelling-confident-bases}
   Let $\mathcal{I}$ be a finite interpretation, let $c \in [0,1]$ and let $\mathcal{D} =
   \mathcal{B} \cup \mathcal{C}$ be a finite confident base of $\Th_c(\mathcal{I})$, such
-  that $\mathcal{B} \subseteq \Th(\mathcal{I})$, $\mathcal{C} \cap \Th(\mathcal{I}) \neq
+  that $\mathcal{B} \subseteq \Th(\mathcal{I})$, $\mathcal{C} \cap \Th(\mathcal{I}) =
   \emptyset$, and $\mathcal{B}$ contains only GCIs of the form $E \sqsubseteq
   E^{\mathcal{I}\mathcal{I}}$. Define
   \begin{equation*}
