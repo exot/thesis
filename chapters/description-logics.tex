@@ -294,11 +294,11 @@ TBoxes.  We shall restrict our attention to two of these, namely \emph{cyclic} T
 \emph{general} TBoxes.  For the latter, we shall also introduce the notion of
 \emph{general concept inclusions}, which is crucial for our further considerations.
 
-\begin{Definition}[Primitive Concept Definitions, Cyclic TBoxes]
-  \label{def:primitive-concept-definitions-cyclic-TBoxes}
+\begin{Definition}[Concept Definitions, Cyclic TBoxes]
+  \label{def:concept-definitions-cyclic-TBoxes}
   Let $N_C$ and $N_R$ be two disjoint sets, and let $N_D$ be another set disjoint to both
-  $N_C$ and $N_R$.  A \emph{primitive concept definition} (over $N_C, N_R$ and $N_D$) is
-  an expression of the form
+  $N_C$ and $N_R$.  A \emph{concept definition} (over $N_C, N_R$ and $N_D$) is an
+  expression of the form
   \begin{equation*}
     B \equiv D
   \end{equation*}
@@ -307,27 +307,27 @@ TBoxes.  We shall restrict our attention to two of these, namely \emph{cyclic} T
   called the \emph{right-hand side} of the concept definition, respectively.
 
   A \emph{cyclic TBox} $\mathcal{T}$ (over $N_C, N_R$ and $N_D$) is a set consisting of
-  primitive concept definitions over $N_C$, $N_R$ and $N_D$ which additionally satisfies
-  the condition that for every $B \in N_D$ there exists exactly one primitive concept
-  definition in $\mathcal{T}$ with $B$ on the left-hand side.  The set $N_D$ is called the
-  set of \emph{defined concept names} of $\mathcal{T}$, and is also denoted by
+  concept definitions over $N_C$, $N_R$ and $N_D$ which additionally satisfies the
+  condition that for every $B \in N_D$ there exists exactly one concept definition in
+  $\mathcal{T}$ with $B$ on the left-hand side.  The set $N_D$ is called the set of
+  \emph{defined concept names} of $\mathcal{T}$, and is also denoted by
   $N_D(\mathcal{T})$.
 
-  A primitive concept definition $B \equiv D$ is said to \emph{hold} in an interpretation
+  A concept definition $B \equiv D$ is said to \emph{hold} in an interpretation
   $\mathcal{I}$ over $N_C \cup N_D$ and $N_R$, written $\mathcal{I} \models (B \equiv D)$,
   if and only if
   \begin{equation*}
     B^{\mathcal{I}} = D^{\mathcal{I}}
   \end{equation*}
   is true.  The interpretation $\mathcal{I}$ is a \emph{model} for a cyclic TBox
-  $\mathcal{T}$, written $\mathcal{I} \models \mathcal{T}$, if and only if every primitive
-  concept definition in $\mathcal{T}$ holds in $\mathcal{I}$.
+  $\mathcal{T}$, written $\mathcal{I} \models \mathcal{T}$, if and only if every concept
+  definition in $\mathcal{T}$ holds in $\mathcal{I}$.
 \end{Definition}
 
-A primitive concept definition $B \equiv D$ is true in some interpretation $\mathcal{I}$
-if and only if $B^{\mathcal{I}} = D^{\mathcal{I}}$.  However, in some cases it may not be
-possible to exactly define a concept name $B$ in terms of another concept description $D$.
-In such cases one can make use of \emph{general concept inclusions}: instead of requiring
+A concept definition $B \equiv D$ is true in some interpretation $\mathcal{I}$ if and only
+if $B^{\mathcal{I}} = D^{\mathcal{I}}$.  However, in some cases it may not be possible to
+exactly define a concept name $B$ in terms of another concept description $D$.  In such
+cases one can make use of \emph{general concept inclusions}: instead of requiring
 $B^{\mathcal{I}} = D^{\mathcal{I}}$ one can equivalently state that
 \begin{equation*}
   B^{\mathcal{I}} \subseteq D^{\mathcal{I}} \quad\text{and}\quad B^{\mathcal{I}} \supseteq D^{\mathcal{I}}.
@@ -355,10 +355,10 @@ to express this is to use general concept inclusion.
   $\mathcal{I}$.
 \end{Definition}
 
-In the sense discussed above, primitive concept definitions can be expressed in terms of
-general concept inclusions.  Because of this representation, we can regard cyclic TBoxes
-as special cases of general TBoxes.  Therefore, if we talk about TBoxes in the following
-we mean either of these notions.
+In the sense discussed above, concept definitions can be expressed in terms of general
+concept inclusions.  Because of this representation, we can regard cyclic TBoxes as
+special cases of general TBoxes.  Therefore, if we talk about TBoxes in the following we
+mean either of these notions.
 
 Knowledge bases are now just pairs consisting of an ABox and a TBox.
 \begin{Definition}[Knowledge Base]
@@ -550,14 +550,13 @@ which extends \ELbot by \emph{cyclic concept descriptions} and \emph{greatest fi
   semantics}~\cite{DBLP:conf/ijcai/Baader03a,sowa/Nebel91}.
 
 We shall start by introducing \emph{greatest fixpoint models} for cyclic TBoxes.  When we
-introduced cyclic TBoxes $\mathcal{T}$ in
-\Cref{def:primitive-concept-definitions-cyclic-TBoxes}, we have defined that an
-interpretation $\mathcal{I}$ is a model of $\mathcal{T}$ if and only if every primitive
-concept description in $\mathcal{T}$ holds in $\mathcal{I}$.  This form of semantics for
-cyclic TBoxes is called \emph{descriptive} semantics.  However, it is possible to further
-restrict the notion of a model of $\mathcal{T}$, and such a restriction is to use
-\emph{greatest fixpoint models} instead.  To introduce this semantics we need some
-auxiliary definitions first.
+introduced cyclic TBoxes $\mathcal{T}$ in \Cref{def:concept-definitions-cyclic-TBoxes}, we
+have defined that an interpretation $\mathcal{I}$ is a model of $\mathcal{T}$ if and only
+if every primitive concept description in $\mathcal{T}$ holds in $\mathcal{I}$.  This form
+of semantics for cyclic TBoxes is called \emph{descriptive} semantics.  However, it is
+possible to further restrict the notion of a model of $\mathcal{T}$, and such a
+restriction is to use \emph{greatest fixpoint models} instead.  To introduce this
+semantics we need some auxiliary definitions first.
 
 \begin{Definition}[Primitive Interpretation, Extensions]
   \label{def:primite-interpretations-and-extentions}
