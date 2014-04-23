@@ -17,11 +17,11 @@ Even more, utilizing this observation may save computation time as well: if duri
 computation of bases of $\Th_c(\mathcal{I})$ an expert already rejects a GCI and confirms
 some counterexamples contained in $\mathcal{I}$ are indeed correct, then all GCIs which
 are falsified by this counterexamples can also be rejected, irrespective of whether their
-confidence in $\mathcal{I}$ is above $c$.  It is thus desirable to allow expert
+confidence in $\mathcal{I}$ is above $c$, or not.  It is thus desirable to allow expert
 interaction already during the time of the computation of bases of $\Th_c(\mathcal{I})$,
 and not only at the end of the computation, as a separate validation step.
 
-There is also another issue which requires expert interaction, and which has already been
+There is also another issue that requires expert interaction, and which has already been
 addressed by Distel~\cite{Diss-Felix}: the data $\mathcal{I}$ may not only contain errors,
 but it may also be \emph{incomplete} in the sense that it lacks certain counterexamples,
 meaning that some GCIs are valid in $\mathcal{I}$, even so they are not valid in the
@@ -59,25 +59,25 @@ yields a base of the domain which is represented by the expert.
 
 Model exploration and ABox exploration differ in the way counterexamples are provided.  In
 model exploration, counterexamples are directly added to the interpretation $\mathcal{I}$,
-whereas in ABox exploration the counterexamples are being added to a separate ABox.  While
-the latter is much more user-friendly from the point of view how much needs to be
-specified from a counterexample, it is also much more technical and complicated.
-Therefore, we shall concentrate in this work on model exploration only.
+whereas in ABox exploration the counterexamples are being added to a separate ABox.  The
+latter variant is much more user-friendly from the point of view of how to specify
+counterexamples, but the resulting exploration algorithm is much more technical and
+complicated.  Therefore, we shall concentrate in this work on model exploration only.
 
 In the following two chapters we want to generalize model exploration to our setting of
 extracting GCIs with high confidence from finite interpretations.  More precisely, what we
 want to obtain is an algorithm that computes bases of $\Th_c(\mathcal{I})$, and, as soon
 as a GCI for the base is computed, asks the expert for validation.  As above, the expert
 may confirm or reject this GCI, where in the latter case she has to provide a
-counterexample.  Upon termination, the algorithm should yield a base of the domain which
+counterexample.  Upon termination, the algorithm should yield a base of the domain that
 is represented by the expert, to the extent in which this domain is contained in
 $\Th_c(\mathcal{I})$.  We shall make this more precise in \Cref{cha:model-expl-conf}.
 
 The purpose of this chapter is to prepare this generalization of model exploration to GCIs
 with high confidence by first discussing the analogous problem in the world of formal
 concept analysis.  For this, we want to develop an algorithm for \emph{exploration by
-  confidence}, which not only asks implications which are valid in the current working
-context, but which may just enjoy a high confidence in the original data set.
+  confidence}, which not only asks implications that are valid in the current working
+context, but may just have a high confidence in the original data set.
 
 To this end, we shall first consider in \Cref{sec:class-attr-expl} classical attribute
 exploration from a more abstract point of view.  In this consideration, we shall see that
@@ -94,7 +94,7 @@ idea is that this \emph{exploration of sets of implications} works in the same w
 attribute exploration, namely by asking implications from $\mathcal{L}$ to the expert to
 try to find out which of the implications in $\mathcal{L}$ are accepted by the expert and
 which not.  However, the algorithm we are going to present in \Cref{sec:gener-attr-expl}
-will not complete achieve this goal, but instead will provide us with an
+will not completely achieve this goal, but instead will provide us with an
 \emph{approximative exploration} of $\mathcal{L}$, a notion which we shall make clear
 then.  Intuitively, this means that also implications which are not elements of
 $\mathcal{L}$, but of $\Cn(\mathcal{L})$, can be asked to the expert, and thus may appear
@@ -138,7 +138,7 @@ compute implications of the form
 where $P$ is a $\mathcal{K}$-pseudo intent of $\con K$, and in particular is closed under
 the set of currently known implications, but is not an intent of the current working
 context.  Those implications are presented to the expert, who either confirms or rejects
-it.
+them.
 
 We can view this procedure from a more general perspective:\footnote{This idea is similar
   to the one of considering the process of attribute exploration as a decreasing sequence
@@ -187,7 +187,7 @@ to $\mathcal{K}$, and we obtain the following situation:
 If the expert rejects $P \to P''$, she has to provide a counterexamples, \ie a set $C
 \subseteq M$ such that $P \subseteq C$ and $P'' \not\subseteq C$.  Denote with $\con K +
 C$ the formal context which arises from $\con K$ by adding a new object $g_C$ to $\con K$
-which has exactly the attributes which are contained $C$, \ie which satisfies
+which has exactly the attributes which are contained $C$, \ie
 \begin{equation*}
   (g_C)' := C
 \end{equation*}
@@ -279,7 +279,7 @@ this approach also does not solve our initial problem, because in general $\math
       \toprule
       \con K_{\mathsf{back}} & \mathsf{a} & \mathsf{b} & \mathsf{c} \\
       \midrule
-      x & \times \\
+      g & \times \\
       \bottomrule
     \end{array}
   \end{equation*}
@@ -298,11 +298,12 @@ this approach also does not solve our initial problem, because in general $\math
 \end{Example}
 
 Intuitively, an algorithm for exploring $\mathcal{L}$ should work as attribute exploration
-does: if $P \to Q$ is accepted by the expert, then it is added to $\mathcal{K}$.  If it is
-rejected by the expert, then a counterexamples $C$ has to be provided by the expert.  In
-this case, all implications from $\mathcal{L}$ for which $C$ is a counterexample are
-removed.  The algorithm terminates if $\mathcal{L} \setminus \Cn(\mathcal{K}) = \emptyset$
-(in which case also $\Cn(\mathcal{L}) \setminus \Cn(\mathcal{K}) = \emptyset$ holds).
+does: if the implication $P \to Q$ is accepted by the expert, then it is added to
+$\mathcal{K}$.  If it is rejected by the expert, then a counterexamples $C$ has to be
+provided by the expert.  In this case, all implications from $\mathcal{L}$ for which $C$
+is a counterexample are removed.  The algorithm terminates if $\mathcal{L} \setminus
+\Cn(\mathcal{K}) = \emptyset$ (in which case also $\Cn(\mathcal{L}) \setminus
+\Cn(\mathcal{K}) = \emptyset$ holds).
 
 In what follows, we want to make this idea more precise.  To this end, we shall first
 start with a formalization of the notion of an \emph{expert} that we heretofore have used
@@ -338,9 +339,9 @@ domain as formal contexts do.
 \begin{Proposition}
   \label{prop:domain-expert-from-domain}
   Let $\con K = (G, M, I)$ be a formal context.  For each $(A \to B) \in \Imp(M) \setminus
-  \Th(\con K)$ let $g_{A \to B} \in G$ such that $A \subseteq g_{A \to B}', B
-  \not\subseteq g_{A \to B}'$.  Then the mapping $p_{\con K} \colon \Imp(M) \to \set{ \top } \cup
-  \subsets M$ defined by
+  \Th(\con K)$ let $g_{A \to B} \in G$ such that $A \subseteq g_{A \to B}'$ and $B
+  \not\subseteq g_{A \to B}'$.  Then the mapping $p_{\con K} \colon \Imp(M) \to \set{ \top
+  } \cup \subsets M$ defined by
   \begin{equation*}
     p_{\con K}(X \to Y) :=
     \begin{cases}
@@ -464,11 +465,11 @@ Recall that in \Cref{alg:attribute-exploration} we have used two special functio
 for computing the lectically first closed set that is not an intent of a given formal
 context, and for computing the lectically next closed set of a given closure operator that
 is not an intent of the current working context.  However, a closer inspection of the way
-these functions are used yields that the actual computation required for attribute
-exploration is to have a way to compute for a given set $A \subseteq M$ the lectically
-smallest set lectically greater \emph{or equal} to $A$ that is not an intent of the
-current working context but is closed under a given closure operator.  An implementation
-of this function, called \lstinline{next-closed-non-closed}, is given in
+these functions are used reveals that attribute exploration can be reformulated using only
+a function that computes for a given set $A \subseteq M$ the lectically smallest set
+lectically greater \emph{or equal} to $A$ that is not an intent of the current working
+context but is closed under a given closure operator.  An implementation of this function,
+called \lstinline{next-closed-non-closed}, is given in
 \Cref{alg:explore-attributes-with-next-closed-none-closed}.  This function suffices to
 implement attribute exploration, and the corresponding listing is also shown in
 \Cref{alg:explore-attributes-with-next-closed-none-closed}.
@@ -596,8 +597,8 @@ For this we need to argue that the algorithm always terminates and, upon termina
 
 \begin{Theorem}
   \label{thm:explore-implications-termination}
-  Let $M$ be a finite set, $\leq_M$ a linear order on $M$, $p$ a domain expert on $M$,
-  $\mathcal{L} \subseteq \Imp(M)$ and $\mathcal{K} \subseteq \Th(p)$.  Then
+  Let $M$ be a finite set, $\leq_M$ a linear order on $M$, and let $p$ be a domain expert on
+  $M$. Let $\mathcal{L} \subseteq \Imp(M)$ and $\mathcal{K} \subseteq \Th(p)$.  Then
   \lstinline{explore-implications} applied to these arguments terminates after finitely
   many steps.
 \end{Theorem}
@@ -627,19 +628,19 @@ For this we need to argue that the algorithm always terminates and, upon termina
     \Cn(\mathcal{L}_0) \setminus \Cn(\mathcal{K}_0) \supsetneq \Cn(\mathcal{L}_1)
     \setminus \Cn(\mathcal{K}_1) \supsetneq \dots.
   \end{equation*}
-  Since $M$ is finite, $\subsets{\Imp(M)}$ is finite and therefore this cannot happen.
-  Thus the algorithm has to terminate.
+  Since $M$ is finite, $\subsets{\Imp(M)}$ is finite as well, and therefore this cannot
+  happen.  Thus the algorithm has to terminate.
 \end{Proof}
 
 We now consider the correctness of \Cref{alg:explore-implications}.
 
 \begin{Proposition}
   \label{prop:explore-implications-closedness-persists}
-  Let $M$ be a finite set, $p$ a domain expert on $M$, $\leq_M$ a linear order on $M$,
-  $\mathcal{L} \subseteq \Imp(M)$ and $\mathcal{K} \subseteq \Th(p)$.  Denote with
-  $\preceq$ the lectic order on $\subsets M$ induced by $\leq_M$.  Then in every iteration
-  $i$ of the run of \lstinline{explore-implications} with this input such that $P_{i+1}
-  \neq \text{\lstinline{nil}}$, it is true that for $A \prec P_{i+1}$, if $A$ is
+  Let $M$ be a finite set, $p$ a domain expert on $M$, and $\leq_M$ a linear order on
+  $M$. Let $\mathcal{L} \subseteq \Imp(M)$ and $\mathcal{K} \subseteq \Th(p)$.  Denote
+  with $\preceq$ the lectic order on $\subsets M$ induced by $\leq_M$.  Then in every
+  iteration $i$ of the run of \lstinline{explore-implications} with this input such that
+  $P_{i+1} \neq \text{\lstinline{nil}}$, it is true that for $A \prec P_{i+1}$, if $A$ is
   $\mathcal{K}_i$-closed, then $A$ is $\mathcal{L}_i$-closed as well.
 \end{Proposition}
 \begin{Proof}
@@ -714,10 +715,10 @@ We now consider the correctness of \Cref{alg:explore-implications}.
 
 \begin{Theorem}
   \label{thm:explore-implications-correctness}
-  Let $M$ be a finite set, $\leq_{M}$ be a linear order on $M$, $p$ a domain expert on
-  $M$, $\mathcal{L} \subseteq \Imp(M)$ and $\mathcal{K} \subseteq \Th(p) \cap
-  \Cn(\mathcal{L})$.  Denote with $n$ the last iteration of
-  \lstinline{explore-implications} applied to this input.  Then
+  Let $M$ be a finite set, $\leq_{M}$ be a linear order on $M$, and $p$ a domain expert on
+  $M$. Let $\mathcal{L} \subseteq \Imp(M)$ and $\mathcal{K} \subseteq \Th(p) \cap
+  \Cn(\mathcal{L})$.  If $n$ is the last iteration of \lstinline{explore-implications}
+  applied to this input, then
   \begin{equation*}
     \Th(p) \cap \Cn(\mathcal{L}) \supseteq \Cn(\mathcal{K}_{n}) \supseteq \Cn(\Th(p) \cap \mathcal{L}).
   \end{equation*}
@@ -747,17 +748,17 @@ or does not hold in $\con L$.  This fact can be useful on its own.
 
 \begin{Theorem}
   \label{thm:explore-implications-counterexamples-context}
-  Let $M$ be a finite set, $\leq_{M}$ a linear order on $M$, $p$ a domain expert on $M$,
-  $\mathcal{L} \subseteq \Imp(M)$ and $\mathcal{K} \subseteq \Th(p) \cap
-  \Cn(\mathcal{L})$.  Let $n$ denote the last iteration of
+  Let $M$ be a finite set, $\leq_{M}$ a linear order on $M$, and let $p$ be a domain
+  expert on $M$. Let $\mathcal{L} \subseteq \Imp(M)$ and $\mathcal{K} \subseteq \Th(p)
+  \cap \Cn(\mathcal{L})$.  Let $n$ be the last iteration of
   \lstinline{explore-implications} applied to this input, and let $\set{ C_{1}, \dots,
     C_{m} }$ be the counterexamples given by $p$ during this run.  Denote with $\con L$
   the formal context which arises from these counterexamples, \ie
   \begin{equation*}
     \con L = (\set{ C_{1}, \dots, C_{m} }, M, \ni).
   \end{equation*}
-  Then for each implication $(A \to B) \in \mathcal{L}$ it is true that either $(A \to B)
-  \in \Cn(\mathcal{K}_{n})$ or $(A \to B) \notin \Th(\con L)$, \ie
+  Then for each implication $(A \to B) \in \mathcal{L}$ either $(A \to B) \in
+  \Cn(\mathcal{K}_{n})$ or $(A \to B) \notin \Th(\con L)$, \ie
   \begin{equation*}
     \Cn(\mathcal{K}_{n}) \cap \mathcal{L} = \Th(\con L) \cap \mathcal{L}.
   \end{equation*}
@@ -886,8 +887,8 @@ We now show that \Cref{alg:explore-implications} computes the canonical base of 
   because $\mathcal{K}_{n} \subseteq \Cn(\mathcal{L})$.  Therefore, by construction,
   $P_{1}$ is not \lstinline{nil} and $P_{1} \preceq Q$.
 
-  For induction step we assume that the claim holds for iteration $i$.  Let $k := \abs{
-    \mathcal{K}_{i} \setminus \mathcal{K} }$.  If there is no more
+  For the induction step we assume that the claim holds for iteration $i$.  Let $k :=
+  \abs{ \mathcal{K}_{i} \setminus \mathcal{K} }$.  If there is no more
   $\mathcal{K}$-pseudo-closed set of $\mathcal{K}_{n}$ which is not already a premise of
   an implication in $\mathcal{K}_{i} \setminus \mathcal{K}$, then $\mathcal{K}_{i}$ is a
   base of $\mathcal{K}_{n}$ with background knowledge $\mathcal{K}$.  Since
@@ -910,10 +911,10 @@ We now show that \Cref{alg:explore-implications} computes the canonical base of 
   $\mathcal{K}_{n}$ are precisely the premises of the implications in $\mathcal{K}_{i+1}
   \setminus \mathcal{K}$.
 
-  If the $(k+2)$nd $\mathcal{K}$-pseudo-closed set $\bar Q$ of $\mathcal{K}_{n}$ exists,
-  then in particular $\bar Q$ is closed under $\mathcal{K}_{i+1}$, as for each
-  $\mathcal{K}$-pseudo-closed set $P_{\ell} \subseteq \bar Q$ it is true tat
-  $\mathcal{K}_{n}(P_{\ell}) \subseteq \bar Q$.  Furthermore, $\bar Q$ is not
+  If the $(k+2)$nd $\mathcal{K}$-pseudo-closed set $\overline Q$ of $\mathcal{K}_{n}$
+  exists, then in particular $\overline Q$ is closed under $\mathcal{K}_{i+1}$, as for
+  each $\mathcal{K}$-pseudo-closed set $P_{\ell} \subseteq \overline Q$ it is true tat
+  $\mathcal{K}_{n}(P_{\ell}) \subseteq \overline Q$.  Furthermore, $\overline Q$ is not
   $\mathcal{K}_{n}$-closed, and thus also not $\mathcal{L}_{i+1}$-closed.  Therefore, by
   construction $P_{i+2} \subseteq M$, \ie is not \lstinline{nil}, and $P_{i+2} \preceq Q$.
 
@@ -927,9 +928,9 @@ We now show that \Cref{alg:explore-implications} computes the canonical base of 
   $\mathcal{K}_{n}$-closed, since otherwise it would be a $\mathcal{K}$-pseudo-closed set
   of $\mathcal{K}_{n}$, and $P_{i+1} \succeq Q$ would hold.  To see this, we first observe
   that $P_{i+1}$ is $K_{i}$-closed by definition, and thus also $\mathcal{K}$-closed.
-  Furthermore, if $\bar Q \subsetneq P_{i+1}$ is a $\mathcal{K}$-pseudo-closed set of
-  $\mathcal{K}_{n}$, then by induction hypothesis, the set $\bar Q$ is a premise of
-  $\mathcal{K}_{i}$ and therefore $\mathcal{K}_{n}(\bar Q) \subseteq P_{i+1}$.  Thus, the
+  Furthermore, if $\overline Q \subsetneq P_{i+1}$ is a $\mathcal{K}$-pseudo-closed set of
+  $\mathcal{K}_{n}$, then by induction hypothesis, the set $\overline Q$ is a premise of
+  $\mathcal{K}_{i}$ and therefore $\mathcal{K}_{n}(\overline Q) \subseteq P_{i+1}$.  Thus, the
   only possibility for $P_{i+1}$ to not be a $\mathcal{K}$-pseudo-closed set of
   $\mathcal{K}_{n}$ is that $P_{i+1}$ is $\mathcal{K}_{n}$-closed.
 
@@ -943,10 +944,9 @@ We now show that \Cref{alg:explore-implications} computes the canonical base of 
   (since $Q$ is not $\mathcal{K}_{n}$-closed), it is true that $P_{i+2} \preceq Q$ by
   construction.
 
-  This finishes the step case and the proof of the above claim.
-
-  Using this claim, we shall now show the theorem.  Note that for each implication $(P_{i}
-  \to \mathcal{L}_{i-1}(P_{i})) \in \mathcal{K}_{n} \setminus \mathcal{K}$ it is true that
+  This finishes the step case and the proof of the above claim.  Using this claim, we
+  shall now show the theorem.  Note that for each implication $(P_{i} \to
+  \mathcal{L}_{i-1}(P_{i})) \in \mathcal{K}_{n} \setminus \mathcal{K}$ it is true that
   \begin{equation}
     \label{eq:38}
     \mathcal{L}_{i-1}(P_{i}) = \mathcal{K}_{n}(P_{i})
@@ -992,7 +992,7 @@ However, it cannot be guaranteed in general that the implications $P_{i+1} \to
 discuss in the following a relaxation of \Cref{alg:explore-implications} that allows for
 more freedom in the choice which implications are asked to the expert.  In this way, it
 may be easier to ensure that the implications asked are indeed elements of $\mathcal{L}$,
-and thus that the exploration does not contain too many questions.  We shall see in
+and thus the exploration does not contain too many questions.  We shall see in
 \Cref{sec:poss-fast-expl} how this idea can be applied for our case of exploration by
 confidence.
 
@@ -1071,7 +1071,7 @@ Note that if we always choose $P_{i+1} = P$ and $Q = \mathcal{L}_{i}(P_{i+1})$, 
 obtain \Cref{alg:explore-implications} again.
 
 We now argue that \Cref{alg:explore-implications-weaker-version} is indeed an algorithm
-that allows to approximately explores $\mathcal{L}$, using $p$ as an expert and
+that allows to approximately explore $\mathcal{L}$, using $p$ as an expert and
 $\mathcal{K}$ as background knowledge.  For this we first observe that termination can be
 argued as in the case of \Cref{alg:explore-implications}, and therefore the analog of
 \Cref{thm:explore-implications-termination} holds.
@@ -1101,7 +1101,7 @@ comparison.
   is $\mathcal{K}_{i}$-closed, then $A$ is also $\mathcal{L}_{i}$-closed.
 \end{Proposition}
 \begin{Proof}
-  We again show the claim by induction over $i$.  For the base case $i = 0$ we know that
+  Again we show the claim by induction over $i$.  For the base case $i = 0$ we know that
   $P_{i} = \emptyset$, and thus the claim is vacuously true.
 
   For the step case assume the validity of the proposition for iteration $i$.  Then if
@@ -1132,9 +1132,9 @@ minimal.
 
 \begin{Theorem}
   \label{thm:explore-implications-weaker-version-all-other-properties}
-  Let $M$ be a finite set, $\leq_{M}$ be a linear order on $M$, $p$ a domain expert on
-  $M$, $\mathcal{L} \subseteq \Imp(M)$ and $\mathcal{K} \subseteq \Th(p) \cap
-  \Cn(\mathcal{L})$.  Denote with $n$ the last iteration of the run of
+  Let $M$ be a finite set, $\leq_{M}$ be a linear order on $M$, and let $p$ be a domain
+  expert on $M$.  Let $\mathcal{L} \subseteq \Imp(M)$ and $\mathcal{K} \subseteq \Th(p)
+  \cap \Cn(\mathcal{L})$.  Denote with $n$ the last iteration of the run of
   \Cref{alg:explore-implications-weaker-version} applied to this input.  Then
   \begin{enumerate}[i. ]
   \item $\Cn(\mathcal{K}_{n}) \supseteq \Cn(\mathcal{L}_{n})$,
@@ -1161,10 +1161,10 @@ approximative, which may or may not be a problem, depending on the current appli
 To remedy these problems, we use our weaker formulation
 \Cref{alg:explore-implications-weaker-version} and derive from it in
 \Cref{sec:poss-fast-expl} an algorithm for exploration by confidence that avoids computing
-closures under $\Th_{c}(\con K)$, and were we can ensure that all implications asked to
-the expert satisfy the confidence constraint given by $c$.  The price we have to pay for
-this is an increase in the number of questions asked to the expert, and the fact that we
-do not compute the canonical base anymore.
+closures under $\Th_{c}(\con K)$.  In addition, for this algorithm we can ensure that all
+implications asked to the expert satisfy the confidence constraint given by $c$.  The
+price we have to pay for this is an increase in the number of questions asked to the
+expert, and the fact that we do not compute the canonical base anymore.
 
 \subsection{An Approximative Exploration by Confidence}
 \label{sec:expl-conf-1}
@@ -1351,11 +1351,11 @@ the formal context
 \begin{equation*}
   \con K \div \con L_{i} := \frac {\con K} {\con L_{i}} := (G \cup G_{i}, M, I \cup I_{i}),
 \end{equation*}
-where we assume that $G$ and $G_{i}$ are disjoint.  To avoid confusion we shall denote
-thus denote the derivation operators by $(\cdot)'_{\con K}$, $(\cdot)'_{\con L_{i}}$ and
-$(\cdot)'_{\con K \div \con L_{i}}$, respectively.  To ease readability, we shall also
-write $(\cdot)''_{\con K}$ instead of $((\cdot)'_{\con K})'_{\con K}$, and likewise for
-the other contexts.
+where we assume that $G$ and $G_{i}$ are disjoint.  To avoid confusion we shall denote the
+derivation operators by $(\cdot)'_{\con K}$, $(\cdot)'_{\con L_{i}}$ and $(\cdot)'_{\con K
+  \div \con L_{i}}$, respectively.  To ease readability, we shall also write
+$(\cdot)''_{\con K}$ instead of $((\cdot)'_{\con K})'_{\con K}$, and likewise for the
+other contexts.
 
 To achieve the computation of $\mathcal{L}_{i}(P)$ for some $P$ we first recall the
 definition of $\mathcal{L}_{i}(P)$ as given in \Cref{def:induced-closure-operator}.  There
@@ -1367,21 +1367,21 @@ we had defined
   \mathcal{L}(P) & := \bigcup_{i \in \NN_{>0}} \mathcal{L}^{i}(P).
 \end{align*}
 Therefore, if we can find a way to compute $\mathcal{L}_{i}^{1}(P)$ for $\mathcal{L}_{i} =
-\Th_{c}(\con K) \cap \Th(\con L_{i})$ then we are in principle able to compute
+\Th_{c}(\con K) \cap \Th(\con L_{i})$, then we are in principle able to compute
 $\mathcal{L}_{i}(P)$.  Note that we only have to consider $\mathcal{L}_{i}^{j}(P)$ for up
-to at most $j = \abs M$, because $\abs{ \mathcal{L}_{i}(P) } \le \abs M$.
+to $j = \abs M$ at most, because $\abs{ \mathcal{L}_{i}(P) } \le \abs M$.
 
-As a first observation to compute $\mathcal{L}_{i}^{1}(P)$ for arbitrary $P \subseteq M$
+As a first observation, to compute $\mathcal{L}_{i}^{1}(P)$ for arbitrary $P \subseteq M$
 we observe that
 \begin{equation}
   \label{eq:41}
   P_{\con K \div \con L_{i}}'' \subseteq \mathcal{L}_{i}^{1}(P).
 \end{equation}
-This is because on the one hand we have $P_{\con K \div \con L_{i}}'' \subseteq P_{\con
-  K}''$ and thus the implication $P \to P_{\con K \div \con L_{i}}''$ is valid in $\con
-K$, and in particular $(P \to P_{\con K \div \con L_{i}}'') \in \Th_{c}(\con K)$.  The
-same argumentation shows that $P_{\con K \div \con L_{i}}'' \subseteq P_{\con L_{i}}''$,
-and thus $(P \to P_{\con K \div \con L_{i}}'') \in \Th(\con L_{i})$.  Putting these facts
+The reason for that is that we have $P_{\con K \div \con L_{i}}'' \subseteq P_{\con K}''$
+and thus the implication $P \to P_{\con K \div \con L_{i}}''$ is valid in $\con K$, and in
+particular $(P \to P_{\con K \div \con L_{i}}'') \in \Th_{c}(\con K)$.  The same
+argumentation shows that $P_{\con K \div \con L_{i}}'' \subseteq P_{\con L_{i}}''$, and
+thus $(P \to P_{\con K \div \con L_{i}}'') \in \Th(\con L_{i})$.  Putting these facts
 together we obtain
 \begin{equation*}
   (P \to P_{\con K \div \con L_{i}}'') \in \Th_{c}(\con K) \cap \Th(\con L_{i}) = \mathcal{L}_{i}
@@ -1389,7 +1389,7 @@ together we obtain
 and therefore $P_{\con K \div \con L_{i}}'' \subseteq \mathcal{L}_{i}^{1}(P)$.
 
 To completely compute $\mathcal{L}_{i}^{1}(P)$ we need to consider all implications $(A
-\to B) \in \mathcal{L}_{i}$ such that $A \subseteq P$.  If $A \to B$ is valid in $\con K$
+\to B) \in \mathcal{L}_{i}$ such that $A \subseteq P$.  If $A \to B$ is valid in $\con K$,
 then we know that $B \subseteq P_{\con K \div \con L_{i}}''$.  Therefore, by \Cref{eq:41},
 the difficult part in computing $\mathcal{L}_{i}^{1}(P)$ is to compute the set
 \begin{equation*}
@@ -1559,7 +1559,7 @@ to decide whether a given set $P \subseteq M$ is closed under $\Th_{c}(\con K)$ 
 Furthermore, we need to define the way the sets $P_{i+1}$ and $Q$ are computed, which
 eventually will constitute the implication $P_{i+1} \to Q$ which is asked to the expert.
 As it turns out, we can define the set $Q$ in such a way that $P_{i+1} \to Q$ will always
-have confidence at least $c$ in $\con K$.
+have at least confidence $c$ in $\con K$.
 
 Let us start with some wishful thinking.  To decide whether $P$ is closed under
 $\mathcal{L}_{i} = \Th_{c}(\con K) \cap \Th(\con L_{i})$ it would be ideal if we could
@@ -1677,7 +1677,7 @@ end
 \end{figure}
 
 This idea is realized in \Cref{alg:exploration-by-confidence-without-Th_c(K)-closures}.
-There instead of computing the set $P_{i+1}$ directly, we compute two candidates
+Instead of computing the set $P_{i+1}$ directly, we compute there two candidates
 $P_{i+1}^{1}$ and $P_{i+1}^{2}$.  Here, $P_{i+1}^{2}$ is the ``usual'' premise we compute
 for exploration.  On the other hand, the idea of considering the sets $P_{i+1}^{1}$ comes
 from \Cref{eq:44} in \Cref{prop:easy-checking-confidence-closed}: if we are in iteration
@@ -1743,7 +1743,7 @@ To show that \Cref{alg:exploration-by-confidence-without-Th_c(K)-closures} indee
 an algorithm that implements exploration by confidence we shall show that it has the form
 of \Cref{alg:explore-implications-weaker-version}.  For this we need to show that in every
 iteration $i$, the lectically smallest $\mathcal{K}_{i}$-closed, not
-$\mathcal{L}_{i}$-closed set $P$ lectically greater or equal to $P_{i}$ satisfies
+$\mathcal{L}_{i}$-closed set $P$ with $P_{i} \preceq P$ satisfies
 \begin{equation}
   \label{eq:46}
   P_{i} \preceq P_{i+1} \preceq P.
@@ -1779,21 +1779,21 @@ and $P_{i+1} \preceq P$ is shown in the following proposition.
   It remains to consider the case $P \precneq P_{i+1}^{2}$.  In this case, by construction
   of $P_{i+1}^{2}$ and since $P$ is $\mathcal{K}_{i}$-closed, the set $P$ must be an
   intent of $\con K \div \con L_{i}$.  Since $P$ is not $\mathcal{L}_{i}$-closed, there
-  must exist a set $\bar P \subseteq P$ and an element $m \in P_{\con L_{i}}'' \setminus
-  P$ such that
+  must exist a set $\overline P \subseteq P$ and an element $m \in P_{\con L_{i}}''
+  \setminus P$ such that
   \begin{equation*}
-    \conf_{\con K}(\bar P \to \set{m}) \ge c,
+    \conf_{\con K}(\overline P \to \set{m}) \ge c,
   \end{equation*}
-  and $\bar P \to \set{m}$ is valid in $\con L_{i}$.  In particular, $m \in \bar P_{\con
-    L_{i}}'' \setminus \mathcal{K}_{i}(\bar P)$.
+  and $\overline P \to \set{m}$ is valid in $\con L_{i}$.  In particular, $m \in \overline
+  P_{\con L_{i}}'' \setminus \mathcal{K}_{i}(\overline P)$.
   
-  Since $P$ is an intent of $\con K \div \con L_{i}$ we can assume that $\bar P$ is also
-  an intent of $\con K \div \con L_{i}$.  If $\bar P \precneq P_{i}$, then by
+  Since $P$ is an intent of $\con K \div \con L_{i}$ we can assume that $\overline P$ is
+  also an intent of $\con K \div \con L_{i}$.  If $\overline P \precneq P_{i}$, then by
   \Cref{prop:exploration-by-confidence-crucial-condition-holds} it would be true that $m
-  \in \mathcal{K}_{i}(\bar P) \subseteq \mathcal{K}_{i}(P) = P$, a contradiction.
-  Therefore, $P_{i} \preceq \bar P$.  By definition of $P_{i+1}^{1}$ it holds that
-  $P_{i+1}^{1} \preceq \bar P$, and thus $P_{i+1}^{1} \preceq \bar P \preceq P$, because
-  $\bar P \subseteq P$.  Thus, $P_{i+1} \preceq P$, as required.
+  \in \mathcal{K}_{i}(\overline P) \subseteq \mathcal{K}_{i}(P) = P$, a contradiction.
+  Therefore, $P_{i} \preceq \overline P$.  By definition of $P_{i+1}^{1}$ it holds that
+  $P_{i+1}^{1} \preceq \overline P$, and thus $P_{i+1}^{1} \preceq \overline P \preceq P$,
+  because $\overline P \subseteq P$.  Thus, $P_{i+1} \preceq P$, as required.
 \end{Proof}
 
 Furthermore, it is easy to see that $P_{i+1}$ is not $\mathcal{L}_{i}$-closed: if $P_{i+1}
