@@ -2073,7 +2073,8 @@ we want to conduct several experiments, namely
   c)$ to see in how far we can remove redundancies from $\Conf(\Idbpedia, c)$ by using
   $\Lux(\Idbpedia, c)$ instead.  To this end, we shall compute for all $c \in \set{ 0.0,
     0.01, \dots, 0.99}$ the size of the sets $\Conf(\Idbpedia, c)$ and $\Lux(\Idbpedia,
-  c)$ to see how the cardinality of these sets depends on the choice of the parameter $c$.
+  c)$ to see how the cardinalities of these sets depends on the choice of the parameter
+  $c$.
 \item Finally, we want to consider the size of the canonical base of $\Th_c(\con
   K_\Idbpedia)$ for $c \in \set{ 0.0, 0.01, \dots, 0.99 }$ to see how large this set can
   be.  Recall that $\bigsqcap \Can(\Th_c(\con K_\Idbpedia))$ is a finite base of
@@ -2091,8 +2092,8 @@ The experimental results presented in this section have been published previousl
 \label{sec:comp-conf-bases}
 
 Recall that we had constructed $\Idbpedia$ from the DBpedia data set by extracting all
-individuals that are in a \textsf{child}-relationship in DBpedia, either as parent or as
-child.  Recall that since Wikipedia (from which DBpedia extracts its data) only contains
+individuals that are in a \textsf{child}-relationship in DBpedia, either as a parent or as
+a child.  Recall that since Wikipedia (from which DBpedia extracts its data) only contains
 articles about \enquote{famous} persons, we can consider $\Idbpedia$ as an interpretation
 that contains all properties about the child-relations between \emph{famous} persons.  In
 particular, if an element of $\Idbpedia$ does not have a \textsf{child}-successor in
@@ -2102,8 +2103,8 @@ not famous enough to deserve their own Wikipedia articles.
 
 In the following we want to examine which GCIs we have to consider in addition to the base
 $\mathcal{B}_{\Idbpedia}$ of $\Idbpedia$ we had computed in
-\Cref{sec:computing-bases-from}, if we want to consider also GCIs which have a confidence
-in $\Idbpedia$ of at least 0.95.  Thus, let $c = 0.95$.  We then can compute
+\Cref{sec:computing-bases-from}, if we want to consider GCIs which have a confidence in
+$\Idbpedia$ of at least 0.95.  Thus, let $c = 0.95$.  We then can compute
 $\Conf(\Idbpedia, c)$ to be
 \begin{align*}
   \{\,
@@ -2164,7 +2165,7 @@ We have accepted the GCIs
   \mathcal{B} := \set{ \mathsf{\exists child. \top \sqsubseteq Person},
     \mathsf{Place \sqsubseteq PopulatedPlace} }
 \end{equation*}
-as being valid although $\Idbpedia$ contains counterexamples for it.  It would now be
+as being valid although $\Idbpedia$ contains counterexamples for them.  It would now be
 interesting to know what happened if we would include those two GCIs in a computation of a
 base of $\Idbpedia$.  For this, note that
 \begin{equation*}
@@ -2202,7 +2203,7 @@ varying values of $c$.  From this we shall see how the overhead of considering G
 high confidence depends on the choice of the parameter $c$, and how much we can save by
 considering $\Lux(\Idbpedia, c)$ over $\Conf(\Idbpedia, c)$.
 
-\subsubsection{The Size of $\Conf(\Idbpedia,c)$ and $\Lux(\Idbpedia, c)$}
+\subsubsection{The Sizes of $\Conf(\Idbpedia,c)$ and $\Lux(\Idbpedia, c)$}
 \label{sec:size-confidbpedia-c}
 
 We computed $\abs{ \Conf(\Idbpedia, c) }$ and $\abs{ \Lux(\Idbpedia, c) }$ for all $c \in
@@ -2440,7 +2441,7 @@ be considered in $\Conf(\Idbpedia, c)$ and $\Lux(\Idbpedia, c)$ is negligible.  
 $c = 0.86$ the set $\Conf(\Idbpedia, c)$ contains only 15 GCIs.  Of course, this
 observation is per se only valid for $\Idbpedia$.  Since it originates from real-world
 data one could assume that the same behavior of $\abs{ \Conf(\Idbpedia, c) }$ and $\abs{
-  \Lux(\Idbpedia, c) }$ can be expected for other, non-artificial data-sets.
+  \Lux(\Idbpedia, c) }$ can be expected for other non-artificial data-sets.
 
 What we also observe is that for values $c \geq 0.73$, $\Conf(\Idbpedia, c)$ and
 $\Lux(\Idbpedia, c)$ are actually the same sets, \ie the optimization provided by
@@ -2594,9 +2595,9 @@ $\abs{ \Can(\Th_{0.95}(\con K_{\Idbpedia})) } = 1241$ and $\abs{ \Can( \Th_{0.94
   K_{\Idbpedia})) } = 1242$.  Thus we can observe that with decreasing $c$, the sets
 $\Th_c(\con K_{\Idbpedia})$ get ``simpler'' in the sense that fewer implications are
 necessary to represent them.  If the same is true for bases of $\Th_c(\Idbpedia)$ is not
-clear, tough, as it is not quite clear how to compute finite bases of sets of GCIs.
+clear, though, as it is not quite clear how to compute finite bases of sets of GCIs.
 
-Clearly, the more $c$ is away from 1, the more the set $\Th_c(\Idbpedia)$ departs from
+Clearly, the farther away $c$ is from 1, the more the set $\Th_c(\Idbpedia)$ departs from
 $\Th(\Idbpedia)$.  There are three values for $c$ where this becomes especially apparent:
 for $c \in \set{ 0.18, 0.54, 0.66 }$ the curve depicted in
 \Cref{fig:can-Th_c-size-behavior} shows a rather steep decline.  Indeed, these values of
@@ -2631,10 +2632,10 @@ can be considered rather \emph{general}, because they are applicable to a lot of
 in $\Idbpedia$.  Because of this generality they can make a lot of other implications
 redundant, causing the size of the canonical base to be reduced noticeably.
 
-Indeed, we could argue that whenever we observe that the canonical base of $\Th_c(\con
-K_{\Idbpedia})$ is reduced drastically, then it is the very likely that a general GCI has
-been found, in the sense that the confidence threshold is now so low that it is accepted.
-To this end recall that we had already noticed that the size of the canonical base of
+Indeed, we could argue that whenever the size of the canonical base of $\Th_c(\con
+K_{\Idbpedia})$ is reduced drastically, then it is very likely that a general GCI has been
+found, in the sense that the confidence threshold is now so low that it is accepted.  To
+this end recall that we had already noticed that the size of the canonical base of
 $\Th_c(\con K_{\Idbpedia})$ can be seen as some kind of indication how \emph{complex} this
 set is: the less implications are contained in the canonical base, the less implications
 are necessary to represent $\Th_c(\con K_\Idbpedia)$ and thus the \emph{simpler} this set
@@ -2648,7 +2649,7 @@ the entailment, which in $\Th_{c_1}(\con K_\Idbpedia)$ has only been achieved by
 number of implications.
 
 Therefore, the way the size of $\Can(\Th_c(\con K_{\mathcal{I}}))$ depends on the choice
-of $c$ can indicate which kind of GCIs have been accepted with the current confidence
+of $c$ can indicate which kinds of GCIs have been accepted with the current confidence
 threshold $c$.  This can especially be interesting when looking for general patterns in
 the interpretation $\mathcal{I}$, or when it is not yet clear which value for the
 confidence threshold to choose.  On the other hand, it is also quite obvious that the
