@@ -15,11 +15,12 @@ is no longer necessary.  This observation may indeed save a lot of work.
 
 Even more, utilizing this observation may save computation time as well: if during the
 computation of bases of $\Th_c(\mathcal{I})$ an expert already rejects a GCI and confirms
-some counterexamples contained in $\mathcal{I}$ are indeed correct, then all GCIs which
-are falsified by this counterexamples can also be rejected, irrespective of whether their
-confidence in $\mathcal{I}$ is above $c$, or not.  It is thus desirable to allow expert
-interaction already during the time of the computation of bases of $\Th_c(\mathcal{I})$,
-and not only at the end of the computation, as a separate validation step.
+that some counterexamples contained in $\mathcal{I}$ are indeed correct, then all GCIs
+which are falsified by these counterexamples can also be rejected, irrespective of whether
+their confidence in $\mathcal{I}$ is above $c$, or not.  It is thus desirable to allow
+expert interaction already during the time of the computation of bases of
+$\Th_c(\mathcal{I})$, and not only at the end of the computation, as a separate validation
+step.
 
 There is also another issue that requires expert interaction, and which has already been
 addressed by Distel~\cite{Diss-Felix}: the data $\mathcal{I}$ may not only contain errors,
@@ -32,7 +33,7 @@ such a case, the GCI $C \sqsubseteq D$ would be accepted (since all counterexamp
 erroneous) although it is not valid.  Here an expert could, as soon as $C \sqsubseteq D$
 would be computed as an element of a base, provide correct counterexamples, inhibiting
 this GCI from being included in a base.  Such counterexamples would also affect the
-following computation, as all GCIs invalided by it would also be rejected.
+following computation, as all GCIs invalidated by it would also be rejected.
 
 The approach followed by Distel to solve this problem is to adapt attribute exploration
 from its original setting of implications and formal contexts to the setting of GCIs and
@@ -84,7 +85,7 @@ exploration from a more abstract point of view.  In this consideration, we shall
 we can consider attribute exploration of a formal context $\con K$ as an algorithm that
 \enquote{explores} the set $\Th(\con K)$, in the sense that attribute exploration tries to
 find out which implications in $\Th(\con K)$ are confirmed by an expert and which not.  To
-make this more precise, we shall also introduce a formalization of the up to know only
+make this more precise, we shall also introduce a formalization of the up to now only
 informally treated notion of an \emph{expert}.
 
 Based on the observation that attribute exploration is an algorithm to explore $\Th(\con
@@ -143,7 +144,7 @@ them.
 We can view this procedure from a more general perspective:\footnote{This idea is similar
   to the one of considering the process of attribute exploration as a decreasing sequence
   of intervals in the lattice of closure systems over $M$, see~\cite[pp.\
-  143--145]{GORS-book} for more details} given the formal context $\con K$, we know that
+  143--145]{GORS-book} for more details.} given the formal context $\con K$, we know that
 all implications in $\Imp(M) \setminus \Th(\con K)$ \emph{are not} valid in $\con
 K_{\mathsf{back}}$, and thus are not valid in our domain.  On the other hand, all
 implications in $\Th(\con K)$ \emph{could} be valid in $\con K_{\mathsf{back}}$, depending
@@ -184,10 +185,10 @@ to $\mathcal{K}$, and we obtain the following situation:
   \Imp(M) \supseteq \Th(\con K) \supseteq \Cn(\mathcal{K} \cup \set{ P \to P'' })
   \supsetneq \Cn(\mathcal{K}).
 \end{equation*}
-If the expert rejects $P \to P''$, she has to provide a counterexamples, \ie a set $C
+If the expert rejects $P \to P''$, she has to provide a counterexample, \ie a set $C
 \subseteq M$ such that $P \subseteq C$ and $P'' \not\subseteq C$.  Denote with $\con K +
 C$ the formal context which arises from $\con K$ by adding a new object $g_C$ to $\con K$
-which has exactly the attributes which are contained $C$, \ie
+which has exactly the attributes which are contained in $C$, \ie
 \begin{equation*}
   (g_C)' := C
 \end{equation*}
@@ -199,7 +200,7 @@ where the derivation is done in $\con K + C$.  Then the situation from above evo
 If $\Th(\con K) \setminus \Cn(\mathcal{K}) = \emptyset$, then the algorithm terminates.
 (Note that this indeed has to happen since the base set $M$ is finite.)  When this
 happens, the situation can be described as follows\footnote{We read $\con K + C_1 + \dots
-  + C_m$ as $(\dots(\con K + C_1) + \dots ) + C_m$ and nothing else.}
+  + C_m$ as $(\dots(\con K + C_1) + \dots ) + C_m$ and nothing else.}:
 \begin{align*}
   \Imp(M) &\supseteq \Th(\con K) \supsetneq \Th(\con K + C_1) \supsetneq \dots \supsetneq
   \Th(\con K + C_1 + \dots + C_m) \\ &= \Cn(\mathcal{K} \cup \set{ P_1 \to P_1'', \dots, P_n
@@ -299,7 +300,7 @@ this approach also does not solve our initial problem, because in general $\math
 
 Intuitively, an algorithm for exploring $\mathcal{L}$ should work as attribute exploration
 does: if the implication $P \to Q$ is accepted by the expert, then it is added to
-$\mathcal{K}$.  If it is rejected by the expert, then a counterexamples $C$ has to be
+$\mathcal{K}$.  If it is rejected by the expert, then a counterexample $C$ has to be
 provided by the expert.  In this case, all implications from $\mathcal{L}$ for which $C$
 is a counterexample are removed.  The algorithm terminates if $\mathcal{L} \setminus
 \Cn(\mathcal{K}) = \emptyset$ (in which case also $\Cn(\mathcal{L}) \setminus
@@ -391,7 +392,7 @@ M, I)$ it is true that
   \Th(p) &= \Th(p_{\con K_p}), \\
   \Th(\con K) &= \Th(\con K_{p_{\con K}}).
 \end{align*}
-In other words, the representation of domains as formal context and in terms of domain
+In other words, the representation of domains as formal contexts and in terms of domain
 experts is, from a logical point of view, interchangeable.
 
 With the formal notion of an expert we can reformulate our goal of exploring sets of
@@ -453,7 +454,7 @@ define explore-attributes($M$, $\leq_M$, $p$, $\con K = (G, M, I)$, $\mathcal{K}
     end
 
     $i$ := $i + 1$
-  end while
+  end do
 
   return $\mathcal{K}_i$  
 end
@@ -490,7 +491,7 @@ then
 \begin{align*}
   \Th(\con K_{i+1})
   &= \Th(\con K_{i} + C) \\
-  &= \set{ (A \to B) \in \Th(\con K) \mid A \not\subseteq C \text{ or } B \subseteq C }.
+  &= \set{ (A \to B) \in \Th(\con K_{i}) \mid A \not\subseteq C \text{ or } B \subseteq C }.
 \end{align*}
 Correspondingly, we obtain
 \begin{align*}
@@ -525,7 +526,7 @@ define explore-implications($M$, $\leq_M$, $p$, $\mathcal{L} \subseteq \Imp(M)$,
     end
 
     $i$ := $i + 1$
-  end while
+  end do
 
   return $\mathcal{K}_i$  
 end
@@ -542,7 +543,7 @@ Indeed, it may be the case that the set $\mathcal{K}_{n}$ of implications return
 \end{equation*}
 This is illustrated by the following example\footnote{This example has been provided by an
   anonymous reviewer, who also pointed our an error in the original argumentation (as
-  given in~\cite{Borch-LTCS-13-04})}
+  given in~\cite{Borch-LTCS-13-04}).}
 
 \begin{Example}
   \label{expl:exploring-sets-of-implications-may-be-approximative}
@@ -577,7 +578,7 @@ For this we need to argue that the algorithm always terminates and, upon termina
 \begin{Proposition}
   \label{prop:technicalities-about-explore-implications}
   Let $M$ be a finite set, $p$ a domain expert on $M$, $\mathcal{L} \subseteq \Imp(M)$ and
-  $\mathcal{K} \subseteq \Th(p)$.  The for iteration $i$ of the run of
+  $\mathcal{K} \subseteq \Th(p)$.  Then for iteration $i$ of the run of
   \lstinline{explore-implications} with this input, it is true that $\mathcal{K}_i
   \subseteq \mathcal{K}_{i+1}$ and $\mathcal{L}_i \supseteq \mathcal{L}_{i+1}$, and
   exactly one of these inclusions is strict.
@@ -611,7 +612,7 @@ For this we need to argue that the algorithm always terminates and, upon termina
   \begin{equation}
     \label{eq:36}
     \Cn(\mathcal{L}_{i+1}) \setminus \Cn(\mathcal{K}_{i+1}) \subsetneq \Cn(\mathcal{L}_i)
-    \setminus \Cn(\mathcal{K}_i)
+    \setminus \Cn(\mathcal{K}_i).
   \end{equation}
   This is because if $\mathcal{K}_i \neq \mathcal{K}_{i+1}$ then the implication $P_{i+1}
   \to \mathcal{L}_i(P_{i+1})$ added to $\mathcal{K}_{i}$ does not follow from
@@ -626,7 +627,7 @@ For this we need to argue that the algorithm always terminates and, upon termina
   If the algorithm would run forever, it would thus yield an infinite descending chain
   \begin{equation*}
     \Cn(\mathcal{L}_0) \setminus \Cn(\mathcal{K}_0) \supsetneq \Cn(\mathcal{L}_1)
-    \setminus \Cn(\mathcal{K}_1) \supsetneq \dots.
+    \setminus \Cn(\mathcal{K}_1) \supsetneq \dots
   \end{equation*}
   Since $M$ is finite, $\subsets{\Imp(M)}$ is finite as well, and therefore this cannot
   happen.  Thus the algorithm has to terminate.
@@ -663,7 +664,7 @@ We now consider the correctness of \Cref{alg:explore-implications}.
   strictly between $P_{i+1}$ and $P_{i+2}$ are $\mathcal{L}_{i+1}$-closed if
   $\mathcal{K}_{i+2}$-closed, by definition of $P_{i+2}$.
 
-  Therefore, it only remains to consider the case $A = P_{i+1} \neq P_{i+2}$.  But then
+  Therefore, only the case $A = P_{i+1} \neq P_{i+2}$ remains to be considered.  But then
   since $A$ is $\mathcal{K}_{i+2}$-closed and $P_{i+1} \neq P_{i+2}$ we know that
   $P_{i+1}$ is not $\mathcal{L}_{i+1}$-closed, as otherwise $P_{i+1} = P_{i+2}$.
   Therefore, $A = P_{i+1}$ is $\mathcal{L}_{i+1}$-closed as required.
@@ -901,7 +902,7 @@ We now show that \Cref{alg:explore-implications} computes the canonical base of 
   $\mathcal{K}_{n}$.  By induction hypothesis, $P_{i+1} \subseteq M$ and $P_{i+1} \preceq
   Q$.  We consider two main cases.
 
-  \textit{Case $Q = P_{i+1}$}:  If $\mathcal{L}_{i}(P_{i+1}) \subseteq
+  \textit{Case $P_{i+1} = Q$}:  If $\mathcal{L}_{i}(P_{i+1}) \subseteq
   \mathcal{K}_{n}(P_{i+1})$, then $p$ accepts the implication
   \begin{equation*}
     P_{i+1} \to \mathcal{L}_{i}(P_{i+1}),
@@ -924,14 +925,14 @@ We now show that \Cref{alg:explore-implications} computes the canonical base of 
   also not $\mathcal{L}_{i+1}$-closed, as otherwise it would be $\mathcal{K}_{n}$-closed.
   Thus, $P_{i+2} = P_{i+1}$ and $P_{i+2} \preceq Q$ as required.
 
-  \textit{Case $Q \precneq P_{i+1}$}:  In this case, the set $P_{i+1}$ must be
+  \textit{Case $P_{bi+1} \precneq Q$}: In this case, the set $P_{i+1}$ must be
   $\mathcal{K}_{n}$-closed, since otherwise it would be a $\mathcal{K}$-pseudo-closed set
   of $\mathcal{K}_{n}$, and $P_{i+1} \succeq Q$ would hold.  To see this, we first observe
   that $P_{i+1}$ is $K_{i}$-closed by definition, and thus also $\mathcal{K}$-closed.
   Furthermore, if $\overline Q \subsetneq P_{i+1}$ is a $\mathcal{K}$-pseudo-closed set of
   $\mathcal{K}_{n}$, then by induction hypothesis, the set $\overline Q$ is a premise of
-  $\mathcal{K}_{i}$ and therefore $\mathcal{K}_{n}(\overline Q) \subseteq P_{i+1}$.  Thus, the
-  only possibility for $P_{i+1}$ to not be a $\mathcal{K}$-pseudo-closed set of
+  $\mathcal{K}_{i}$ and therefore $\mathcal{K}_{n}(\overline Q) \subseteq P_{i+1}$.  Thus,
+  the only possibility for $P_{i+1}$ not to be a $\mathcal{K}$-pseudo-closed set of
   $\mathcal{K}_{n}$ is that $P_{i+1}$ is $\mathcal{K}_{n}$-closed.
 
   In addition, $P_{i+1}$ is not $\mathcal{L}_{i}$-closed by definition.  Thus, since
@@ -964,10 +965,10 @@ We now show that \Cref{alg:explore-implications} computes the canonical base of 
 \end{Proof}
 
 Recall that our initial motivation to consider the generalization of attribute exploration
-as given in \Cref{alg:explore-implications} was to be able explore sets of the form
+as given in \Cref{alg:explore-implications} was to be able to explore sets of the form
 $\Th_{c}(\con K)$ for arbitrary choices of $c \in [0,1]$.  However, for this particular
-application our algorithm does not seem very practical, as during a run we then would need
-to compute sets of the form $\mathcal{L}_{i}(P)$ for some $\mathcal{L}_{i} \subseteq
+application our algorithm does not seem very practical, as during a run we would need to
+compute sets of the form $\mathcal{L}_{i}(P)$ for some $\mathcal{L}_{i} \subseteq
 \Th_{c}(\con K)$ and $P \subseteq M$.  For $c = 1$ this is not a problem, since
 \begin{equation*}
   \Th_{1}(\con K)(P) = \Th(\con K)(P) = P''.
@@ -1036,7 +1037,7 @@ P_{i+1} \text{ not } \mathcal{L}_{i}\text{-closed}$
     end
 
     $i$ := $i + 1$
-  end while
+  end do
 
   return $\mathcal{K}_i$  
 end
@@ -1050,7 +1051,7 @@ end
 \Cref{alg:explore-implications}, but differs in a crucial aspect: we still compute sets of
 the form
 \begin{equation*}
-  P = \text{\lstinline{next-closed-non-closed}}(M, \leq_{M}, P_{i}, \mathcal{K}_{i}, \mathcal{L}_{i})
+  P = \text{\lstinline{next-closed-non-closed}}(M, \leq_{M}, P_{i}, \mathcal{K}_{i}, \mathcal{L}_{i}),
 \end{equation*}
 but we then do not directly ask $P \to \mathcal{L}_{i}(P)$ to the expert.  Instead, we
 allow the algorithm to choose a set $P_{i+1}$ such that
@@ -1158,7 +1159,7 @@ efficiently than by iterating through $\Th_{c}(\con K)$, which are, however, sti
 potentially expensive.  Furthermore, in the general case this exploration will only be
 approximative, which may or may not be a problem, depending on the current application.
 
-To remedy these problems, we use our weaker formulation
+To remedy these problems, we use our weaker formulation of
 \Cref{alg:explore-implications-weaker-version} and derive from it in
 \Cref{sec:poss-fast-expl} an algorithm for exploration by confidence that avoids computing
 closures under $\Th_{c}(\con K)$.  In addition, for this algorithm we can ensure that all
@@ -1212,7 +1213,7 @@ define exploration-by-confidence($\con K = (G, M, I)$, $\leq_M$, $p$, $c \in [0,
     end if
 
     $i$ := $i + 1$
-  end while
+  end do
 
   return $\mathcal{K}_i$  
 end
@@ -1256,8 +1257,8 @@ $\mathcal{L}_{i}$, namely
 
 Of course this solution is only practical if we can efficiently compute closures under
 $\mathcal{L}_{i}$.  As already mentioned, we want to avoid enumerating $\Th_{c}(\con K)$
-at all costs, as otherwise the algorithm impractical even from a theoretical point of
-view.
+at all costs, as otherwise the algorithm becomes impractical even from a theoretical point
+of view.
 
 It is worth noting that an apparently simpler approach to avoid computing closures under
 $\Th_{c}(\con K)$ does not work.  More precisely, one may be tempted to replace in
@@ -1316,7 +1317,7 @@ following example.
   \end{equation*}
   \ie $(\set{ \mathsf{a} } \to \set{ \mathsf{c} }) \in \Th_{c}(\con K)$, and thus should
   actually be asked to the expert.  Furthermore, the implication $\set{ \mathsf{a} } \to
-  \set{ \mathsf{c} }$ does also not follow form other implications asked to the expert, as
+  \set{ \mathsf{c} }$ also does not follow form other implications asked to the expert, as
   the implications $\set{ \mathsf{b} } \to \set{ \mathsf{c} }$, $\set{ \mathsf{a},
     \mathsf{b} } \to \set{ \mathsf{c} }$, and $\emptyset \to \set{ \mathsf{c} }$ will also
   not be asked to the expert, because
@@ -1668,7 +1669,7 @@ define exploration-by-confidence*($\con K = (G, M, I)$, $\leq_M$, $p$, $c \in [0
     end
 
     $i$ := $i + 1$
-  end while
+  end do
 
   return $\mathcal{K}_i$  
 end
@@ -1705,7 +1706,7 @@ proposition.
 \end{equation}
 \end{Proposition}
 \begin{Proof}
-  We show the claim by induction on $i$.  For the base case $i = 0$ the claim is vacuously
+  We show the claim by induction over $i$.  For the base case $i = 0$ the claim is vacuously
   true since $P_{0} = \emptyset$.  For the step case assume that \Cref{eq:42} holds for
   iteration $i$, and assume further that iteration $i+1$ exists.  Then to show the claim
   for iteration $i+1$ let $X \precneq P_{i+1}$ be an intent of $\con K \div \con L_{i+1}$
@@ -1717,13 +1718,13 @@ proposition.
   K \div \con L_{i}$.  By induction hypothesis, we obtain $m \in \mathcal{K}_{i}(X)
   \subseteq \mathcal{K}_{i+1}(X)$ as required.
 
-  If $\con L_{i} \neq \con L_{i+1}$, then a counterexamples $C \subseteq M$ has been added
+  If $\con L_{i} \neq \con L_{i+1}$, then a counterexample $C \subseteq M$ has been added
   to $\con L_{i}$ to obtain $\con L_{i+1}$, \ie
   \begin{equation*}
     \con L_{i+1} = \con L_{i} + C.
   \end{equation*}
   The set $C$ is a counterexample to the implication $P_{i+1} \to Q_{i+1}$, and because of
-  this $P_{i+1} \subseteq C$ is true.  Thus, $X \precneq P_{i+1} \preceq C$.  Therefore,
+  this, $P_{i+1} \subseteq C$ is true.  Thus, $X \precneq P_{i+1} \preceq C$.  Therefore,
   $C \not\subseteq X$, and it follows that $X_{\con L_{i+1}}'' = X_{\con L_{i}}''$.  Since
   $X$ is an intent of $\con K \div \con L_{i+1}$, this implies that $X$ is also an intent
   of $\con K \div \con L_{i}$.  Again by induction hypothesis we obtain that $m \in
