@@ -37,15 +37,15 @@ attribute exploration to the setting of GCIs and finite interpretations.  The mo
 apparent is that the set of GCIs we potentially have to cover is infinite, as the set of
 valid GCIs of $\mathcal{I}_{\mathsf{back}}$ is infinite.
 
-Another problem is that validity of GCIs in interpretations deploy a \emph{closed-world}
+Another problem is that validity of GCIs in interpretations deploys a \emph{closed-world}
 semantics: if an element $x \in \Delta^{\mathcal{I}}$ of a (finite) interpretation
 $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ does not have an $r$-successor
-in $\mathcal{I}$, for some $r \in N_{R}$, then it is assumed that $x$ does not have
+in $\mathcal{I}$ for some $r \in N_{R}$, then it is assumed that $x$ does not have
 $r$-successors $\mathcal{I}_{\mathsf{back}}$.  Therefore, if we add an element $x$ of
 $\mathcal{I}_{\mathsf{back}}$ as a counterexample for a GCI to our working interpretation
 $\mathcal{I}$, then we also have to include \emph{all} its role successors (and their role
-successors, and so on) in $\mathcal{I}_{\mathsf{back}}$, even so they may not be necessary
-as part of the counterexample; otherwise, elements in $\mathcal{I}$ may serve as
+successors, and so on) in $\mathcal{I}_{\mathsf{back}}$, although they may not be
+necessary as part of the counterexample; otherwise, elements in $\mathcal{I}$ may serve as
 counterexamples to GCIs which are valid in $\mathcal{I}_{\mathsf{back}}$, because missing
 information is considered as false information.  The approach followed by Baader and
 Distel to account for this problem is to let the expert provide \emph{connected
@@ -56,7 +56,7 @@ this discussion, we shall develop a model exploration algorithm that also includ
 with high confidence among those proposed to the expert.  This algorithm, which we shall
 call \emph{model exploration by confidence}, will be introduced in
 \Cref{sec:model-expl-with-1}, and its construction will mimic the argumentation used by
-Baader and Distel for his model exploration algorithm.
+Baader and Distel for their model exploration algorithm.
 
 The results presented in this section have been published previously in
 \cite{Borc-LTCS-13-11}.
@@ -65,7 +65,7 @@ The results presented in this section have been published previously in
 \label{sec:model-expl-with}
 
 In this section we shall review the argumentation used to develop model exploration, as
-given in~\cite[Chapter~6]{Diss-Felix}.  In the next section, we shall then use this
+given in~\cite[Chapter~6]{Diss-Felix}.  In the next section, we shall use this
 argumentation presented here and generalize it to the setting of GCIs with high confidence
 in finite interpretations.
 
@@ -198,13 +198,13 @@ $I_{i+1} \subseteq M_{i+1} \times M_{i+1}$ which satisfies
 \begin{equation*}
   I_{i} = I_{i+1} \cap M_{i} \times M_{i}.
 \end{equation*}
-This corresponds to our perception that at the beginning, some of the attributes are
+This corresponds to our perception that at the beginning some of the attributes are
 hidden, and are uncovered during the run of the algorithm.
 
-For this algorithm to make sense, we of course need to require that at a certain point all
-of the formal context has been uncovered, \ie that for some $\ell \in \NN_{\geq 0}$ it is
-true that $M_{\ell} = M_{i}$ for all $i \geq \ell$.  From this point on,
-\Cref{alg:base/growing-set-of-attributes} behaves as \Cref{alg:canonical-base} for
+For this algorithm to make sense, we of course require that at a certain point everything
+from the formal context has been uncovered, \ie that for some $\ell \in \NN_{\geq 0}$ it
+is true that $M_{\ell} = M_{i}$ for all $i \geq \ell$.  From this point on,
+\Cref{alg:base/growing-set-of-attributes} behaves like \Cref{alg:canonical-base} for
 computing the canonical base of a given formal context.
 
 \begin{Theorem}[Theorems~6.2 and~6.3 from~\cite{Diss-Felix}]
@@ -223,9 +223,9 @@ implications which are closed under the currently known implications, but are no
 of the given formal context.  In contrast to this,
 \Cref{alg:base/growing-set-of-attributes} considers all sets $P_{i}$ which are closed
 under the currently known implications, no matter whether they are intents of $\con
-K_{i}$.  The reason for this that even if $P_{i}$ is an intent of $\con K_{i}$, it could
-very well be that $P_{i}$ is not an intent of $\con K_{n}$ (where $n$ is the number of
-iterations of the algorithm) because of attributes which have been introduced in $\con
+K_{i}$.  The reason for this is that even if $P_{i}$ is an intent of $\con K_{i}$, it
+could very well be that $P_{i}$ is not an intent of $\con K_{n}$ (where $n$ is the number
+of iterations of the algorithm) because of attributes which have been introduced in $\con
 K_{n}$, but were not present in $\con K_{i}$.  Since we cannot know whether $P_{i}$ will
 be an intent of $\con K_{n}$ or not when we compute it, we have to consider it as well.
 Otherwise, we cannot guarantee that $\mathcal{K}_{n}$ will be a base of $\con K_{n}$.
@@ -454,7 +454,7 @@ given interpretation:
   $\mathcal{I}_{\mathsf{back}}$ (line~\ref{lst:base-of-interpretation-2} of
   \Cref{alg:base-of-interpretation}).
 \end{enumerate}
-The computation of $\con K_{i}$ we can fix easily by instead of computing the induced
+The computation of $\con K_{i}$ we can fix easily if instead of computing the induced
 context of $M_{i}$ and $\mathcal{I}_{\mathsf{back}}$, we just compute the induced context
 $M_{i}$ and the current working interpretation of the exploration process.  For computing
 $\exists r. (\bigsqcap P_{i})^{\mathcal{I}_{\mathsf{back}}}$, however, we need to use the
@@ -465,11 +465,11 @@ the introduction, namely the way the experts specifies counterexamples during th
 exploration.  We had argued that if the expert gives an element $x \in
 \Delta^{\mathcal{I}_{\mathsf{back}}}$ from the background interpretation as a
 counterexample, then she also has to include all corresponding concept names and role
-successors $x$ has in $\mathcal{I}_{\mathsf{back}}$.  Otherwise, there may exist the
-danger that the provided counterexamples invalidate GCIs which are actually valid in the
-background interpretation $\mathcal{I}_{\mathsf{back}}$.
+successors $x$ has in $\mathcal{I}_{\mathsf{back}}$.  Otherwise, there is the danger that
+the provided counterexamples invalidate GCIs which are actually valid in the background
+interpretation $\mathcal{I}_{\mathsf{back}}$.
 
-To makes this more formal, Distel introduced the notion of a \emph{connected
+To make this more formal, Distel introduced the notion of a \emph{connected
   subinterpretation}.
 
 \begin{Definition}[Connected Subinterpretations; Definition~6.1 from~\cite{Diss-Felix}]
@@ -541,7 +541,7 @@ our current working interpretation.
 Now that we know how the expert should provide counterexamples to proposed GCIs, let us
 reconsider the question of how to compute concept descriptions of the form $\exists
 r. (\bigsqcap P_{i})^{\mathcal{I}_{\mathsf{back}}\mathcal{I}_{\mathsf{back}}}$.  Recall
-that since we cannot $\mathcal{I}_{\mathsf{back}}$, we cannot compute this concept
+that since we cannot access $\mathcal{I}_{\mathsf{back}}$, we cannot compute this concept
 description directly.  What we can compute is the concept description $\exists
 r. (\bigsqcap P_{i})^{\mathcal{I}_{\ell}\mathcal{I}_{\ell}}$, where $\mathcal{I}_{\ell}$
 is the currently known interpretation.  The good thing is that the expert can ensure that
@@ -661,14 +661,14 @@ which not only asks GCIs which are valid in the current working interpretation, 
 is also allowed to ask GCIs whose confidence in the original data is just high enough.
 This process we shall call \emph{model exploration by confidence}.
 
-The argumentation used for model exploration algorithm essentially consists of amending
-the computation of finite bases of finite interpretations by suitable expert interaction.
-Consequently, the argumentation we shall develop for model exploration by confidence shall
-be based on the computation of bases of GCIs with high confidence.  However, the
-interpretations we consider during the exploration process contains a connected
-subinterpretation consisting of the counterexamples given by the expert, and all GCIs
-which are not valid within this subinterpretation should not be considered further, even
-if they have a confidence above $c$ in the initial working interpretation.
+The argumentation used for this model exploration algorithm essentially consists of
+amending the computation of finite bases of finite interpretations by suitable expert
+interaction.  Consequently, the argumentation we shall develop for model exploration by
+confidence shall be based on the computation of bases of GCIs with high confidence.
+However, the interpretation we consider during the exploration process contains a
+connected subinterpretation consisting of the counterexamples given by the expert, and all
+GCIs which are not valid within this subinterpretation should not be considered further,
+even if they have a confidence above $c$ in the initial working interpretation.
 
 We can thus think of $\mathcal{I}_{\ell}$ as consisting of two parts: the initial working
 interpretation $\mathcal{I}$, which may contain errors and where we apply our confidence
@@ -679,7 +679,7 @@ $\mathcal{I}_{\ell} \setminus \mathcal{I}$ as \emph{trusted}.
 
 To generalize the argumentation for model exploration to GCIs with high confidence, we
 shall thus start by devising an algorithm that allows us to compute finite bases of finite
-interpretation containing trusted and untrusted elements, \ie that computes bases of
+interpretations containing trusted and untrusted elements, \ie that computes bases of
 \begin{equation*}
   \Th_{c}(\mathcal{I}) \cap \Th(\mathcal{I}_{\ell} \setminus \mathcal{I}).
 \end{equation*}
@@ -690,7 +690,7 @@ Thereafter, we shall follow the argumentation of the previous section.  This mea
 contexts containing trusted and untrusted objects, and where the attribute set is allowed
 to grow during the computation.  Thereafter, we shall discuss in
 \Cref{sec:grow-sets-attr-1} how we can adapt this algorithm to compute bases of finite
-interpretation that contain trusted and untrusted individuals, and where the set
+interpretations that contain trusted and untrusted individuals, and where the set
 $M_{\mathcal{I}}$ is computed incrementally during the run of the algorithm.  Finally, we
 shall see in \Cref{sec:expl-conf-gcis} how we can introduce suitable expert interaction to
 obtain an algorithm for model exploration by confidence.
@@ -755,14 +755,14 @@ $\mathcal{J} \setminus \mathcal{I}$ is a connected subinterpretation of $\mathca
 obtain again by \Cref{lem:Felix-6.12} that
 \begin{equation*}
   C^{\mathcal{J} \setminus \mathcal{I}} = C^{\mathcal{J}} \cap (\Delta^{\mathcal{J}}
-  \setminus \Delta^{\mathcal{I}}) = C^{\mathcal{J}} \setminus \Delta^{\mathcal{J}}
+  \setminus \Delta^{\mathcal{I}}) = C^{\mathcal{J}} \setminus \Delta^{\mathcal{I}}
 \end{equation*}
 for all $C \in \ELgfpbot(N_{C}, N_{R})$.  Therefore, $C^{\mathcal{J}} \setminus
 \Delta^{\mathcal{I}} \subseteq D^{\mathcal{J}} \setminus \Delta^{\mathcal{I}}$ is
 equivalent to $C^{\mathcal{J}\setminus\mathcal{I}} \subseteq
-D^{\mathcal{J}\setminus\mathcal{I}}$, \ie if $(C \sqsubseteq D) \in \Th(\mathcal{J}
-\setminus \mathcal{I})$.  Thus, the definition of $\Th_{c}(\mathcal{J}, \mathcal{I})$ can
-be rewritten as
+D^{\mathcal{J}\setminus\mathcal{I}}$, \ie $(C \sqsubseteq D) \in \Th(\mathcal{J} \setminus
+\mathcal{I})$.  Thus, the definition of $\Th_{c}(\mathcal{J}, \mathcal{I})$ can be
+rewritten as
 \begin{align*}
   \Th_{c}(\mathcal{J}, \mathcal{I})
   &= \{\, C \sqsubseteq D \mid C, D \in \ELgfpbot(N_{C}, N_{R}),
@@ -864,7 +864,7 @@ where $(x, C) \in \nabla \iff x \in C^{\mathcal{J}}$ for $x \in X, C \in M_{\mat
 as before.
 
 We can now formulate a result that allows to find bases of interpretations with untrusted
-element from bases of corresponding induced contexts.
+elements from bases of corresponding induced contexts.
 
 \begin{Theorem}
   \label{thm:bases-of-untrusted-interpretations-from-bases-of-contexts}
@@ -1029,7 +1029,7 @@ bases of
 where we compute the set $M_{\mathcal{J}}$ incrementally during the run of the algorithm.
 Then, in the next section we shall see how we can use this algorithm and
 \Cref{thm:bases-of-untrusted-interpretations-from-bases-of-contexts} to compute finite
-bases of interpretation which contain untrusted elements.
+bases of interpretations which contain untrusted elements.
 
 Let us consider the problem of finding an algorithm that allows us to compute bases of the
 set given in \Cref{eq:52} from a more abstract point of view.  More precisely, let us
@@ -1059,7 +1059,7 @@ avoids computing closures under $\Th_{c}(\con K)$.  Indeed, we can just take
 expert that confirms all implications.
 
 Recall that in this algorithm there were two cases of implications asked to the expert:
-implications where either of the form $P_{i+1} \to \set{m}$, where $\conf_{\con K}(P_{i+1}
+implications were either of the form $P_{i+1} \to \set{m}$, where $\conf_{\con K}(P_{i+1}
 \to \set{m}) \ge c$ and $c \notin \mathcal{K}_{i}(P_{i+1})$, or $P_{i+1} \to
 (P_{i+1})_{\con K \div \con L_{i}}''$.  We can simplify these two cases into one case by
 defining for $P \subseteq M$ and $c \in [0,1]$
@@ -1131,10 +1131,10 @@ case if we want to compute a base of $\Th_{c}(\con K)$ where $\con K$ is a finit
 context, and where the attributes of $\con K$ are supplied incrementally during the run of
 the algorithm.
 
-To show that upon termination the set $\mathcal{K}_{n}$ of implications, where $n$ is the
+To show that upon termination, the set $\mathcal{K}_{n}$ of implications, where $n$ is the
 number of iterations of \Cref{alg:confident-base/growing-attributes}, is indeed a base of
 $\Th_{c}(\con K_{n})$, we adapt the argumentation of \Cref{sec:grow-sets-attr} and
-\Cref{sec:comp-bases-given} accordingly.  The following result, and its proof, is a
+\Cref{sec:comp-bases-given} accordingly.  The following result and its proof are a
 generalization of~\cite[Lemma~6.3]{Diss-Felix}.
 
 \begin{Proposition}
@@ -1269,7 +1269,7 @@ context.  Then clearly
 \begin{equation}
   \label{eq:54}
   P_{\con K_{i+1} \div \con L_{i+1}}'' = P_{\con K_{i+1}}'' \cap P_{\con L_{i+1}}''
-  \subseteq P^{\con K_{i+1}, c} \cap P_{\con L_{i+}}''.
+  \subseteq P^{\con K_{i+1}, c} \cap P_{\con L_{i+1}}''.
 \end{equation}
 The resulting algorithm is shown in
 \Cref{alg:confident-base/growing-attributes-trusted-objects}.
@@ -1415,7 +1415,7 @@ To see that \Cref{alg:confident-base-gcis/trusted-objects} indeed computes a bas
 $\Th_{c}(\mathcal{J}, \mathcal{I})$, we shall first argue that it is of the form of
 \Cref{alg:confident-base/growing-attributes-trusted-objects}.  Thereafter, we shall show
 that when \Cref{alg:confident-base-gcis/trusted-objects} is applied to $\mathcal{J}$,
-$\mathcal{I}$, and $c \in [0,1]$, and terminates after $n$ iterations, that then $M_{n} =
+$\mathcal{I}$, and $c \in [0,1]$, and terminates after $n$ iterations, then $M_{n} =
 M_{\mathcal{J}}$ up to equivalence.  Thus, by
 \Cref{thm:confident-bases-with-growing-sets-of-attributes-and-trusted-objects}, the
 algorithm computes a base $\mathcal{K}_{n}$ of $\Th_{c}(\con K_{\mathcal{J}}
@@ -1428,7 +1428,7 @@ To argue that \Cref{alg:confident-base-gcis/trusted-objects} is of the form of
 \Cref{alg:confident-base/growing-attributes-trusted-objects} we need to show that the
 variables $M_{i+1}, \con K_{i+1}, \con L_{i+1}, \mathcal{S}_{i+1}$ computed in
 \Cref{alg:confident-base-gcis/trusted-objects} satisfy the constraints given in
-\Cref{alg:confident-base/growing-attributes-trusted-objects}.  However, this it is quite
+\Cref{alg:confident-base/growing-attributes-trusted-objects}.  However, this is quite
 clear from the definition of these variables: it is clear that $M_{i} \subseteq M_{i+1}$,
 and that the incidence relations of $\con K_{i+1}$ and $\con L_{i+1}$ restricted to
 $M_{i}$ are the incidence relations of $\con K_{i}$ and $\con L_{i}$, respectively.
@@ -1441,9 +1441,9 @@ equivalence, it is true that from a certain iteration $\ell$ on, $M_{\ell} = M_{
 true for all $k \geq \ell$.  Thus, \Cref{alg:confident-base-gcis/trusted-objects}
 terminates on input $\mathcal{J}$, $\mathcal{I}$, and $c$.
 
-To show that upon termination of \Cref{alg:confident-base-gcis/trusted-objects} that
-$M_{n} = M_{\mathcal{J}}$ is true up to equivalence, we start with the following result,
-which is an adaption of \cite[Lemma~6.7]{Diss-Felix}.
+To show that upon termination of \Cref{alg:confident-base-gcis/trusted-objects}, $M_{n} =
+M_{\mathcal{J}}$ is true up to equivalence, we start with the following result, which is
+an adaption of \cite[Lemma~6.7]{Diss-Felix}.
 
 \begin{Proposition}
   \label{prop:Felix-6.7-adapted}
@@ -1550,8 +1550,8 @@ We now prove \Cref{thm:confident-base-gcis-trusted-objects-is-correct}.
   up to equivalence.
 
   For the \textit{step case} let $D$ be an $\ELbot$ concept description with role-depth $d
-  > 0$, and let $r \in N_{R}$.  Assume by induction that for all $\ELbot$ concept
-  descriptions $E$ over $N_{C}$ and $N_{R}$ with role depth smaller than $d$ that
+  > 0$, and let $r \in N_{R}$.  Assume by induction for all $\ELbot$ concept descriptions
+  $E$ over $N_{C}$ and $N_{R}$ with role depth smaller than $d$ that
   \begin{equation}
     \label{eq:55}
     \exists s. E^{\mathcal{J}\mathcal{J}} \in M_{n}
@@ -1610,9 +1610,9 @@ We now prove \Cref{thm:confident-base-gcis-trusted-objects-is-correct}.
 
 We are now prepared to devise an algorithm for model exploration by confidence.  We shall
 achieve this by replacing in \Cref{alg:confident-base-gcis/trusted-objects} every explicit
-access to the interpretation $\mathcal{J}$ by suitable expert interaction.  Recall that
-this we want to do because we now consider $\mathcal{J}$ as the background interpretation
-of the exploration process, which we cannot access directly.
+access to the interpretation $\mathcal{J}$ by suitable expert interaction.  Recall that we
+want to do this because we now consider $\mathcal{J}$ as the background interpretation of
+the exploration process, which we cannot access directly.
 
 To conduct this adaption of \Cref{alg:confident-base-gcis/trusted-objects}, we observe
 that there are two lines in this algorithm where $\mathcal{J}$ is accessed directly,
@@ -1665,7 +1665,7 @@ valid in $\bar{\con L}_{i+1}$, and from this we obtain
   (\mathcal{S}_{i+1} \cup \mathcal{K}_{i+1})(P_{i+1}^{1})
   &= (\mathcal{S}_{i+1} \cup \mathcal{K}_{i+1})(P_{i+1}^{1})_{\con L_{i+1}}''\\
   (\mathcal{S}_{i+1} \cup \mathcal{K}_{i+1})(P_{i+1}^{1})
-  &\neq (\mathcal{S}_{i+1} \cup \mathcal{K}_{i+1})(P_{i+1}^{1})_{\bar{\con L}_{i+1}}''
+  &\neq (\mathcal{S}_{i+1} \cup \mathcal{K}_{i+1})(P_{i+1}^{1})_{\bar{\con L}_{i+1}}''.
 \end{align*}
 Therefore, the implication
 \begin{equation*}
@@ -1751,9 +1751,9 @@ background interpretation.  Furthermore, since required by
 $\mathcal{I}_{\ell} \setminus \mathcal{I}$ is a connected subinterpretation of
 $\mathcal{I}_{\ell}$, \ie the expert is not allowed to add role-successors from elements
 of $\mathcal{I}_{\ell} \setminus \mathcal{I}$ to elements of $\mathcal{I}$ when adding
-counterexamples.  These constraints are suppose to be satisfied in every line of the form
+counterexamples.  These constraints are supposed to be satisfied in every line of the form
 \begin{equation*}
-  \mathcal{I}_{\ell+1} := \text{expert-defined extension of } \mathcal{I}_\ell
+  \mathcal{I}_{\ell+1} := \text{expert-defined extension of } \mathcal{I}_\ell.
 \end{equation*}
 
 To prove that \Cref{alg:model-exploration-by-confidence} indeed provides an algorithm for
@@ -1819,7 +1819,7 @@ base of $\Th_{c}(\mathcal{I}_{\mathsf{back}}, \mathcal{I})$.
   confirmed $\bigsqcap \bar P_{i} \sqsubseteq (\bigsqcap \bar
   P_{i})^{\mathcal{I}_{l}\mathcal{I}_{l}}$.  Since $\mathcal{I}_{l}$ is a connected
   subinterpretation of $\mathcal{I}_{\mathsf{back}}$, \Cref{lem:Felix-6.14} implies that
-  that $(\bigsqcap \bar P_{i})^{\mathcal{I}_{l}\mathcal{I}_{l}} = (\bigsqcap \bar
+  $(\bigsqcap \bar P_{i})^{\mathcal{I}_{l}\mathcal{I}_{l}} = (\bigsqcap \bar
   P_{i})^{\mathcal{I}_{\mathsf{back}}\mathcal{I}_{\mathsf{back}}}$.  Since $\bar M_{i} =
   M_{i}$ holds up to equivalence by induction hypothesis, it is true that $\bar M_{i+1} =
   M_{i+1}$ up to equivalence.  This also implies $\bar{\mathcal{S}}_{i} = \mathcal{S}_{i}$
@@ -1857,7 +1857,7 @@ base of $\Th_{c}(\mathcal{I}_{\mathsf{back}}, \mathcal{I})$.
   Assume now by contradiction that
   \begin{equation*}
     \bar P_{k}^{\bar{\con K}_{i+1}, c} \cap (\bar P_{k})_{\con L_{i+1}}'' \neq
-    P_{k}^{\bar{\con K}, c} \cap (P_{k})_{\con L_{i+1}}''
+    P_{k}^{\con K_{i+1}, c} \cap (P_{k})_{\con L_{i+1}}''
   \end{equation*}
   is true for some $k \in \set{ 0, \dots, i }$.  By the above considerations, this means
   that there exists a concept description $\bar C \in \bar P_{k}^{\bar{\con K}_{i+1}, c}
@@ -1892,7 +1892,7 @@ base of $\Th_{c}(\mathcal{I}_{\mathsf{back}}, \mathcal{I})$.
   \end{enumerate}
   However, since $\bar P_{k} = P_{k}$ up to equivalence, the fact that $\bigsqcap \bar
   P_{k} \sqsubseteq \bar C$ is valid in $\mathcal{I}_{\mathsf{back}} \setminus
-  \mathcal{I}$ but $\bigsqcap P_{k} \sqsubseteq \bar C$ is not yields the desired
+  \mathcal{I}$ but $\bigsqcap P_{k} \sqsubseteq \bar C$ is not, yields the desired
   contradiction.  Therefore, we have established the validity of \Cref{eq:56}, and thus
   can infer that $\bar{\mathcal{K}}_{k} = \mathcal{K}_{k}$ is true up to equivalence.
 
