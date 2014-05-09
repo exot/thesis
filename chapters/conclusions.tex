@@ -34,7 +34,7 @@ by a comparably small number of counterexamples.
 This observation motivated us to extend the results on axiomatizing valid GCIs into the
 direction of axiomatizing GCIs with \emph{high confidence} in the given data.  This
 extension has been discussed in \Cref{sec:confident-gcis}, where we had adapted results
-obtain by Luxenburger~\cite{diss:Luxenburger} on \emph{partial implications} in finite
+obtained by Luxenburger~\cite{diss:Luxenburger} on \emph{partial implications} in finite
 contexts to the setting of GCIs in finite interpretations $\mathcal{I}$.  From this
 adaption we have obtained finite confident bases of finite interpretations
 (\Cref{thm:conf-base}, \Cref{thm:luxenbuger-base-for-gcis}), and a way to compute finite
@@ -42,20 +42,20 @@ confident bases of GCIs from finite confident bases of implications
 (\Cref{thm:confident-bases-of-GCIs-from-confident-bases-of-implications}).  We have also
 seen how we can make use of the canonical base of the induced context $\con
 K_{\mathcal{I}}$ of $\mathcal{I}$ to complete bases of $\Th_{c}(\mathcal{I}) \setminus
-\Th(\mathcal{I})$ to confident bases of $\Th_{c}(\mathcal{I})$.  Finally, we have
-discussed in \Cref{sec:unrav-elgfpb-bases} a way to obtain finite confident $\ELbot$ bases
-from finite confident $\ELgfpbot$ bases, using the technique of \emph{unravelling}
+\Th(\mathcal{I})$ to confident bases of $\Th_{c}(\mathcal{I})$.  Finally, in
+\Cref{sec:unrav-elgfpb-bases} we have discussed a way to obtain finite confident $\ELbot$
+bases from finite confident $\ELgfpbot$ bases, using the technique of \emph{unravelling}
 $\ELgfpbot$ concept descriptions.
 
 The results we had obtained about computing finite confident bases of $\mathcal{I}$ were
-then in turn applied to our example interpretation $\Idbpedia$, to examine how the
+then in return applied to our example interpretation $\Idbpedia$, to examine how the
 approach of computing finite confident bases performs on this data set.  As expected, we
 could recover the GCIs $\exists \mathsf{child}. \top \sqsubseteq \mathsf{Person}$, as well
 as another GCI.  In particular, we have observed that for relatively large values of the
 confidence threshold $c$, the number of additional GCIs to be examined by the expert is
 relatively small.  Thus, one could argue that the approach of considering GCIs with high
-confidence does not add too much overhead for practical applications, but promises to
-deliver more robust results.
+confidence does not add much overhead for practical applications, but promises to deliver
+more robust results.
 
 However, the approach of considering GCIs with high confidence is still a heuristic
 approach, and the GCIs thus obtained need to be validated by an external source of
@@ -86,10 +86,10 @@ for exploration by confidence to provide an algorithm for \emph{model exploratio
 byproduct of the argumentation used, we also obtained more practical algorithms for
 computing confident bases of formal contexts (\Cref{sec:grow-sets-attr-1}) and of finite
 interpretations (\Cref{sec:expl-conf-gcis}).  Those algorithms compute the set
-$M_{\mathcal{I}}$ incrementally, and not completely as a first step, thus avoiding this
-delay when computing implications and GCIs, respectively.
+$M_{\mathcal{I}}$ incrementally, and not completely as a first step, thus avoiding the
+delay of the latter when computing implications and GCIs, respectively.
 
-The work presented so far is not completed, and a lot remains to be done to turn the
+The work presented so far is not complete, and a lot remains to be done to turn the
 results of this thesis into practically relevant techniques.  As a first step one could
 extent the results of this thesis to also incorporate the notion of \emph{support} of
 GCIs, an idea which is again borrowed from standard data mining
@@ -104,7 +104,7 @@ Then one can consider only those GCIs whose support is above a given threshold $
 [0,1]$.  The idea behind this approach is that if the support of $C \sqsubseteq D$ is not
 high enough in $\mathcal{I}$, then this data set does not contain enough information about
 this GCI to decide whether $C \sqsubseteq D$ is true in the domain of discourse or not.
-In this case, the GCI $C \sqsubseteq D$ should be ignored.
+In latter case, the GCI $C \sqsubseteq D$ should be ignored.
 
 An adaption of the results presented in this thesis to include the support measure should
 not be very difficult, and indeed results from formal concept analysis could again be used
@@ -175,9 +175,9 @@ experiments~\cite{DBLP:conf/icdm/BorchmannD11}, and thus increase the practicabi
 our approach to construct knowledge bases from large amounts of data.
 
 Another usability issue concerns the way we have constructed our algorithm for model
-exploration by confidence, as presented in \Cref{sec:expl-conf-gcis-1}.  There not only
-the number of GCIs asked to the expert may be quite high, probably much higher then in the
-model exploration algorithm as proposed by Baader and Distel.  Moreover, if the GCIs are
+exploration by confidence, as presented in \Cref{sec:expl-conf-gcis-1}.  There, the number
+of GCIs asked to the expert may be quite high, probably much higher then in the model
+exploration algorithm as proposed by Baader and Distel.  Moreover, if the GCIs are
 presented to a human expert, extra care is needed.  More precisely, the GCIs
 \begin{equation*}
   \bigsqcap P_{i} \sqsubseteq (\bigsqcap P_{i})^{\mathcal{I}_{\ell}\mathcal{I}_{\ell}}
