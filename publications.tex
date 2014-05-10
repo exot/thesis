@@ -3,7 +3,7 @@
 \usepackage[utf8]{inputenx}
 \usepackage{babel}
 
-\include{preamble}
+\usepackage[nobackrefs]{preamble}
 
 \title{List of Publications}
 \subtitle{Daniel Borchmann}
@@ -20,16 +20,16 @@
 \end{refsection}
 
 \begin{refsection}
+  \nocite{conf/cla/Borchmann12}
+  \nocite{conf/dlog/Borchmann13}
   \nocite{Borchmann11}
   \nocite{conf/cla/RysselDB11}
   \nocite{conf/kcap/Borchmann13}
-  \nocite{conf/dlog/Borchmann13}
   \nocite{conf/lpnmr/Borchmann13}
   \nocite{DBLP:conf/icdm/BorchmannD11}
-  \nocite{conf/cla/Borchmann12}
   \nocite{conf/icfca/Borchmann13}
   \nocite{conf/icfca/BorchmannG09}
-  \printbibliography[title={Conference Proceedings},sorting=ydnt]{}
+  \printbibliography[title={Conference Proceedings}]{}
 \end{refsection}
 
 \begin{refsection}
@@ -40,7 +40,7 @@
   \nocite{Borchmann-LTCS-12-06}
   \nocite{Bo10}
   \nocite{Borc-LTCS-13-02}
-  \printbibliography[title={Technical Reports},sorting=ydnt]{}
+  \printbibliography[title={Technical Reports}]{}
 \end{refsection}
 
 \begin{refsection}
