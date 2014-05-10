@@ -13,7 +13,7 @@ in detail in \Cref{sec:computing-bases-from}, where we have argued how \emph{lin
 can be seen as a variant of finite interpretations, and where we have computed finite
 bases of the finite interpretation $\Idbpedia$ that has been obtained from the DBpedia
 data set.  Computing finite bases of the interpretation $\Idbpedia$ turned out to be not
-very insightful, mostly because the concept names contained in $\Idbpedia$ consisted
+very insightful, mainly because the concept names contained in $\Idbpedia$ consisted
 mostly of job descriptions, and it cannot be expected that the job of a parent affects the
 jobs of their children, or vice versa, in a way expressible as a GCI.  Furthermore, the
 interpretation $\Idbpedia$ turned out to be erroneous to the extent that it contained
@@ -26,8 +26,8 @@ to be valid in $\Idbpedia$, most notably
   \exists \mathsf{child}. \top \sqsubseteq \mathsf{Person}.
 \end{equation*}
 However, this GCI turned out to be not valid in $\Idbpedia$.  The reason for this was that
-among the 2551 elements to which this GCI is applicable, 4 of them were erroneously not an
-instance of \textsf{Person}.  In other words, the GCI $\exists \mathsf{child}. \top
+among the 2551 elements to which this GCI is applicable, four of them were erroneously not
+an instance of \textsf{Person}.  In other words, the GCI $\exists \mathsf{child}. \top
 \sqsubseteq \mathsf{Person}$ will not be collected because it is erroneously invalidated
 by a comparably small number of counterexamples.
 
@@ -50,7 +50,7 @@ $\ELgfpbot$ concept descriptions.
 The results we had obtained about computing finite confident bases of $\mathcal{I}$ were
 then in return applied to our example interpretation $\Idbpedia$, to examine how the
 approach of computing finite confident bases performs on this data set.  As expected, we
-could recover the GCIs $\exists \mathsf{child}. \top \sqsubseteq \mathsf{Person}$, as well
+could recover the GCI $\exists \mathsf{child}. \top \sqsubseteq \mathsf{Person}$, as well
 as another GCI.  In particular, we have observed that for relatively large values of the
 confidence threshold $c$, the number of additional GCIs to be examined by the expert is
 relatively small.  Thus, one could argue that the approach of considering GCIs with high
@@ -91,7 +91,7 @@ delay of the latter when computing implications and GCIs, respectively.
 
 The work presented so far is not complete, and a lot remains to be done to turn the
 results of this thesis into practically relevant techniques.  As a first step one could
-extent the results of this thesis to also incorporate the notion of \emph{support} of
+extend the results of this thesis to also incorporate the notion of \emph{support} of
 GCIs, an idea which is again borrowed from standard data mining
 approaches~\cite{arules:agrawal:association-rules}.  More precisely, one could define for
 a GCI $C \sqsubseteq D$ its support $\supp_{\mathcal{I}}(C \sqsubseteq D)$ in
@@ -102,7 +102,7 @@ $\mathcal{I}$ to be
 \end{equation*}
 Then one can consider only those GCIs whose support is above a given threshold $s \in
 [0,1]$.  The idea behind this approach is that if the support of $C \sqsubseteq D$ is not
-high enough in $\mathcal{I}$, then this data set does not contain enough information about
+high enough in $\mathcal{I}$, then the data set does not contain enough information about
 this GCI to decide whether $C \sqsubseteq D$ is true in the domain of discourse or not.
 In latter case, the GCI $C \sqsubseteq D$ should be ignored.
 
@@ -113,10 +113,10 @@ back and ask whether the notions of support and confidence are really suitable f
 description logic setting: it has been argued in~\cite{DBLP:conf/icdm/BorchmannD11} that
 the support (and also the confidence) of a GCI as defined above may be counter-intuitive,
 at least as measures of trustworthiness.  To see this, let us consider the example as
-given in~\cite{DBLP:conf/icdm/BorchmannD11}, which consisted of an interpretation that
-contained an element for the Louvre in Paris, all pieces of art that are kept there, and
-an element to represent the city of Paris.  The complete example interpretation is
-sketched in \Cref{fig:support-of-gcis-can-be-counter-intuitive}.
+given in~\cite{DBLP:conf/icdm/BorchmannD11}, which consists of an interpretation that
+contains an element for the Louvre in Paris, all pieces of art that are kept there, and an
+element to represent the city of Paris.  The complete example interpretation is sketched
+in \Cref{fig:support-of-gcis-can-be-counter-intuitive}.
 
 \begin{figure}[t]
   \centering
@@ -163,14 +163,14 @@ trustworthiness and relevance of GCIs in a given data set remains an open proble
 But even if one accepts the way we have defined the confidence of an GCI, more work
 remains to be done to make our approach more practically relevant.  For example, in
 \Cref{thm:confident-bases-of-GCIs-from-confident-bases-of-implications} we have shown a
-way how finite confident bases of finite interpretations can be obtained from bases of
+way how finite confident bases of finite interpretations can be gained from bases of
 implications with high confidence in the corresponding induced formal context.  What we
-did not talk about was a way how to obtain such bases of implications with high
-confidence.  To obtain these, it may prove fruitful to exploit the close connection of
-formal concept analysis to data mining~\cite{arules:Zaki:1998}, and try to adapt known
-algorithm from data mining for computing association rules to the setting of computing
-bases of implications with high confidence.  In this way, one could hope to obtain much
-faster implementations as those we have used for our
+did not talk about was a way to compute such bases of implications with high confidence.
+To compute these, it may prove fruitful to exploit the close connection of formal concept
+analysis to data mining~\cite{arules:Zaki:1998}, and try to adapt known algorithms from
+data mining for computing association rules to the setting of computing bases of
+implications with high confidence.  In this way, one could hope to obtain much faster
+implementations as those we have used for our
 experiments~\cite{DBLP:conf/icdm/BorchmannD11}, and thus increase the practicability of
 our approach to construct knowledge bases from large amounts of data.
 
@@ -183,7 +183,8 @@ presented to a human expert, extra care is needed.  More precisely, the GCIs
   \bigsqcap P_{i} \sqsubseteq (\bigsqcap P_{i})^{\mathcal{I}_{\ell}\mathcal{I}_{\ell}}
 \end{equation*}
 we ask to the expert may contain proper $\ELgfpbot$ concept descriptions, and the size of
-the premises $P_{i}$ may be too large, both issues that may inhibit human comprehension.
+the premises $P_{i}$ may be too large, both being issues that may inhibit human
+comprehension.
 
 The former problem can be attacked by considering only those GCIs where the role-depth is
 not larger than an a-priori chosen maximal role-depth $k \in \NN$.  More precisely, we can
@@ -206,7 +207,7 @@ one could restrict oneself to only find bases of GCIs $C \sqsubseteq D$ where $C
 most $\ell$ conjuncts, for some a-priori chosen value $\ell \in \NN$.  To solve the
 problem of finding bases for this set of GCIs, one could first try to solve the simpler
 problem of finding a base of the set of valid implications in a formal context $\con K =
-(G, M, I)$ where the premise has size of most $\ell$.  Note that such a base would be
+(G, M, I)$ where the premise has size of at most $\ell$.  Note that such a base would be
 \begin{equation*}
   \set{ A \to A'' \mid A \subseteq M, \abs A \leq \ell }.
 \end{equation*}
