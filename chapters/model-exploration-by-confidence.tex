@@ -11,8 +11,8 @@ exploration to explore valid GCIs of finite interpretations.
 Model exploration, similarly to attribute exploration, assumes that a certain domain of
 interest is representable by a finite interpretation $\mathcal{I}_{\mathsf{back}}$, which
 we shall call the \emph{background interpretation} of the exploration process.  However,
-we assume that this interpretation is not directly accessible, but instead we have given
-an expert that allows us to decide whether certain GCIs are valid in
+we assume that this interpretation is not directly accessible, but instead an expert is
+given that allows us to decide whether certain GCIs are valid in
 $\mathcal{I}_{\mathsf{back}}$.  In addition, if a given GCI $C \sqsubseteq D$ is not valid
 in $\mathcal{I}_{\mathsf{back}}$, then the expert can provide counterexamples for $C
 \sqsubseteq D$ in a suitable way.
@@ -21,10 +21,10 @@ The principal way how model exploration works is again very akin to attribute ex
 Given a finite \emph{connected subinterpretation} $\mathcal{I}$ of
 $\mathcal{I}_{\mathsf{back}}$ and a set $\mathcal{B}$ of valid GCIs of
 $\mathcal{I}_{\mathsf{back}}$, the algorithm successively generates valid GCIs $C
-\sqsubseteq D$ of $\mathcal{I}$ which do not follow from $\mathcal{B}$, and presents them
+\sqsubseteq D$ of $\mathcal{I}$, which do not follow from $\mathcal{B}$, and presents them
 to some expert.  If the expert confirms $C \sqsubseteq D$, then it is added to
 $\mathcal{B}$.  If the expert rejects $C \sqsubseteq D$, then she provides a
-counterexample to it in the form of a connected subinterpretation of
+counterexample in the form of a connected subinterpretation of
 $\mathcal{I}_{\mathsf{back}}$, which is added to $\mathcal{I}$.  Since $\mathcal{I}$ and
 $\mathcal{B}$ play the same role as the working context and the set of known implications
 during attribute exploration, we shall refer to them as the \emph{working interpretation}
@@ -44,8 +44,8 @@ in $\mathcal{I}$ for some $r \in N_{R}$, then it is assumed that $x$ does not ha
 $r$-successors $\mathcal{I}_{\mathsf{back}}$.  Therefore, if we add an element $x$ of
 $\mathcal{I}_{\mathsf{back}}$ as a counterexample for a GCI to our working interpretation
 $\mathcal{I}$, then we also have to include \emph{all} its role successors (and their role
-successors, and so on) in $\mathcal{I}_{\mathsf{back}}$, although they may not be
-necessary as part of the counterexample; otherwise, elements in $\mathcal{I}$ may serve as
+successors, and so on) in $\mathcal{I}_{\mathsf{back}}$, nevertheless they may not be
+necessary for the counterexample; otherwise, elements in $\mathcal{I}$ may serve as
 counterexamples to GCIs which are valid in $\mathcal{I}_{\mathsf{back}}$, because missing
 information is considered as false information.  The approach followed by Baader and
 Distel to account for this problem is to let the expert provide \emph{connected
@@ -77,7 +77,7 @@ from the computation of the canonical base by adding suitable expert interaction
 adding suitable expert interaction during the computation of bases of $\con
 K_{\mathcal{I}}$.  It shall turn out that this is indeed correct.
 
-There is a technical problem, however, which does not arise in attribute exploration: when
+However, there is a technical problem which does not arise in attribute exploration: when
 we add counterexamples to our current working interpretation $\mathcal{I}$ during model
 exploration, then the attribute set $M_{\mathcal{I}}$ of the corresponding induced context
 $\con K_{\mathcal{I}}$ may change, since it depends on the elements of $\mathcal{I}$.
@@ -87,7 +87,7 @@ Recall that $M_{\mathcal{I}}$ was defined as
     \in N_{R}, X \subseteq \Delta^{\mathcal{I}}, X \neq \emptyset }.
 \end{equation*}
 
-Thus, to allow to use attribute exploration as a basis for model exploration we need to
+Thus, to allow to use attribute exploration as a basis for model exploration, we need to
 fix the attribute set, and the best way for this would be to use
 $M_{\mathcal{I}_{\mathsf{back}}}$.  However, since we cannot access the background
 interpretation $\mathcal{I}_{\mathsf{back}}$ directly, we cannot compute this set
@@ -110,7 +110,7 @@ thus obtaining the model exploration algorithm.
 
 We want to find an algorithm that allows us to compute bases of formal contexts where the
 attribute set is allowed to grow during the computation.  We can think of this situation
-as follows: we want to compute a base of a formal context, which however we cannot access
+as follows: we want to compute a base of a formal context, which we cannot access
 completely, in the sense that some of the attributes in this formal context are
 \enquote{hidden}.  However, during the computation of the base, hidden attributes are
 uncovered incrementally.  The goal is then to find an algorithm which allows us to compute
@@ -140,7 +140,7 @@ then we define the linear order $\leq_{M_{i+1}}$ on $M_{i+1}$ by ordering the el
 $M_{i} \subseteq M_{i+1}$ as before, \ie
 \begin{equation}
   \label{eq:48}
-  \leq_{M_{i}} = {\leq_{M_{i+1}}} \cap M_{i} \times M_{i},
+  {\leq_{M_{i}}} = {\leq_{M_{i+1}}} \cap M_{i} \times M_{i},
 \end{equation}
 and requiring in addition that
 \begin{equation}
@@ -198,8 +198,8 @@ $I_{i+1} \subseteq M_{i+1} \times M_{i+1}$ which satisfies
 \begin{equation*}
   I_{i} = I_{i+1} \cap M_{i} \times M_{i}.
 \end{equation*}
-This corresponds to our perception that at the beginning some of the attributes are
-hidden, and are uncovered during the run of the algorithm.
+This corresponds to our perception that at the beginning of the run of the algorithm, some
+of the attributes are hidden, and are uncovered during the run.
 
 For this algorithm to make sense, we of course require that at a certain point everything
 from the formal context has been uncovered, \ie that for some $\ell \in \NN_{\geq 0}$ it
@@ -227,7 +227,7 @@ K_{i}$.  The reason for this is that even if $P_{i}$ is an intent of $\con K_{i}
 could very well be that $P_{i}$ is not an intent of $\con K_{n}$ (where $n$ is the number
 of iterations of the algorithm) because of attributes which have been introduced in $\con
 K_{n}$, but were not present in $\con K_{i}$.  Since we cannot know whether $P_{i}$ will
-be an intent of $\con K_{n}$ or not when we compute it, we have to consider it as well.
+be an intent of $\con K_{n}$ or not, when we compute it, we have to consider it as well.
 Otherwise, we cannot guarantee that $\mathcal{K}_{n}$ will be a base of $\con K_{n}$.
 
 Unfortunately, the fact that we have to keep all those sets $P_{i}$ may lead to
@@ -321,7 +321,7 @@ r. X^{\mathcal{I}}$ for $r \in N_{R}$ and $X \subseteq \Delta^{\mathcal{I}}, X \
     \in N_{R} },
 \end{equation*}
 where the union is only up to equivalence, \ie if for some $C:= \exists r. (\bigsqcap
-P_{i})^{\mathcal{I}\mathcal{I}}$ there already exists $D \in M_{i}$ such that $C \equiv
+P_{i})^{\mathcal{I}\mathcal{I}}$ there already exists a $D \in M_{i}$ such that $C \equiv
 D$, then we do not add $C$ in the definition of $M_{i+1}$.
 
 We also need to specify how we define the formal contexts $\con K_{i}$ and the sets
@@ -465,7 +465,7 @@ the introduction, namely the way the experts specifies counterexamples during th
 exploration.  We had argued that if the expert gives an element $x \in
 \Delta^{\mathcal{I}_{\mathsf{back}}}$ from the background interpretation as a
 counterexample, then she also has to include all corresponding concept names and role
-successors $x$ has in $\mathcal{I}_{\mathsf{back}}$.  Otherwise, there is the danger that
+successors $x$ has in $\mathcal{I}_{\mathsf{back}}$.  Otherwise, there is the risk that
 the provided counterexamples invalidate GCIs which are actually valid in the background
 interpretation $\mathcal{I}_{\mathsf{back}}$.
 
@@ -532,7 +532,7 @@ our current working interpretation.
   Since $C \sqsubseteq D$ holds in $\mathcal{I}$, it is true that $C^{\mathcal{I}}
   \subseteq D^{\mathcal{I}}$.  Using \Cref{lem:Felix-6.12} we thus obtain
   \begin{equation*}
-    C^{\mathcal{J}} = C^{\mathcal{I}} \cap \Delta^{\mathcal{J}} \subseteq D^{\mathcal{J}}
+    C^{\mathcal{J}} = C^{\mathcal{I}} \cap \Delta^{\mathcal{J}} \subseteq D^{\mathcal{I}}
     \cap \Delta^{\mathcal{J}} = D^{\mathcal{J}},
   \end{equation*}
   \ie $C \sqsubseteq D$ holds in $\mathcal{J}$, as it was claimed.
@@ -664,7 +664,7 @@ This process we shall call \emph{model exploration by confidence}.
 The argumentation used for this model exploration algorithm essentially consists of
 amending the computation of finite bases of finite interpretations by suitable expert
 interaction.  Consequently, the argumentation we shall develop for model exploration by
-confidence shall be based on the computation of bases of GCIs with high confidence.
+confidence will be based on the computation of bases of GCIs with high confidence.
 However, the interpretation we consider during the exploration process contains a
 connected subinterpretation consisting of the counterexamples given by the expert, and all
 GCIs which are not valid within this subinterpretation should not be considered further,
@@ -698,7 +698,7 @@ obtain an algorithm for model exploration by confidence.
 \subsection{Bases of Finite Interpretations with Untrusted Elements}
 \label{sec:trust-untr-indiv}
 
-Let $\mathcal{J}$ be a finite interpretation over $N_{C}$ and $N_{F}$, and let
+Let $\mathcal{J}$ be a finite interpretation over $N_{C}$ and $N_{R}$, and let
 $\mathcal{I}$ be a subinterpretation of $\mathcal{J}$.  As already discussed, we want to
 think of $\mathcal{I}$ as the interpretation of \emph{untrusted} elements, and of the
 interpretation
@@ -1029,7 +1029,7 @@ bases of
 where we compute the set $M_{\mathcal{J}}$ incrementally during the run of the algorithm.
 Then, in the next section we shall see how we can use this algorithm and
 \Cref{thm:bases-of-untrusted-interpretations-from-bases-of-contexts} to compute finite
-bases of interpretations which contain untrusted elements.
+bases of interpretations that contain untrusted elements.
 
 Let us consider the problem of finding an algorithm that allows us to compute bases of the
 set given in \Cref{eq:52} from a more abstract point of view.  More precisely, let us
@@ -1429,9 +1429,9 @@ To argue that \Cref{alg:confident-base-gcis/trusted-objects} is of the form of
 variables $M_{i+1}, \con K_{i+1}, \con L_{i+1}, \mathcal{S}_{i+1}$ computed in
 \Cref{alg:confident-base-gcis/trusted-objects} satisfy the constraints given in
 \Cref{alg:confident-base/growing-attributes-trusted-objects}.  However, this is quite
-clear from the definition of these variables: it is clear that $M_{i} \subseteq M_{i+1}$,
-and that the incidence relations of $\con K_{i+1}$ and $\con L_{i+1}$ restricted to
-$M_{i}$ are the incidence relations of $\con K_{i}$ and $\con L_{i}$, respectively.
+clear from the definition of these variables: it is obvious that $M_{i} \subseteq
+M_{i+1}$, and that the incidence relations of $\con K_{i+1}$ and $\con L_{i+1}$ restricted
+to $M_{i}$ are the incidence relations of $\con K_{i}$ and $\con L_{i}$, respectively.
 Furthermore, $\mathcal{S}_{i+1} \subseteq \Th_{c}(\con K_{i+1}) \cap \Th(\con L_{i+1})$,
 because $\mathcal{S}_{i+1}$ is even valid in $\con K_{i+1} \div \con L_{i+1}$.
 
