@@ -20,3 +20,4 @@ _region_.tex
 *.bcf
 *.xml
 prv_*
+!formulare/*.pdf
