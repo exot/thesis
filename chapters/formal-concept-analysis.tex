@@ -971,9 +971,9 @@ in terms of induced closure operators.
 
 The computation of $\mathcal{L}(A)$ for sets $A \subseteq M$ can be done naively with time
 quadratic in $\abs{\mathcal{L}}$, assuming the size of the underlying set $M$ is fixed.
-However, one can improve this by using the ``LinClosure'' algorithm from the theory of
-relational databases~\cite{DBLP:books/cs/Maier83}, which achieves the same goal with time
-linear in $\abs{\mathcal{L}}$.  Finally, one can also exploit the tight connection to
+However, one can improve this by using the \enquote{LinClosure} algorithm from the theory
+of relational databases~\cite{DBLP:books/cs/Maier83}, which achieves the same goal with
+time linear in $\abs{\mathcal{L}}$.  Finally, one can also exploit the tight connection to
 Horn-formulas as mentioned above, and use the algorithm by Dowling and Gallier to decide
 satisfiability of Horn formulas in linear time~\cite{DBLP:journals/jlp/DowlingG84}.
 
@@ -1111,9 +1111,9 @@ precise, and recall that we have defined the notion of a base $\mathcal{K}$ of a
 implications $\mathcal{L}$ to just mean that $\Cn_M(\mathcal{K}) = \Cn_M(\mathcal{L})$.
 The motivation for this was that we want bases of the set $\mathcal{L}$ to be a different,
 potentially smaller but logically equivalent representation of $\mathcal{L}$.  However,
-within this scenario, we can assume that we already ``know'' a certain set $\mathcal{S}
+within this scenario, we can assume that we already \enquote{know} a certain set $\mathcal{S}
 \subseteq \mathcal{L}$ of implications, and we only want to find a base that somehow
-represents the ``difference'' between $\mathcal{L}$ and $\mathcal{S}$.
+represents the \enquote{difference} between $\mathcal{L}$ and $\mathcal{S}$.
 
 \begin{Definition}[Bases with Background Knowledge]
   \label{def:bases-with-background-knowledge}
@@ -1746,10 +1746,10 @@ we have encountered the implication
 \begin{equation*}
   \set{ \mathsf{Human} } \to \set{ \mathsf{Honorable} }.
 \end{equation*}
-While neither exact definitions for ``human'' nor for ``honorable'' are given, this
-implication is rather doubtful (even in the context of Star Trek).  But still, this
+While neither exact definitions for \enquote{human} nor for \enquote{honorable} are given,
+this implication is rather doubtful (even in the context of Star Trek).  But still, this
 implication is a valid implication of $\con K_{\mathsf{TNG}}$.  On the other hand, one
-could discuss that this context is not ``complete'' in the sense that it lacks
+could discuss that this context is not \enquote{complete} in the sense that it lacks
 relevant counterexamples, and certainly one would find such a counterexample for the above
 implication in the Star Trek series.
 

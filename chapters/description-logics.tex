@@ -43,9 +43,9 @@ introduce \emph{\ELbot concept descriptions} over $N_C$ and $N_R$ as follows.
 We shall occasionally denote the set of all \EL concept descriptions over $N_C$ and $N_R$
 by $\EL(N_C, N_R)$, and the set of all \ELbot concept descriptions over $N_C$ and $N_R$ by
 $\ELbot(N_C, N_R)$.  The same is true for other description logics which we shall
-introduce at a later point.  We shall also often talk just about ``concept descriptions''
-without explicitly mentioning the description logic we are using.  If this is the case,
-then any description logic introduced in this work can be used there.
+introduce at a later point.  We shall also often talk just about \enquote{concept
+  descriptions} without explicitly mentioning the description logic we are using.  If this
+is the case, then any description logic introduced in this work can be used there.
 
 The sets $N_C$ and $N_R$ of concept and role names are also called the \emph{signature} of
 the logic.  In the following we shall always assume that those sets are finite.  Sometimes
@@ -62,18 +62,18 @@ define the semantics of assertional axioms.  See also Section~\ref{sec:knowledge
   \begin{equation*}
     \mathsf{Cat}, \, \mathsf{\exists hunts. Mouse}, \, \mathsf{Cat \sqcap Mouse}, \, \bot.
   \end{equation*}
-  One can think of these concept descriptions as ``describing'' things in a certain domain
-  (we shall make this much more precise shortly).  For example, the concept description
-  $\mathsf{Cat}$ describes everything which is a cat.  The concept description
+  One can think of these concept descriptions as \enquote{describing} things in a certain
+  domain (we shall make this much more precise shortly).  For example, the concept
+  description $\mathsf{Cat}$ describes everything which is a cat.  The concept description
   $\mathsf{\exists hunts. Mouse}$ describes everything which hunts a mouse (alternatively:
   a thing that hunts something which is a mouse).  The concept description $\mathsf{Cat
     \sqcap Mouse}$ describes things that are both a cat and a mouse.  Finally, the concept
   description $\bot$ just describes nothing.
 \end{Example}
 
-The intuition of a concept description to ``describe things'' conveyed in the previous
-example is very vague, and we shall make it more precise by introducing the notion of an
-\emph{interpretation}.
+The intuition of a concept description to \enquote{describe things} conveyed in the
+previous example is very vague, and we shall make it more precise by introducing the
+notion of an \emph{interpretation}.
 
 \begin{Definition}[Interpretation]
   \label{def:interpretation}
@@ -148,9 +148,9 @@ set of \EL and \ELbot concept descriptions.
 \end{Definition}
 
 The notion of an extension of an \ELbot concept description in an interpretation now
-formalizes our previous intuitive understanding that concept descriptions ``describe
-things:'' an element $x \in \Delta^{\mathcal{I}}$ is described by an \ELbot concept
-description $C$ in $\mathcal{I}$ if and only if $x \in C^{\mathcal{I}}$.
+formalizes our previous intuitive understanding that concept descriptions
+\enquote{describe things:} an element $x \in \Delta^{\mathcal{I}}$ is described by an
+\ELbot concept description $C$ in $\mathcal{I}$ if and only if $x \in C^{\mathcal{I}}$.
 
 \begin{Example}
   \label{expl:tom-and-jerry-2}
@@ -698,9 +698,9 @@ in \Cref{expl:mmscs-may-not-exist-in-ELbot}.
   \begin{equation*}
     C := (A, \set{ A \equiv \exists r. A }).
   \end{equation*}
-  Intuitively, one can think of $C$ is an ``infinite chain'' of existential restrictions,
-  and the possibility to have cyclic concept descriptions in \ELgfpbot allows us to
-  express this infinite chain with a finite expression.
+  Intuitively, one can think of $C$ is an \enquote{infinite chain} of existential
+  restrictions, and the possibility to have cyclic concept descriptions in \ELgfpbot
+  allows us to express this infinite chain with a finite expression.
 
   The greatest fixpoint model $\mathcal{J}$ for the TBox $\set{ A \equiv \exists r. A }$
   extending $\mathcal{I}$ is just given by
@@ -770,7 +770,7 @@ descriptions, which are usually much easier to read and understand.
 Recall that \ELgfpbot concept descriptions $C$ are either of the form $C = \bot$ or $C =
 (A, \mathcal{T})$ for some cyclic TBox $\mathcal{T}$ and $A \in N_D(\mathcal{T})$.
 Intuitively, unravelling \ELgfpbot concept descriptions up to a certain depth means that
-we ``unfold'' a potentially cyclic \ELgfpbot concept description into \ELbot concept
+we \enquote{unfold} a potentially cyclic \ELgfpbot concept description into \ELbot concept
 descriptions with a certain quantifier depth.  Of course, $\bot$ is already an \ELbot
 concept description, so it suffices to discuss unravelling of \ELgfp concept descriptions
 only.
@@ -784,12 +784,12 @@ Let us consider an example before we introduce the method in detail.
     C := (A, \set{ A \equiv \exists r. A }).
   \end{equation*}
   We had argued intuitively that this concept description could be viewed as some kind of
-  ``infinite'' \ELbot concept description of the form
+  \enquote{infinite} \ELbot concept description of the form
   \begin{equation*}
     C \equiv \exists r. \exists r. \exists r. \dots
   \end{equation*}
   Let $d \in \NN$.  Then an unravelling of $C$ up to depth $d$ would yield a concept
-  description $C_d$ that stems from $C$ by ``cutting'' the infinite chain of quantifiers
+  description $C_d$ that stems from $C$ by \enquote{cutting} the infinite chain of quantifiers
   after $d$ steps, \ie
   \begin{equation*}
     C_d = \underbrace{\exists r. \exists r. \dots \exists r.}_{d \text{ times}} \top.

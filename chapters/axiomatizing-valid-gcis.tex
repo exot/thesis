@@ -878,7 +878,7 @@ minimal base of $\mathcal{I}$.
 So far, all bases we have obtained were \ELgfpbot-bases, \ie the GCIs contained in these
 bases where allowed to contain proper \ELgfpbot concept descriptions.  From a logical
 point of view this is not a problem.  However, \ELgfpbot concept descriptions are
-inherently harder to read, since they allow for ``local recursion'' within concept
+inherently harder to read, since they allow for \enquote{local recursion} within concept
 descriptions.  This may be undesired, as those concept descriptions may have to be
 inspected by domain experts for their validity, and those experts may not necessarily be
 experts in logic as well.
@@ -890,7 +890,7 @@ Distel discuss a way to obtain such \ELbot bases from arbitrary \ELgfpbot bases 
 
 The crucial observation towards obtaining \ELbot bases from \ELgfpbot bases is that given
 a finite interpretation $\mathcal{I}$ and a concept description $C$ it is true for $d \in
-\NN_0$ ``large enough'' that $C^{\mathcal{I}} = C_d^{\mathcal{I}}$.  Recall that $C_d$
+\NN_0$ \enquote{large enough} that $C^{\mathcal{I}} = C_d^{\mathcal{I}}$.  Recall that $C_d$
 denotes the unravelling of $C$ up to depth $d$.
 
 \begin{Lemma}[Lemma~5.5 of~\cite{Diss-Felix}]
@@ -914,8 +914,8 @@ descriptions, as formulated in the following lemma.
 \end{Lemma}
 
 To now unravel an \ELgfpbot base $\mathcal{B}$ of $\mathcal{I}$ the idea is to just
-unravel every GCI $(C \sqsubseteq D) \in \mathcal{B}$ ``deep enough'', \ie replacing these
-GCIs by $C_d \sqsubseteq D_d$, where $d$ is chosen as in \Cref{lem:Felix-lemma-5.5}.
+unravel every GCI $(C \sqsubseteq D) \in \mathcal{B}$ \enquote{deep enough}, \ie replacing
+these GCIs by $C_d \sqsubseteq D_d$, where $d$ is chosen as in \Cref{lem:Felix-lemma-5.5}.
 This, however, may not be enough, as we may not be able anymore to entail GCIs of the form
 $(X^{\mathcal{I}})_d \sqsubseteq X^{\mathcal{I}}$ for $X \subseteq \Delta^{\mathcal{I}}$
 from the base thus obtained.  To remedy this, some extra GCIs need to be added.

@@ -209,8 +209,8 @@ the child-relation present in DBpedia and expressible in \ELbot.  Note that elem
 DBpedia are only present in $\Idbpedia$ if they have children, or are children of someone
 else.  Moreover, as DBpedia extracts its information from Wikipedia, all elements in
 $\Idbpedia$ correspond to articles in Wikipedia; in particular, if such elements
-correspond to persons, then those persons have to be ``sufficiently famous'' in the sense
-that they deserve a Wikipedia article.  Therefore, $\Idbpedia$ represent DBpedia's
+correspond to persons, then those persons have to be \enquote{sufficiently famous} in the
+sense that they deserve a Wikipedia article.  Therefore, $\Idbpedia$ represent DBpedia's
 knowledge about famous persons and their famous children.
 
 We have to note, however, that the \textsf{child}-relation in DBpedia contains some false
@@ -336,8 +336,8 @@ instances of \textsf{Person}.  In other words, these counterexamples are all
 \emph{erroneous} counterexamples, but since they are present in $\Idbpedia$, the approach
 developed by Baader and Distel will not ignore them.  This not only inhibits finding the
 GCI $\mathsf{\exists child. \top \sqsubseteq Person}$, but also causes incomprehensible
-GCIs to be found, which are special cases of this GCI but somehow try to ``circumvent''
-the erroneous counterexamples. An example for this is
+GCIs to be found, which are special cases of this GCI but somehow try to
+\enquote{circumvent} the erroneous counterexamples. An example for this is
 \begin{gather*}
   \mathsf{Person \sqcap \exists child. (Person \sqcap \exists child. (Person \sqcap \exists child.
     (Person \sqcap {}}\\
@@ -366,14 +366,15 @@ contains only \emph{few} errors, as otherwise learning GCIs from it would be fut
 Based on this assumption we can approach the problem of erroneous counterexamples as
 follows: in the case that $\mathcal{I}$ contains much more \emph{positive examples} for a
 GCI $C \sqsubseteq D$ than \emph{negative} ones, we assume that the negative
-counterexamples are ``probably erroneous.''  Here, a \emph{positive example} for $C
+counterexamples are \enquote{probably erroneous.}  Here, a \emph{positive example} for $C
 \sqsubseteq D$ would be an element $x \in \Delta^{\mathcal{I}}$ satisfying $x \in
 C^{\mathcal{I}} \cap D^{\mathcal{I}}$, and a \emph{negative example} for $C \sqsubseteq D$
 would be an element $y \in \Delta^{\mathcal{I}}$ such that $y \in C^{\mathcal{I}}
-\setminus D^{\mathcal{I}}$.  We can consider a GCI to be ``almost valid'' in $\mathcal{I}$
-if the number of positive examples is much higher than the number of negative ones.  The
-approach to ignore erroneous counterexamples would then consider these ``almost valid''
-GCIs in addition to the valid ones, and try to find finite bases for both of them.
+\setminus D^{\mathcal{I}}$.  We can consider a GCI to be \enquote{almost valid} in
+$\mathcal{I}$ if the number of positive examples is much higher than the number of
+negative ones.  The approach to ignore erroneous counterexamples would then consider these
+\enquote{almost valid} GCIs in addition to the valid ones, and try to find finite bases
+for both of them.
 
 This actually works quite well for our example interpretation $\Idbpedia$, as
 $\mathsf{\exists child. \top \sqsubseteq Person}$ has much more positive than negative
@@ -394,8 +395,8 @@ This is because identifying wrong GCIs can be considered much easier than findin
 GCIs that are just invalidated by errors in the data.
 
 It is the purpose of this section to give a formalization of the notion of a GCI to be
-``almost valid'' in some finite interpretation.  We shall base this formalization on the
-notion of \emph{confidence} as it is used in
+\enquote{almost valid} in some finite interpretation.  We shall base this formalization on
+the notion of \emph{confidence} as it is used in
 data-mining~\cite{arules:agrawal:association-rules}.  Our goal is then to find
 \emph{finite bases} of all GCIs which enjoy a \emph{high confidence} in the initially
 given interpretation.
@@ -519,8 +520,8 @@ and only if it is above a certain threshold $c \in [0,1]$.
 \end{Definition}
 
 We now want to find small bases of $\Th_c(\con K)$ for finite formal contexts $\con K =
-(G, M, I)$ and $c \in [0,1]$.  Of course, the term ``small'' is rather subjective here,
-but recall that the main purpose of this discussion is to obtain a finite base of
+(G, M, I)$ and $c \in [0,1]$.  Of course, the term \enquote{small} is rather subjective
+here, but recall that the main purpose of this discussion is to obtain a finite base of
 $\Th_c(\con K)$ which, when transferred to the side of description logics, stays finite.
 The main idea in that direction is that, if an interpretation $\mathcal{I}$ is finite,
 then it only has finitely many model-based most-specific concept descriptions (up to
@@ -1139,9 +1140,9 @@ between GCIs.
 \end{Proof}
 
 Note that we cannot expect the converse direction to hold in general as well.  The reason
-for this is that entailment between implications does not ``look inside'' the attributes
-in the implications, but entailment between GCIs is allowed to consider the structure of
-concept descriptions.  This is illustrated by the following example.
+for this is that entailment between implications does not \enquote{look inside} the
+attributes in the implications, but entailment between GCIs is allowed to consider the
+structure of concept descriptions.  This is illustrated by the following example.
 
 \begin{Example}
   \label{expl:gci-entailment-does-not-impliy-implicational-entailment}
@@ -1798,7 +1799,7 @@ shows that this is not the case.
 \end{Example}
 
 The main reason why the minimality statement fails is that entailment between GCIs can
-happen ``behind the quantifier'': if $\mathcal{B} = \set{ \mathsf{A} \sqsubseteq
+happen \enquote{behind the quantifier}: if $\mathcal{B} = \set{ \mathsf{A} \sqsubseteq
   \mathsf{B} }$, then $\mathcal{B}$ entails $\mathsf{\exists r. A} \sqsubseteq
 \mathsf{\exists r. B}$.  This entailment process can usually not be simulated by
 implications, as they are not allowed to consider the structure of the attributes in a
@@ -1813,7 +1814,7 @@ can be written as
 \end{equation*}
 for some $V \subseteq N_C$ and some $\Pi \subseteq N_R \times
 \subsets{\Delta^{\mathcal{I}}}$.  Then one can argue that the concept descriptions
-$Z^{\mathcal{I}}$ behind the quantifier are already ``closed under entailment'' with
+$Z^{\mathcal{I}}$ behind the quantifier are already \enquote{closed under entailment} with
 respect to $\mathcal{B}$, because they are model-based most-specific concept descriptions
 and all GCIs in $\mathcal{B}$ are valid in $\mathcal{I}$.  Thus, if a GCI $C \sqsubseteq
 D$ is entailed by $\mathcal{B}$, it must happen on the top-level of the concept
@@ -1836,9 +1837,9 @@ one used by~\cite{Diss-Felix}; see \Cref{sec:base-all-valid}.
 
 As a first step, as already discussed in \Cref{sec:base-all-valid}, we define an auxiliary
 set $\mathcal{X}_{\mathcal{I}}$ that only contains \ELbot concept descriptions but
-``captures'' entailment between \ELgfpbot concept descriptions.  For this, recall that
-\Cref{lem:Felix-lemma-5.5} states that for a finite interpretation $\mathcal{I}$ and all
-\ELgfpbot concept descriptions $C = (A, \mathcal{T})$ it is true that
+\enquote{captures} entailment between \ELgfpbot concept descriptions.  For this, recall
+that \Cref{lem:Felix-lemma-5.5} states that for a finite interpretation $\mathcal{I}$ and
+all \ELgfpbot concept descriptions $C = (A, \mathcal{T})$ it is true that
 \begin{equation*}
   C^{\mathcal{I}} = (C_d)^{\mathcal{I}},
 \end{equation*}
@@ -2079,10 +2080,10 @@ we want to conduct several experiments, namely
   K_\Idbpedia)$ for $c \in \set{ 0.0, 0.01, \dots, 0.99 }$ to see how large this set can
   be.  Recall that $\bigsqcap \Can(\Th_c(\con K_\Idbpedia))$ is a finite base of
   $\Th_c(\mathcal{I})$, and the number of GCIs in this base can be considered as a
-  ``small'' upper limit of how many GCIs are needed to represent $\Th_c(\mathcal{I})$.
-  Intuitively, if we decrease the value for $c$, we would expect that the number of GCIs
-  contained in the canonical base decreases as well.  We shall see how far this is true
-  for $\Idbpedia$.
+  \enquote{small} upper limit of how many GCIs are needed to represent
+  $\Th_c(\mathcal{I})$.  Intuitively, if we decrease the value for $c$, we would expect
+  that the number of GCIs contained in the canonical base decreases as well.  We shall see
+  how far this is true for $\Idbpedia$.
 \end{enumerate}
 
 The experimental results presented in this section have been published previously in
@@ -2593,7 +2594,7 @@ A first observation is that with decreasing values of $c$, the size of $\Can(\Th
 K_{\Idbpedia}))$ seems to decrease as well.  This is indeed true, except for the case
 $\abs{ \Can(\Th_{0.95}(\con K_{\Idbpedia})) } = 1241$ and $\abs{ \Can( \Th_{0.94}(\con
   K_{\Idbpedia})) } = 1242$.  Thus we can observe that with decreasing $c$, the sets
-$\Th_c(\con K_{\Idbpedia})$ get ``simpler'' in the sense that fewer implications are
+$\Th_c(\con K_{\Idbpedia})$ get \enquote{simpler} in the sense that fewer implications are
 necessary to represent them.  If the same is true for bases of $\Th_c(\Idbpedia)$ is not
 clear, though, as it is not quite clear how to compute finite bases of sets of GCIs.
 

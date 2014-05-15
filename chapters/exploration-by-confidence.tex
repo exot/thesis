@@ -240,7 +240,7 @@ a crucial requirement.
 \label{sec:gener-attr-expl}
 
 The foregone considerations suggest that we can view attribute exploration as an algorithm
-that allows us to ``explore'' the set $\Th(\con K) \setminus \Cn(\mathcal{K})$ of
+that allows us to \enquote{explore} the set $\Th(\con K) \setminus \Cn(\mathcal{K})$ of
 undecided implications.  In this section we want to generalize this view to the setting
 where the set of undecided implications has a more general form.
 
@@ -1679,16 +1679,17 @@ end
 
 This idea is realized in \Cref{alg:exploration-by-confidence-without-Th_c(K)-closures}.
 Instead of computing the set $P_{i+1}$ directly, we compute there two candidates
-$P_{i+1}^{1}$ and $P_{i+1}^{2}$.  Here, $P_{i+1}^{2}$ is the ``usual'' premise we compute
-for exploration.  On the other hand, the idea of considering the sets $P_{i+1}^{1}$ comes
-from \Cref{eq:44} in \Cref{prop:easy-checking-confidence-closed}: if we are in iteration
-$i$, then all intents $X \subsetneq P_{i}$ of $\con K \div \con L_{i}$ had been considered
-as sets $X = P_{j}^{1}$ for some $j < i$, since $X \subsetneq P_{i}$ implies $X \precneq
-P_{i}$.  Then for all $m \in X_{\con L_{i}}'' \setminus \mathcal{K}_{i}(X)$ satisfying
-$\conf_{\con K}(X \to \set{m}) \ge c$, the implication $X \to \set{m}$ has been asked to
-the expert.  If confirmed, the implication is contained in $\mathcal{K}_{i}$; if rejected,
-the context $\con L_{i}$ would contain a counterexample, and thus $m \notin (P_{i})_{\con
-  L_{i}}''$.  In this way, the condition in \Cref{eq:44} is ensured.
+$P_{i+1}^{1}$ and $P_{i+1}^{2}$.  Here, $P_{i+1}^{2}$ is the \enquote{usual} premise we
+compute for exploration.  On the other hand, the idea of considering the sets
+$P_{i+1}^{1}$ comes from \Cref{eq:44} in \Cref{prop:easy-checking-confidence-closed}: if
+we are in iteration $i$, then all intents $X \subsetneq P_{i}$ of $\con K \div \con L_{i}$
+had been considered as sets $X = P_{j}^{1}$ for some $j < i$, since $X \subsetneq P_{i}$
+implies $X \precneq P_{i}$.  Then for all $m \in X_{\con L_{i}}'' \setminus
+\mathcal{K}_{i}(X)$ satisfying $\conf_{\con K}(X \to \set{m}) \ge c$, the implication $X
+\to \set{m}$ has been asked to the expert.  If confirmed, the implication is contained in
+$\mathcal{K}_{i}$; if rejected, the context $\con L_{i}$ would contain a counterexample,
+and thus $m \notin (P_{i})_{\con L_{i}}''$.  In this way, the condition in \Cref{eq:44} is
+ensured.
 
 That this rather informal argumentation indeed holds for
 \Cref{alg:exploration-by-confidence-without-Th_c(K)-closures} is shown in the following
