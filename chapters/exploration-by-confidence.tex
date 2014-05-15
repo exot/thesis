@@ -433,7 +433,7 @@ define next-closed-non-closed($M$, $\leq_M$, $A$, $\mathcal{K} \subseteq \Imp(M)
     return $A$
   else
     return next-closed-non-closed($M$, $\leq_M$, next-closure($M$, $\leq_M$, $A$, $\mathcal{K}$), $\mathcal{K}$, $\mathcal{L}$)
-  end if
+  end
 end
 
 define explore-attributes($M$, $\leq_M$, $p$, $\con K = (G, M, I)$, $\mathcal{K} \subseteq
@@ -454,7 +454,7 @@ define explore-attributes($M$, $\leq_M$, $p$, $\con K = (G, M, I)$, $\mathcal{K}
     end
 
     $i$ := $i + 1$
-  end do
+  end
 
   return $\mathcal{K}_i$  
 end
@@ -526,7 +526,7 @@ define explore-implications($M$, $\leq_M$, $p$, $\mathcal{L} \subseteq \Imp(M)$,
     end
 
     $i$ := $i + 1$
-  end do
+  end
 
   return $\mathcal{K}_i$  
 end
@@ -1037,7 +1037,7 @@ P_{i+1} \text{ not } \mathcal{L}_{i}\text{-closed}$
     end
 
     $i$ := $i + 1$
-  end do
+  end
 
   return $\mathcal{K}_i$  
 end
@@ -1210,10 +1210,10 @@ define exploration-by-confidence($\con K = (G, M, I)$, $\leq_M$, $p$, $c \in [0,
     else
       $\mathcal{K}_{i+1}$ := $\mathcal{K}_i$
       $\con L_{i+1}$ := $\con L_{i} + p(P_{i+1} \to \mathcal{L}_i(P_{i+1}))$ ;; add counterexample to $\con L_{i}$
-    end if
+    end
 
     $i$ := $i + 1$
-  end do
+  end
 
   return $\mathcal{K}_i$  
 end
@@ -1658,7 +1658,7 @@ define exploration-by-confidence*($\con K = (G, M, I)$, $\leq_M$, $p$, $c \in [0
       $Q_{i+1}$ := $Q_{i+1}^{1}$
     else
       $Q_{i+1}$ := $Q_{i+1}^{2}$
-    end if
+    end
 
     if $p(P_{i+1} \to Q_{i+1}) = \top$ then
       $\mathcal{K}_{i+1}$ := $\mathcal{K}_i \cup \set{ P_{i+1} \to Q_{i+1} }$
@@ -1669,7 +1669,7 @@ define exploration-by-confidence*($\con K = (G, M, I)$, $\leq_M$, $p$, $c \in [0
     end
 
     $i$ := $i + 1$
-  end do
+  end
 
   return $\mathcal{K}_i$  
 end

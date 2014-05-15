@@ -1,4 +1,5 @@
-\chapter{Axiomatizing General Concept Inclusions with High Confidence}
+\chapter[Axiomatizing General Concept Inclusions with High Confidence]{Axiomatizing
+  General Concept Inclusions\\ with High Confidence}
 \label{cha:axiom-conf-el}
 
 The results obtained by Baader and Distel about computing finite bases of finite
@@ -701,7 +702,8 @@ model-based most-specific concept descriptions.
 \begin{Lemma}
   \label{lem:confidence-stays-under-mmsc}
   Let $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$ be a finite
-  interpretation over $N_C$ and $N_R$, and let $C, D \in \ELgfpbot(N_C, N_R)$.  Then
+  interpretation over $N_C$ and $N_R$, and let $C$ and $D$ be $\ELgfpbot$ concept
+  descriptions over $N_{C}$ and $N_{R}$.  Then
   \begin{equation*}
     \conf_{\mathcal{I}}( C \sqsubseteq D ) = \conf_{\mathcal{I}}(
     C^{\mathcal{I}\mathcal{I}} \sqsubseteq D^{\mathcal{I}\mathcal{I}}).
@@ -1412,13 +1414,13 @@ may contain redundancies, as the following example shows.
         {\mathsf{\exists r.B}} &
         {\mathsf{\exists r.\top}} \\
         \hline
-        1 & . & \times & . & . & . & \times & . & \times & \times & \times \\
-        2 & . & \times & . & . & . & \times & . & \times & \times & \times \\
-        3 & . & . & \times & . & . & \times & . & \times & \times & \times \\
-        4 & . & \times & \times & . & . & . & . & . & . & . \\
-        5 & . & \times & \times & . & . & . & . & . & . & . \\
-        6 & . & \times & \times & . & . & . & . & . & . & . \\
-        7 & . & \times & \times & . & . & . & . & . & . & . \\
+        1 &  & \times &  &  &  & \times &   & \times & \times & \times \\
+        2 &  & \times &  &  &  & \times &   & \times & \times & \times \\
+        3 &  &        & \times &   &   & \times &   & \times & \times & \times \\
+        4 &  & \times & \times &   &   &   &   &   &   &   \\
+        5 &  & \times & \times &   &   &   &   &   &   &   \\
+        6 &  & \times & \times &   &   &   &   &   &   &   \\
+        7 &  & \times & \times &   &   &   &   &   &   &   \\
       \end{array}
     \end{equation*}
     \caption{Induced formal context of $\mathcal{I}$ as in

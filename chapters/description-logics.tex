@@ -117,7 +117,7 @@ over $N_C$ and $N_R$.
   where we consider the elements of $\Delta^{\mathcal{I}_{\mathsf{MGM}}}$ as vertices and
   the pairs in $\mathsf{hunts}^{\mathcal{I}_{\mathsf{MGM}}}$ as directed edges:
   \begin{center}
-    \begin{tikzpicture}[>=stealth']
+    \begin{tikzpicture}
       \begin{scope}[every node/.style = { draw, circle }]
         \node (Tom) {\textsf{tom}};
         \node[right=2cm of Tom, inner sep = .1cm] (Jerry) {\textsf{jerry}}; % fix
@@ -164,10 +164,9 @@ formalizes our previous intuitive understanding that concept descriptions
       \Delta^{\mathcal{I}_{\mathsf{MGM}}} \st (x, y) \in
       \mathsf{hunts}^{\mathcal{I}_{\mathsf{MGM}}} \land y \in
       \mathsf{Mouse}^{\mathcal{I}_{\mathsf{MGM}}} }\\
-    &= \set{ \mathsf{tom} } \\
-    &= \mathsf{Cat}^{\mathcal{I}_{\mathsf{MGM}}},\\
-    \mathsf{Cat \sqcap Mouse}^{\mathcal{I}_{\mathsf{MGM}}} &= \emptyset \\
-    &= \bot^{\mathcal{I}_{\mathsf{MGM}}}.
+    &= \set{ \mathsf{tom} } = \mathsf{Cat}^{\mathcal{I}_{\mathsf{MGM}}},\\
+    \mathsf{Cat \sqcap Mouse}^{\mathcal{I}_{\mathsf{MGM}}}
+    &= \emptyset = \bot^{\mathcal{I}_{\mathsf{MGM}}}.
   \end{align*}
 \end{Example}
 
@@ -525,7 +524,7 @@ necessarily need to exist in \ELbot.
   \begin{center}
     \begin{tikzpicture}
       \node[circle, draw] (a) {$\mathsf{a}$};
-      \path[->,>=stealth'] (a) edge[looseness=8] node[midway, above] {\textsf{r}} (a);
+      \path[->] (a) edge[looseness=8] node[midway, above] {\textsf{r}} (a);
     \end{tikzpicture}
   \end{center}
   Let $X = \set{ \mathsf{a} }$.  Then we can find that \emph{all} \EL concept descriptions
@@ -909,7 +908,7 @@ unravelling.
   \begin{center}
     \begin{tikzpicture}
       \node[circle, draw] (A) {$A$};
-      \draw[->,>=stealth'] (A) edge[looseness=8] node[midway, above] {r} (A);
+      \draw[->] (A) edge[looseness=8] node[midway, above] {r} (A);
     \end{tikzpicture}
   \end{center}
   The unravelling of $G_C$ is then the graph $G_\infty$ which corresponds to the following

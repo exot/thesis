@@ -1459,7 +1459,7 @@ define next-closure($M$, $\leq_M$, $A$, $c$)
     return nil
   else
     return $A \oplus_c \max\nolimits_{\leq_M}(C)$
-  end if
+  end
 end  
 \end{lstlisting}
   \end{Algorithm}
@@ -1528,7 +1528,7 @@ discussed below.
       return $P$
     else
       return next-closed-non-intent($\con K$, $\leq_M$, $P$, $c$)
-    end if
+    end
   end
 
   define first-closed-non-intent($\con K = (G, M, I)$, $\leq_M$, $c$)
@@ -1537,7 +1537,7 @@ discussed below.
       return $\emptyset$
     else
       return next-closed-non-intent($\con K$, $\leq_M$, $\emptyset$, $c$)
-    end if
+    end
   end
 
   define canonical-base($\con{K} = (G, M, I)$, $\leq_M$, $\mathcal{S} \subseteq \Imp(M)$)
@@ -1553,10 +1553,10 @@ discussed below.
       $P_{i + 1}$ := next-closed-non-intent($\con{K}$, $\leq_M$, $P_i$, $\mathcal{L}_{i +
 1} \cup \mathcal{S}$),
       $i$ := $i + 1$
-    end while
+    end
 
     return $\mathcal{L}_i$
-  end define
+  end
 \end{lstlisting}
   \end{Algorithm}
 \end{figure}
@@ -1858,19 +1858,19 @@ with attributes $g'$, assuming that $g \notin G$.  In other words,
       else
         $\mathcal{L}_{i+1}$ := $\mathcal{L}_i$
         $\con K_{i+1}$ := $\con K_{i} + (g, g')$ ;; $g$ counterexample provided by the expert
-      end if
+      end
 
       if $P_i \neq P_i''$ then ;; derivation in $\con K_{i+1}$
         $P_{i+1}$ := $P_i$
       else
         $P_{i + 1}$ := next-closed-non-intent($\con{K}_{i+1}$, $\leq_M$, $P_i$, $\mathcal{L}_{i + 1} \cup \mathcal{S})$
-      end if
+      end
       $i$ := $i + 1$
 
-    end while
+    end
 
     return $\mathcal{L}_i$
-  end define
+  end
 \end{lstlisting}
   \end{Algorithm}
 \end{figure}
