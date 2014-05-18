@@ -15,12 +15,13 @@ we have to introduce some of the fundamental notions of formal concept analysis 
 \emph{formal contexts} and \emph{contextual derivation}.  This will be done in
 Section~\ref{sec:form-cont-cont}.
 
-Note that the introduction to formal concept analysis as given here is specifically
-tailored towards the purpose of the whole work.  As such, the following exposition is not
-complete in the sense that it discusses all the mathematical foundations of formal concept
-analysis.  In particular, we may omit proofs or details of certain argumentations if they
-are not relevant for our work.  In case more details are needed, we provide pointers to
-the literature where those details can be found.
+The introduction to formal concept analysis as given in this chapter is mainly based
+on~\cite{fca-book}.  Note that this introduction is specifically tailored towards the
+purpose of the whole work.  As such, the following exposition is not complete in the sense
+that it discusses all the mathematical foundations of formal concept analysis.  In
+particular, we may omit proofs or details of certain argumentations if they are not
+relevant for our work.  In case more details are needed, we provide pointers to the
+literature where those details can be found.
 
 \section{Formal Contexts and Concept Lattices}
 \label{sec:form-cont-cont}
@@ -50,7 +51,7 @@ vertices for elements $x$ is arbitrary and can be chosen as it suits.
 \begin{Example}
   \label{expl:1}
   Let us consider the set $\set{1, 2, 3}$ with the usual order $\le$ on natural numbers.
-  Then a line diagram of this order set is
+  Then a line diagram of this ordered set is
   \begin{center}
     \begin{tikzpicture}[every node/.style = {draw, circle, inner sep = 1pt}]
       \node (A) {$3$};
@@ -127,15 +128,15 @@ In other words, ${\downarrow} x$ contains all elements which are \emph{below} $x
 
 Let again $Q \subseteq P$.  Then the sets ${\downarrow} Q$ and ${\uparrow} Q$ defined as
 \begin{align*}
-  {\uparrow} Q &:= \bigcap_{q \in Q} {\uparrow} q,\\
-  {\downarrow} Q &:= \bigcap_{q \in Q} {\downarrow} q
+  Q^{*} &:= \bigcap_{q \in Q} {\uparrow} q,\\
+  Q_{*} &:= \bigcap_{q \in Q} {\downarrow} q
 \end{align*}
 are called the set of \emph{upper bounds} and \emph{lower bounds} of $Q$ in $(P, \le)$,
-respectively, where we employ the convention that $\bigcap \emptyset = P$.  If ${\uparrow}
-Q$ has a smallest element (a \emph{least upper bound}) in $(P, \le)$, it is called the
-\emph{supremum} of $Q$ in $(P, \le)$ and is denoted by $\sup Q$.  Likewise, if
-${\downarrow} Q$ has a greatest element (a \emph{greatest lower bound}) in $(P, \le)$,
-then it is called the \emph{infimum} of $Q$ in $(P, \le)$ and is denoted by $\inf Q$.
+respectively, where we employ the convention that $\bigcap \emptyset = P$.  If $Q^{*}$ has
+a smallest element (a \emph{least upper bound}) in $(P, \le)$, it is called the
+\emph{supremum} of $Q$ in $(P, \le)$ and is denoted by $\sup Q$.  Likewise, if $Q_{*}$ has
+a greatest element (a \emph{greatest lower bound}) in $(P, \le)$, then it is called the
+\emph{infimum} of $Q$ in $(P, \le)$ and is denoted by $\inf Q$.
 
 Note again that neither infimum nor supremum have to exist in $(P, \le)$.
 
@@ -155,9 +156,9 @@ structure a \emph{complete lattice}.
 \begin{Definition}[Lattice]
   \label{def:lattice}
   Let $\alg L = (L, \le)$ be an ordered set.  Then $\alg L$ is called a \emph{lattice} if
-  and only if for each finite $Q \subseteq L$ there exist both $\sup Q$ and $\inf Q$ in
-  $\alg L$.  If for all $Q \subseteq L$ there exist both $\sup Q$ and $\inf Q$ in $\alg
-  L$, then $\alg L$ is called a \emph{complete lattice}.
+  and only if for each non-empty finite $Q \subseteq L$ there exist both $\sup Q$ and
+  $\inf Q$ in $\alg L$.  If for all $Q \subseteq L$ there exist both $\sup Q$ and $\inf Q$
+  in $\alg L$, then $\alg L$ is called a \emph{complete lattice}.
 \end{Definition}
 
 \noindent%
@@ -1115,7 +1116,7 @@ within this scenario, we can assume that we already \enquote{know} a certain set
 \subseteq \mathcal{L}$ of implications, and we only want to find a base that somehow
 represents the \enquote{difference} between $\mathcal{L}$ and $\mathcal{S}$.
 
-\begin{Definition}[Bases with Background Knowledge]
+\begin{Definition}[Bases with Implicational Background Knowledge]
   \label{def:bases-with-background-knowledge}
   Let $\mathcal{L}$ and $\mathcal{S}$ be sets of implications on a set $M$ such that
   $\mathcal{S} \subseteq \Cn_M(\mathcal{L})$.  A \emph{base} of $\mathcal{L}$ \emph{with
