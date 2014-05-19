@@ -168,12 +168,8 @@ finite, then $Q = \set{ q_1, \dots, q_n }$ and we may write
   q_1 \wedge \dots \wedge q_n &\quad\text{instead of}\quad \inf Q,\\
   q_1 \vee \dots \vee q_n &\quad\text{instead of}\quad \sup Q.
 \end{align*}
-If $Q$ is infinite, then the notation
-\begin{align*}
-  \bigwedge Q &\quad\text{instead of}\quad \inf Q,\\
-  \bigvee Q &\quad\text{instead of}\quad \sup Q
-\end{align*}
-is rather common.
+It is also common to write $\bigwedge Q$ instead of $\inf Q$, and $\bigvee Q$ instead of
+$\sup Q$.
 
 Note that every finite lattice is also a complete lattice.  Moreover, every complete
 lattice has a smallest and greatest element, given by $\sup\emptyset$ and $\inf\emptyset$,
@@ -206,17 +202,17 @@ their \emph{attributes}.  For this, we need to introduce the notion of a \emph{f
 \begin{Definition}[Formal Context]
   \label{def:formal-context}
   A \emph{formal context} $\con K$ is constituted of three sets $G, M, I$, where $I
-  \subseteq G \times M$.  Most often, we shall identify $\con K$ with the triple $(G, M,
-  I)$, \ie $\con K = (G, M, I)$.  We shall call $G$ the set of \emph{objects} of $\con K$,
-  $M$ the set of \emph{attributes} of $\con K$ and $I$ the \emph{incidence} of $\con K$.
-  Two formal contexts are equal if and only if their sets of objects, attributes and their
-  incidences are equal, respectively.
+  \subseteq G \times M$.  Formally, a formal contexts $\con K$ is a triple $\con K = (G,
+  M, I)$ where $G, M$ are sets and $I \subseteq G \times M$.  We shall call $G$ the set of
+  \emph{objects} of $\con K$, $M$ the set of \emph{attributes} of $\con K$ and $I$ the
+  \emph{incidence} of $\con K$.  Two formal contexts are equal if and only if their sets
+  of objects, attributes and their incidences are equal, respectively.
 \end{Definition}
 
-Formal contexts can be thought of as simple data structures which record for a set of
-objects the set of attributes those objects have.  More precisely, we shall say that in a
-formal context $\con K$ an object $g \in G$ \emph{has} an attribute $m$ if and only if
-$(g, m) \in I$.
+Formal contexts can be thought of as simple data structures which record, for a given set
+of objects $G$ and a given set of attributes $M$, for each object $g \in G$ the set of
+attributes from $M$ that $g$ has.  More precisely, we shall say that in a formal context
+$\con K$ an object $g \in G$ \emph{has} an attribute $m$ if and only if $(g, m) \in I$.
 
 \begin{Example}
   \label{expl:star-trek}
@@ -282,19 +278,19 @@ nevertheless happens that a single name for the derivation operator leads to con
 then we shall locally introduce separate names for both of them.
 
 What occurs more often, for example in Chapters~\ref{cha:expl-conf}
-and~\ref{cha:model-expl-conf}, is the derivation of sets in \emph{different contexts}.
-For example we may have given two formal contexts $\con K_1 = (G_1, M_1, I_1)$ and $\con
-K_2 = (G_2, M_2, I_2)$ and a set $A \subseteq M_1 \cap M_2$.  When writing $A'$, it is not
-clear in which context we do the derivation.  To remedy this, we shall add a subscript to
-the set $A$ to make clear of which context we consider it as a set of attributes: $A_{\con
-  K_1}$ denotes the set $A$ considered as a set of attributes in $\con K_1$, and likewise
-$A_{\con K_2}$.  While this notation is not useful as it stands, it becomes handy if we
-consider derivations of $A$: $(A_{\con K_1})'$ denotes the derivation of $A$ in the formal
-context $\con K_1$, while $(A_{\con K_2})'$ does the same for the formal context $\con
-K_2$.  Of course, we can drop the parentheses if that does not lead to ambiguity, and
-write $A_{\con K_1}'$ and $A_{\con K_2}'$ instead.  Of course, the same can be done for
-sets of objects.  In particular, instead of writing $(A_{\con K_1}')_{\con K_1}'$ we shall
-often only write $A_{\con K_1}''$.
+and~\ref{cha:model-expl-conf}, is the derivation of sets in \emph{different formal
+  contexts}.  For example we may have given two formal contexts $\con K_1 = (G_1, M_1,
+I_1)$ and $\con K_2 = (G_2, M_2, I_2)$ and a set $A \subseteq M_1 \cap M_2$.  When writing
+$A'$, it is not clear in which context we do the derivation.  To remedy this, we shall add
+a subscript to the set $A$ to make clear of which context we consider it as a set of
+attributes: $A_{\con K_1}$ denotes the set $A$ considered as a set of attributes in $\con
+K_1$, and likewise $A_{\con K_2}$.  While this notation is not useful as it stands, it
+becomes handy if we consider derivations of $A$: $(A_{\con K_1})'$ denotes the derivation
+of $A$ in the formal context $\con K_1$, while $(A_{\con K_2})'$ does the same for the
+formal context $\con K_2$.  Of course, we can drop the parentheses if that does not lead
+to ambiguity, and write $A_{\con K_1}'$ and $A_{\con K_2}'$ instead.  Of course, the same
+can be done for sets of objects.  In particular, instead of writing $(A_{\con K_1}')_{\con
+  K_1}'$ we shall often only write $A_{\con K_1}''$.
 
 \begin{Example}
   \label{expl:4}
@@ -1363,7 +1359,7 @@ ordered set $(M, \leq_M)$ where for any two elements $x, y \in M$ it is true tha
   \label{def:lectic-order}
   Let $(M, \leq_M)$ be a linearly ordered set, and let $i \in M$.  Then for two sets $A, B
   \subseteq M$, $A$ is called \emph{lectically smaller} than $B$ \emph{at position $i$},
-  written $A \prec_i B$, if and only if
+  written $A \prec_i B$, if
   \begin{equation*}
     A \prec_i B \diff i = \min\nolimits_{\leq_M}(A \symdiff B) \text{ and } i \in B,
   \end{equation*}
@@ -1404,7 +1400,7 @@ The fact that $A \prec_i B$ can be understood as the statement that the smallest
 
 It is not hard to see (but technical to prove) that every lectic order is indeed a linear
 order on $\subsets{M}$, \ie the ordered set $(\subsets{M}, \preceq)$ is a linearly ordered
-set.  Moreover the lectic order \emph{extents} the usual subset-order on $\subsets{M}$, in
+set.  Moreover the lectic order \emph{extends} the usual subset-order on $\subsets{M}$, in
 the sense that for all $A, B \subseteq M$ it is true that
 \begin{equation*}
   A \subseteq B \implies A \preceq B,
