@@ -1,6 +1,7 @@
-\documentclass{beamer}
+\documentclass[ngerman]{beamer}
 \usepackage{etex}
 \usepackage[beamer]{mydefs}
+\usepackage{calc}
 
 %%%
 
@@ -38,7 +39,11 @@
 \end{frame}
 
 \begin{frame}
-  FCA
+  FCA (formale Kontexte, Ableitungsoperatoren)
+\end{frame}
+
+\begin{frame}
+  FCA (Implikationen, Basen)
 \end{frame}
 
 \begin{frame}
@@ -50,14 +55,98 @@
 \end{frame}
 
 \begin{frame}
-  DBpedia-Beispiel (auch mit sinnvollem Wissen?)
+  \frametitle{Extracting Knowledge from DBpedia}
+
+  \onslide<+->
+  
+  \begin{block}{Experiment}
+    \begin{itemize}
+    \item<+-> DBpedia: aus der Wikipedia halbautomatisch gewonnenes Wissen
+    \item<+-> betrachte nur \textsf{child}-Relation ${} \leadsto \Idbpedia$
+    \item<+-> $\Delta^{\Idbpedia} = 5626$
+    \end{itemize}
+  \end{block}
+
+  \onslide<+->
+
+  \begin{block}{Einige Ergebnisse}
+    \vspace*{-3ex}
+    \begin{gather*}
+      \onslide<+->{\sf MemberOfParliament \sqsubseteq Person \sqcap Politician\\}
+      \onslide<+->{\sf \exists child. Person \sqsubseteq Person\\}
+      \onslide<+->{\sf FictionalCharacter \sqcap \exists child. Person \sqsubseteq \exists
+        child. FicitionalCharacter\\}
+    \end{gather*}
+  \end{block}
+
+  \onslide<+->
+
+  \vspace*{-3ex}
+  \begin{block}{Fragwürdige Ergebnisse}
+    \vspace*{-3ex}
+    \begin{gather*}
+      \onslide<+->{\sf Person \sqcap \exists child. Book \sqsubseteq
+        FicitionalCharacter\\}
+      \onslide<+->{\sf Criminal \sqcap \exists child. Politician \sqsubseteq \bot\\}
+      \onslide<+->{\sf Person \sqcap \exists child. Criminal \sqsubseteq Criminal}
+    \end{gather*}
+  \end{block}
+
 \end{frame}
 
 \begin{frame}
-  Beobachtung, was nicht gefunden wird
+  
+  \onslide<1-8>
+
+  \begin{block}{Beobachtung}
+    \begin{equation*}
+      \sf \exists child. \top \sqsubseteq Person
+    \end{equation*}
+    \onslide<2->%
+    \emph{gilt nicht} in $\Idbpedia$\onslide<3->, denn es gibt 4 \alt<7->{\alert{falsche
+        Gegenbeispiele:}}{Gegenbeispiele, \dh}
+    \begin{overlayarea}{\textwidth}{5ex}
+      \only<4-6>{
+        \begin{equation*}
+          \abs{ (\sf \exists child.top)^{\Idbpedia} \setminus Person^{\Idbpedia} } = 4.
+        \end{equation*}
+      }
+      \only<8->{
+        \begin{equation*}
+          \text{\texttt{Teresa\_Carpio}, \texttt{Charles\_Heung},
+            \texttt{Adam\_Cheng}, \texttt{Lydia\_Shum}.}
+        \end{equation*}
+      }
+    \end{overlayarea}
+
+    \onslide<5->
+
+    \bigskip{}
+
+    Andererseits: 2547 Elemente in $\Idbpedia$ erfüllen $\sf \exists child. \top
+    \sqsubseteq \sf Person$, \dh
+    \begin{equation*}
+      \abs{ (\sf \exists child.\top \sqcap Person)^{\Idbpedia} } = 2547.
+    \end{equation*}
+
+    \onslide<6->
+
+    $\sf \exists child. \top \sqsubseteq Person$ ist also
+    \alt<7->{\alert{\enquote{\sout{fast}}}}{\enquote{\makebox[\widthof{\sout{fast}}]{fast}}} richtig.
+  \end{block}
+
 \end{frame}
 
 \begin{frame}
+
+  \onslide<+->
+
+  \begin{block}{Ansatz}
+    Betrachte auch GCIs, die \enquote{fast} richtig sind.
+  \end{block}
+
+  \onslide<+->
+
   Konfidenz einführen, Basen mit hoher Konfidenz einführen
 \end{frame}
 
@@ -92,7 +181,11 @@
 \end{frame}
 
 \begin{frame}
-  Exploration
+  Exploration Übersicht
+\end{frame}
+
+\begin{frame}
+  ? Exploration im Detail
 \end{frame}
 
 \begin{frame}
@@ -105,5 +198,5 @@
 %%% mode: latex
 %%% TeX-master: t
 %%% ispell-local-dictionary: "de_DE"
-%%% TeX-engine: luatex
+%%% TeX-engine: xetex
 %%% End: 
