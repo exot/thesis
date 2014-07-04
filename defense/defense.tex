@@ -11,7 +11,7 @@
 
 %%%
 
-\setbeamertemplate{headline}{}
+\includeonlyframes{current}
 
 %%%
 
@@ -22,12 +22,75 @@
 \end{frame}
 
 \begin{frame}
-  Motivation: faktisches Wissen da, terminologisches Wissen nicht (kleines Beispiel)
+
+  \onslide<1->
+
+  \begin{block}{Ziel}
+    Wissen aus Daten für maschinelle Bearbeitung extrahieren
+  \end{block}
+
+  \onslide<2->
+
+  \begin{block}{Beobachtung}
+    \begin{itemize}
+    \item<3-> faktisches Wissen leicht extrahierbar
+    \item<8-> terminologisches (begriffliches) Wissen schwer extrahierbar
+    \end{itemize}
+  \end{block}
+
+  \onslide<4->
+
+  \vspace*{-0.6\baselineskip}
+  \begin{overlayarea}{\linewidth}{13ex}
+    \only<4-6>{
+      \begin{Beispiel}[DBpedia/Wikidata]
+        \only<5->{
+          \begin{center}\ttfamily
+            <http://dbpedia.org/resource/\alert<6->{Aldous\_Huxley}>\\
+            <http://dbpedia.org/ontology/\alert<6->{notableWork}>\\
+            <http://dbpedia.org/resource/\alert<6->{Brave\_New\_World}> .
+          \end{center}
+        }
+      \end{Beispiel}
+    }
+    
+    \only<9->{
+      \begin{Beispiel}
+        \begin{itemize}
+        \item<10-> Jede Katze ist ein Säugetier
+        \item<11-> Hunde sind keine Katzen
+        \item<12-> Jeder Mensch, der ein Kind hat, ist ein Elternteil
+        \end{itemize}
+      \end{Beispiel}
+    }
+  \end{overlayarea}
+
 \end{frame}
 
-\begin{frame}
-  Fragestellungen: wie Wissen repräsentieren? (→ DL) wie Wissen erlangen? (→ FCA);
-  Beispiele für GCIs
+\begin{frame}[label=current]
+
+  \onslide<1->
+
+  \begin{block}{Grundlegende Fragen}
+    \begin{itemize}
+    \item<2-> Wie Wissen darstellen? \visible<5->{$\quad\Rightarrow\quad$
+        \emph{Beschreibungslogiken} }
+    \item<3-> Wie Wissen extrahieren? \visible<10->{$\quad\Rightarrow\quad$ \emph{Formale
+          Begriffsanalyse}}
+    \item<4-> Welches Wissen extrahieren? \visible<11->{$\quad\Rightarrow\quad$ \emph{?}}
+    \end{itemize}
+  \end{block}
+
+  \onslide<6->
+
+  \begin{Beispiel}[General Concept Inclusions, GCIs]
+    \begin{itemize}
+    \item<7-> $\mathsf{Cat} \sqsubseteq \mathsf{Mammal}$
+    \item<8-> $\mathsf{Dog} \sqcap \mathsf{Cat} \sqsubseteq \bot$
+    \item<9-> $\exists \mathsf{child}. \top \sqsubseteq \mathsf{Parent}$
+    \end{itemize}
+  \end{Beispiel}
+
 \end{frame}
 
 \begin{frame}
@@ -72,10 +135,10 @@
   \begin{block}{Einige Ergebnisse}
     \vspace*{-3ex}
     \begin{gather*}
-      \onslide<+->{\sf MemberOfParliament \sqsubseteq Person \sqcap Politician\\}
-      \onslide<+->{\sf \exists child. Person \sqsubseteq Person\\}
+      \onslide<+->{\sf MemberOfParliament \sqsubseteq Person \sqcap Politician}~\\
+      \onslide<+->{\sf \exists child. Person \sqsubseteq Person}~\\
       \onslide<+->{\sf FictionalCharacter \sqcap \exists child. Person \sqsubseteq \exists
-        child. FicitionalCharacter\\}
+        child. FicitionalCharacter}
     \end{gather*}
   \end{block}
 
@@ -86,8 +149,8 @@
     \vspace*{-3ex}
     \begin{gather*}
       \onslide<+->{\sf Person \sqcap \exists child. Book \sqsubseteq
-        FicitionalCharacter\\}
-      \onslide<+->{\sf Criminal \sqcap \exists child. Politician \sqsubseteq \bot\\}
+        FicitionalCharacter}~\\
+      \onslide<+->{\sf Criminal \sqcap \exists child. Politician \sqsubseteq \bot}~\\
       \onslide<+->{\sf Person \sqcap \exists child. Criminal \sqsubseteq Criminal}
     \end{gather*}
   \end{block}
@@ -198,5 +261,7 @@
 %%% mode: latex
 %%% TeX-master: t
 %%% ispell-local-dictionary: "de_DE"
-%%% TeX-engine: xetex
+%%% TeX-engine: luatex
 %%% End: 
+
+%  LocalWords:  Wikidata Concept Inclusions
