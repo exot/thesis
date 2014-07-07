@@ -2,6 +2,7 @@
 \usepackage{etex}
 \usepackage[beamer]{mydefs}
 \usepackage{calc}
+\usepackage{babel}
 
 %%%
 
@@ -12,6 +13,8 @@
 %%%
 
 \includeonlyframes{current}
+\usetikzlibrary{decorations.pathmorphing,calc,arrows}
+\tikzset{>={stealth'[sep]}}
 
 %%%
 
@@ -67,7 +70,7 @@
 
 \end{frame}
 
-\begin{frame}[label=current]
+\begin{frame}
 
   \onslide<1->
 
@@ -77,7 +80,8 @@
         \emph{Beschreibungslogiken} }
     \item<3-> Wie Wissen extrahieren? \visible<10->{$\quad\Rightarrow\quad$ \emph{Formale
           Begriffsanalyse}}
-    \item<4-> Welches Wissen extrahieren? \visible<11->{$\quad\Rightarrow\quad$ \emph{?}}
+    \item<4-> Welches Wissen extrahieren? \visible<11->{$\quad\Rightarrow\quad$
+        \emph{\enquote{interessantes}}}
     \end{itemize}
   \end{block}
 
@@ -94,31 +98,153 @@
 \end{frame}
 
 \begin{frame}
-  EL Syntax und Semantik
+
+  \onslide<+->
+  
+  \centering
+  
+  \begin{tikzpicture}[element/.style = {circle,draw=blue!50,fill=blue!20,thick}]
+    \node[element, draw, circle, label=below:{\parbox{1.5cm}{\vspace*{-.5cm}\center
+        Person\\Artist}}] (B) at (3,-1) {};
+    \node[element, draw, circle, label=above:{\sf Person}] (C) at (5.5,0) {};
+    \node[element, draw, circle, label=below:{\parbox{1.5cm}{\vspace*{-.4cm}\center
+        Person\\Writer}}] (D) at (5.5,-2) {};
+    \path[->,thick]
+    (B) edge node[midway,above,sloped] {\sf child} (C)
+    (B) edge node[midway,below,sloped] {\sf child} (D)
+    ;
+
+    \node[coordinate] (D) at (6,-1) {};
+
+    \onslide<+->{
+      \node  (E) at (10,-1) {$\quad\mathsf{\exists child.Writer} \sqsubseteq \mathsf{Artist}$};
+      \draw[->,thick,blue!60,opaque=50,decorate,decoration={coil,aspect=0,post length=0.7em,
+        segment length=0.7em}] (D) to (E);
+    }
+
+    \onslide<+->{
+      \node at (4, -4) {\alert<.>{\large Interpretation}};
+    }
+
+    \onslide<+->{
+      \node at (10, -4) {\alert<.>{\large Basis von GCIs}};
+    }
+  \end{tikzpicture}
+  
 \end{frame}
 
 \begin{frame}
-  GCIs
+
+  \onslide<+->
+
+  Fixiere disjunkte Mengen $N_{C}$ (Konzeptnamen) und $N_{R}$ (Rollennamen).
+
+  \onslide<+->
+
+  \begin{Definition}
+    \emph{$\ELbot$-Konzeptbeschreibungen} $C$ sind von der Form
+    \begin{equation*}
+      C ::= A \mid C \sqcap C \mid \exists r. C \mid \bot \mid \top
+    \end{equation*}
+    für $A \in N_C, r \in N_R$.
+  \end{Definition}
+
 \end{frame}
 
 \begin{frame}
+
+  \onslide<+->
+
+  \begin{Definition}
+    Eine \emph{Interpretation} $\mathcal{I} = (\Delta^{\mathcal{I}}, \cdot^{\mathcal{I}})$
+    besteht aus
+    \begin{itemize}
+    \item<+-> einer nicht-leeren Menge $\Delta^{\mathcal{I}}$ von \emph{Elementen},
+    \item<+-> einer Abbildung $\cdot^{\mathcal{I}}$ mit
+      \begin{align*}
+        A^{\mathcal{I}} &\subseteq \Delta^{\mathcal{I}} \\
+        r^{\mathcal{I}} &\subseteq \Delta^{\mathcal{I}} \times \Delta^{\mathcal{I}}
+      \end{align*}
+      für $A \in N_{C}, r \in N_{R}$.
+    \end{itemize}
+  \end{Definition}
+
+  \onslide<+->
+
+  \begin{Definition}
+    Für $A \in N_C$, $C, D$ zwei $\ELbot$-Konzeptbeschreibungen und $r \in N_R$ sei
+    \begin{itemize}
+    \item $\bot^{\mathcal{I}} = \emptyset$, $\top^{\mathcal{I}} = \Delta^{\mathcal{I}}$,
+    \item $(C \sqcap D)^{\mathcal{I}} := C^{\mathcal{I}} \cap D^{\mathcal{I}}$,
+    \item $(\exists r. C)^{\mathcal{I}} := \set{ x \in \Delta^{\mathcal{I}} \mid \exists y
+        \in \Delta^{\mathcal{I}} \st (x, y) \in r^{\mathcal{I}}, y \in C^{\mathcal{I}} }$.
+    \end{itemize}
+  \end{Definition}
+
+\end{frame}
+
+\begin{frame}
+
+  \onslide<+->
+
+  \begin{Definition}
+    \emph{Allgemeine Konzeptinklusionen} (General Concept Inclusions, GCIs) sind von der Form
+    \begin{equation*}
+      C \sqsubseteq D
+    \end{equation*}
+    wobei $C, D$ zwei $\ELbot$-Konzeptbeschreibungen sind.
+
+    \onslide<+->%
+    \medskip{}
+    $C \sqsubseteq D$ \emph{gilt} in $\mathcal{I}$ falls
+    \begin{equation*}
+      C^{\mathcal{I}} \subseteq D^{\mathcal{I}}.
+    \end{equation*}
+  \end{Definition}
+
+\end{frame}
+
+\begin{frame}[label=current]
   FCA (formale Kontexte, Ableitungsoperatoren)
 \end{frame}
 
-\begin{frame}
+\begin{frame}[label=current]
   FCA (Implikationen, Basen)
 \end{frame}
 
-\begin{frame}
-  Ähnlichkeiten FCA - DL
+\begin{frame}[label=current]
+
+  \onslide<+->
+
+  \begin{block}{Offene Frage}
+    Was ist \enquote{interessantes} Wissen?
+  \end{block}
+
+  \onslide<+->
+
+  \begin{block}{[Baader, Distel …]}
+    Berechne Basis aller \emph{gültigen} GCIs.
+  \end{block}
+
+  \onslide<+->
+
+  \begin{block}{Beobachtung}
+    \begin{itemize}
+    \item<+-> GCIs sind Implikationen sehr ähnlich
+    \item<+-> FCA bietet Möglichkeiten, Implikationen aus Daten zu berechnen
+    \end{itemize}
+  \end{block}
+
 \end{frame}
 
 \begin{frame}
+
+  \onslide<+->
+  
   Übersicht
 \end{frame}
 
 \begin{frame}
-  \frametitle{Extracting Knowledge from DBpedia}
 
   \onslide<+->
   
@@ -218,6 +344,24 @@
 \end{frame}
 
 \begin{frame}
+
+  \onslide<+->
+
+  \begin{block}{Parallels between FCA and DL}
+    \begin{center}
+      \begin{tabular}{c|c}
+        Formal Concept Analysis & Description Logics\\
+        \midrule\onslide<+->
+        objects $G$ & individuals $\Delta^{\mathcal{I}}$ \\\onslide<+->
+        attributes $M$ & concept descriptions \\\onslide<+->
+        formal contexts $\con K$ & interpretations $\mathcal{I}$ \\\onslide<+->
+        implications & GCIs \\\onslide<+->
+        $A', A \subseteq M$ & $(\bigsqcap A)^{\mathcal{I}}$ \\\onslide<+->
+        $B', B \subseteq G$ & \textcolor{red}{\textbf{?}}
+      \end{tabular}
+    \end{center}
+  \end{block}
+
   Details 1: Model-Based Most-Specific Concept Description
 
   (ELgfp erwähnen)
@@ -261,7 +405,7 @@
 %%% mode: latex
 %%% TeX-master: t
 %%% ispell-local-dictionary: "de_DE"
-%%% TeX-engine: luatex
+%%% TeX-engine: xetex
 %%% End: 
 
-%  LocalWords:  Wikidata Concept Inclusions
+%  LocalWords:  Wikidata Concept Inclusions Konzeptnamen Rollennamen Konzeptinklusionen
