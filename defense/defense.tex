@@ -3,6 +3,7 @@
 \usepackage[beamer]{mydefs}
 \usepackage{calc}
 \usepackage{babel}
+\usepackage{fontspec}
 
 %%%
 
@@ -15,6 +16,9 @@
 \includeonlyframes{current}
 \usetikzlibrary{decorations.pathmorphing,calc,arrows}
 \tikzset{>={stealth'[sep]}}
+
+\let\oldemph\emph
+\renewcommand{\emph}[1]{\alert<.>{\oldemph{#1}}}
 
 %%%
 
@@ -144,10 +148,18 @@
   \begin{Definition}
     \emph{$\ELbot$-Konzeptbeschreibungen} $C$ sind von der Form
     \begin{equation*}
-      C ::= A \mid C \sqcap C \mid \exists r. C \mid \bot \mid \top
+      C ::= A \mid C \sqcap\! C \mid \exists r. C \mid \bot \mid \top
     \end{equation*}
     für $A \in N_C, r \in N_R$.
   \end{Definition}
+
+  \onslide<+->
+
+  \begin{Beispiel}
+    \begin{equation*}
+      \mathsf{Cat} \sqcap \mathsf{Dog}, \exists \mathsf{child}. \mathsf{Writer}, \top, \bot
+    \end{equation*}
+  \end{Beispiel}
 
 \end{frame}
 
@@ -188,11 +200,11 @@
   \onslide<+->
 
   \begin{Definition}
-    \emph{Allgemeine Konzeptinklusionen} (General Concept Inclusions, GCIs) sind von der Form
+    Sind $C, D$ zwei $\ELbot$-Konzeptbeschreibungen, so heißt
     \begin{equation*}
       C \sqsubseteq D
     \end{equation*}
-    wobei $C, D$ zwei $\ELbot$-Konzeptbeschreibungen sind.
+    \emph{Allgemeine Konzeptinklusion} (General Concept Inclusion, GCI).
 
     \onslide<+->%
     \medskip{}
@@ -204,12 +216,33 @@
 
 \end{frame}
 
-\begin{frame}[label=current]
-  FCA (formale Kontexte, Ableitungsoperatoren)
-\end{frame}
+\begin{frame}%[label=current]
 
-\begin{frame}[label=current]
-  FCA (Implikationen, Basen)
+  \onslide<+->
+  
+  \begin{Definition}
+    $\con K = (G, M, I)$ heißt \emph{formaler Kontext}, falls $G, M$ Mengen und $I
+    \subseteq G \times M$.
+
+    \onslide<+->\medskip
+
+    Für $A \subseteq G, B \subseteq M$ sei
+    \begin{align*}
+      \only<+->{A' &= \set{ m \in M \mid \forall g \in A \holds (g, m) \in I },} \\
+      \only<+->{B' &= \set{ g \in G \mid \forall m \in B \holds (g, m) \in I }}
+    \end{align*}
+  \end{Definition}
+  
+  \onslide<+->
+
+  \begin{Definition}
+    $A \to B$ heißt \emph{Implikation} in $\con K$, falls $A, B \subseteq M$. \onslide<+->
+    $A \to B$ heißt \emph{gültig} in $\con K$, falls
+    \begin{equation*}
+      A' \subseteq B'.
+    \end{equation*}
+  \end{Definition}
+  
 \end{frame}
 
 \begin{frame}[label=current]
@@ -222,8 +255,9 @@
 
   \onslide<+->
 
-  \begin{block}{[Baader, Distel …]}
-    Berechne Basis aller \emph{gültigen} GCIs.
+  \begin{block}{Erste Idee (Baader, Distel)}
+    Betrachte alle \emph{gültigen} GCIs \onslide<+-> $\Longrightarrow$ berechne
+    \emph{Basis} aller gültigen GCIs.
   \end{block}
 
   \onslide<+->
@@ -233,15 +267,18 @@
     \item<+-> GCIs sind Implikationen sehr ähnlich
     \item<+-> FCA bietet Möglichkeiten, Implikationen aus Daten zu berechnen
     \end{itemize}
+    \onslide<+->%
+    $\Longrightarrow$ FCA-Methoden verallgemeinern
   \end{block}
 
 \end{frame}
 
-\begin{frame}
+\begin{frame}[label=current]
 
   \onslide<+->
   
   Übersicht
+  
 \end{frame}
 
 \begin{frame}
@@ -392,10 +429,6 @@
 \end{frame}
 
 \begin{frame}
-  ? Exploration im Detail
-\end{frame}
-
-\begin{frame}
   Ende und Schluss
 \end{frame}
 
@@ -409,3 +442,4 @@
 %%% End: 
 
 %  LocalWords:  Wikidata Concept Inclusions Konzeptnamen Rollennamen Konzeptinklusionen
+%  LocalWords:  Ableitungsoperatoren Konzeptinklusion Inclusion
