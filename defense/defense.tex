@@ -4,6 +4,7 @@
 \usepackage{calc}
 \usepackage{babel}
 \usepackage{fontspec}
+\usepackage{textpos}
 
 %%%
 
@@ -17,8 +18,8 @@
 \usetikzlibrary{decorations.pathmorphing,calc,arrows}
 \tikzset{>={stealth'[sep]}}
 
-\let\oldemph\emph
-\renewcommand{\emph}[1]{\alert<.>{\oldemph{#1}}}
+% \let\oldemph\emph
+% \renewcommand{\emph}[1]{\alert<.>{\oldemph{#1}}}
 
 %%%
 
@@ -216,7 +217,7 @@
 
 \end{frame}
 
-\begin{frame}%[label=current]
+\begin{frame}
 
   \onslide<+->
   
@@ -245,7 +246,7 @@
   
 \end{frame}
 
-\begin{frame}[label=current]
+\begin{frame}
 
   \onslide<+->
 
@@ -422,7 +423,38 @@
 \end{frame}
 
 \begin{frame}
-  Was gibt es noch?
+
+  \onslide<+->
+
+  \begin{block}{Problem}
+    Ansatz kann \emph{fehlerhafte Daten} von \emph{seltenen Gegenbeispielen} nicht
+    unterscheiden.
+  \end{block}
+
+  \onslide<+->
+
+  \begin{Beispiel}
+    Die Aussage \emph{Alle Säugetieren gebären lebend},
+    \begin{equation*}
+      \mathsf{Mammal} \sqsubseteq \mathsf{GivesBirth},
+    \end{equation*}
+    \onslide<+->
+    hat Gegenbeispiel \emph{Schnabeltier}
+  
+    \begin{textblock*}{\linewidth}[0.5,0.5](0.85\linewidth,-1cm)
+      \centering
+      \includegraphics[width=3cm]{platypus}\\[-2ex]
+      {\fontsize{3pt}{4pt}\selectfont http://www.sealifeconservation.org.au/adopt-an-animal/}
+    \end{textblock*}
+
+  \end{Beispiel}
+
+  \onslide<+->
+
+  \begin{block}{Ausweg}
+    Verwende externe \enquote{Experten} für die Unterscheidung
+  \end{block}
+
 \end{frame}
 
 \begin{frame}
