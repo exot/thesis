@@ -5,6 +5,8 @@
 \usepackage{babel}
 \usepackage{fontspec}
 \usepackage{textpos}
+\usepackage{pgfplots}
+\usepackage{pifont}
 
 %%%
 
@@ -20,6 +22,8 @@
 
 % \let\oldemph\emph
 % \renewcommand{\emph}[1]{\alert<.>{\oldemph{#1}}}
+
+\newcommand{\pseudocite}[1]{\textcolor{gray}{[#1]}}
 
 %%%
 
@@ -256,7 +260,7 @@
 
   \onslide<+->
 
-  \begin{block}{Erste Idee \textcolor{gray}{[Baader, Distel 2009]}}
+  \begin{block}{Erste Idee \pseudocite{Baader, Distel 2009}}
     \onslide<+->
     Betrachte alle \emph{gültigen} GCIs \onslide<+-> $\Longrightarrow$ berechne
     \emph{Basis} aller gültigen GCIs.
@@ -313,7 +317,7 @@
           Person\\Writer}}] (D) at (7,-2) {};
       \node[coordinate] (E) at (9.2,.5) {};
       \node[coordinate] (F) at (9.3,-2.3) {};
-      \path[->,>=latex,thick]
+      \path[->,thick]
       (A) edge[lightgray] (B)
       (B) edge node[midway,above,sloped] {\sf child} (C)
       (B) edge node[midway,below,sloped] {\sf child} (D)
@@ -596,15 +600,15 @@
 
   \onslide<+->
 
-  \begin{block}{Parallels between FCA and DL}
+  \begin{block}{Parallelen zwischen FBA und BL}
     \begin{center}
       \begin{tabular}{c|c}
-        Formal Concept Analysis & Description Logics\\
+        Formale Begriffsanalyse & Beschreibungslogik \\
         \midrule\onslide<+->
-        objects $G$ & individuals $\Delta^{\mathcal{I}}$ \\\onslide<+->
-        attributes $M$ & concept descriptions \\\onslide<+->
-        formal contexts $\con K$ & interpretations $\mathcal{I}$ \\\onslide<+->
-        implications & GCIs \\\onslide<+->
+        Gegenstände $G$ & Elemente $\Delta^{\mathcal{I}}$ \\\onslide<+->
+        Merkmale $M$ & Konzeptbeschreibungen \\\onslide<+->
+        Formale Kontexte $\con K$ & Interpretationen $\mathcal{I}$ \\\onslide<+->
+        Implikationen & GCIs \\\onslide<+->
         $A', A \subseteq M$ & $(\bigsqcap A)^{\mathcal{I}}$ \\\onslide<+->
         $B', B \subseteq G$ & \textcolor{red}{\textbf{?}}
       \end{tabular}
@@ -612,48 +616,310 @@
   \end{block}
 
   \onslide<+->
+
+  \begin{Definition}[\pseudocite{Baader, Distel 2009}]
+    Sei $X \subseteq \Delta^{\mathcal{I}}$. \onslide<+-> Eine Konzeptbeschreibung $C$
+    heißt \emph{model-based most-specific concept description} von $X$ in $\mathcal{I}$
+    falls
+    \begin{itemize}
+    \item<+-> $X \subseteq C^{\mathcal{I}}$ und
+    \item<+-> für jedes $D$ mit $X \subseteq D^{\mathcal{I}}$ ist $C$ \emph{spezieller
+        als} $D$
+    \end{itemize}
+  \end{Definition}
+
+\end{frame}
+
+% \begin{frame}
+
+%   \onslide<1->
+
+%   \begin{block}{Problem}
+%     Existenz von model-based most-specific concept descriptions in \ELbot\ nicht gesichert
+%   \end{block}
+
+%   \onslide<2->
   
-  Details 1: Model-Based Most-Specific Concept Description
+%   \begin{block}{Auswege}
+%     \begin{itemize}
+%     \item<3-> Rollentiefe beschränken \pseudocite{[Distel 2012]}
+%     \item<4-> \alert<5->{Logik erweitern} \pseudocite{[Baader, Distel 2009]} \onslide<6->
+%       $\leadsto$ \ELgfpbot \pseudocite{[Nebel 1991, Baader 2002/2003]}
+%     \end{itemize}
+%   \end{block}
+
+% \end{frame}
+
+\begin{frame}
 
   \onslide<+->
 
-  (ELgfp erwähnen)
+  \begin{Definition}
+    \begin{equation*}
+      M_{\mathcal{I}} = N_{C} \cup \set{ \bot } \cup \set{ \exists r. X^{\mathcal{I}} \mid
+        X \subseteq \Delta^{\mathcal{I}}, X \neq \emptyset }.
+    \end{equation*}
+  \end{Definition}
 
+  \onslide<+->
+
+  \begin{Definition}
+    Setze $\con K_{\mathcal{I}} = (\Delta^{\mathcal{I}}, M_{\mathcal{I}}, \nabla)$ mit
+    \begin{equation*}
+      (x, C) \in \nabla \iff x \in C^{\mathcal{I}}.
+    \end{equation*}
+  \end{Definition}
+
+  \onslide<+->
+
+  \begin{Satz}[\pseudocite{Baader, Distel 2009}]
+    Ist $\mathcal{L}$ eine Basis von $\con K_{\mathcal{I}}$, dann ist
+    \begin{equation*}
+      \set{ \bigsqcap U \sqsubseteq (\bigsqcap U)^{\mathcal{I}\mathcal{I}} \mid (U \to V)
+        \in \mathcal{L} }
+    \end{equation*}
+    eine Basis von $\mathcal{I}$.    
+  \end{Satz}
+  
 \end{frame}
 
 \begin{frame}
 
   \onslide<+->
-  
-  Details 2: Kontextkonstruktion, Baader-Distel Resultat
-  
-\end{frame}
 
-\begin{frame}
+  \begin{block}{Problem}
+    Wie Basen von $\Th_{c}(\mathcal{I})$ finden?
+  \end{block}
+
+  \onslide<+->
+
+  \begin{block}{Ansatz \pseudocite{Luxenburger 1993, Borchmann 2012}}
+    \begin{itemize}
+    \item<+-> Finde Basen von $\Th_{c}(\mathcal{I}) \setminus \Th(\mathcal{I})$
+    \item<+-> Betrachte nur Konzeptbeschreibungen der Form $(C^{\mathcal{I}})^{\mathcal{I}}$
+    \end{itemize}
+  \end{block}
 
   \onslide<+->
   
-  Details 3: Idee von Luxenburger, Eigenes Resultat
-  
+  \begin{block}{Die Idee in FBA}
+    \onslide<+->%
+    Es sei $\mathcal{B}$ Basis von $\con K$,
+    \begin{equation*}
+      \mathcal{C} = \set{ X'' \to Y'' \mid 1 > \conf_{\con K}(X'' \to Y'') \ge c }
+    \end{equation*}
+    und $1 > \conf(A \to B) \ge c$.  \onslide<+-> Dann $\conf_{\con K}(A \to B) =
+    \conf_{\con K}(A'' \to B'')$ \onslide<+-> und
+    \begin{equation*}
+      \mathcal{B} \cup \mathcal{C} \models A \to A'' \onslide<+-> \to B'' \onslide<+->
+      \to B.
+    \end{equation*}
+  \end{block}
+
 \end{frame}
 
-\begin{frame}
+\begin{frame}[label=current]
 
   \onslide<+->
-  
-  DBpedia: was kommt dazu?
-  
-\end{frame}
 
-\begin{frame}
+  \begin{Definition}
+    \begin{equation*}
+      \Conf(\mathcal{I}, c) := \set{ X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}} \mid Y
+        \subseteq X \subseteq \Delta_{\mathcal{I}}, 1 > \conf_{\mathcal{I}}(
+        X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}) \ge c}.
+    \end{equation*}
+  \end{Definition}
 
   \onslide<+->
-  
-  Diagramme
+
+  \begin{Satz}[\pseudocite{Borchmann 2012}]
+    Es sei $\mathcal{B}$ eine endliche Basis von $\mathcal{I}$, und $c \in [0, 1]$.  Dann
+    ist 
+    \begin{equation*}
+      \mathcal{B} \cup \Conf(\mathcal{I},c)
+    \end{equation*}
+    eine endliche Basis $\Th_c(\mathcal{I})$.
+  \end{Satz}
   
 \end{frame}
 
-\begin{frame}
+\begin{frame}[label=current]
+
+  \onslide<1->
+  
+  \def\greenmark{\qquad\textcolor{green!80!black}{\checkmark}}
+
+  \begin{block}{Experiment}
+    \onslide<2->
+    \begin{align*}
+      \Conf(\Idbpedia, 0.95) = \visible<3->{ \{\,
+      & \sf Place \sqsubseteq PopulatedPlace, \visible<6->{\greenmark}\\
+      & \sf \exists child. \top \sqsubseteq Person, \visible<4->{\greenmark}\\
+      & \sf \exists child. \exists child. \top \sqcap \exists child. OfficeHolder
+      \visible<13->{\qquad\textcolor{red}{\textbf{\ding{55}}}} \\
+      & \sf \quad \sqsubseteq \exists child.(OfficeHolder \sqcap \exists child. \top) \,\}}
+    \end{align*}
+  \end{block}
+
+  \begin{overlayarea}{\linewidth}{24ex}
+    \only<5-6>{
+      \begin{block}{Gegenbeispiel zu erster GCI}
+        \begin{equation*}
+          \sf Greenwich\_Village
+        \end{equation*}
+      \end{block}
+    }
+    \only<8->{
+      \begin{block}{Gegenbeispiel zu dritter GCI}
+        \begin{equation*}
+          \sf Pierre\_Samuel\_du\_Pont\_de\_Nemours
+        \end{equation*}
+      \end{block}
+      \only<9-13>{Zwei Kinder:
+        \begin{itemize}
+        \item<10-> \emph{Victor Marie du Pont}, Diplomat, 4 Kinder,
+          \only<11->{\emph{aber keines davon ``berühmt.''}}
+        \item<12-> \emph{Eleuthère Irénée du Pont}, Industrieller
+        \end{itemize}
+      }
+    }
+
+  \end{overlayarea}
+
+\end{frame}
+
+\begin{frame}[label=current]
+
+  \onslide<1->
+
+  \begin{center}
+    \begin{tikzpicture}
+      \begin{axis}[ymax=1500]
+        \addplot[blue, no marks] coordinates {
+          (0.00,    1)
+          (0.01,    1)
+          (0.02,    1)
+          (0.03,    1)
+          (0.04,    1)
+          (0.05,    1)
+          (0.06,    1)
+          (0.07,    1)
+          (0.08,    1)
+          (0.09,    1)
+          (0.10,    1)
+          (0.11,    1)
+          (0.12,    1)
+          (0.13,    1)
+          (0.14,    1)
+          (0.15,    1)
+          (0.16,    1)
+          (0.17,    1)
+          (0.18,    1)
+          (0.19,  114)
+          (0.20,  114)
+          (0.21,  128)
+          (0.22,  128)
+          (0.23,  128)
+          (0.24,  141)
+          (0.25,  154)
+          (0.26,  163)
+          (0.27,  212)
+          (0.28,  212)
+          (0.29,  212)
+          (0.30,  227)
+          (0.31,  227)
+          (0.32,  227)
+          (0.33,  227)
+          (0.34,  227)
+          (0.35,  227)
+          (0.36,  227)
+          (0.37,  246)
+          (0.38,  250)
+          (0.39,  250)
+          (0.40,  264)
+          (0.41,  264)
+          (0.42,  295)
+          (0.43,  319)
+          (0.44,  319)
+          (0.45,  319)
+          (0.46,  319)
+          (0.47,  335)
+          (0.48,  346)
+          (0.49,  357)
+          (0.50,  551)
+          (0.51,  551)
+          (0.52,  561)
+          (0.53,  561)
+          (0.54,  604)
+          (0.55,  604)
+          (0.56,  606)
+          (0.57,  606)
+          (0.58,  626)
+          (0.59,  632)
+          (0.60,  641)
+          (0.61,  641)
+          (0.62,  641)
+          (0.63,  645)
+          (0.64,  675)
+          (0.65,  688)
+          (0.66,  688)
+          (0.67,  772)
+          (0.68,  913)
+          (0.69,  943)
+          (0.70,  954)
+          (0.71,  970)
+          (0.72, 1014)
+          (0.73, 1036)
+          (0.74, 1040)
+          (0.75, 1099)
+          (0.76, 1099)
+          (0.77, 1110)
+          (0.78, 1110)
+          (0.79, 1110)
+          (0.80, 1139)
+          (0.81, 1142)
+          (0.82, 1144)
+          (0.83, 1145)
+          (0.84, 1167)
+          (0.85, 1171)
+          (0.86, 1192)
+          (0.87, 1192)
+          (0.88, 1216)
+          (0.89, 1216)
+          (0.90, 1239)
+          (0.91, 1240)
+          (0.92, 1240)
+          (0.93, 1242)
+          (0.94, 1242)
+          (0.95, 1241)
+          (0.96, 1241)
+          (0.97, 1245)
+          (0.98, 1245)
+          (0.99, 1245)
+          (1.00, 1252)
+        };
+        \addlegendentry{$\abs{\Can(\Th_c(\con{K}_\Idbpedia))}$}
+      \end{axis}
+      \node (A) at (4.3,3.2) {};
+      \node (B) at (3.4,1.8) {};
+      \node (C) at (1.7,0.7) {};
+      \visible<5->{\node (A1) at (7,-1)  {$\sf \emptyset \to \set{Person}$};}
+      \visible<4->{\node (B1) at (3,-1)  {$\sf \set{\exists child.\top} \to \set{\exists
+            child. Person}$};}
+      \visible<3->{\node (C1) at (-1,-1) {$\sf \emptyset \to M_{\mathcal{I}}$};}
+      \onslide<2->{
+        \draw[red,very thick,->] {
+          (A1) edge (A)
+          (B1) edge (B)
+          (C1) edge (C)
+        };
+      }
+    \end{tikzpicture}
+  \end{center}
+
+\end{frame}
+
+\begin{frame}[label=current]
 
   \onslide<+->
 
@@ -683,20 +949,28 @@
   \onslide<+->
 
   \begin{block}{Ausweg}
-    Verwende externe \enquote{Experten}
+    Verwendung externer \emph{Experten}
   \end{block}
 
 \end{frame}
 
-\begin{frame}
+\begin{frame}[label=current]
 
   \onslide<+->
   
-  Exploration Übersicht
+   Übersicht: Exploration
   
 \end{frame}
 
-\begin{frame}
+\begin{frame}[label=current]
+
+  \onslide<+->
+
+  Übersicht: Exploration mit Konfidenz
+  
+\end{frame}
+
+\begin{frame}[label=current]
 
   \onslide<+->
   
@@ -715,4 +989,5 @@
 
 %  LocalWords:  Wikidata Concept Inclusions Konzeptnamen Rollennamen Konzeptinklusionen
 %  LocalWords:  Ableitungsoperatoren Konzeptinklusion Inclusion label current node at of
-%  LocalWords:  style opacity context induced base
+%  LocalWords:  style opacity context induced base FBA model based most specific concept
+%  LocalWords:  description descriptions
