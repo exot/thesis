@@ -1038,36 +1038,44 @@
   \end{block}
 
   \onslide<2->
-
   \begin{block}{Problem}
     Erzeugung von Implikationen schwieriger
   \end{block}
 
-  \begin{overlayarea}{\linewidth}{30ex}
-    \onslide<3-4>
-    \begin{block}{Ursache}
-      Operator $\conf$ nicht monoton: \onslide<4->%
-      \begin{align*}
-        \conf(A \to B) &< c \\
-        \conf(C \to B) &\ge c
-      \end{align*}
-      für $C \subseteq A$ möglich.
-    \end{block}
+  \vspace*{-0.6\baselineskip}
+  \begin{overlayarea}{\linewidth}{7\baselineskip}
+    \only<3-4>{
+      \begin{block}{Ursache}
+        Operator $\conf$ nicht monoton: \onslide<4->%
+        \begin{align*}
+          \conf(A \to B) &< c \\
+          \conf(C \to B) &\ge c
+        \end{align*}
+        für $C \subseteq A$ möglich.
+      \end{block}
+    }
     
-    \onslide<5->
-
-    \begin{overlayarea}{\linewidth}{20ex}
+    \only<6->{
       \begin{block}{Ausweg}
         \begin{itemize}
-        \item<6-> Mehr Implikationen abfragen 
-          \begin{align*}
-            \onslide<7->{A &\to A'' \quad \text{für abgeschlossene } A} \\
-            \onslide<8->{A'' &\to \set{ m } \quad \text{falls } \conf(A'' \to \set{m}) \ge
-              c }
-          \end{align*}
+        \item<7-> Mehr Implikationen abfragen
+          \only<8-9>{
+            \begin{align*}
+              \onslide<8->{A &\to A'' \quad (\text{für abgeschlossene } A)} \\
+              \onslide<9->{B'' &\to \set{ m } \quad (\text{falls } \conf(B'' \to \set{m}) \ge
+                c) }
+            \end{align*}
+          }
+        \item<11-> Bei GCIs: mehr Fragen an den Experten
         \end{itemize}
       \end{block}
-    \end{overlayarea}
+
+      \onslide<12->{
+        \begin{block}{Resultat \pseudocite{Borchmann 2013a, Borchmann 2013b}}
+          Merkmalexploration auch mit Implikationen/GCIs mit hoher Konfidenz möglich
+        \end{block}
+      }
+    }
   \end{overlayarea}
   
 \end{frame}
