@@ -718,7 +718,7 @@
 
 \end{frame}
 
-\begin{frame}[label=current]
+\begin{frame}
 
   \onslide<+->
 
@@ -743,7 +743,7 @@
   
 \end{frame}
 
-\begin{frame}[label=current]
+\begin{frame}
 
   \onslide<1->
   
@@ -788,7 +788,7 @@
 
 \end{frame}
 
-\begin{frame}[label=current]
+\begin{frame}
 
   \onslide<1->
 
@@ -919,7 +919,7 @@
 
 \end{frame}
 
-\begin{frame}[label=current]
+\begin{frame}
 
   \onslide<+->
 
@@ -957,16 +957,118 @@
 \begin{frame}[label=current]
 
   \onslide<+->
-  
-   Übersicht: Exploration
+
+  \begin{center}
+    \begin{tikzpicture}
+      \node[draw=blue!50,thick,rounded corners,fill=blue!30] (expert) at (-3,0) {Experte};
+      \begin{scope}
+        \node[draw=green!50,thick,rounded corners,fill=green!30] (algorithm) at (3,0) {Algorithmus};
+        \node (context) at (-1.5,-2.5) {
+          \parbox[t][15ex]{20ex}{
+            $\begin{array}[c]{c|ccc}
+              \con K & m_1 & \ldots & m_n \\
+              \midrule
+              g_1 & & \ldots & \\
+              \vdots & \\
+              g_k & & \ldots & \\
+              \visible<7>{
+                \textcolor{red!70!black}{g_{k+1}}
+                & &
+                \makebox[3.5ex]{
+                  \textcolor{red!70!black}{
+                    \tikz[baseline]{\draw (0,0) edge node[pos=0.5,fill=white]{\ensuremath{C}} (2.2,0);}
+                  }
+                }
+              }
+            \end{array}$
+          }
+        };
+        \node (knowledge) at (2,-2.5) {
+          \parbox[t][15ex]{10ex}{
+            $\begin{aligned}
+              \mathcal{S} = \{\, & A_1 \to B_1, \\ & \ldots \\ & A_\ell \to B_\ell
+              \alt<4>{, \\ & \textcolor{green!80!black}{X \to Y} \,\}}{\,\}}
+            \end{aligned}$
+          }
+        };
+      \end{scope}
+      %
+      \visible<2-7>{
+        \draw (algorithm) edge[->,thick,bend right=10] node[midway,above] {$X \to Y$
+          gültig?} (expert);
+      }
+      %
+      \visible<3-4>{
+        \draw (expert) edge[->,thick,bend right=10] node[midway,below]
+        {\textcolor{green!80!black}{Ja}} (algorithm);
+      }
+      %
+      \visible<6-7>{
+        \draw (expert) edge[->,thick,bend right=10] node[midway,below]
+        {\textcolor{red!70!black}{Nein}, Gegenbeispiel \textcolor{red!70!black}{$C$}} (algorithm);
+      }
+    \end{tikzpicture}
+  \end{center}
+
+  \onslide<9->
+
+  \vspace*{-4ex}
+  \begin{block}{Note}
+    \begin{itemize}
+    \item<10-> Nach Abschluss der Exploration gilt $\Cn(\mathcal{S}) = \Th(\con K)$ und
+      $\mathcal{S}$ ist eine Basis der vom Experten bestätigten Implikationen
+    \item<11-> Die Anzahl der \emph{bestätigten} Implikationen ist kleinst-möglich
+    \end{itemize}
+  \end{block}
+
+  \onslide<12->
+
+  \begin{block}{Resultat \pseudocite{Distel 2008}}
+    Merkmalexploration für gültige GCIs einer endlichen Interpretation möglich
+  \end{block}
   
 \end{frame}
 
 \begin{frame}[label=current]
 
-  \onslide<+->
+  \onslide<1->
 
-  Übersicht: Exploration mit Konfidenz
+  \begin{block}{Ziel}
+    Exploration auch für GCIs/Implikationen mit hoher Konfidenz
+  \end{block}
+
+  \onslide<2->
+
+  \begin{block}{Problem}
+    Erzeugung von Implikationen schwieriger
+  \end{block}
+
+  \begin{overlayarea}{\linewidth}{30ex}
+    \onslide<3-4>
+    \begin{block}{Ursache}
+      Operator $\conf$ nicht monoton: \onslide<4->%
+      \begin{align*}
+        \conf(A \to B) &< c \\
+        \conf(C \to B) &\ge c
+      \end{align*}
+      für $C \subseteq A$ möglich.
+    \end{block}
+    
+    \onslide<5->
+
+    \begin{overlayarea}{\linewidth}{20ex}
+      \begin{block}{Ausweg}
+        \begin{itemize}
+        \item<6-> Mehr Implikationen abfragen 
+          \begin{align*}
+            \onslide<7->{A &\to A'' \quad \text{für abgeschlossene } A} \\
+            \onslide<8->{A'' &\to \set{ m } \quad \text{falls } \conf(A'' \to \set{m}) \ge
+              c }
+          \end{align*}
+        \end{itemize}
+      \end{block}
+    \end{overlayarea}
+  \end{overlayarea}
   
 \end{frame}
 
