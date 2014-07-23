@@ -16,7 +16,7 @@
 
 %%%
 
-\includeonlyframes{current}
+%\includeonlyframes{current}
 \usetikzlibrary{decorations.pathmorphing,calc,arrows}
 \tikzset{>={stealth'[sep]}}
 
@@ -437,7 +437,6 @@
 
   \onslide<+->
 
-  \vspace*{-3ex}
   \begin{block}{Fragwürdige Ergebnisse}
     \vspace*{-3ex}
     \begin{gather*}
@@ -460,7 +459,7 @@
     \end{equation*}
     \onslide<2->%
     \emph{gilt nicht} in $\Idbpedia$\onslide<3->, denn es gibt 4 \alt<7->{\alert{falsche
-        Gegenbeispiele:}}{Gegenbeispiele, \dh}
+        Gegenbeispiele:}}{Gegenbeispiele, d.\,h.}
     \begin{overlayarea}{\textwidth}{5ex}
       \only<4-6>{
         \begin{equation*}
@@ -480,7 +479,7 @@
     \bigskip{}
 
     Andererseits: 2547 Elemente in $\Idbpedia$ erfüllen $\sf \exists child. \top
-    \sqsubseteq \sf Person$, \dh
+    \sqsubseteq \sf Person$, d.\,h.
     \begin{equation*}
       \abs{ (\sf \exists child.\top \sqcap Person)^{\Idbpedia} } = 2547.
     \end{equation*}
@@ -617,7 +616,7 @@
 
   \onslide<+->
 
-  \begin{Definition}[\pseudocite{Baader, Distel 2009}]
+  \begin{block}{Definition \pseudocite{Baader, Distel 2009}}
     Sei $X \subseteq \Delta^{\mathcal{I}}$. \onslide<+-> Eine Konzeptbeschreibung $C$
     heißt \emph{model-based most-specific concept description} von $X$ in $\mathcal{I}$
     falls
@@ -626,7 +625,7 @@
     \item<+-> für jedes $D$ mit $X \subseteq D^{\mathcal{I}}$ ist $C$ \emph{spezieller
         als} $D$
     \end{itemize}
-  \end{Definition}
+  \end{block}
 
 \end{frame}
 
@@ -672,14 +671,14 @@
 
   \onslide<+->
 
-  \begin{Satz}[\pseudocite{Baader, Distel 2009}]
+  \begin{block}{Satz \pseudocite{Baader, Distel 2009}}
     Ist $\mathcal{L}$ eine Basis von $\con K_{\mathcal{I}}$, dann ist
     \begin{equation*}
       \set{ \bigsqcap U \sqsubseteq (\bigsqcap U)^{\mathcal{I}\mathcal{I}} \mid (U \to V)
         \in \mathcal{L} }
     \end{equation*}
     eine Basis von $\mathcal{I}$.    
-  \end{Satz}
+  \end{block}
   
 \end{frame}
 
@@ -732,14 +731,14 @@
 
   \onslide<+->
 
-  \begin{Satz}[\pseudocite{Borchmann 2012}]
+  \begin{block}{Satz \pseudocite{Borchmann 2012}}
     Es sei $\mathcal{B}$ eine endliche Basis von $\mathcal{I}$, und $c \in [0, 1]$.  Dann
     ist 
     \begin{equation*}
       \mathcal{B} \cup \Conf(\mathcal{I},c)
     \end{equation*}
     eine endliche Basis $\Th_c(\mathcal{I})$.
-  \end{Satz}
+  \end{block}
   
 \end{frame}
 
@@ -954,7 +953,7 @@
 
 \end{frame}
 
-\begin{frame}[label=current]
+\begin{frame}
 
   \onslide<+->
 
@@ -1029,7 +1028,7 @@
   
 \end{frame}
 
-\begin{frame}[label=current]
+\begin{frame}
 
   \onslide<1->
 
@@ -1080,12 +1079,30 @@
   
 \end{frame}
 
-\begin{frame}[label=current]
+\begin{frame}
 
   \onslide<+->
-  
-  Ende und Schluss
-  
+
+  \begin{block}{Zusammenfassung}
+    \begin{itemize}
+    \item<+-> Experimentelle Untersuchung der Resultate von Baader und Distel
+    \item<+-> Erweiterung der Resultate um den Begriff der \emph{Konfidenz}
+    \item<+-> Experimentelle Erweiterung dieses Ansatzes
+    \item<+-> Ausarbeitung einer Merkmalexploration von Implikationen/GCIs mit hoher
+      Konfidenz
+    \end{itemize}
+  \end{block}
+
+  \onslide<+->
+
+  \begin{block}{Ausblick}
+    \begin{itemize}
+    \item<+-> Anwendung auf praktische Probleme (medizinische Daten)
+    \item<+-> Adaption und Optimierung der entwickelten Algorithmen
+    \item<+-> Beschränkte Rollentiefe \pseudocite{Distel 2012}
+    \end{itemize}
+  \end{block}
+    
 \end{frame}
 
 \end{document}
