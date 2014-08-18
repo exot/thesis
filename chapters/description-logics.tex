@@ -553,8 +553,8 @@ which extends \ELbot by \emph{cyclic concept descriptions} and \emph{greatest fi
 We shall start by introducing \emph{greatest fixpoint models} for cyclic TBoxes.  When we
 introduced cyclic TBoxes $\mathcal{T}$ in \Cref{def:concept-definitions-cyclic-TBoxes}, we
 have defined that an interpretation $\mathcal{I}$ is a model of $\mathcal{T}$ if and only
-if every primitive concept description in $\mathcal{T}$ holds in $\mathcal{I}$.  This form
-of semantics for cyclic TBoxes is called \emph{descriptive} semantics.  However, it is
+if every concept definition in $\mathcal{T}$ holds in $\mathcal{I}$.  This form of
+semantics for cyclic TBoxes is called \emph{descriptive} semantics.  However, it is
 possible to further restrict the notion of a model of $\mathcal{T}$, and such a
 restriction is to use \emph{greatest fixpoint models} instead.  To introduce this
 semantics we need some auxiliary definitions first.
@@ -604,7 +604,7 @@ $f_{\mathcal{I}}(\mathcal{J}) = (\Delta^{\mathcal{I}},
   A^{f_{\mathcal{I}}(\mathcal{J})} := C^{\mathcal{J}}
 \end{equation*}
 for all $(A \equiv C) \in \mathcal{T}$.  Note that since there exists for each $A \in N_D$
-exactly one primitive concept definition $A \equiv C$ in $\mathcal{T}$, the function
+exactly one concept definition $A \equiv C$ in $\mathcal{T}$, the function
 $f_{\mathcal{I}}$ is well-defined.
 
 Recall that $\mathcal{J} \in \Ext(\mathcal{I})$ is a model of $\mathcal{T}$ if and only if
@@ -652,8 +652,8 @@ introduce the notion of a \emph{normalized} cyclic TBox.
 \begin{Definition}[Normalized Cyclic TBox]
   \label{def:normalized-cyclic-TBox}
   Let $\mathcal{T}$ be a cyclic TBox over $N_C$, $N_R$ and $N_D$.  Then $\mathcal{T}$ is
-  called \emph{normalized} if and only if for every primitive concept definition $(A
-  \equiv C) \in \mathcal{T}$, the concept description $C$ is of the form
+  called \emph{normalized} if and only if for every concept definition $(A \equiv C) \in
+  \mathcal{T}$, the concept description $C$ is of the form
   \begin{equation*}
     C = P_1 \sqcap \dots \sqcap P_n \sqcap \exists r_1. A_1 \sqcap \dots \sqcap \exists r_m. A_m
   \end{equation*}
@@ -827,7 +827,7 @@ $C_d$, the unravelling of $C$ up to depth $d$.
   \label{def:EL-description-graph}
   Let $N_C$ and $N_R$ be two disjoint sets, and let $C = (A, \mathcal{T})$ be an \ELgfp
   concept description.  Then the \emph{\EL description graph} $G_C = (V, E, L)$ of $C$ is
-  defined as follows: recall that for every primitive concept definition $(B \equiv D) \in
+  defined as follows: recall that for every concept definition $(B \equiv D) \in
   \mathcal{T}$, the concept description $D$ has the form
   \begin{equation*}
     D = P_1 \sqcap \dots \sqcap P_n \sqcap \exists r_1. B_1 \sqcap \exists r_m. B_m
