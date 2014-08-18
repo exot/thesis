@@ -71,7 +71,7 @@
         \begin{itemize}
         \item<10-> Jede Katze ist ein Säugetier.
         \item<11-> Hunde sind keine Katzen.
-        \item<12-> Jeder Mensch, der ein Kind hat, ist ein Elternteil.
+        \item<12-> Jeder Mensch, der ein Kind hat ist ein Elternteil.
         \end{itemize}
       \end{Beispiel}
     }
@@ -82,31 +82,25 @@
 \begin{frame}
 
   \onslide<1->
-
-  \begin{block}{Ziel}
-    Wissen aus Daten für maschinelle Bearbeitung extrahieren
-  \end{block}
-
-  \onslide<2->
   
   \begin{block}{Grundlegende Fragen}
     \begin{itemize}
-    \item<3-> Wie Wissen darstellen? \visible<6->{$\quad\Rightarrow\quad$
+    \item<2-> Wie Wissen darstellen? \visible<5->{$\quad\Rightarrow\quad$
         \emph{Beschreibungslogiken} }
-    \item<4-> Wie Wissen extrahieren? \visible<11->{$\quad\Rightarrow\quad$ \emph{Formale
+    \item<3-> Wie Wissen extrahieren? \visible<10->{$\quad\Rightarrow\quad$ \emph{Formale
           Begriffsanalyse}}
-    \item<5-> Welches Wissen extrahieren? \visible<12->{$\quad\Rightarrow\quad$
+    \item<4-> Welches Wissen extrahieren? \visible<11->{$\quad\Rightarrow\quad$
         \emph{\enquote{interessantes}}}
     \end{itemize}
   \end{block}
 
-  \onslide<7->
+  \onslide<6->
 
   \begin{Beispiel}[General Concept Inclusions, GCIs]
     \begin{itemize}
-    \item<8-> $\mathsf{Cat} \sqsubseteq \mathsf{Mammal}$
-    \item<9-> $\mathsf{Dog} \sqcap \mathsf{Cat} \sqsubseteq \bot$
-    \item<10-> $\exists \mathsf{child}. \top \sqsubseteq \mathsf{Parent}$
+    \item<7-> $\mathsf{Cat} \sqsubseteq \mathsf{Mammal}$
+    \item<8-> $\mathsf{Dog} \sqcap \mathsf{Cat} \sqsubseteq \bot$
+    \item<9-> $\exists \mathsf{child}. \top \sqsubseteq \mathsf{Parent}$
     \end{itemize}
   \end{Beispiel}
 
@@ -138,11 +132,11 @@
     }
 
     \onslide<+->{
-      \node at (4, -4) {\alert<.>{\large Interpretation}};
+      \node at (4, -4) {\large Interpretation};
     }
 
     \onslide<+->{
-      \node at (10, -4) {\alert<.>{\large Basis von GCIs}};
+      \node at (10, -4) {\large Basis von GCIs};
     }
   \end{tikzpicture}
   
