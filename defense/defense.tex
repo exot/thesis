@@ -55,7 +55,7 @@
   \vspace*{-0.6\baselineskip}
   \begin{overlayarea}{\linewidth}{13ex}
     \only<4-6>{
-      \begin{Beispiel}[DBpedia/Wikidata]
+      \begin{Beispiel}[RDF-Triple aus DBpedia/Wikidata]
         \only<5->{
           \begin{center}\ttfamily
             <http://dbpedia.org/resource/\alert<6->{Aldous\_Huxley}>\\
@@ -126,7 +126,8 @@
     \node[coordinate] (D) at (6,-1) {};
 
     \onslide<+->{
-      \node  (E) at (10,-1) {$\quad\mathsf{\exists child.Writer} \sqsubseteq \mathsf{Artist}$};
+      \node  (E) at (10,-1) {$\quad\{\,\mathsf{\exists child.Writer} \sqsubseteq
+        \mathsf{Artist}, ... \}$};
       \draw[->,thick,blue!60,opaque=50,decorate,decoration={coil,aspect=0,post length=0.7em,
         segment length=0.7em}] (D) to (E);
     }
@@ -235,17 +236,17 @@
     Für $A \subseteq G, B \subseteq M$ sei
     \begin{align*}
       \onslide<+->{A' &= \set{ m \in M \mid \forall g \in A \holds (g, m) \in I },} \\
-      \onslide<+->{B' &= \set{ g \in G \mid \forall m \in B \holds (g, m) \in I }}.
+      \onslide<+->{B' &= \set{ g \in G \mid \forall m \in B \holds (g, m) \in I }.}
     \end{align*}
   \end{Definition}
   
   \onslide<+->
 
   \begin{Definition}
-    $A \to B$ heißt \emph{Implikation} in $\con K$, falls $A, B \subseteq M$. \onslide<+->
-    $A \to B$ heißt \emph{gültig} in $\con K$, falls
+    $X \to Y$ heißt \emph{Implikation} in $\con K$, falls $X, Y \subseteq M$. \onslide<+->
+    $X \to Y$ heißt \emph{gültig} in $\con K$, falls
     \begin{equation*}
-      A' \subseteq B'.
+      X' \subseteq Y'.
     \end{equation*}
   \end{Definition}
   
@@ -364,10 +365,10 @@
       \onslide<5-> {
         \node at (1.5,3) {\makebox[0cm]{\emph{Beschreibungslogik}}};
         \node at (7,3) {\makebox[0cm]{\emph{Formale Begriffsanalyse}}};
-        \draw[draw opacity=0.5] {
-          ($ (current bounding box.north) + (1cm,0) $)
-          -- ($ (current bounding box.south) + (1cm,0) $)
-        };
+        % \draw[draw opacity=0.5] {
+        %   ($ (current bounding box.north) + (1cm,0) $)
+        %   -- ($ (current bounding box.south) + (1cm,0) $)
+        % };
       }
       \onslide<6-> {
         \node at (0,2) {$\mathcal{I}$};
@@ -469,6 +470,7 @@
       }
       \only<8->{
         \begin{equation*}
+          \color{blue}
           \text{\texttt{Teresa\_Carpio}, \texttt{Charles\_Heung},
             \texttt{Adam\_Cheng}, \texttt{Lydia\_Shum}.}
         \end{equation*}
@@ -721,6 +723,7 @@
   \onslide<+->
 
   \begin{Definition}
+    \vspace*{-2ex}
     \begin{equation*}
       \Conf(\mathcal{I}, c) := \set{ X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}} \mid Y
         \subseteq X \subseteq \Delta_{\mathcal{I}}, 1 > \conf_{\mathcal{I}}(
