@@ -71,7 +71,7 @@
         \begin{itemize}
         \item<10-> Jede Katze ist ein Säugetier.
         \item<11-> Hunde sind keine Katzen.
-        \item<12-> Jeder Mensch, der ein Kind hat ist ein Elternteil.
+        \item<12-> Jeder Mensch, der ein Kind hat, ist ein Elternteil.
         \end{itemize}
       \end{Beispiel}
     }
@@ -235,7 +235,7 @@
     Für $A \subseteq G, B \subseteq M$ sei
     \begin{align*}
       \onslide<+->{A' &= \set{ m \in M \mid \forall g \in A \holds (g, m) \in I },} \\
-      \onslide<+->{B' &= \set{ g \in G \mid \forall m \in B \holds (g, m) \in I }}
+      \onslide<+->{B' &= \set{ g \in G \mid \forall m \in B \holds (g, m) \in I }}.
     \end{align*}
   \end{Definition}
   
@@ -272,10 +272,10 @@
   \begin{block}{Beobachtung}
     \begin{itemize}
     \item<+-> GCIs sind Implikationen sehr ähnlich
-    \item<+-> FCA bietet Möglichkeiten, Implikationen aus Daten zu berechnen
+    \item<+-> FBA bietet Möglichkeiten, Implikationen aus Daten zu berechnen
     \end{itemize}
     \onslide<+->%
-    $\Longrightarrow$ FCA-Methoden verallgemeinern
+    $\Longrightarrow$ FBA-Methoden verallgemeinern
   \end{block}
 
 \end{frame}
@@ -626,6 +626,8 @@
     \item<+-> für jedes $D$ mit $X \subseteq D^{\mathcal{I}}$ ist $C$ \emph{spezieller
         als} $D$.
     \end{itemize}
+    \onslide<+->%
+    Bezeichnung: $C = X^{\mathcal{I}}$
   \end{block}
 
 \end{frame}
@@ -700,25 +702,21 @@
     \end{itemize}
   \end{block}
 
-  \onslide<+->
+  % \onslide<+->
   
-  \begin{block}{Die Idee in FBA}
-    \onslide<+->%
-    Es sei $\mathcal{B}$ Basis von $\con K$,
-    \begin{equation*}
-      \mathcal{C} = \set{ X'' \to Y'' \mid 1 > \conf_{\con K}(X'' \to Y'') \ge c }
-    \end{equation*}
-    und $1 > \conf(A \to B) \ge c$.  \onslide<+-> Dann $\conf_{\con K}(A \to B) =
-    \conf_{\con K}(A'' \to B'')$ \onslide<+-> und
-    \begin{equation*}
-      \mathcal{B} \cup \mathcal{C} \models A \to A'' \onslide<+-> \to B'' \onslide<+->
-      \to B.
-    \end{equation*}
-  \end{block}
-
-\end{frame}
-
-\begin{frame}
+  % \begin{block}{Die Idee in FBA}
+  %   \onslide<+->%
+  %   Es sei $\mathcal{B}$ Basis von $\con K$,
+  %   \begin{equation*}
+  %     \mathcal{C} = \set{ X'' \to Y'' \mid 1 > \conf_{\con K}(X'' \to Y'') \ge c }
+  %   \end{equation*}
+  %   und $1 > \conf(A \to B) \ge c$.  \onslide<+-> Dann $\conf_{\con K}(A \to B) =
+  %   \conf_{\con K}(A'' \to B'')$ \onslide<+-> und
+  %   \begin{equation*}
+  %     \mathcal{B} \cup \mathcal{C} \models A \to A'' \onslide<+-> \to B'' \onslide<+->
+  %     \to B.
+  %   \end{equation*}
+  % \end{block}
 
   \onslide<+->
 
@@ -753,11 +751,11 @@
     \onslide<2->
     \begin{align*}
       \Conf(\Idbpedia, 0.95) = \visible<3->{ \{\,
-      & \sf Place \sqsubseteq PopulatedPlace, \visible<6->{\greenmark}\\
-      & \sf \exists child. \top \sqsubseteq Person, \visible<4->{\greenmark}\\
-      & \sf \exists child. \exists child. \top \sqcap \exists child. OfficeHolder
-      \visible<13->{\qquad\textcolor{red}{\textbf{\ding{55}}}} \\
-      & \sf \quad \sqsubseteq \exists child.(OfficeHolder \sqcap \exists child. \top) \,\}}
+        & \sf \exists child. \top \sqsubseteq Person, \visible<4->{\greenmark}\\
+        & \sf Place \sqsubseteq PopulatedPlace, \visible<6->{\greenmark}\\
+        & \sf \exists child. \exists child. \top \sqcap \exists child. OfficeHolder
+        \visible<13->{\qquad\textcolor{red}{\textbf{\ding{55}}}} \\
+        & \sf \quad \sqsubseteq \exists child.(OfficeHolder \sqcap \exists child. \top) \,\}}
     \end{align*}
   \end{block}
 
@@ -949,136 +947,139 @@
   \onslide<+->
 
   \begin{block}{Ausweg}
-    Verwendung externer \emph{Experten}
+    Verwendung externer \emph{Experten}%
+    \onslide<+->%
+    $\implies$ Merkmalexploration mit Implikationen/GCIs mit hoher Konfidenz
+    \pseudocite{Borchmann 2013a, Borchmann 2013b}
   \end{block}
 
 \end{frame}
 
-\begin{frame}
+% \begin{frame}
 
-  \onslide<+->
+%   \onslide<+->
 
-  \begin{center}
-    \begin{tikzpicture}
-      \node[draw=blue!50,thick,rounded corners,fill=blue!30] (expert) at (-3,0) {Experte};
-      \begin{scope}
-        \node[draw=green!50,thick,rounded corners,fill=green!30] (algorithm) at (3,0) {Algorithmus};
-        \node (context) at (-1.5,-2.5) {
-          \parbox[t][15ex]{20ex}{
-            $\begin{array}[c]{c|ccc}
-              \con K & m_1 & \ldots & m_n \\
-              \midrule
-              g_1 & & \ldots & \\
-              \vdots & \\
-              g_k & & \ldots & \\
-              \visible<7>{
-                \textcolor{red!70!black}{g_{k+1}}
-                & &
-                \makebox[3.5ex]{
-                  \textcolor{red!70!black}{
-                    \tikz[baseline]{\draw (0,0) edge node[pos=0.5,fill=white]{\ensuremath{C}} (2.2,0);}
-                  }
-                }
-              }
-            \end{array}$
-          }
-        };
-        \node (knowledge) at (2,-2.5) {
-          \parbox[t][15ex]{10ex}{
-            $\begin{aligned}
-              \mathcal{S} = \{\, & A_1 \to B_1, \\ & \ldots \\ & A_\ell \to B_\ell
-              \alt<4>{, \\ & \textcolor{green!80!black}{X \to Y} \,\}}{\,\}}
-            \end{aligned}$
-          }
-        };
-      \end{scope}
-      %
-      \visible<2-7>{
-        \draw (algorithm) edge[->,thick,bend right=10] node[midway,above] {$X \to Y$
-          gültig?} (expert);
-      }
-      %
-      \visible<3-4>{
-        \draw (expert) edge[->,thick,bend right=10] node[midway,below]
-        {\textcolor{green!80!black}{Ja}} (algorithm);
-      }
-      %
-      \visible<6-7>{
-        \draw (expert) edge[->,thick,bend right=10] node[midway,below]
-        {\textcolor{red!70!black}{Nein}, Gegenbeispiel \textcolor{red!70!black}{$C$}} (algorithm);
-      }
-    \end{tikzpicture}
-  \end{center}
+%   \begin{center}
+%     \begin{tikzpicture}
+%       \node[draw=blue!50,thick,rounded corners,fill=blue!30] (expert) at (-3,0) {Experte};
+%       \begin{scope}
+%         \node[draw=green!50,thick,rounded corners,fill=green!30] (algorithm) at (3,0) {Algorithmus};
+%         \node (context) at (-1.5,-2.5) {
+%           \parbox[t][15ex]{20ex}{
+%             $\begin{array}[c]{c|ccc}
+%               \con K & m_1 & \ldots & m_n \\
+%               \midrule
+%               g_1 & & \ldots & \\
+%               \vdots & \\
+%               g_k & & \ldots & \\
+%               \visible<7>{
+%                 \textcolor{red!70!black}{g_{k+1}}
+%                 & &
+%                 \makebox[3.5ex]{
+%                   \textcolor{red!70!black}{
+%                     \tikz[baseline]{\draw (0,0) edge node[pos=0.5,fill=white]{\ensuremath{C}} (2.2,0);}
+%                   }
+%                 }
+%               }
+%             \end{array}$
+%           }
+%         };
+%         \node (knowledge) at (2,-2.5) {
+%           \parbox[t][15ex]{10ex}{
+%             $\begin{aligned}
+%               \mathcal{S} = \{\, & A_1 \to B_1, \\ & \ldots \\ & A_\ell \to B_\ell
+%               \alt<4>{, \\ & \textcolor{green!80!black}{X \to Y} \,\}}{\,\}}
+%             \end{aligned}$
+%           }
+%         };
+%       \end{scope}
+%       %
+%       \visible<2-7>{
+%         \draw (algorithm) edge[->,thick,bend right=10] node[midway,above] {$X \to Y$
+%           gültig?} (expert);
+%       }
+%       %
+%       \visible<3-4>{
+%         \draw (expert) edge[->,thick,bend right=10] node[midway,below]
+%         {\textcolor{green!80!black}{Ja}} (algorithm);
+%       }
+%       %
+%       \visible<6-7>{
+%         \draw (expert) edge[->,thick,bend right=10] node[midway,below]
+%         {\textcolor{red!70!black}{Nein}, Gegenbeispiel \textcolor{red!70!black}{$C$}} (algorithm);
+%       }
+%     \end{tikzpicture}
+%   \end{center}
 
-  \onslide<9->
+%   \onslide<9->
 
-  \vspace*{-4ex}
-  \begin{block}{Bemerkung}
-    \begin{itemize}
-    \item<10-> Nach Abschluss der Exploration gilt $\Cn(\mathcal{S}) = \Th(\con K)$ und
-      $\mathcal{S}$ ist eine Basis der vom Experten bestätigten Implikationen.
-    \item<11-> Die Anzahl der \emph{bestätigten} Implikationen ist kleinst-möglich.
-    \end{itemize}
-  \end{block}
+%   \vspace*{-4ex}
+%   \begin{block}{Bemerkung}
+%     \begin{itemize}
+%     \item<10-> Nach Abschluss der Exploration gilt $\Cn(\mathcal{S}) = \Th(\con K)$ und
+%       $\mathcal{S}$ ist eine Basis der vom Experten bestätigten Implikationen.
+%     \item<11-> Die Anzahl der \emph{bestätigten} Implikationen ist kleinst-möglich.
+%     \end{itemize}
+%   \end{block}
 
-  \onslide<12->
+%   \onslide<12->
 
-  \begin{block}{Resultat \pseudocite{Distel 2008}}
-    Merkmalexploration für gültige GCIs einer endlichen Interpretation möglich
-  \end{block}
+%   \begin{block}{Resultat \pseudocite{Distel 2008}}
+%     Merkmalexploration für gültige GCIs einer endlichen Interpretation möglich
+%   \end{block}
   
-\end{frame}
+% \end{frame}
 
-\begin{frame}
+% \begin{frame}
 
-  \onslide<1->
+%   \onslide<1->
 
-  \begin{block}{Ziel}
-    Exploration auch für GCIs/Implikationen mit hoher Konfidenz
-  \end{block}
+%   \begin{block}{Ziel}
+%     Exploration auch für GCIs/Implikationen mit hoher Konfidenz
+%   \end{block}
 
-  \onslide<2->
-  \begin{block}{Problem}
-    Erzeugung von Implikationen schwieriger
-  \end{block}
+%   \onslide<2->
+%   \begin{block}{Problem}
+%     Erzeugung von Implikationen schwieriger
+%   \end{block}
 
-  \vspace*{-0.6\baselineskip}
-  \begin{overlayarea}{\linewidth}{7\baselineskip}
-    \only<3-4>{
-      \begin{block}{Ursache}
-        Operator $\conf$ nicht monoton: \onslide<4->%
-        \begin{align*}
-          \conf(A \to B) &< c \\
-          \conf(C \to B) &\ge c
-        \end{align*}
-        für $C \subseteq A$ möglich.
-      \end{block}
-    }
+%   \vspace*{-0.6\baselineskip}
+%   \begin{overlayarea}{\linewidth}{7\baselineskip}
+%     \only<3-4>{
+%       \begin{block}{Ursache}
+%         Operator $\conf$ nicht monoton: \onslide<4->%
+%         \begin{align*}
+%           \conf(A \to B) &< c \\
+%           \conf(C \to B) &\ge c
+%         \end{align*}
+%         für $C \subseteq A$ möglich.
+%       \end{block}
+%     }
     
-    \only<6->{
-      \begin{block}{Ausweg}
-        \begin{itemize}
-        \item<7-> Mehr Implikationen abfragen
-          \only<8-9>{
-            \begin{align*}
-              \onslide<8->{A &\to A'' \quad (\text{für abgeschlossene } A)} \\
-              \onslide<9->{B'' &\to \set{ m } \quad (\text{falls } \conf(B'' \to \set{m}) \ge
-                c) }
-            \end{align*}
-          }
-        \item<11-> Bei GCIs: mehr Fragen an den Experten
-        \end{itemize}
-      \end{block}
+%     \only<6->{
+%       \begin{block}{Ausweg}
+%         \begin{itemize}
+%         \item<7-> Mehr Implikationen abfragen
+%           \only<8-9>{
+%             \begin{align*}
+%               \onslide<8->{A &\to A'' \quad (\text{für abgeschlossene } A)} \\
+%               \onslide<9->{B'' &\to \set{ m } \quad (\text{falls } \conf(B'' \to \set{m}) \ge
+%                 c) }
+%             \end{align*}
+%           }
+%         \item<11-> Bei GCIs: mehr Fragen an den Experten
+%         \end{itemize}
+%       \end{block}
 
-      \onslide<12->{
-        \begin{block}{Resultat \pseudocite{Borchmann 2013a, Borchmann 2013b}}
-          Merkmalexploration auch mit Implikationen/GCIs mit hoher Konfidenz möglich
-        \end{block}
-      }
-    }
-  \end{overlayarea}
+%       \onslide<12->{
+%         \begin{block}{Resultat \pseudocite{Borchmann 2013a, Borchmann 2013b}}
+%           Merkmalexploration auch mit Implikationen/GCIs mit hoher Konfidenz möglich
+%         \end{block}
+%       }
+%     }
+%   \end{overlayarea}
   
-\end{frame}
+% \end{frame}
 
 \begin{frame}
 
