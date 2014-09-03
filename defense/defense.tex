@@ -5,7 +5,7 @@
 \usepackage{babel}
 \usepackage{fontspec}
 \usepackage{textpos}
-%\usepackage{pgfplots}
+\usepackage{pgfplots}
 \usepackage{pifont,stmaryrd}
 
 %%%
@@ -24,6 +24,8 @@
 % \renewcommand{\emph}[1]{\alert<.>{\oldemph{#1}}}
 
 \newcommand{\pseudocite}[1]{\textcolor{gray}{[#1]}}
+\newcounter{totalframenumber}
+
 
 %%%
 
@@ -85,22 +87,24 @@
   
   \begin{block}{Grundlegende Fragen}
     \begin{itemize}
-    \item<2-> Wie Wissen darstellen? \visible<5->{$\quad\Rightarrow\quad$
+    \item<2-> Form der Daten? \visible<6->{$\quad\Rightarrow\quad$ \emph{Relationale
+          Daten}}
+    \item<3-> Wie Wissen darstellen? \visible<7->{$\quad\Rightarrow\quad$
         \emph{Beschreibungslogiken} }
-    \item<3-> Wie Wissen extrahieren? \visible<10->{$\quad\Rightarrow\quad$ \emph{Formale
+    \item<4-> Wie Wissen extrahieren? \visible<12->{$\quad\Rightarrow\quad$ \emph{Formale
           Begriffsanalyse}}
-    \item<4-> Welches Wissen extrahieren? \visible<11->{$\quad\Rightarrow\quad$
+    \item<5-> Welches Wissen extrahieren? \visible<13->{$\quad\Rightarrow\quad$
         \emph{\enquote{interessantes}}}
     \end{itemize}
   \end{block}
 
-  \onslide<6->
+  \onslide<8->
 
   \begin{Beispiel}[General Concept Inclusions, GCIs]
     \begin{itemize}
-    \item<7-> $\mathsf{Cat} \sqsubseteq \mathsf{Mammal}$
-    \item<8-> $\mathsf{Dog} \sqcap \mathsf{Cat} \sqsubseteq \bot$
-    \item<9-> $\exists \mathsf{child}. \top \sqsubseteq \mathsf{Parent}$
+    \item<9-> $\mathsf{Cat} \sqsubseteq \mathsf{Mammal}$
+    \item<10-> $\mathsf{Dog} \sqcap \mathsf{Cat} \sqsubseteq \bot$
+    \item<11-> $\exists \mathsf{child}. \top \sqsubseteq \mathsf{Parent}$
     \end{itemize}
   \end{Beispiel}
 
@@ -214,8 +218,9 @@
     \emph{Allgemeine Konzeptinklusion} (General Concept Inclusion, GCI).
 
     \onslide<+->%
-    \medskip{}
-    $C \sqsubseteq D$ \emph{gilt} in $\mathcal{I}$ falls
+    \medskip{}%
+    $C \sqsubseteq D$ \emph{gilt} in $\mathcal{I}$, $\mathcal{I} \models (C \sqsubseteq
+    D)$, falls
     \begin{equation*}
       C^{\mathcal{I}} \subseteq D^{\mathcal{I}}.
     \end{equation*}
@@ -233,9 +238,8 @@
 
     \onslide<+->\medskip
 
-    Für $A \subseteq G, B \subseteq M$ sei
+    Für $B \subseteq M$ sei
     \begin{align*}
-      \onslide<+->{A' &= \set{ m \in M \mid \forall g \in A \holds (g, m) \in I },} \\
       \onslide<+->{B' &= \set{ g \in G \mid \forall m \in B \holds (g, m) \in I }.}
     \end{align*}
   \end{Definition}
@@ -700,7 +704,8 @@
   \begin{block}{Ansatz \pseudocite{Luxenburger 1993, Borchmann 2012}}
     \begin{itemize}
     \item<+-> Finde Basen von $\Th_{c}(\mathcal{I}) \setminus \Th(\mathcal{I})$.
-    \item<+-> Betrachte nur Konzeptbeschreibungen der Form $(C^{\mathcal{I}})^{\mathcal{I}}$.
+    \item<+-> Betrachte nur Konzeptbeschreibungen der Form $X^{\mathcal{I}}$ für $X
+      \subseteq \Delta^{\mathcal{I}}$.
     \end{itemize}
   \end{block}
 
@@ -788,137 +793,6 @@
   \end{overlayarea}
 
 \end{frame}
-
-% \begin{frame}
-
-%   \onslide<1->
-
-%   \begin{center}
-%     \begin{tikzpicture}
-%       \begin{axis}[ymax=1500]
-%         \addplot[blue, no marks] coordinates {
-%           (0.00,    1)
-%           (0.01,    1)
-%           (0.02,    1)
-%           (0.03,    1)
-%           (0.04,    1)
-%           (0.05,    1)
-%           (0.06,    1)
-%           (0.07,    1)
-%           (0.08,    1)
-%           (0.09,    1)
-%           (0.10,    1)
-%           (0.11,    1)
-%           (0.12,    1)
-%           (0.13,    1)
-%           (0.14,    1)
-%           (0.15,    1)
-%           (0.16,    1)
-%           (0.17,    1)
-%           (0.18,    1)
-%           (0.19,  114)
-%           (0.20,  114)
-%           (0.21,  128)
-%           (0.22,  128)
-%           (0.23,  128)
-%           (0.24,  141)
-%           (0.25,  154)
-%           (0.26,  163)
-%           (0.27,  212)
-%           (0.28,  212)
-%           (0.29,  212)
-%           (0.30,  227)
-%           (0.31,  227)
-%           (0.32,  227)
-%           (0.33,  227)
-%           (0.34,  227)
-%           (0.35,  227)
-%           (0.36,  227)
-%           (0.37,  246)
-%           (0.38,  250)
-%           (0.39,  250)
-%           (0.40,  264)
-%           (0.41,  264)
-%           (0.42,  295)
-%           (0.43,  319)
-%           (0.44,  319)
-%           (0.45,  319)
-%           (0.46,  319)
-%           (0.47,  335)
-%           (0.48,  346)
-%           (0.49,  357)
-%           (0.50,  551)
-%           (0.51,  551)
-%           (0.52,  561)
-%           (0.53,  561)
-%           (0.54,  604)
-%           (0.55,  604)
-%           (0.56,  606)
-%           (0.57,  606)
-%           (0.58,  626)
-%           (0.59,  632)
-%           (0.60,  641)
-%           (0.61,  641)
-%           (0.62,  641)
-%           (0.63,  645)
-%           (0.64,  675)
-%           (0.65,  688)
-%           (0.66,  688)
-%           (0.67,  772)
-%           (0.68,  913)
-%           (0.69,  943)
-%           (0.70,  954)
-%           (0.71,  970)
-%           (0.72, 1014)
-%           (0.73, 1036)
-%           (0.74, 1040)
-%           (0.75, 1099)
-%           (0.76, 1099)
-%           (0.77, 1110)
-%           (0.78, 1110)
-%           (0.79, 1110)
-%           (0.80, 1139)
-%           (0.81, 1142)
-%           (0.82, 1144)
-%           (0.83, 1145)
-%           (0.84, 1167)
-%           (0.85, 1171)
-%           (0.86, 1192)
-%           (0.87, 1192)
-%           (0.88, 1216)
-%           (0.89, 1216)
-%           (0.90, 1239)
-%           (0.91, 1240)
-%           (0.92, 1240)
-%           (0.93, 1242)
-%           (0.94, 1242)
-%           (0.95, 1241)
-%           (0.96, 1241)
-%           (0.97, 1245)
-%           (0.98, 1245)
-%           (0.99, 1245)
-%           (1.00, 1252)
-%         };
-%         \addlegendentry{$\abs{\Can(\Th_c(\con{K}_\Idbpedia))}$}
-%       \end{axis}
-%       \node (A) at (4.3,3.2) {};
-%       \node (B) at (3.4,1.8) {};
-%       \node (C) at (1.7,0.7) {};
-%       \visible<5->{\node (A1) at (7,-1)  {$\sf \emptyset \to \set{Person}$};}
-%       \visible<4->{\node (B1) at (3,-1)  {$\sf \set{\exists child.\top} \to \set{\exists
-%             child. Person}$};}
-%       \visible<3->{\node (C1) at (-1,-1) {$\sf \emptyset \to M_{\mathcal{I}}$};}
-%       \onslide<2->{
-%         \draw[red,very thick,->] {
-%           (A1) edge (A)
-%           (B1) edge (B)
-%           (C1) edge (C)
-%         };
-%       }
-%     \end{tikzpicture}
-%   \end{center}
-
-% \end{frame}
 
 \begin{frame}
 
@@ -1109,6 +983,141 @@
   \end{block}
     
 \end{frame}
+
+\setcounter{totalframenumber}{\value{framenumber}}
+
+\begin{frame}
+
+  \onslide<1->
+
+  \begin{center}
+    \begin{tikzpicture}
+      \begin{axis}[ymax=1500]
+        \addplot[blue, no marks] coordinates {
+          (0.00,    1)
+          (0.01,    1)
+          (0.02,    1)
+          (0.03,    1)
+          (0.04,    1)
+          (0.05,    1)
+          (0.06,    1)
+          (0.07,    1)
+          (0.08,    1)
+          (0.09,    1)
+          (0.10,    1)
+          (0.11,    1)
+          (0.12,    1)
+          (0.13,    1)
+          (0.14,    1)
+          (0.15,    1)
+          (0.16,    1)
+          (0.17,    1)
+          (0.18,    1)
+          (0.19,  114)
+          (0.20,  114)
+          (0.21,  128)
+          (0.22,  128)
+          (0.23,  128)
+          (0.24,  141)
+          (0.25,  154)
+          (0.26,  163)
+          (0.27,  212)
+          (0.28,  212)
+          (0.29,  212)
+          (0.30,  227)
+          (0.31,  227)
+          (0.32,  227)
+          (0.33,  227)
+          (0.34,  227)
+          (0.35,  227)
+          (0.36,  227)
+          (0.37,  246)
+          (0.38,  250)
+          (0.39,  250)
+          (0.40,  264)
+          (0.41,  264)
+          (0.42,  295)
+          (0.43,  319)
+          (0.44,  319)
+          (0.45,  319)
+          (0.46,  319)
+          (0.47,  335)
+          (0.48,  346)
+          (0.49,  357)
+          (0.50,  551)
+          (0.51,  551)
+          (0.52,  561)
+          (0.53,  561)
+          (0.54,  604)
+          (0.55,  604)
+          (0.56,  606)
+          (0.57,  606)
+          (0.58,  626)
+          (0.59,  632)
+          (0.60,  641)
+          (0.61,  641)
+          (0.62,  641)
+          (0.63,  645)
+          (0.64,  675)
+          (0.65,  688)
+          (0.66,  688)
+          (0.67,  772)
+          (0.68,  913)
+          (0.69,  943)
+          (0.70,  954)
+          (0.71,  970)
+          (0.72, 1014)
+          (0.73, 1036)
+          (0.74, 1040)
+          (0.75, 1099)
+          (0.76, 1099)
+          (0.77, 1110)
+          (0.78, 1110)
+          (0.79, 1110)
+          (0.80, 1139)
+          (0.81, 1142)
+          (0.82, 1144)
+          (0.83, 1145)
+          (0.84, 1167)
+          (0.85, 1171)
+          (0.86, 1192)
+          (0.87, 1192)
+          (0.88, 1216)
+          (0.89, 1216)
+          (0.90, 1239)
+          (0.91, 1240)
+          (0.92, 1240)
+          (0.93, 1242)
+          (0.94, 1242)
+          (0.95, 1241)
+          (0.96, 1241)
+          (0.97, 1245)
+          (0.98, 1245)
+          (0.99, 1245)
+          (1.00, 1252)
+        };
+        \addlegendentry{$\abs{\Can(\Th_c(\con{K}_\Idbpedia))}$}
+      \end{axis}
+      \node (A) at (4.3,3.2) {};
+      \node (B) at (3.4,1.8) {};
+      \node (C) at (1.7,0.7) {};
+      \visible<5->{\node (A1) at (7,-1)  {$\sf \emptyset \to \set{Person}$};}
+      \visible<4->{\node (B1) at (3,-1)  {$\sf \set{\exists child.\top} \to \set{\exists
+            child. Person}$};}
+      \visible<3->{\node (C1) at (-1,-1) {$\sf \emptyset \to M_{\mathcal{I}}$};}
+      \onslide<2->{
+        \draw[red,very thick,->] {
+          (A1) edge (A)
+          (B1) edge (B)
+          (C1) edge (C)
+        };
+      }
+    \end{tikzpicture}
+  \end{center}
+
+\end{frame}
+
+\setcounter{framenumber}{\value{totalframenumber}}
 
 \end{document}
 
