@@ -1,5 +1,4 @@
 \documentclass[ngerman]{beamer}
-\usepackage{etex}
 \usepackage[beamer]{mydefs}
 \usepackage{calc}
 \usepackage{babel}
@@ -102,9 +101,9 @@
 
   \begin{Beispiel}[General Concept Inclusions, GCIs]
     \begin{itemize}
-    \item<9-> $\mathsf{Cat} \sqsubseteq \mathsf{Mammal}$
-    \item<10-> $\mathsf{Dog} \sqcap \mathsf{Cat} \sqsubseteq \bot$
-    \item<11-> $\exists \mathsf{child}. \top \sqsubseteq \mathsf{Parent}$
+    \item<9-> $\mathsf{Katze} \sqsubseteq \mathsf{Säugetier}$
+    \item<10-> $\mathsf{Hund} \sqcap \mathsf{Katze} \sqsubseteq \bot$
+    \item<11-> $\exists \mathsf{hatKind}. \top \sqsubseteq \mathsf{Elternteil}$
     \end{itemize}
   \end{Beispiel}
 
@@ -118,22 +117,21 @@
   
   \begin{tikzpicture}[element/.style = {circle,draw=blue!50,fill=blue!20,thick}]
     \node[element, draw, circle, label=below:{\parbox{1.5cm}{\vspace*{-.5cm}\center
-        Person\\Artist}}] (B) at (3,-1) {};
+        Person\\Künstler}}] (B) at (2.8,-1) {};
     \node[element, draw, circle, label=above:{\sf Person}] (C) at (5.5,0) {};
-    \node[element, draw, circle, label=below:{\parbox{1.5cm}{\vspace*{-.4cm}\center
-        Person\\Writer}}] (D) at (5.5,-2) {};
+    \node[element, draw, circle, label=below:{\parbox{2cm}{\vspace*{-.4cm}\center
+        Person\\Schriftsteller}}] (D) at (5.5,-2) {};
     \path[->,thick]
-    (B) edge node[midway,above,sloped] {\sf child} (C)
-    (B) edge node[midway,below,sloped] {\sf child} (D)
+    (B) edge node[midway,above,sloped] {\sf hatKind} (C)
+    (B) edge node[midway,below,sloped] {\sf hatKind} (D)
     ;
 
-    \node[coordinate] (D) at (6,-1) {};
+    \node[coordinate] (D') at (6,-1) {};
 
     \onslide<+->{
-      \node  (E) at (10,-1) {$\quad\{\,\mathsf{\exists child.Writer} \sqsubseteq
-        \mathsf{Artist}, ... \}$};
-      \draw[->,thick,blue!60,opaque=50,decorate,decoration={coil,aspect=0,post length=0.7em,
-        segment length=0.7em}] (D) to (E);
+      \node  (E) at (11,-1) {$\{\,\mathsf{\exists hatKind.Schriftsteller} \sqsubseteq
+        \mathsf{Künstler}, ... \}$};
+      \draw[->,thick,blue!60,opaque=50] (D') to (E);
     }
 
     \onslide<+->{
@@ -141,7 +139,7 @@
     }
 
     \onslide<+->{
-      \node at (10, -4) {\large Basis von GCIs};
+      \node at (11, -4) {\large Basis von GCIs};
     }
   \end{tikzpicture}
   
