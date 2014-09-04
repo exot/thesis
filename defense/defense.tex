@@ -24,7 +24,7 @@
 
 \newcommand{\pseudocite}[1]{\textcolor{gray}{[#1]}}
 \newcounter{totalframenumber}
-
+\AtEndDocument{\setcounter{framenumber}{\value{totalframenumber}}}
 
 %%%
 
@@ -165,7 +165,7 @@
 
   \begin{Beispiel}
     \begin{equation*}
-      \mathsf{Cat} \sqcap \mathsf{Dog}, \exists \mathsf{child}. \mathsf{Writer}, \top, \bot
+      \mathsf{Katze} \sqcap \mathsf{Hund}, \exists \mathsf{hatKind}. \mathsf{Schriftsteller}, \top, \bot
     \end{equation*}
   \end{Beispiel}
 
@@ -237,10 +237,11 @@
     \onslide<+->\medskip
 
     Für $B \subseteq M$ sei
-    \begin{align*}
-      \onslide<+->{B' &= \set{ g \in G \mid \forall m \in B \holds (g, m) \in I }.}
-    \end{align*}
+    \begin{equation*}
+      \visible<+->{B' = \set{ g \in G \mid \forall m \in B \holds (g, m) \in I }.}
+    \end{equation*}
   \end{Definition}
+  \vspace*{-\baselineskip}
   
   \onslide<+->
 
@@ -313,20 +314,14 @@
     \begin{scope}[shift={(3,1)}]
       \path[clip] (5,-1) circle (4cm);
       \draw[line width=.1em,blue] (5,-1) circle (4cm);
-      \node[coordinate] (A) at (0,0) {};
       \node[draw, circle, label=below:{\parbox{1.5cm}{\vspace*{-.5cm}\center
-          Person\\Artist}}] (B) at (3,-1) {};
-      \node[draw, circle, label=above:{\sf Person}] (C) at (7,0) {};
-      \node[draw, circle, label=below:{\parbox{1.5cm}{\vspace*{-.4cm}\center
-          Person\\Writer}}] (D) at (7,-2) {};
-      \node[coordinate] (E) at (9.2,.5) {};
-      \node[coordinate] (F) at (9.3,-2.3) {};
+          \small Person\\Künstler}}] (B) at (2.6,-1) {};
+      \node[draw, circle, label=above:{\small\sf Person}] (C) at (6.8,0) {};
+      \node[draw, circle, label=below:{\parbox{2cm}{\vspace*{-.4cm}\center
+          \small Person\\Schriftsteller}}] (D) at (6.8,-2) {};
       \path[->,thick]
-      (A) edge[lightgray] (B)
-      (B) edge node[midway,above,sloped] {\sf child} (C)
-      (B) edge node[midway,below,sloped] {\sf child} (D)
-      (C) edge[lightgray] (E)
-      (D) edge[lightgray] (F)
+      (B) edge node[midway,above,sloped] {\sf \small hatKind} (C)
+      (B) edge node[midway,below,sloped] {\sf \small hatKind} (D)
       ;
     \end{scope}
   \end{scope}
@@ -351,8 +346,8 @@
 
       \onslide<3->{
         \node[rectangle] (example gci) at (1.5,-3) {
-          \makebox[3cm][r]{$\{\,\exists\mathsf{child}. \mathsf{Writer} \sqsubseteq
-            \mathsf{Artist},\ldots\,\}$}};
+          \makebox[6cm][r]{$\{\,\exists\mathsf{hatKind}. \mathsf{Schriftsteller} \sqsubseteq
+            \mathsf{Künstler},\ldots\,\}$}};
         \draw[very thick] {
           (1.5,-1) edge[->, gray!90] node[left, black]
             {\parbox{3.5cm}{
@@ -760,12 +755,12 @@
         & \sf \exists child. \top \sqsubseteq Person, \visible<4->{\greenmark}\\
         & \sf Place \sqsubseteq PopulatedPlace, \visible<6->{\greenmark}\\
         & \sf \exists child. \exists child. \top \sqcap \exists child. OfficeHolder
-        \visible<13->{\qquad\textcolor{red}{\textbf{\ding{55}}}} \\
+        \visible<9->{\qquad\textcolor{red}{\textbf{\ding{55}}}} \\
         & \sf \quad \sqsubseteq \exists child.(OfficeHolder \sqcap \exists child. \top) \,\}}
     \end{align*}
   \end{block}
 
-  \begin{overlayarea}{\linewidth}{24ex}
+  \begin{overlayarea}{\linewidth}{16ex}
     \only<5-6>{
       \begin{block}{Gegenbeispiel zu erster GCI}
         \begin{equation*}
@@ -779,15 +774,7 @@
           \sf Pierre\_Samuel\_du\_Pont\_de\_Nemours
         \end{equation*}
       \end{block}
-      \only<9-13>{Zwei Kinder:
-        \begin{itemize}
-        \item<10-> \emph{Victor Marie du Pont}, Diplomat, 4 Kinder,
-          \only<11->{\emph{aber keines davon ``berühmt''.}}
-        \item<12-> \emph{Eleuthère Irénée du Pont}, Industrieller
-        \end{itemize}
-      }
     }
-
   \end{overlayarea}
 
 \end{frame}
@@ -806,7 +793,7 @@
   \begin{Beispiel}
     Die Aussage \emph{Alle Säugetieren gebären lebend},
     \begin{equation*}
-      \mathsf{Mammal} \sqsubseteq \mathsf{LiveBearing},
+      \mathsf{Säugetier} \sqsubseteq \mathsf{LebendGebärend},
     \end{equation*}
     \onslide<+->
     hat Gegenbeispiel \emph{Schnabeltier}.
@@ -829,132 +816,6 @@
   \end{block}
 
 \end{frame}
-
-% \begin{frame}
-
-%   \onslide<+->
-
-%   \begin{center}
-%     \begin{tikzpicture}
-%       \node[draw=blue!50,thick,rounded corners,fill=blue!30] (expert) at (-3,0) {Experte};
-%       \begin{scope}
-%         \node[draw=green!50,thick,rounded corners,fill=green!30] (algorithm) at (3,0) {Algorithmus};
-%         \node (context) at (-1.5,-2.5) {
-%           \parbox[t][15ex]{20ex}{
-%             $\begin{array}[c]{c|ccc}
-%               \con K & m_1 & \ldots & m_n \\
-%               \midrule
-%               g_1 & & \ldots & \\
-%               \vdots & \\
-%               g_k & & \ldots & \\
-%               \visible<7>{
-%                 \textcolor{red!70!black}{g_{k+1}}
-%                 & &
-%                 \makebox[3.5ex]{
-%                   \textcolor{red!70!black}{
-%                     \tikz[baseline]{\draw (0,0) edge node[pos=0.5,fill=white]{\ensuremath{C}} (2.2,0);}
-%                   }
-%                 }
-%               }
-%             \end{array}$
-%           }
-%         };
-%         \node (knowledge) at (2,-2.5) {
-%           \parbox[t][15ex]{10ex}{
-%             $\begin{aligned}
-%               \mathcal{S} = \{\, & A_1 \to B_1, \\ & \ldots \\ & A_\ell \to B_\ell
-%               \alt<4>{, \\ & \textcolor{green!80!black}{X \to Y} \,\}}{\,\}}
-%             \end{aligned}$
-%           }
-%         };
-%       \end{scope}
-%       %
-%       \visible<2-7>{
-%         \draw (algorithm) edge[->,thick,bend right=10] node[midway,above] {$X \to Y$
-%           gültig?} (expert);
-%       }
-%       %
-%       \visible<3-4>{
-%         \draw (expert) edge[->,thick,bend right=10] node[midway,below]
-%         {\textcolor{green!80!black}{Ja}} (algorithm);
-%       }
-%       %
-%       \visible<6-7>{
-%         \draw (expert) edge[->,thick,bend right=10] node[midway,below]
-%         {\textcolor{red!70!black}{Nein}, Gegenbeispiel \textcolor{red!70!black}{$C$}} (algorithm);
-%       }
-%     \end{tikzpicture}
-%   \end{center}
-
-%   \onslide<9->
-
-%   \vspace*{-4ex}
-%   \begin{block}{Bemerkung}
-%     \begin{itemize}
-%     \item<10-> Nach Abschluss der Exploration gilt $\Cn(\mathcal{S}) = \Th(\con K)$ und
-%       $\mathcal{S}$ ist eine Basis der vom Experten bestätigten Implikationen.
-%     \item<11-> Die Anzahl der \emph{bestätigten} Implikationen ist kleinst-möglich.
-%     \end{itemize}
-%   \end{block}
-
-%   \onslide<12->
-
-%   \begin{block}{Resultat \pseudocite{Distel 2008}}
-%     Merkmalexploration für gültige GCIs einer endlichen Interpretation möglich
-%   \end{block}
-  
-% \end{frame}
-
-% \begin{frame}
-
-%   \onslide<1->
-
-%   \begin{block}{Ziel}
-%     Exploration auch für GCIs/Implikationen mit hoher Konfidenz
-%   \end{block}
-
-%   \onslide<2->
-%   \begin{block}{Problem}
-%     Erzeugung von Implikationen schwieriger
-%   \end{block}
-
-%   \vspace*{-0.6\baselineskip}
-%   \begin{overlayarea}{\linewidth}{7\baselineskip}
-%     \only<3-4>{
-%       \begin{block}{Ursache}
-%         Operator $\conf$ nicht monoton: \onslide<4->%
-%         \begin{align*}
-%           \conf(A \to B) &< c \\
-%           \conf(C \to B) &\ge c
-%         \end{align*}
-%         für $C \subseteq A$ möglich.
-%       \end{block}
-%     }
-    
-%     \only<6->{
-%       \begin{block}{Ausweg}
-%         \begin{itemize}
-%         \item<7-> Mehr Implikationen abfragen
-%           \only<8-9>{
-%             \begin{align*}
-%               \onslide<8->{A &\to A'' \quad (\text{für abgeschlossene } A)} \\
-%               \onslide<9->{B'' &\to \set{ m } \quad (\text{falls } \conf(B'' \to \set{m}) \ge
-%                 c) }
-%             \end{align*}
-%           }
-%         \item<11-> Bei GCIs: mehr Fragen an den Experten
-%         \end{itemize}
-%       \end{block}
-
-%       \onslide<12->{
-%         \begin{block}{Resultat \pseudocite{Borchmann 2013a, Borchmann 2013b}}
-%           Merkmalexploration auch mit Implikationen/GCIs mit hoher Konfidenz möglich
-%         \end{block}
-%       }
-%     }
-%   \end{overlayarea}
-  
-% \end{frame}
 
 \begin{frame}
 
@@ -1115,7 +976,131 @@
 
 \end{frame}
 
-\setcounter{framenumber}{\value{totalframenumber}}
+\begin{frame}
+
+  \onslide<+->
+
+  \begin{center}
+    \begin{tikzpicture}
+      \node[draw=blue!50,thick,rounded corners,fill=blue!30] (expert) at (-3,0) {Experte};
+      \begin{scope}
+        \node[draw=green!50,thick,rounded corners,fill=green!30] (algorithm) at (3,0) {Algorithmus};
+        \node (context) at (-1.5,-2.5) {
+          \parbox[t][15ex]{20ex}{
+            $\begin{array}[c]{c|ccc}
+              \con K & m_1 & \ldots & m_n \\
+              \midrule
+              g_1 & & \ldots & \\
+              \vdots & \\
+              g_k & & \ldots & \\
+              \visible<7>{
+                \textcolor{red!70!black}{g_{k+1}}
+                & &
+                \makebox[3.5ex]{
+                  \textcolor{red!70!black}{
+                    \tikz[baseline]{\draw (0,0) edge node[pos=0.5,fill=white]{\ensuremath{C}} (2.2,0);}
+                  }
+                }
+              }
+            \end{array}$
+          }
+        };
+        \node (knowledge) at (2,-2.5) {
+          \parbox[t][15ex]{10ex}{
+            $\begin{aligned}
+              \mathcal{S} = \{\, & A_1 \to B_1, \\ & \ldots \\ & A_\ell \to B_\ell
+              \alt<4>{, \\ & \textcolor{green!80!black}{X \to Y} \,\}}{\,\}}
+            \end{aligned}$
+          }
+        };
+      \end{scope}
+      %
+      \visible<2-7>{
+        \draw (algorithm) edge[->,thick,bend right=10] node[midway,above] {$X \to Y$
+          gültig?} (expert);
+      }
+      %
+      \visible<3-4>{
+        \draw (expert) edge[->,thick,bend right=10] node[midway,below]
+        {\textcolor{green!80!black}{Ja}} (algorithm);
+      }
+      %
+      \visible<6-7>{
+        \draw (expert) edge[->,thick,bend right=10] node[midway,below]
+        {\textcolor{red!70!black}{Nein}, Gegenbeispiel \textcolor{red!70!black}{$C$}} (algorithm);
+      }
+    \end{tikzpicture}
+  \end{center}
+
+  \onslide<9->
+
+  \vspace*{-4ex}
+  \begin{block}{Bemerkung}
+    \begin{itemize}
+    \item<10-> Nach Abschluss der Exploration gilt $\Cn(\mathcal{S}) = \Th(\con K)$ und
+      $\mathcal{S}$ ist eine Basis der vom Experten bestätigten Implikationen.
+    \item<11-> Die Anzahl der \emph{bestätigten} Implikationen ist kleinst-möglich.
+    \end{itemize}
+  \end{block}
+
+  \onslide<12->
+
+  \begin{block}{Resultat \pseudocite{Distel 2008}}
+    Merkmalexploration für gültige GCIs einer endlichen Interpretation möglich
+  \end{block}
+  
+\end{frame}
+
+\begin{frame}
+
+  \onslide<1->
+
+  \begin{block}{Ziel}
+    Exploration auch für GCIs/Implikationen mit hoher Konfidenz
+  \end{block}
+
+  \onslide<2->
+  \begin{block}{Problem}
+    Erzeugung von Implikationen schwieriger
+  \end{block}
+
+  \vspace*{-0.6\baselineskip}
+  \begin{overlayarea}{\linewidth}{7\baselineskip}
+    \only<3-4>{
+      \begin{block}{Ursache}
+        Operator $\conf$ nicht monoton: \onslide<4->%
+        \begin{align*}
+          \conf(A \to B) &< c \\
+          \conf(C \to B) &\ge c
+        \end{align*}
+        für $C \subseteq A$ möglich.
+      \end{block}
+    }
+    
+    \only<6->{
+      \begin{block}{Ausweg}
+        \begin{itemize}
+        \item<7-> Mehr Implikationen abfragen
+          \only<8-9>{
+            \begin{align*}
+              \onslide<8->{A &\to A'' \quad (\text{für abgeschlossene } A)} \\
+              \onslide<9->{B'' &\to \set{ m } \quad (\text{falls } \conf(B'' \to \set{m}) \ge
+                c) }
+            \end{align*}
+          }
+        \item<11-> Bei GCIs: mehr Fragen an den Experten
+        \end{itemize}
+      \end{block}
+
+      \onslide<12->{
+        \begin{block}{Resultat \pseudocite{Borchmann 2013a, Borchmann 2013b}}
+          Merkmalexploration auch mit Implikationen/GCIs mit hoher Konfidenz möglich
+        \end{block}
+      }
+    }
+  \end{overlayarea}
+  
+\end{frame}
 
 \end{document}
 
