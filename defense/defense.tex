@@ -538,8 +538,8 @@
       \end{scope}
 
       \node[rectangle] (example gci) at (1.5,-3) {
-        \makebox[3cm][r]{$\{\,\exists\mathsf{child}. \mathsf{Writer} \sqsubseteq
-          \mathsf{Artist},\ldots\,\}$}};
+        \makebox[6cm][r]{$\{\,\exists\mathsf{hatKind}. \mathsf{Schriftsteller} \sqsubseteq
+          \mathsf{Künstler},\ldots\,\}$}};
       \draw[very thick] {
         (1.5,-1) edge[->, gray!90] node[left, black]
           {\parbox{3.5cm}{
@@ -722,7 +722,7 @@
     \vspace*{-2ex}
     \begin{equation*}
       \Conf(\mathcal{I}, c) := \set{ X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}} \mid Y
-        \subseteq X \subseteq \Delta_{\mathcal{I}}, 1 > \conf_{\mathcal{I}}(
+        \subseteq X \subseteq \Delta^{\mathcal{I}}, 1 > \conf_{\mathcal{I}}(
         X^{\mathcal{I}} \sqsubseteq Y^{\mathcal{I}}) \ge c}.
     \end{equation*}
   \end{Definition}
@@ -730,12 +730,47 @@
   \onslide<+->
 
   \begin{block}{Satz \pseudocite{Borchmann 2012}}
-    Es sei $\mathcal{B}$ eine endliche Basis von $\mathcal{I}$, und $c \in [0, 1]$.  Dann
-    ist 
+    Es sei $\mathcal{B}$ eine Basis von $\mathcal{I}$, und $c \in [0, 1]$.  Dann ist
     \begin{equation*}
       \mathcal{B} \cup \Conf(\mathcal{I},c)
     \end{equation*}
-    eine endliche Basis $\Th_c(\mathcal{I})$.
+    eine Basis $\Th_c(\mathcal{I})$.
+  \end{block}
+  
+\end{frame}
+
+\begin{frame}[label=current]
+
+  \onslide<+->
+
+  \begin{Definition}
+    \begin{equation*}
+      \conf_{\con K}(X \to Y) :=
+      \begin{cases}
+        1 & X' = \emptyset, \\
+        \frac{ \abs{ (X \cup Y)' } }{ \abs{ X' } } & \text{sonst}.
+      \end{cases}
+    \end{equation*}
+    \onslide<+->%
+    Für $c \in [0,1]$ ist
+    \begin{equation*}
+      \Th_{c}(\con K) := \set{ X \to Y \mid \conf_{\con K}(X \to Y) \ge c }.
+    \end{equation*}
+  \end{Definition}
+
+  \onslide<+->
+
+  \begin{block}{Satz \pseudocite{Borchmann 2012}}
+    Ist $\mathcal{L}$ eine Basis von $\Th_{c}(\con K_{\mathcal{I}})$, so ist
+    \begin{equation*}
+      \bigsqcap \mathcal{L} := \set{ \bigsqcap U \sqsubseteq \bigsqcap V \mid (U \to V)
+        \in \mathcal{L} }
+    \end{equation*}
+    eine Basis von $\Th_{c}(\mathcal{I})$.%
+    \onslide<+->%
+    
+    Ist $\mathcal{L} \subseteq \Th_{c}(\con K_{\mathcal{I}})$, so ist auch $\bigsqcap
+    \mathcal{L} \subseteq \Th_{c}(\mathcal{I})$.
   \end{block}
   
 \end{frame}
@@ -760,7 +795,7 @@
 
   \begin{overlayarea}{\linewidth}{16ex}
     \only<5-6>{
-      \begin{block}{Gegenbeispiel zu erster GCI}
+      \begin{block}{Gegenbeispiel zu zweiter GCI}
         \begin{equation*}
           \sf Greenwich\_Village
         \end{equation*}
@@ -789,7 +824,7 @@
   \onslide<+->
 
   \begin{Beispiel}
-    Die Aussage \emph{Alle Säugetieren gebären lebend},
+    Die Aussage \emph{Alle Säugetiere gebären lebend},
     \begin{equation*}
       \mathsf{Säugetier} \sqsubseteq \mathsf{LebendGebärend},
     \end{equation*}
@@ -807,10 +842,8 @@
   \onslide<+->
 
   \begin{block}{Ausweg}
-    Verwendung externer \emph{Experten}%
-    \onslide<+->%
-    $\implies$ Merkmalexploration mit Implikationen/GCIs mit hoher Konfidenz
-    \pseudocite{Borchmann 2013a, Borchmann 2013b}
+    Verwendung externer \emph{Experten} \onslide<+->$\implies$ Merkmalexploration mit
+    Implikationen/GCIs mit hoher Konfidenz \pseudocite{Borchmann 2013a, Borchmann 2013b}
   \end{block}
 
 \end{frame}
