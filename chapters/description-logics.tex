@@ -120,9 +120,13 @@ over $N_C$ and $N_R$.
   the pairs in $\mathsf{hunts}^{\mathcal{I}_{\mathsf{MGM}}}$ as directed edges:
   \begin{center}
     \begin{tikzpicture}
-      \begin{scope}[every node/.style = { draw, circle }]
-        \node (Tom) {\textsf{tom}};
-        \node[right=2cm of Tom, inner sep = .1cm] (Jerry) {\textsf{jerry}}; % fix
+      \begin{scope}[
+        every node/.style = { draw, circle },
+        every label/.style = { draw = none, rectangle }
+        ]
+        \node[label=above:{\textsf{Cat}}] (Tom) {\textsf{tom}};
+        \node[label=above:{\textsf{Mouse}}, right=2cm of Tom, inner sep = .1cm] (Jerry)
+        {\textsf{jerry}};
       \end{scope}
       \path (Tom) edge[->, bend left=30] node[midway, above] {\textsf{hunts}} (Jerry);
       \path (Jerry) edge[->, bend left=30] node[midway, below] {\textsf{hunts}} (Tom);

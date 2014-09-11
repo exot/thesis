@@ -175,7 +175,7 @@ interpretation
       ]
       \node[label=above:{\textsf{Cat}}] (Tom) {\textsf{tom}};
       \node[label=above:{\textsf{Mouse}}, right=2cm of Tom, inner sep = .1cm] (Jerry)
-      {\textsf{jerry}}; % fix
+      {\textsf{jerry}};
     \end{scope}
     \path (Tom) edge[->, bend left=30] node[midway, above] {\textsf{hunts}} (Jerry);
     \path (Jerry) edge[->, bend left=30] node[midway, below] {\textsf{hunts}} (Tom);
