@@ -9,5 +9,5 @@ these results that allow to handle errors in the data.  For this, knowledge that
 "almost valid" in the data is retrieved, where the notion of "almost valid" is formalized
 using the notion of confidence from data mining.  This thesis presents two algorithms
 which achieve this retrieval.  The first algorithm just extracts all almost valid
-knowledge from the data, while the second algorithm utlizes expert interaction to
+knowledge from the data, while the second algorithm utilizes expert interaction to
 distinguish errors from rare but valid counterexamples.
