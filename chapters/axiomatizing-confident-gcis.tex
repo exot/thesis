@@ -2210,7 +2210,7 @@ considering $\Lux(\Idbpedia, c)$ over $\Conf(\Idbpedia, c)$.
 \label{sec:size-confidbpedia-c}
 
 We computed $\abs{ \Conf(\Idbpedia, c) }$ and $\abs{ \Lux(\Idbpedia, c) }$ for all $c \in
-\set{ 0.0, 0.01, 0.02, \dots, 0.99 }$.  To achieve this, we use
+\set{ 0.0, 0.01, \dots, 0.99 }$.  To achieve this, we use
 \begin{align*}
   \abs{ \Conf(\Idbpedia, c) } &= \abs{ \Conf(\con K_\Idbpedia, c) }, \\
   \abs{ \Lux(\Idbpedia, c) } &= \abs{ \Lux(\con K_\Idbpedia, c) }.
@@ -2476,7 +2476,7 @@ considering the canonical base of $\Th_c(\con K_{\mathcal{I}})$ may result in ba
 are not confident anymore, \ie they contain GCIs whose confidence is not above $c$.
 
 Let us now see how the size of the canonical base changes for all $c \in \set{ 0, 0.01,
-  0.02, \dots, 0.99 }$.  The results are shown in \Cref{fig:can-Th_c-size-behavior}.
+  \dots, 0.99 }$.  The results are shown in \Cref{fig:can-Th_c-size-behavior}.
 
 \begin{figure}[tp]
   \centering
@@ -2622,9 +2622,11 @@ of $\Th(\con K_{\Idbpedia})$ contains 1252 elements, but the canonical base of
 \begin{equation*}
   \Th(\con K_{\Idbpedia}) \cup \set{ \emptyset \to \set{ \mathsf{Person} } }
 \end{equation*}
-contains only 1210 implications.  If we also add the implication $\set{ \mathsf{\exists
-    child. \top} } \to \set{ \mathsf{\exists child. Person} }$, then the size of the
-canonical base drops to 1163.
+contains only 1210 implications.  If we also add the implication
+\begin{equation*}
+  \set{ \mathsf{\exists child. \top} } \to \set{ \mathsf{\exists child. Person} }
+\end{equation*}
+then the size of the canonical base drops to 1163.
 
 Notice that this is actually not very surprising: the implications
 \begin{equation*}

@@ -1694,7 +1694,6 @@ define model-exploration-by-confidence($\mathcal{I}$, $c$)
   choose ${\leq_{M_{i}}} \text{ as a linear order on } M_{i}$
 
   forever do
-    ;; present new GCI to the expert
     while $\text{expert rejects } \bigsqcap \bar P_i \sqsubseteq (\bigsqcap \bar P_i) ^{\mathcal{I}_\ell\mathcal{I}_\ell}$ do
       $\mathcal{I}_{\ell + 1}$ := $\text{expert-defined extension of } \mathcal{I}_\ell$
       $\ell$ := $\ell$ + 1
