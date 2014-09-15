@@ -21,3 +21,5 @@ _region_.tex
 *.xml
 prv_*
 !formulare/*.pdf
+/diss.zip
+/diss/
