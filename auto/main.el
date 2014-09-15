@@ -11,6 +11,8 @@
      "latex2e"
      "scrbook10"
      "scrbook"
+     "BCOR=5mm"
+     "headinclude=true"
      "bibtotocnumbered"
      "english"
      "ngerman"
